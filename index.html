@@ -112,34 +112,8 @@
       <!-- Dynamic content injected here -->
     </main>
 
-    <!-- AI ASSISTANT WIDGET -->
-    <div id="ai-widget" class="ai-widget hidden">
-      <div class="ai-header">
-        <div class="ai-header-left">
-          <span class="ai-avatar">🤖</span>
-          <div>
-            <div class="ai-name">English Assistant</div>
-            <div class="ai-status">Online • Powered by Groq</div>
-          </div>
-        </div>
-        <div class="ai-header-right">
-          <button id="btn-toggle-lang" class="ai-lang-btn" title="Switch language">🇺🇸 EN</button>
-          <button id="btn-close-ai" class="ai-close-btn">✕</button>
-        </div>
-      </div>
-      <div class="ai-messages" id="ai-messages">
-        <div class="ai-message ai-message--bot">
-          <span>👋 Hi! I'm your English assistant. Ask me anything about today's lesson or about English in general!</span>
-        </div>
-      </div>
-      <div class="ai-input-area">
-        <input type="text" id="ai-input" class="ai-input" placeholder="Ask me something..." maxlength="300" />
-        <button id="btn-ai-send" class="ai-send-btn">➤</button>
-      </div>
-    </div>
-
-    <!-- AI TOGGLE BUTTON (mobile) -->
-    <button id="btn-ai-fab" class="ai-fab" title="Ask the AI assistant">
+    <!-- AI ASSISTANT — panel creado dinámicamente por js/ai-assistant.js -->
+    <button id="btn-ai-fab" class="ai-fab" title="Ask the AI assistant" style="display:flex">
       <span>🤖</span>
       <span class="ai-fab-label">Ask AI</span>
     </button>

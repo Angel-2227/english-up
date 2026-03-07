@@ -180,7 +180,6 @@ function updateNavLinks(activeRoute) {
 
 async function renderHome() {
   if (isAdmin) {
-    // Importar y ejecutar panel docente resumido
     const { renderTeacherHome } = await import("./teacher.js");
     renderTeacherHome();
   } else {
@@ -220,7 +219,7 @@ async function renderBadges() {
 // INIT — llamado desde auth.js cuando el usuario está listo
 // ════════════════════════════════════════════
 
-window.__EU_INIT_APP = function(role) {
+window.__EU_INIT_APP = async function(role) {
   initTheme();
   buildNavLinks(role);
 
@@ -236,6 +235,14 @@ window.__EU_INIT_APP = function(role) {
   }
 
   render();
+
+  // ✅ Iniciar chat de IA (crea el panel y enlaza eventos)
+  try {
+    const { initAI } = await import("./ai-assistant.js");
+    await initAI();
+  } catch (err) {
+    console.warn("[AI] No se pudo inicializar el asistente:", err);
+  }
 };
 
 
