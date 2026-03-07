@@ -22,8 +22,7 @@ const firebaseConfig = {
 export const GROQ_WORKER_URL = "https://english-up-groq.mwp.workers.dev/";
 
 // ── Modelo de Groq a usar ──
-export const GROQ_MODEL = "llama3-8b-8192";
-
+export const GROQ_MODEL = "llama-3.1-8b-instant";
 // ── Inicializar Firebase ──
 const app         = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
