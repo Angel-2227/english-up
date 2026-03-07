@@ -41,8 +41,9 @@ export async function renderStudentDashboard() {
     });
 
     const modules  = await getPublishedModules();
-    const missions = await getUserMissions(uid);
-    const activeMissions = missions.filter(m => {
+let missions = [];
+try { missions = await getUserMissions(uid); } catch(_) {}
+const activeMissions = missions.filter(m => {
       const now  = new Date();
       const due  = m.dueDate?.toDate?.();
       return !due || due >= now;
@@ -291,8 +292,9 @@ export async function renderProfilePage() {
     const uid      = currentUser.uid;
     const progress = progressCache || await getProgress(uid);
     const modules  = await getPublishedModules();
-    const missions = await getUserMissions(uid);
-    const submissions = await getUserSubmissions(uid);
+    let missions = [], submissions = [];
+try { missions = await getUserMissions(uid); } catch(_) {}
+try { submissions = await getUserSubmissions(uid); } catch(_) {}
 
     const totalLessons   = modules.reduce((a, m) => a + (m.lessonCount || 0), 0);
     const completedCount = progress.completedLessons?.length || 0;
@@ -383,8 +385,13 @@ export async function renderProfilePage() {
     });
 
   } catch (err) {
-    console.error("[Modules] Profile error:", err);
-  }
+  console.error("[Modules] Profile error:", err);
+  main.innerHTML = `<div class="dashboard"><div class="empty-state">
+    <div class="empty-state__icon">⚠️</div>
+    <div class="empty-state__title">Could not load profile</div>
+    <div class="empty-state__text">${err.message}</div>
+  </div></div>`;
+}
 }
 
 
