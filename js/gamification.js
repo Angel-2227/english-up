@@ -83,12 +83,6 @@ export async function checkAutoAwards(uid, context = {}) {
     awarded.push("first_lesson");
   }
 
-  // Racha
-  const streak = progress.streak || 0;
-  if (streak >= 3  && !earned.includes("streak_3"))  { await awardBadge(uid, "streak_3");  awarded.push("streak_3"); }
-  if (streak >= 5  && !earned.includes("streak_5"))  { await awardBadge(uid, "streak_5");  awarded.push("streak_5"); }
-  if (streak >= 10 && !earned.includes("streak_10")) { await awardBadge(uid, "streak_10"); awarded.push("streak_10"); }
-
   // Quiz perfecto
   if (context.quizPercent === 100 && !earned.includes("quiz_perfect")) {
     await awardBadge(uid, "quiz_perfect");
@@ -198,10 +192,9 @@ export async function renderBadgesPage() {
     const earned   = new Set(progress.badges || []);
     const levelInfo = getLevel(progress.xp || 0);
 
-    // Agrupar insignias
+    // Agrupar insignias (sin streaks)
     const groups = [
       { label: "📚 Modules",  ids: SYSTEM_BADGES.filter(b => b.id.startsWith("module_")) },
-      { label: "🔥 Streaks",  ids: SYSTEM_BADGES.filter(b => b.id.startsWith("streak_")) },
       { label: "📝 Quizzes",  ids: SYSTEM_BADGES.filter(b => b.id.startsWith("quiz_")) },
       { label: "⭐ Special",  ids: SYSTEM_BADGES.filter(b =>
           !b.id.startsWith("module_") && !b.id.startsWith("streak_") && !b.id.startsWith("quiz_")) }

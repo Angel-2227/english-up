@@ -38,6 +38,20 @@ export async function renderStudentDashboard() {
     unsubProgress = watchProgress(uid, p => {
       progressCache = p;
       updateNavXP(p.xp || 0);
+
+      // Redibujar tarjetas de módulos para reflejar progreso actualizado
+      const grid = document.getElementById("modules-grid");
+      if (grid && State.route === "home") {
+        getPublishedModules().then(mods => {
+          if (!mods.length) return;
+          grid.innerHTML = mods.map(m => buildModuleCard(m, p)).join("");
+          document.querySelectorAll(".module-card[data-module-id]").forEach(card => {
+            card.addEventListener("click", () => {
+              navigate("module", { moduleId: card.dataset.moduleId });
+            });
+          });
+        }).catch(() => {});
+      }
     });
 
     const modules  = await getPublishedModules();
@@ -53,7 +67,6 @@ const activeMissions = missions.filter(m => {
     const totalLessons    = modules.reduce((a, m) => a + (m.lessonCount || 0), 0);
     const completedCount  = progress.completedLessons?.length || 0;
     const totalXP         = progress.xp || 0;
-    const streak          = progress.streak || 0;
     const badgeCount      = progress.badges?.length || 0;
 
     // Encontrar última lección pendiente
@@ -84,13 +97,6 @@ const activeMissions = missions.filter(m => {
             </h1>
             <p class="welcome-subtitle">Keep going — every lesson gets you closer to fluency.</p>
             <div class="welcome-stats">
-              <div class="welcome-stat">
-                <div class="welcome-stat__icon">🔥</div>
-                <div class="welcome-stat__info">
-                  <div class="welcome-stat__value">${streak}</div>
-                  <div class="welcome-stat__label">Day streak</div>
-                </div>
-              </div>
               <div class="welcome-stat">
                 <div class="welcome-stat__icon">✅</div>
                 <div class="welcome-stat__info">
@@ -327,10 +333,6 @@ try { submissions = await getUserSubmissions(uid); } catch(_) {}
             <div class="profile-stat">
               <div class="profile-stat__value">${progress.xp || 0}</div>
               <div class="profile-stat__label">Total XP</div>
-            </div>
-            <div class="profile-stat">
-              <div class="profile-stat__value">${progress.streak || 0}</div>
-              <div class="profile-stat__label">Streak</div>
             </div>
             <div class="profile-stat">
               <div class="profile-stat__value">${completedCount}</div>

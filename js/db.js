@@ -193,53 +193,35 @@ export async function getProgress(uid) {
   return empty;
 }
 
-// ════════════════════════════════════════════
-// FIX: completeLesson ahora calcula y guarda el
-// streak en la misma operación, ANTES de actualizar
-// lastActive, para que diffDays sea correcto.
-// ════════════════════════════════════════════
 export async function completeLesson(uid, moduleId, lessonId, xpGained = 10) {
   const lessonKey   = `${moduleId}__${lessonId}`;
   const progressRef = doc(db, "progress", uid);
 
-  // 1. Leer estado actual ANTES de modificar lastActive
-  const [progressSnap, userSnap] = await Promise.all([
-    getDoc(progressRef),
-    getDoc(doc(db, "users", uid))
-  ]);
+  // Verificar si ya estaba completada para no duplicar XP ni moduleProgress
+  const progressSnap = await getDoc(progressRef);
   const progressData = progressSnap.exists() ? progressSnap.data() : {};
-  const userData     = userSnap.exists()     ? userSnap.data()     : {};
+  const alreadyDone  = (progressData.completedLessons || []).includes(lessonKey);
 
-  // 2. Calcular nuevo streak basado en la fecha anterior
-  const now      = new Date();
-  const lastDate = userData.lastActive?.toDate?.() || null;
-  let newStreak  = progressData.streak || 0;
+  const updates = {
+    completedLessons: arrayUnion(lessonKey),
+    lastActive:       serverTimestamp()
+  };
 
-  if (lastDate) {
-    const diffDays = Math.floor((now - lastDate) / (1000 * 60 * 60 * 24));
-    if (diffDays === 1)     newStreak += 1;  // día consecutivo → +1
-    else if (diffDays > 1) newStreak = 1;   // se rompió la racha → reiniciar
-    // diffDays === 0 → misma sesión del día, racha no cambia
-  } else {
-    newStreak = 1; // primera vez
+  if (!alreadyDone) {
+    updates[`moduleProgress.${moduleId}`] = increment(1);
+    updates.xp = increment(xpGained);
   }
 
-  // 3. Guardar todo en una sola operación
-  await updateDoc(progressRef, {
-    completedLessons:              arrayUnion(lessonKey),
-    [`moduleProgress.${moduleId}`]: increment(1),
-    xp:                            increment(xpGained),
-    streak:                        newStreak,
-    lastActive:                    serverTimestamp()
-  });
+  await updateDoc(progressRef, updates);
 
-  await updateDoc(doc(db, "users", uid), {
-    xp:         increment(xpGained),
-    streak:     newStreak,
-    lastActive: serverTimestamp()
-  });
+  if (!alreadyDone) {
+    await updateDoc(doc(db, "users", uid), {
+      xp:         increment(xpGained),
+      lastActive: serverTimestamp()
+    });
+  }
 
-  return xpGained;
+  return alreadyDone ? 0 : xpGained;
 }
 
 export async function uncompleteLesson(uid, moduleId, lessonId) {
