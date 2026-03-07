@@ -206,6 +206,9 @@ function contentTypeLabel(type) {
 
 // ════════════════════════════════════════════
 // MARCAR COMO COMPLETADA
+// FIX: completeLesson ahora calcula el streak internamente.
+// Leemos el progreso actualizado DESPUÉS de completar para
+// que checkAutoAwards vea el streak nuevo y otorgue insignias.
 // ════════════════════════════════════════════
 
 async function handleComplete(moduleId, lessonId, lesson) {
@@ -214,14 +217,20 @@ async function handleComplete(moduleId, lessonId, lesson) {
 
   try {
     const xp = lesson.xpReward || 15;
+
+    // completeLesson ya calcula y guarda el streak correctamente
     await completeLesson(currentUser.uid, moduleId, lessonId, xp);
+
     showToast(`+${xp} XP! Lesson completed 🎉`, "success");
 
     if (btn) {
       btn.textContent = "✅ Completed!";
       btn.classList.add("completed");
     }
-    await checkAutoAwards(currentUser.uid, {});
+
+    // Leer progreso fresco para que checkAutoAwards tenga el streak actualizado
+    const freshProgress = await getProgress(currentUser.uid);
+    await checkAutoAwards(currentUser.uid, { streak: freshProgress.streak || 0 });
 
   } catch (err) {
     console.error("[Lesson]", err);
@@ -322,13 +331,7 @@ export async function openLessonEditor(moduleId, lessonId, lesson) {
             Upload your <code>.html</code> file to the <code>/lessons/moduleId/</code> folder
             in your Cloudflare Pages project, then paste the full URL here.
           </div>
-          <div id="html-url-error" class="form-error" style="display:none;"></div>
-        </div>
-        <div class="tip-box" style="margin-top:var(--space-md);">
-          <strong>📁 How to upload your HTML file</strong>
-          Place your file at: <code>lessons/[moduleId]/[filename].html</code> in your project folder,
-          then redeploy to Cloudflare Pages. The URL will be:
-          <code>${window.location.origin}/lessons/[moduleId]/[filename].html</code>
+          <div class="form-error" id="html-url-error" style="display:none;"></div>
         </div>
       </div>
 
@@ -339,42 +342,30 @@ export async function openLessonEditor(moduleId, lessonId, lesson) {
           <label class="form-label">External URL <span>*</span></label>
           <input class="form-input" type="url" id="input-ext-url"
             value="${escapeHTML(currentType === "url" ? currentURL : "")}"
-            placeholder="https://sites.google.com/view/tu-clase" />
+            placeholder="https://sites.google.com/…  or  https://youtu.be/…" />
           <div class="form-hint">
-            Works with: Google Sites, Genially, Padlet, Wix, Nearpod, Educaplay, etc.<br>
-            For Notion, Google Docs, YouTube and similar — the student will see a button to open it in a new tab.
+            Paste a Google Sites, Canva, YouTube, Genially, Padlet, or any embeddable URL.
           </div>
-          <div id="ext-url-error" class="form-error" style="display:none;"></div>
+          <div class="form-error" id="ext-url-error" style="display:none;"></div>
         </div>
       </div>
 
-      <!-- Botones -->
-      <div style="display:flex;gap:var(--space-sm);justify-content:flex-end;margin-top:var(--space-lg);">
-        <button class="btn btn-ghost" onclick="closeModal()">Cancel</button>
+      <div style="display:flex;gap:var(--space-sm);margin-top:var(--space-lg);">
         <button class="btn btn-primary" id="btn-save-content">💾 Save</button>
+        <button class="btn btn-ghost" onclick="closeModal()">Cancel</button>
       </div>
     </div>
   `);
 
   // Inicializar Quill
-  const quill = new window.Quill("#quill-editor", {
-    theme: "snow",
-    placeholder: "Write your lesson content here...",
-    modules: {
-      toolbar: [
-        [{ header: [1, 2, 3, false] }],
-        ["bold", "italic", "underline", "strike"],
-        [{ color: [] }, { background: [] }],
-        [{ list: "ordered" }, { list: "bullet" }],
-        ["link", "blockquote", "code-block"],
-        ["image"],
-        ["clean"]
-      ]
-    }
-  });
+  let quill = null;
+  if (currentType === "editor" || true) {
+    quill = new Quill("#quill-editor", { theme: "snow" });
+  }
 
-  // Switching de tabs
   let activeType = currentType;
+
+  // Tabs
   document.querySelectorAll(".tab-btn[data-panel]").forEach(btn => {
     btn.addEventListener("click", () => {
       document.querySelectorAll(".tab-btn[data-panel]").forEach(b => b.classList.remove("active"));
