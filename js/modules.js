@@ -12,7 +12,7 @@ import {
   getUserMissions, getUserSubmissions,
   getBadges
 } from "./db.js";
-import { checkAndAwardBadges } from "./gamification.js";
+import { checkAutoAwards } from "./gamification.js";
 
 // Cache local
 let progressCache = null;
@@ -162,8 +162,8 @@ export async function renderStudentDashboard() {
     // Cargar badges preview
     if (badgeCount > 0) loadBadgesPreview(progress.badges || []);
 
-    // Verificar insignias nuevas
-    checkAndAwardBadges(uid, progress, modules);
+    // Verificar insignias nuevas — usa checkAutoAwards (no checkAndAwardBadges)
+    checkAutoAwards(uid, {}).catch(console.error);
 
   } catch (err) {
     console.error("[Modules] Dashboard error:", err);
@@ -255,23 +255,6 @@ export async function renderModuleView(moduleId) {
           </div>
           `}
 
-          <!-- Quiz del módulo -->
-          ${moduleData.quizEnabled ? `
-          <div style="margin-top:var(--space-xl);">
-            <div class="section-header">
-              <div class="section-header__title">📊 Module Quiz</div>
-            </div>
-            <div class="card">
-              <p style="margin-bottom:var(--space-md);font-family:var(--font-ui);color:var(--text-secondary);">
-                Test your knowledge from this module. You need 70% or more to earn the module badge!
-              </p>
-              <button class="btn btn-primary" onclick="navigate('lesson', {moduleId:'${moduleId}', lessonId:'quiz'})">
-                Start Quiz →
-              </button>
-            </div>
-          </div>
-          ` : ""}
-
         </div>
       </div>
     `;
@@ -310,7 +293,6 @@ export async function renderProfilePage() {
     const modules  = await getPublishedModules();
     const missions = await getUserMissions(uid);
     const submissions = await getUserSubmissions(uid);
-    const allBadges = await getBadges();
 
     const totalLessons   = modules.reduce((a, m) => a + (m.lessonCount || 0), 0);
     const completedCount = progress.completedLessons?.length || 0;
@@ -448,8 +430,8 @@ function buildLessonRow(lesson, num, completed, locked, moduleId) {
       <div class="lesson-row__info">
         <div class="lesson-row__title">${lesson.title}</div>
         <div class="lesson-row__meta">
-          ${lesson.type === "html" ? "📄 Uploaded lesson" : "✏️ Written lesson"}
-          ${lesson.quizEnabled ? " · 📊 Quiz included" : ""}
+          ${lesson.contentType === "html" ? "📄 HTML file" : lesson.contentType === "url" ? "🔗 External" : "✏️ Written lesson"}
+          ${lesson.quiz?.questions?.length ? " · 📝 Quiz included" : ""}
           ${lesson.xpReward ? ` · ⭐ ${lesson.xpReward} XP` : ""}
         </div>
       </div>
@@ -550,7 +532,7 @@ async function loadBadgesPreview(earnedIds) {
 }
 
 async function openMissionSubmitModal(missionId) {
-  const { openModal } = await import("./app.js");
+  const { openModal, closeModal } = await import("./app.js");
   const { submitMission } = await import("./db.js");
 
   openModal(`
@@ -569,7 +551,6 @@ async function openMissionSubmitModal(missionId) {
     try {
       await submitMission(currentUser.uid, missionId, content);
       showToast("Mission submitted! Your teacher will review it soon. ✅", "success");
-      const { closeModal } = await import("./app.js");
       closeModal();
       renderStudentDashboard();
     } catch (err) {
