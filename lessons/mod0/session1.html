@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Module 0 · Session 1 — Killing Me Softly</title>
+<title>Module 0 · Session 1 — Killing Me Softly (The Fugees)</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,400;1,700&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
@@ -31,7 +31,6 @@
 }
 
 html { scroll-behavior: smooth; }
-
 body {
   font-family: var(--font-b);
   background: var(--cream);
@@ -49,12 +48,12 @@ body {
   align-items: center;
   justify-content: space-between;
   padding: 10px 20px;
-  font-size: 0.78rem;
+  font-size: .78rem;
   font-weight: 500;
   gap: 10px;
   flex-wrap: wrap;
 }
-.print-bar span { opacity: 0.65; font-size: 0.75rem; }
+.print-bar span { opacity: .65; font-size: .75rem; }
 .btn-print {
   background: var(--gold);
   color: var(--ink);
@@ -62,7 +61,7 @@ body {
   padding: 7px 18px;
   border-radius: 99px;
   font-weight: 700;
-  font-size: 0.78rem;
+  font-size: .78rem;
   cursor: pointer;
   font-family: var(--font-b);
   transition: background .2s;
@@ -86,7 +85,7 @@ body {
   left: 50%;
   transform: translateX(-50%);
   font-size: 260px;
-  opacity: 0.04;
+  opacity: .04;
   pointer-events: none;
   line-height: 1;
 }
@@ -94,7 +93,7 @@ body {
   display: inline-block;
   background: var(--gold);
   color: var(--ink);
-  font-size: 0.7rem;
+  font-size: .7rem;
   font-weight: 700;
   letter-spacing: .1em;
   text-transform: uppercase;
@@ -113,21 +112,8 @@ body {
   background-clip: text;
   margin-bottom: 8px;
 }
-.hero-sub {
-  font-size: 0.95rem;
-  opacity: .65;
-  margin-bottom: 24px;
-  font-style: italic;
-  font-family: var(--font-h);
-}
-.hero-tags {
-  display: flex;
-  gap: 8px;
-  justify-content: center;
-  flex-wrap: wrap;
-  max-width: 520px;
-  margin: 0 auto;
-}
+.hero-sub { font-size: .95rem; opacity: .65; margin-bottom: 24px; font-style: italic; font-family: var(--font-h); }
+.hero-tags { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; max-width: 520px; margin: 0 auto; }
 .tag {
   background: rgba(255,255,255,.08);
   border: 1px solid rgba(255,255,255,.18);
@@ -150,21 +136,10 @@ body {
 @media (min-width: 600px) {
   .objectives-bar { flex-direction: row; flex-wrap: wrap; justify-content: center; }
 }
-.obj-item {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: .83rem;
-  font-weight: 500;
-  color: var(--brown);
-}
+.obj-item { display: flex; align-items: center; gap: 8px; font-size: .83rem; font-weight: 500; color: var(--brown); }
 
 /* ── LAYOUT ── */
-.page {
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 28px 16px 80px;
-}
+.page { max-width: 800px; margin: 0 auto; padding: 28px 16px 80px; }
 @media (min-width: 600px) { .page { padding: 36px 24px 80px; } }
 
 /* ── SECTION HEADER ── */
@@ -177,25 +152,17 @@ body {
   border-bottom: 2px solid var(--parchment);
 }
 .section-num {
-  width: 36px;
-  height: 36px;
+  width: 36px; height: 36px;
   border-radius: 50%;
   background: var(--gold);
   color: var(--ink);
   font-weight: 900;
-  font-size: 0.95rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  font-size: .95rem;
+  display: flex; align-items: center; justify-content: center;
   flex-shrink: 0;
   font-family: var(--font-h);
 }
-.section-title {
-  font-family: var(--font-h);
-  font-size: 1.2rem;
-  font-weight: 700;
-  line-height: 1.3;
-}
+.section-title { font-family: var(--font-h); font-size: 1.2rem; font-weight: 700; line-height: 1.3; }
 .section-time {
   margin-left: auto;
   font-size: .72rem;
@@ -219,13 +186,7 @@ section { margin-bottom: 48px; }
   margin-bottom: 16px;
 }
 @media (min-width: 600px) { .card { padding: 24px; } }
-.card-title {
-  font-family: var(--font-h);
-  font-size: .95rem;
-  font-weight: 700;
-  margin-bottom: 14px;
-  color: var(--brown);
-}
+.card-title { font-family: var(--font-h); font-size: .95rem; font-weight: 700; margin-bottom: 14px; color: var(--brown); }
 
 /* ── VIDEO ── */
 .video-wrap {
@@ -237,60 +198,46 @@ section { margin-bottom: 48px; }
   box-shadow: 0 4px 20px rgba(0,0,0,.15);
   background: #000;
 }
-.video-wrap iframe {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  border: none;
-}
-.video-links {
-  display: flex;
-  gap: 10px;
-  margin-top: 12px;
-  flex-wrap: wrap;
-}
+.video-wrap iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: none; }
+.video-links { display: flex; gap: 10px; margin-top: 12px; flex-wrap: wrap; }
 .btn-yt {
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-  background: #FF0000;
-  color: white;
-  text-decoration: none;
-  padding: 9px 18px;
-  border-radius: 99px;
-  font-weight: 700;
-  font-size: .8rem;
-  font-family: var(--font-b);
-  transition: background .2s;
+  display: inline-flex; align-items: center; gap: 7px;
+  background: #FF0000; color: white; text-decoration: none;
+  padding: 9px 18px; border-radius: 99px; font-weight: 700;
+  font-size: .8rem; font-family: var(--font-b); transition: background .2s;
 }
 .btn-yt:hover { background: #CC0000; }
 .btn-yt-alt {
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-  background: none;
-  border: 2px solid var(--brown);
-  color: var(--brown);
-  text-decoration: none;
-  padding: 8px 18px;
-  border-radius: 99px;
-  font-weight: 700;
-  font-size: .8rem;
-  font-family: var(--font-b);
-  transition: all .2s;
+  display: inline-flex; align-items: center; gap: 7px;
+  background: none; border: 2px solid var(--brown); color: var(--brown);
+  text-decoration: none; padding: 8px 18px; border-radius: 99px;
+  font-weight: 700; font-size: .8rem; font-family: var(--font-b); transition: all .2s;
 }
 .btn-yt-alt:hover { background: var(--brown); color: white; }
 
-/* ── VOCAB GRID ── */
-.vocab-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 10px;
+/* ── LISTENING TASK ── */
+.listen-task {
+  background: var(--parchment);
+  border-radius: 10px;
+  padding: 14px 16px;
+  margin-top: 16px;
+  font-size: .87rem;
 }
+.listen-task strong { color: var(--rust); }
+.write-lines { display: flex; flex-direction: column; gap: 10px; margin-top: 12px; }
+.write-line {
+  border-bottom: 1.5px solid #bbb;
+  min-height: 28px;
+  font-family: var(--font-h);
+  font-size: .9rem;
+  color: transparent;
+}
+.write-line::before { content: attr(data-num); font-family: var(--font-b); font-size: .7rem; color: var(--gold); font-weight: 700; margin-right: 8px; }
+
+/* ── VOCAB GRID ── */
+.vocab-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
 @media (min-width: 480px) { .vocab-grid { grid-template-columns: repeat(3, 1fr); } }
 @media (min-width: 720px) { .vocab-grid { grid-template-columns: repeat(4, 1fr); } }
-
 .vocab-card {
   background: var(--cream);
   border: 2px solid var(--parchment);
@@ -311,139 +258,67 @@ section { margin-bottom: 48px; }
 .vocab-translation { font-size: .78rem; color: var(--blue); font-weight: 600; opacity: 0; max-height: 0; overflow: hidden; transition: all .3s; margin-top: 4px; }
 .vocab-hint { font-size: .67rem; color: #bbb; margin-top: 6px; font-style: italic; }
 .reveal-all-btn {
-  display: inline-block;
-  margin-top: 14px;
-  background: none;
-  border: 2px solid var(--gold);
-  color: var(--gold);
-  padding: 8px 20px;
-  border-radius: 99px;
-  cursor: pointer;
-  font-family: var(--font-b);
-  font-weight: 600;
-  font-size: .8rem;
-  transition: all .2s;
+  display: inline-block; margin-top: 14px;
+  background: none; border: 2px solid var(--gold); color: var(--gold);
+  padding: 8px 20px; border-radius: 99px; cursor: pointer;
+  font-family: var(--font-b); font-weight: 600; font-size: .8rem; transition: all .2s;
 }
 .reveal-all-btn:hover { background: var(--gold); color: var(--ink); }
 
 /* ── MATCHING ── */
 .match-instructions {
-  background: var(--blue-lt);
-  border-radius: 8px;
-  padding: 10px 14px;
-  font-size: .82rem;
-  color: var(--blue);
-  font-weight: 500;
-  margin-bottom: 16px;
-  border-left: 3px solid var(--blue);
+  background: var(--blue-lt); border-radius: 8px; padding: 10px 14px;
+  font-size: .82rem; color: var(--blue); font-weight: 500;
+  margin-bottom: 16px; border-left: 3px solid var(--blue);
 }
-.match-words-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin-bottom: 18px;
-}
+.match-words-row { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 18px; }
 .match-chip {
-  background: var(--parchment);
-  border: 2px solid transparent;
-  border-radius: 99px;
-  padding: 9px 18px;
-  cursor: pointer;
-  font-size: .85rem;
-  font-weight: 600;
-  color: var(--brown);
-  font-family: var(--font-b);
-  transition: all .2s;
-  -webkit-tap-highlight-color: transparent;
-  user-select: none;
+  background: var(--parchment); border: 2px solid transparent; border-radius: 99px;
+  padding: 9px 18px; cursor: pointer; font-size: .85rem; font-weight: 600;
+  color: var(--brown); font-family: var(--font-b); transition: all .2s;
+  -webkit-tap-highlight-color: transparent; user-select: none;
 }
 .match-chip:hover, .match-chip:active { border-color: var(--gold); background: var(--gold-lt); }
 .match-chip.chip-selected { background: var(--rust); color: white; border-color: var(--rust); }
 .match-chip.chip-used { opacity: .3; pointer-events: none; text-decoration: line-through; }
-
 .match-defs { display: flex; flex-direction: column; gap: 8px; }
 .match-def-row {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  background: white;
-  border: 2px solid var(--parchment);
-  border-radius: 10px;
-  padding: 10px 14px;
-  cursor: pointer;
-  transition: all .2s;
-  min-height: 50px;
+  display: flex; align-items: center; gap: 10px;
+  background: white; border: 2px solid var(--parchment); border-radius: 10px;
+  padding: 10px 14px; cursor: pointer; transition: all .2s; min-height: 50px;
   -webkit-tap-highlight-color: transparent;
 }
 .match-def-row:hover { border-color: var(--gold); }
 .match-def-row.def-hover { border-color: var(--gold); background: var(--gold-lt); }
 .match-def-row.correct { border-color: var(--sage); background: var(--sage-lt); cursor: default; }
-.match-def-row.wrong { border-color: var(--rust); background: #FDECEA; }
+.match-def-row.wrong   { border-color: var(--rust); background: #FDECEA; }
 .match-def-letter { font-size: .72rem; font-weight: 700; color: var(--brown); min-width: 20px; flex-shrink: 0; }
 .match-def-text { font-size: .85rem; color: var(--ink); flex: 1; }
 .match-def-placed {
-  font-size: .8rem;
-  font-weight: 700;
-  color: var(--blue);
-  background: var(--blue-lt);
-  padding: 3px 10px;
-  border-radius: 99px;
-  white-space: nowrap;
-  flex-shrink: 0;
+  font-size: .8rem; font-weight: 700; color: var(--blue);
+  background: var(--blue-lt); padding: 3px 10px; border-radius: 99px;
+  white-space: nowrap; flex-shrink: 0; display: none;
 }
-.match-def-row.correct .match-def-placed { color: var(--sage); background: var(--sage-lt); }
-.match-def-row.wrong .match-def-placed { color: var(--rust); background: #FDECEA; }
+.match-def-row.correct .match-def-placed { color: var(--sage); background: var(--sage-lt); display: inline-block; }
+.match-def-row.wrong   .match-def-placed { color: var(--rust); background: #FDECEA; display: inline-block; }
 .match-check-btn {
-  margin-top: 16px;
-  background: var(--blue);
-  color: white;
-  border: none;
-  padding: 11px 24px;
-  border-radius: 99px;
-  cursor: pointer;
-  font-family: var(--font-b);
-  font-weight: 700;
-  font-size: .85rem;
-  transition: background .2s;
-  width: 100%;
+  margin-top: 16px; background: var(--blue); color: white; border: none;
+  padding: 11px 24px; border-radius: 99px; cursor: pointer;
+  font-family: var(--font-b); font-weight: 700; font-size: .85rem; transition: background .2s; width: 100%;
 }
 @media (min-width: 400px) { .match-check-btn { width: auto; } }
 .match-check-btn:hover { background: var(--brown); }
 #match-feedback { margin-top: 12px; font-size: .85rem; font-weight: 700; }
 
 /* ── WORD BANK ── */
-.word-bank-wrap {
-  background: var(--parchment);
-  border-radius: 10px;
-  padding: 12px 14px;
-  margin-bottom: 16px;
-}
-.word-bank-label {
-  font-size: .7rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: .08em;
-  color: var(--brown);
-  margin-bottom: 10px;
-}
-.word-bank {
-  display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
-}
+.word-bank-wrap { background: var(--parchment); border-radius: 10px; padding: 12px 14px; margin-bottom: 16px; }
+.word-bank-label { font-size: .7rem; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--brown); margin-bottom: 10px; }
+.word-bank { display: flex; gap: 8px; flex-wrap: wrap; }
 .word-chip {
-  background: white;
-  border: 2px solid var(--gold);
-  border-radius: 99px;
-  padding: 6px 14px;
-  cursor: pointer;
-  font-family: var(--font-b);
-  font-weight: 700;
-  font-size: .82rem;
-  color: var(--brown);
-  transition: all .2s;
-  user-select: none;
-  -webkit-tap-highlight-color: transparent;
+  background: white; border: 2px solid var(--gold); border-radius: 99px;
+  padding: 6px 14px; cursor: pointer; font-family: var(--font-b);
+  font-weight: 700; font-size: .82rem; color: var(--brown); transition: all .2s;
+  user-select: none; -webkit-tap-highlight-color: transparent;
 }
 .word-chip:hover, .word-chip:active { background: var(--gold); color: var(--ink); }
 .word-chip.selected-chip { background: var(--rust); border-color: var(--rust); color: white; }
@@ -451,278 +326,120 @@ section { margin-bottom: 48px; }
 
 /* ── LYRICS ── */
 .lyrics-instructions {
-  background: var(--parchment);
-  border-radius: 8px;
-  padding: 10px 14px;
-  font-size: .82rem;
-  color: var(--brown);
-  font-weight: 500;
-  margin-bottom: 16px;
+  background: var(--parchment); border-radius: 8px; padding: 10px 14px;
+  font-size: .82rem; color: var(--brown); font-weight: 500; margin-bottom: 16px;
 }
-.lyrics-columns {
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-}
-@media (min-width: 620px) {
-  .lyrics-columns { flex-direction: row; }
-  .lyrics-col { flex: 1; }
-}
-
-.lyrics-wrap { font-family: var(--font-h); line-height: 2.4; font-size: .93rem; }
+.lyrics-columns { display: flex; flex-direction: column; gap: 24px; }
+@media (min-width: 620px) { .lyrics-columns { flex-direction: row; } .lyrics-col { flex: 1; } }
+.lyrics-wrap { font-family: var(--font-h); line-height: 2.6; font-size: .93rem; }
 .verse-label {
-  font-size: .68rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: .1em;
-  color: var(--gold);
-  margin: 18px 0 6px;
-  font-family: var(--font-b);
+  font-size: .68rem; font-weight: 700; text-transform: uppercase; letter-spacing: .1em;
+  color: var(--gold); margin: 18px 0 6px; font-family: var(--font-b);
 }
 .verse-label:first-child { margin-top: 0; }
 .lyric-line { display: block; }
 .lyric-line.chorus-line { color: var(--rust); font-weight: 700; font-style: italic; }
-
 .gap-blank {
-  display: inline-block;
-  min-width: 90px;
-  border-bottom: 2.5px solid var(--gold);
-  padding: 2px 8px;
-  margin: 0 2px;
-  background: var(--gold-lt);
-  border-radius: 4px;
-  cursor: pointer;
-  font-weight: 700;
-  color: transparent;
-  text-align: center;
-  transition: all .2s;
-  font-family: var(--font-h);
-  font-size: .9rem;
-  -webkit-tap-highlight-color: transparent;
-  user-select: none;
+  display: inline-block; min-width: 90px; border-bottom: 2.5px solid var(--gold);
+  padding: 2px 8px; margin: 0 2px; background: var(--gold-lt); border-radius: 4px;
+  cursor: pointer; font-weight: 700; color: transparent; text-align: center;
+  transition: all .2s; font-family: var(--font-h); font-size: .9rem;
+  -webkit-tap-highlight-color: transparent; user-select: none;
 }
 .gap-blank:hover, .gap-blank.active-blank { border-color: var(--rust); background: #FDECEA; transform: scale(1.05); }
-.gap-blank.filled { color: var(--brown); background: var(--blue-lt); border-color: var(--blue); }
+.gap-blank.filled  { color: var(--brown); background: var(--gold-lt); }
 .gap-blank.correct-ans { color: var(--sage); background: var(--sage-lt); border-color: var(--sage); cursor: default; }
-.gap-blank.wrong-ans { color: var(--rust); background: #FDECEA; border-color: var(--rust); animation: shake .4s; }
-@keyframes shake { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-5px)} 75%{transform:translateX(5px)} }
-
+.gap-blank.wrong-ans   { color: var(--rust); background: #FDECEA;     border-color: var(--rust); animation: shake .4s; }
 .lyrics-actions { display: flex; gap: 10px; margin-top: 18px; flex-wrap: wrap; }
 .lyrics-check-btn {
-  background: var(--rust); color: white; border: none; padding: 11px 24px;
-  border-radius: 99px; cursor: pointer; font-family: var(--font-b); font-weight: 700;
-  font-size: .85rem; transition: background .2s; flex: 1;
+  background: var(--gold); color: var(--ink); border: none; padding: 11px 24px;
+  border-radius: 99px; cursor: pointer; font-family: var(--font-b); font-weight: 700; font-size: .85rem; transition: all .2s;
 }
-@media (min-width: 400px) { .lyrics-check-btn { flex: none; } }
-.lyrics-check-btn:hover { background: var(--brown); }
+.lyrics-check-btn:hover { background: var(--gold-lt); }
 .lyrics-reset-btn {
-  background: none; border: 2px solid #DDD; color: var(--brown);
-  padding: 10px 20px; border-radius: 99px; cursor: pointer;
-  font-family: var(--font-b); font-weight: 600; font-size: .85rem; transition: all .2s;
+  background: none; border: 2px solid #DDD; color: var(--brown); padding: 10px 20px;
+  border-radius: 99px; cursor: pointer; font-family: var(--font-b); font-weight: 600; font-size: .84rem; transition: all .2s;
 }
 .lyrics-reset-btn:hover { border-color: var(--brown); }
-#lyrics-score { margin-top: 14px; font-weight: 700; font-size: .88rem; min-height: 20px; }
+#lyrics-score { margin-top: 10px; font-weight: 700; font-size: .85rem; }
 
-/* ── GRAMMAR — enhanced ── */
+/* ── GRAMMAR ── */
 .grammar-intro {
-  background: var(--parchment);
-  border-radius: 10px;
-  padding: 14px 18px;
-  margin-bottom: 18px;
-  font-size: .88rem;
-  line-height: 1.7;
-  color: var(--ink);
+  background: var(--parchment); border-radius: 8px; padding: 14px 16px;
+  font-size: .85rem; line-height: 1.7; margin-bottom: 18px;
 }
-.grammar-intro strong { color: var(--rust); }
-
 .grammar-song-examples {
-  background: linear-gradient(135deg, #FFF8EC, var(--gold-lt));
-  border: 2px solid var(--gold);
-  border-radius: 10px;
-  padding: 14px 18px;
-  margin-bottom: 20px;
-  font-family: var(--font-h);
-  line-height: 2.4;
-  font-size: .93rem;
+  background: #FFF8EC; border: 1.5px solid var(--gold); border-radius: 8px;
+  padding: 12px 16px; margin-bottom: 18px; font-size: .85rem; line-height: 1.9;
 }
-.grammar-song-examples .ex-label {
-  font-family: var(--font-b);
-  font-size: .65rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: .1em;
-  color: var(--gold);
-  margin-bottom: 6px;
+.ex-label {
+  font-size: .65rem; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; color: var(--gold); margin-bottom: 6px;
 }
-
 .grammar-table { width: 100%; border-collapse: collapse; font-size: .85rem; margin-bottom: 20px; }
 .grammar-table th { background: var(--ink); color: var(--cream); padding: 10px 12px; text-align: left; }
-.grammar-table th:first-child { border-radius: 8px 0 0 0; }
-.grammar-table th:last-child  { border-radius: 0 8px 0 0; }
+.grammar-table th:first-child { border-radius: 8px 0 0 0; } .grammar-table th:last-child  { border-radius: 0 8px 0 0; }
 .grammar-table td { padding: 9px 12px; border-bottom: 1px solid var(--parchment); }
-.grammar-table tr:nth-child(odd) td { background: var(--cream); }
+.grammar-table tr:nth-child(odd) td  { background: var(--cream); }
 .grammar-table tr:nth-child(even) td { background: var(--parchment); }
-
-/* Positive / Negative / Question table */
 .grammar-full-table { width: 100%; border-collapse: collapse; font-size: .82rem; margin-bottom: 20px; }
-.grammar-full-table th {
-  background: var(--brown);
-  color: white;
-  padding: 9px 12px;
-  text-align: left;
-  font-size: .75rem;
-  letter-spacing: .04em;
-}
-.grammar-full-table th:first-child { border-radius: 8px 0 0 0; }
-.grammar-full-table th:last-child  { border-radius: 0 8px 0 0; }
+.grammar-full-table th { background: var(--brown); color: white; padding: 9px 12px; text-align: left; font-size: .75rem; letter-spacing: .04em; }
+.grammar-full-table th:first-child { border-radius: 8px 0 0 0; } .grammar-full-table th:last-child { border-radius: 0 8px 0 0; }
 .grammar-full-table td { padding: 8px 12px; border-bottom: 1px solid var(--parchment); vertical-align: top; }
-.grammar-full-table tr:nth-child(odd) td { background: #FAFAFA; }
+.grammar-full-table tr:nth-child(odd) td  { background: #FAFAFA; }
 .grammar-full-table tr:nth-child(even) td { background: var(--parchment); }
 .grammar-full-table .col-pos { color: var(--sage); font-weight: 700; }
 .grammar-full-table .col-neg { color: var(--rust); font-weight: 700; }
 .grammar-full-table .col-q   { color: var(--blue); font-weight: 700; }
-
 .grammar-rule-box {
-  background: var(--blue-lt);
-  border-left: 4px solid var(--blue);
-  border-radius: 0 8px 8px 0;
-  padding: 12px 16px;
-  font-size: .84rem;
-  margin-bottom: 18px;
-  line-height: 1.65;
+  background: var(--blue-lt); border-left: 4px solid var(--blue);
+  border-radius: 0 8px 8px 0; padding: 12px 16px; font-size: .84rem; margin-bottom: 18px; line-height: 1.65;
 }
 .grammar-rule-box strong { color: var(--blue); }
-
-.grammar-practice {
-  background: var(--cream);
-  border: 2px solid var(--parchment);
-  border-radius: 10px;
-  padding: 16px 18px;
-}
-.grammar-practice .gp-title {
-  font-family: var(--font-h);
-  font-weight: 700;
-  font-size: .92rem;
-  color: var(--brown);
-  margin-bottom: 14px;
-  border-bottom: 1px solid var(--parchment);
-  padding-bottom: 8px;
-}
-.gp-item {
-  display: flex;
-  align-items: baseline;
-  gap: 10px;
-  margin-bottom: 16px;
-  font-family: var(--font-h);
-  font-size: .92rem;
-  line-height: 2.2;
-}
-.gp-num {
-  min-width: 22px;
-  font-weight: 700;
-  color: var(--gold);
-  font-family: var(--font-b);
-  font-size: .78rem;
-}
+.grammar-practice { background: var(--cream); border: 2px solid var(--parchment); border-radius: 10px; padding: 16px 18px; }
+.grammar-practice .gp-title { font-family: var(--font-h); font-weight: 700; font-size: .92rem; color: var(--brown); margin-bottom: 14px; border-bottom: 1px solid var(--parchment); padding-bottom: 8px; }
+.gp-item { display: flex; align-items: baseline; gap: 10px; margin-bottom: 16px; font-family: var(--font-h); font-size: .92rem; line-height: 2.2; }
+.gp-num { min-width: 22px; font-weight: 700; color: var(--gold); font-family: var(--font-b); font-size: .78rem; }
 .gp-blank {
-  display: inline-block;
-  min-width: 80px;
-  border-bottom: 2px solid var(--rust);
-  margin: 0 4px;
-  background: rgba(184,74,32,.06);
-  border-radius: 3px;
-  padding: 2px 8px;
-  cursor: pointer;
-  font-weight: 700;
-  color: transparent;
-  text-align: center;
-  transition: all .2s;
-  font-family: var(--font-h);
-  -webkit-tap-highlight-color: transparent;
-  user-select: none;
+  display: inline-block; min-width: 80px; border-bottom: 2px solid var(--rust);
+  margin: 0 4px; background: rgba(184,74,32,.06); border-radius: 3px; padding: 2px 8px;
+  cursor: pointer; font-weight: 700; color: transparent; text-align: center; transition: all .2s;
+  font-family: var(--font-h); -webkit-tap-highlight-color: transparent; user-select: none;
 }
 .gp-blank:hover { border-color: var(--gold); background: var(--gold-lt); }
-.gp-blank.gp-filled { color: var(--rust); background: rgba(184,74,32,.1); }
+.gp-blank.gp-filled  { color: var(--rust); background: rgba(184,74,32,.1); }
 .gp-blank.gp-correct { color: var(--sage); background: var(--sage-lt); border-color: var(--sage); cursor: default; }
-.gp-blank.gp-wrong   { color: var(--rust); background: #FDECEA; border-color: var(--rust); animation: shake .4s; }
-
+.gp-blank.gp-wrong   { color: var(--rust); background: #FDECEA;    border-color: var(--rust); animation: shake .4s; }
 .gp-hint { font-family: var(--font-b); font-size: .7rem; color: var(--gold); font-style: italic; }
-.gp-wordbank {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin-bottom: 14px;
-}
+.gp-wordbank { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 14px; }
 .gp-chip {
-  background: white;
-  border: 2px solid var(--rust);
-  color: var(--rust);
-  border-radius: 99px;
-  padding: 6px 14px;
-  cursor: pointer;
-  font-weight: 700;
-  font-size: .8rem;
-  font-family: var(--font-b);
-  transition: all .2s;
-  user-select: none;
-  -webkit-tap-highlight-color: transparent;
+  background: white; border: 2px solid var(--rust); color: var(--rust); border-radius: 99px;
+  padding: 6px 14px; cursor: pointer; font-weight: 700; font-size: .8rem;
+  font-family: var(--font-b); transition: all .2s; user-select: none; -webkit-tap-highlight-color: transparent;
 }
 .gp-chip:hover { background: var(--rust); color: white; }
-.gp-chip.gp-chip-sel { background: var(--rust); color: white; }
+.gp-chip.gp-chip-sel  { background: var(--rust); color: white; }
 .gp-chip.gp-chip-used { opacity: .25; pointer-events: none; text-decoration: line-through; }
 .gp-check-btn {
-  background: var(--sage);
-  color: white;
-  border: none;
-  padding: 10px 24px;
-  border-radius: 99px;
-  cursor: pointer;
-  font-family: var(--font-b);
-  font-weight: 700;
-  font-size: .84rem;
-  transition: background .2s;
-  margin-top: 4px;
+  background: var(--sage); color: white; border: none; padding: 10px 24px;
+  border-radius: 99px; cursor: pointer; font-family: var(--font-b); font-weight: 700; font-size: .84rem; transition: background .2s; margin-top: 4px;
 }
 .gp-check-btn:hover { background: var(--brown); }
 .gp-reset-btn {
-  background: none;
-  border: 2px solid #DDD;
-  color: var(--brown);
-  padding: 9px 20px;
-  border-radius: 99px;
-  cursor: pointer;
-  font-family: var(--font-b);
-  font-weight: 600;
-  font-size: .84rem;
-  transition: all .2s;
-  margin-top: 4px;
-  margin-left: 8px;
+  background: none; border: 2px solid #DDD; color: var(--brown); padding: 9px 20px;
+  border-radius: 99px; cursor: pointer; font-family: var(--font-b); font-weight: 600;
+  font-size: .84rem; transition: all .2s; margin-top: 4px; margin-left: 8px;
 }
 .gp-reset-btn:hover { border-color: var(--brown); }
 #gp-score { margin-top: 10px; font-weight: 700; font-size: .85rem; }
 
-/* ── T/F QUIZ ── */
-.quiz-card {
-  background: white;
-  border: 2px solid var(--parchment);
-  border-radius: 10px;
-  padding: 16px;
-  margin-bottom: 12px;
-}
+/* ── QUIZ ── */
+.quiz-card { background: white; border: 2px solid var(--parchment); border-radius: 10px; padding: 16px; margin-bottom: 12px; }
 .quiz-q { font-weight: 600; font-size: .9rem; margin-bottom: 12px; line-height: 1.5; }
 .tf-btns { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
 .tf-btn {
-  padding: 11px 8px;
-  border-radius: 10px;
-  border: 2px solid var(--parchment);
-  cursor: pointer;
-  font-weight: 700;
-  font-size: .85rem;
-  font-family: var(--font-b);
-  background: var(--cream);
-  transition: all .2s;
-  color: var(--ink);
-  -webkit-tap-highlight-color: transparent;
+  padding: 11px 8px; border-radius: 10px; border: 2px solid var(--parchment);
+  cursor: pointer; font-weight: 700; font-size: .85rem; font-family: var(--font-b);
+  background: var(--cream); transition: all .2s; color: var(--ink); -webkit-tap-highlight-color: transparent;
 }
 .tf-btn:hover, .tf-btn:active { border-color: var(--blue); background: var(--blue-lt); }
 .tf-btn.sel-t  { background: var(--blue-lt); border-color: var(--blue); color: var(--blue); }
@@ -742,13 +459,7 @@ section { margin-bottom: 48px; }
 
 /* ── DISCUSSION ── */
 .discussion-list { list-style: none; }
-.discussion-list li {
-  display: flex;
-  gap: 12px;
-  align-items: flex-start;
-  padding: 14px 0;
-  border-bottom: 1px solid var(--parchment);
-}
+.discussion-list li { display: flex; gap: 12px; align-items: flex-start; padding: 14px 0; border-bottom: 1px solid var(--parchment); }
 .discussion-list li:last-child { border-bottom: none; }
 .disc-num {
   width: 30px; height: 30px; border-radius: 50%; background: var(--parchment);
@@ -757,25 +468,15 @@ section { margin-bottom: 48px; }
 }
 .disc-q { font-size: .88rem; line-height: 1.6; }
 .disc-tip { font-size: .75rem; color: var(--gold); font-style: italic; margin-top: 5px; }
+.disc-lines { margin-top: 8px; display: flex; flex-direction: column; gap: 6px; }
+.disc-line { border-bottom: 1px solid #ccc; min-height: 22px; }
 
-/* ── BOOK OF LIFE VOCAB ── */
-.bol-vocab-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 10px;
-  margin-top: 16px;
-}
+/* ── TRAILER / BOL VOCAB ── */
+.bol-vocab-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-top: 16px; }
 @media (min-width: 480px) { .bol-vocab-grid { grid-template-columns: repeat(3, 1fr); } }
-
 .bol-vocab-card {
-  background: var(--cream);
-  border: 2px solid var(--parchment);
-  border-radius: 10px;
-  padding: 12px 14px;
-  cursor: pointer;
-  transition: all .2s;
-  -webkit-tap-highlight-color: transparent;
-  min-height: 88px;
+  background: var(--cream); border: 2px solid var(--parchment); border-radius: 10px;
+  padding: 12px 14px; cursor: pointer; transition: all .2s; -webkit-tap-highlight-color: transparent; min-height: 88px;
 }
 .bol-vocab-card:hover, .bol-vocab-card:active { border-color: var(--rust); transform: translateY(-2px); }
 .bol-vocab-card.revealed { border-color: var(--rust); background: #FFF0EC; }
@@ -787,116 +488,31 @@ section { margin-bottom: 48px; }
 .bol-example { font-size: .74rem; color: var(--brown); font-style: italic; margin-top: 4px; }
 .bol-hint { font-size: .64rem; color: #bbb; margin-top: 6px; }
 
-/* ── SENTENCE BUILDER ── */
-.sb-area {
-  background: var(--parchment);
-  border-radius: 12px;
-  padding: 16px 18px;
-  margin-top: 20px;
-}
-.sb-title {
-  font-family: var(--font-h);
-  font-size: .95rem;
-  font-weight: 700;
-  color: var(--brown);
-  margin-bottom: 12px;
-}
-.sb-display {
-  font-family: var(--font-h);
-  font-size: .98rem;
-  line-height: 2.6;
-  background: white;
-  border-radius: 8px;
-  padding: 12px 16px;
-  margin-bottom: 14px;
-  border: 1px solid #DDD;
-}
-.sb-blank {
-  display: inline-block;
-  min-width: 100px;
-  border-bottom: 2.5px solid var(--rust);
-  padding: 2px 8px;
-  margin: 0 4px;
-  background: rgba(184,74,32,.07);
-  border-radius: 4px;
-  cursor: pointer;
-  font-weight: 700;
-  color: transparent;
-  text-align: center;
-  transition: all .2s;
-  font-family: var(--font-h);
-  -webkit-tap-highlight-color: transparent;
-}
-.sb-blank.filled { color: var(--rust); background: rgba(184,74,32,.12); }
-.sb-label { font-size: .72rem; font-weight: 700; color: var(--brown); margin-bottom: 8px; }
-.sb-chips { display: flex; gap: 8px; flex-wrap: wrap; }
-.sb-chip {
-  background: white;
-  border: 2px solid var(--rust);
-  color: var(--rust);
-  border-radius: 99px;
-  padding: 7px 15px;
-  cursor: pointer;
-  font-weight: 700;
-  font-size: .8rem;
-  font-family: var(--font-b);
-  transition: all .2s;
-  user-select: none;
-  -webkit-tap-highlight-color: transparent;
-}
-.sb-chip:hover, .sb-chip:active { background: var(--rust); color: white; }
-.sb-chip.sb-sel { background: var(--rust); color: white; }
-.sb-chip.sb-used { opacity: .25; pointer-events: none; text-decoration: line-through; }
+/* ── TRAILER TASK ── */
+.trailer-task { background: var(--parchment); border-radius: 10px; padding: 14px 16px; margin-top: 16px; }
+.trailer-task-title { font-family: var(--font-h); font-weight: 700; font-size: .9rem; color: var(--brown); margin-bottom: 10px; }
+.trailer-item { display: flex; gap: 10px; align-items: baseline; margin-bottom: 14px; font-size: .86rem; }
+.trailer-item-num { font-weight: 700; color: var(--gold); font-size: .75rem; min-width: 18px; flex-shrink: 0; }
+.trailer-write { display: flex; flex-direction: column; flex: 1; gap: 6px; }
+.trailer-write span { border-bottom: 1.5px solid #bbb; min-height: 24px; display: block; }
 
 /* ── INFO / TIP BOXES ── */
-.info-box {
-  background: var(--blue-lt);
-  border-left: 4px solid var(--blue);
-  border-radius: 0 8px 8px 0;
-  padding: 12px 16px;
-  font-size: .84rem;
-  margin-top: 14px;
-}
+.info-box { background: var(--blue-lt); border-left: 4px solid var(--blue); border-radius: 0 8px 8px 0; padding: 12px 16px; font-size: .84rem; margin-top: 14px; }
 .info-box strong { color: var(--blue); }
-.tip-box {
-  background: var(--parchment);
-  border-radius: 8px;
-  padding: 10px 14px;
-  font-size: .82rem;
-  color: var(--brown);
-  font-style: italic;
-  margin-top: 12px;
-}
+.tip-box { background: var(--parchment); border-radius: 8px; padding: 10px 14px; font-size: .82rem; color: var(--brown); font-style: italic; margin-top: 12px; }
 
 /* ── NEXT BANNER ── */
-.next-banner {
-  background: linear-gradient(135deg, var(--rust), var(--gold));
-  color: white;
-  border-radius: var(--radius);
-  padding: 18px 20px;
-  display: flex;
-  align-items: flex-start;
-  gap: 14px;
-  margin-top: 20px;
-}
+.next-banner { background: linear-gradient(135deg, var(--rust), var(--gold)); color: white; border-radius: var(--radius); padding: 18px 20px; display: flex; align-items: flex-start; gap: 14px; margin-top: 20px; }
 .nb-emoji { font-size: 1.8rem; flex-shrink: 0; }
 .nb-title { font-family: var(--font-h); font-weight: 700; font-size: .98rem; }
 .nb-sub { font-size: .78rem; opacity: .88; margin-top: 4px; line-height: 1.5; }
 
 /* ── PROGRESS TRACKER ── */
 .progress-tracker {
-  position: fixed;
-  bottom: 20px;
-  right: 16px;
-  z-index: 90;
-  background: var(--ink);
-  color: var(--cream);
-  border-radius: 12px;
-  padding: 12px 16px;
-  box-shadow: 0 6px 28px rgba(0,0,0,.28);
-  font-size: .75rem;
-  min-width: 150px;
-  display: none;
+  position: fixed; bottom: 20px; right: 16px; z-index: 90;
+  background: var(--ink); color: var(--cream); border-radius: 12px;
+  padding: 12px 16px; box-shadow: 0 6px 28px rgba(0,0,0,.28);
+  font-size: .75rem; min-width: 150px; display: none;
 }
 @media (min-width: 640px) { .progress-tracker { display: block; } }
 .pt-title { font-weight: 700; font-size: .68rem; text-transform: uppercase; letter-spacing: .08em; color: var(--gold); margin-bottom: 9px; }
@@ -904,39 +520,32 @@ section { margin-bottom: 48px; }
 .pt-dot   { width: 9px; height: 9px; border-radius: 50%; background: #333; flex-shrink: 0; transition: background .4s; }
 .pt-dot.done { background: var(--sage); }
 
+@keyframes shake {
+  0%,100%{ transform: translateX(0);  }
+  25%    { transform: translateX(-5px); }
+  75%    { transform: translateX(5px);  }
+}
 
-/* ═══════════════════════════════════════════════
+/* ══════════════════════════════════════════════
    PRINT STYLES — clean worksheet, NO answers
-   ═══════════════════════════════════════════════ */
+══════════════════════════════════════════════ */
 @media print {
-
   /* === HIDE screen-only elements === */
   .print-bar .btn-print,
   .progress-tracker,
   .video-wrap,
-  .btn-yt,
-  .btn-yt-alt,
-  .video-links,
-  .lyrics-check-btn,
-  .lyrics-reset-btn,
-  .lyrics-actions,
+  .btn-yt, .btn-yt-alt, .video-links,
+  .lyrics-check-btn, .lyrics-reset-btn, .lyrics-actions,
   .match-check-btn,
   .quiz-submit-btn,
   .reveal-all-btn,
   .word-bank-wrap,
-  .sb-chips,
   .next-banner,
-  #match-feedback,
-  #lyrics-score,
-  #quiz-result,
+  #match-feedback, #lyrics-score, #quiz-result,
   .quiz-feedback,
-  .gp-wordbank,
-  .gp-check-btn,
-  .gp-reset-btn,
-  #gp-score,
+  .gp-wordbank, .gp-check-btn, .gp-reset-btn, #gp-score,
   iframe { display: none !important; }
 
-  /* === GLOBAL === */
   * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
   body { background: white !important; font-size: 10.5pt; color: #111; }
   .hero { background: #1A1208 !important; padding: 14pt 0; }
@@ -944,210 +553,94 @@ section { margin-bottom: 48px; }
   .hero-sub, .hero-tags, .hero-badge { display: none; }
   .objectives-bar { background: #F0E8D5 !important; border-top: 2pt solid #C9862A; padding: 8pt; flex-direction: row; flex-wrap: wrap; }
   .page { padding: 6pt 0; max-width: 100%; }
-
-  /* Sections flow naturally — NO break-inside on the whole section.
-     This lets content continue on the same page instead of jumping ahead. */
   section { margin-bottom: 16pt; }
-  /* Keep section header glued to first card — no orphan titles */
   .section-header { break-after: avoid; page-break-after: avoid; }
-
-  /* Cards can break across pages (their content may be long),
-     but individual small items inside stay together */
   .card { box-shadow: none !important; border: 1pt solid #CCC !important; margin-bottom: 8pt; padding: 10pt 12pt !important; }
-
-  /* Small atomic items that must never be split */
-  .vocab-card,
-  .bol-vocab-card,
-  .quiz-card,
-  .match-def-row,
-  .gp-item,
-  .discussion-list li { break-inside: avoid; page-break-inside: avoid; }
-
+  .vocab-card, .bol-vocab-card, .quiz-card, .match-def-row, .gp-item, .discussion-list li { break-inside: avoid; page-break-inside: avoid; }
   .section-num { background: #EEE !important; color: #111 !important; border: 1pt solid #999; }
   .section-title { font-size: 12pt; }
   .section-time { display: none; }
-
-  /* === PRINT BAR as plain info header === */
   .print-bar { background: #EEE !important; color: #333 !important; padding: 5pt 10pt; font-size: 8pt; }
 
-  /* ──────────────────────────────────────────
-     SECTION 2: VOCAB — show words only, NO translations
-     Teacher uses this to elicit meaning verbally
-  ────────────────────────────────────────── */
+  /* === LISTENING WRITE LINES === */
+  .write-line { border-bottom: 1.5pt solid #888 !important; min-height: 26pt !important; display: block; }
+  .listen-task { background: #F0E8D5 !important; border: 1pt solid #CCC; }
+
+  /* === VOCAB === */
   .vocab-card { break-inside: avoid; border: 1pt solid #CCC !important; padding: 7pt 9pt !important; background: white !important; min-height: 0 !important; cursor: default; }
   .vocab-translation { display: none !important; }
   .vocab-hint { display: none !important; }
   .vocab-card.revealed { background: white !important; border: 1pt solid #CCC !important; }
 
-  /* ──────────────────────────────────────────
-     SECTION 3: MATCHING — print as fill-in exercise
-  ────────────────────────────────────────── */
-  .match-instructions {
-    background: #F0E8D5 !important;
-    border: 1pt solid #CCC !important;
-    border-left: 3pt solid #C9862A !important;
-    font-size: 8.5pt;
-  }
-  /* Hide the chip buttons — students write in boxes instead */
+  /* === MATCHING — print word list as static text === */
+  .match-instructions { background: #F0E8D5 !important; border: 1pt solid #CCC !important; border-left: 3pt solid #C9862A !important; font-size: 8.5pt; }
   .match-words-row { display: none !important; }
-  /* Word list printed as static text above definitions */
   .match-instructions::after {
-    content: "Palabras: softly · crowd · soul · stranger · flushed · gaze";
-    display: block;
-    font-weight: 700;
-    margin-top: 5pt;
-    font-size: 9pt;
-    color: #333;
+    content: "Palabras: softly · crowd · soul · stranger · flushed · gaze · embarrassed · fever";
+    display: block; font-weight: 700; margin-top: 5pt; font-size: 9pt; color: #333;
   }
   .match-defs { display: block; }
-  .match-def-row {
-    border: 1pt solid #DDD !important;
-    margin-bottom: 5pt;
-    cursor: default;
-    background: #FAFAFA !important;
-    break-inside: avoid;
-  }
-  /* Hide any placed word badges */
+  .match-def-row { border: 1pt solid #DDD !important; margin-bottom: 5pt; cursor: default; background: #FAFAFA !important; break-inside: avoid; }
   .match-def-placed { display: none !important; }
-  /* Add a write-in box after each definition */
-  .match-def-row::after {
-    content: "Answer: _______________";
-    font-family: monospace;
-    font-size: 9pt;
-    color: #888;
-    white-space: nowrap;
-    margin-left: 8pt;
-    flex-shrink: 0;
-  }
+  .match-def-row::after { content: "Answer: _______________"; font-family: monospace; font-size: 9pt; color: #888; white-space: nowrap; margin-left: 8pt; flex-shrink: 0; }
 
-  /* ──────────────────────────────────────────
-     SECTION 4: LYRICS — blanks as plain underlines, no answers
-  ────────────────────────────────────────── */
+  /* === LYRICS === */
   .lyrics-columns { flex-direction: row !important; gap: 14pt; }
   .lyrics-col { flex: 1 !important; }
   .lyrics-wrap { line-height: 2.8; font-size: 9.5pt; }
   .lyrics-instructions { background: #F0E8D5 !important; border: 1pt solid #CCC; font-size: 8.5pt; }
-
-  /* Reset all blanks: no answer, no color, just a clean underline */
   .gap-blank {
-    color: white !important;
-    background: transparent !important;
-    border-top: none !important;
-    border-left: none !important;
-    border-right: none !important;
-    border-bottom: 1.5pt solid #555 !important;
-    border-radius: 0 !important;
-    min-width: 60pt !important;
-    display: inline-block;
-    transform: none !important;
-    box-shadow: none !important;
+    color: white !important; background: transparent !important;
+    border-top: none !important; border-left: none !important; border-right: none !important;
+    border-bottom: 1.5pt solid #555 !important; border-radius: 0 !important;
+    min-width: 60pt !important; display: inline-block; transform: none !important; box-shadow: none !important;
   }
-  /* Override any filled/correct/wrong states — student sees only blank */
-  .gap-blank.filled,
-  .gap-blank.correct-ans,
-  .gap-blank.wrong-ans { color: white !important; background: transparent !important; border-color: #555 !important; animation: none !important; }
-
-  /* Print word bank as static list */
-  .word-bank-wrap {
-    display: block !important;
-    background: #F5F5F5 !important;
-    border: 1pt solid #CCC !important;
-    border-radius: 4pt !important;
-    padding: 6pt 8pt !important;
-    margin-bottom: 8pt !important;
-  }
+  .gap-blank.filled, .gap-blank.correct-ans, .gap-blank.wrong-ans { color: white !important; background: transparent !important; border-color: #555 !important; animation: none !important; }
+  .word-bank-wrap { display: block !important; background: #F5F5F5 !important; border: 1pt solid #CCC !important; border-radius: 4pt !important; padding: 6pt 8pt !important; margin-bottom: 8pt !important; }
   .word-bank { display: none !important; }
   .word-bank-label { display: none !important; }
   .word-bank-wrap::after {
-    content: "📝 Word Bank: strumming · embarrassed · softly · stranger · soul · letters · sang · felt · flushed · crowd · he · knew";
-    display: block;
-    font-size: 8.5pt;
-    color: #444;
-    font-style: italic;
+    content: "📝 Word Bank: strumming · embarrassed · softly · stranger · soul · letters · sang · felt · flushed · crowd · knew · life";
+    display: block; font-size: 8.5pt; color: #444; font-style: italic;
   }
 
-  /* ──────────────────────────────────────────
-     SECTION 5: GRAMMAR — clean theory + blank practice
-  ────────────────────────────────────────── */
+  /* === GRAMMAR === */
   .grammar-intro { background: #F0E8D5 !important; border-radius: 4pt; }
   .grammar-song-examples { background: #FFF8EC !important; border: 1pt solid #C9862A; }
   .grammar-rule-box { background: #D4DFF0 !important; border-left: 3pt solid #2A4A7A !important; }
-
   .grammar-practice { background: #FAFAFA !important; border: 1pt solid #CCC !important; }
-  /* Hide chip word bank for grammar practice — students write directly */
   .gp-wordbank { display: none !important; }
-  /* Show a static word bank hint */
   .grammar-practice::before {
-    content: "✏️ Completa con: am · is · are · was · were";
-    display: block;
-    font-size: 8.5pt;
-    color: #444;
-    font-style: italic;
-    background: #F0E8D5;
-    border: 1pt solid #CCC;
-    padding: 5pt 8pt;
-    border-radius: 3pt;
-    margin-bottom: 8pt;
+    content: "✏️ Completa con: am · is · are · was · were · wasn't · isn't · Were · Is";
+    display: block; font-size: 8.5pt; color: #444; font-style: italic;
+    background: #F0E8D5; border: 1pt solid #CCC; padding: 5pt 8pt; border-radius: 3pt; margin-bottom: 8pt;
   }
-  /* Render blanks as clean underlines, no answer color */
   .gp-blank {
-    color: white !important;
-    background: transparent !important;
-    border-top: none !important;
-    border-left: none !important;
-    border-right: none !important;
-    border-bottom: 1.5pt solid #555 !important;
-    border-radius: 0 !important;
-    min-width: 55pt !important;
-    display: inline-block;
+    color: white !important; background: transparent !important;
+    border-top: none !important; border-left: none !important; border-right: none !important;
+    border-bottom: 1.5pt solid #555 !important; border-radius: 0 !important;
+    min-width: 55pt !important; display: inline-block;
   }
-  .gp-blank.gp-filled,
-  .gp-blank.gp-correct,
-  .gp-blank.gp-wrong { color: white !important; background: transparent !important; border-color: #555 !important; }
+  .gp-blank.gp-filled, .gp-blank.gp-correct, .gp-blank.gp-wrong { color: white !important; background: transparent !important; border-color: #555 !important; }
 
-  /* ──────────────────────────────────────────
-     SECTION 6: QUIZ — clean T / F checkboxes
-  ────────────────────────────────────────── */
+  /* === QUIZ === */
   .quiz-card { break-inside: avoid; border: 1pt solid #CCC !important; background: white !important; }
   .tf-btns { display: flex; gap: 20pt; flex-wrap: nowrap; }
-  .tf-btn {
-    border: 1.5pt solid #AAA !important;
-    background: white !important;
-    color: #333 !important;
-    padding: 4pt 18pt !important;
-    font-size: 9pt !important;
-  }
-  /* Remove any selected/correct/wrong states for print */
-  .tf-btn.sel-t, .tf-btn.sel-f,
-  .tf-btn.correct, .tf-btn.wrong {
-    background: white !important;
-    color: #333 !important;
-    border-color: #AAA !important;
-  }
+  .tf-btn { border: 1.5pt solid #AAA !important; background: white !important; color: #333 !important; padding: 4pt 18pt !important; font-size: 9pt !important; }
+  .tf-btn.sel-t, .tf-btn.sel-f, .tf-btn.correct, .tf-btn.wrong { background: white !important; color: #333 !important; border-color: #AAA !important; }
 
-  /* ──────────────────────────────────────────
-     SECTION 7: DISCUSSION — clean question list
-  ────────────────────────────────────────── */
+  /* === DISCUSSION === */
   .discussion-list li { break-inside: avoid; }
+  .disc-line { border-bottom: 1pt solid #999 !important; min-height: 20pt; display: block; }
+  .disc-lines { margin-top: 6pt; gap: 5pt; }
 
-  /* ──────────────────────────────────────────
-     SECTION 8: BOOK OF LIFE — vocab cards, no translations
-  ────────────────────────────────────────── */
+  /* === TRAILER / BOL === */
   .bol-vocab-card { break-inside: avoid; border: 1pt solid #CCC !important; background: white !important; min-height: 0 !important; }
   .bol-translation { display: none !important; }
   .bol-hint { display: none !important; }
   .bol-vocab-card.revealed { background: white !important; border-color: #CCC !important; }
-  .sb-area { background: #F0E8D5 !important; border: 1pt solid #DDD; }
-  .sb-display { border: 1pt solid #CCC; }
-  .sb-blank {
-    color: white !important;
-    background: transparent !important;
-    border-top: none !important; border-left: none !important; border-right: none !important;
-    border-bottom: 1.5pt solid #555 !important;
-    border-radius: 0 !important;
-    min-width: 70pt !important;
-  }
-  .sb-blank.filled { color: white !important; background: transparent !important; }
+  .trailer-task { background: #F0E8D5 !important; border: 1pt solid #CCC; }
+  .trailer-write span { border-bottom: 1pt solid #999 !important; min-height: 20pt; display: block; }
 
   @page { margin: 1.6cm 2cm; size: A4; }
   h2, h3, .section-title, .card-title { break-after: avoid; }
@@ -1158,7 +651,7 @@ section { margin-bottom: 48px; }
 
 <!-- PRINT BAR -->
 <div class="print-bar">
-  <span>📚 English Up! · Module 0 · Session 1 — Killing Me Softly</span>
+  <span>📚 English Up! · Module 0 · Session 1 — Killing Me Softly (The Fugees)</span>
   <button class="btn-print" onclick="window.print()">🖨️ Imprimir / Guardar PDF</button>
 </div>
 
@@ -1166,21 +659,22 @@ section { margin-bottom: 48px; }
 <div class="hero">
   <div class="hero-badge">🎬 Module 0 · Session 1 · The Hook</div>
   <h1>Killing Me Softly</h1>
-  <div class="hero-sub">with his song &nbsp;·&nbsp; Roberta Flack / The Fugees</div>
+  <div class="hero-sub">with his song &nbsp;·&nbsp; The Fugees (Roberta Flack)</div>
   <div class="hero-tags">
     <span class="tag">🎵 Song-based lesson</span>
     <span class="tag">💛 Vocabulary: Emotions</span>
     <span class="tag">⭐ Verb To Be</span>
     <span class="tag">🎬 Book of Life preview</span>
-    <span class="tag">⏱ ~60 min</span>
+    <span class="tag">⏱ ~70 min</span>
     <span class="tag">🔰 A1–A2</span>
   </div>
 </div>
 
 <!-- OBJECTIVES -->
 <div class="objectives-bar">
-  <div class="obj-item">🎯 Understand vocabulary about feelings &amp; music</div>
-  <div class="obj-item">🎶 Complete the full song gap-fill</div>
+  <div class="obj-item">🎧 Listen &amp; write the chorus from memory</div>
+  <div class="obj-item">💛 Learn vocabulary about feelings &amp; music</div>
+  <div class="obj-item">🎵 Complete the song gap-fill</div>
   <div class="obj-item">⭐ Study and use Verb To Be</div>
   <div class="obj-item">🎬 Preview The Book of Life</div>
 </div>
@@ -1188,36 +682,58 @@ section { margin-bottom: 48px; }
 <!-- PROGRESS TRACKER -->
 <div class="progress-tracker">
   <div class="pt-title">📍 Progress</div>
+  <div class="pt-item"><div class="pt-dot" id="pd-listen"></div><span>Listening</span></div>
   <div class="pt-item"><div class="pt-dot" id="pd-vocab"></div><span>Vocabulary</span></div>
   <div class="pt-item"><div class="pt-dot" id="pd-match"></div><span>Matching</span></div>
   <div class="pt-item"><div class="pt-dot" id="pd-lyrics"></div><span>Gap-fill</span></div>
   <div class="pt-item"><div class="pt-dot" id="pd-grammar"></div><span>Grammar</span></div>
-  <div class="pt-item"><div class="pt-dot" id="pd-quiz"></div><span>Quick Quiz</span></div>
+  <div class="pt-item"><div class="pt-dot" id="pd-quiz"></div><span>Quiz</span></div>
+  <div class="pt-item"><div class="pt-dot" id="pd-disc"></div><span>Discussion</span></div>
   <div class="pt-item"><div class="pt-dot" id="pd-bol"></div><span>Book of Life</span></div>
 </div>
 
 <div class="page">
 
-<!-- ══ SECTION 1: WARM UP ══ -->
+<!-- ══ SECTION 1: WARM UP / LISTENING ══ -->
 <section>
   <div class="section-header">
     <div class="section-num">1</div>
-    <div class="section-title">Warm Up — Listen First 🎧</div>
-    <div class="section-time">⏱ 5 min</div>
+    <div class="section-title">Listening — Write the Chorus 🎧</div>
+    <div class="section-time">⏱ 10 min</div>
   </div>
   <div class="card">
-    <div class="card-title">Watch &amp; listen — don't write yet, just feel the music!</div>
+    <div class="card-title">🎵 Watch &amp; listen — first time, just feel it. Second time, write the chorus!</div>
     <div class="video-wrap">
-      <iframe
-        src="https://www.youtube.com/embed/oKOtzIo-uYw?si=kdWPOXdveYGQ-7Ew"
+      <iframe src="https://www.youtube.com/embed/oKOtzIo-uYw?si=kdWPOXdveYGQ-7Ew"
         title="Killing Me Softly — The Fugees"
-        frameborder="0"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-        referrerpolicy="strict-origin-when-cross-origin"
-        allowfullscreen></iframe>
+        frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
     </div>
+    <div class="video-links">
+      <a class="btn-yt" href="https://www.youtube.com/watch?v=oKOtzIo-uYw" target="_blank" rel="noopener">▶ Watch on YouTube</a>
+    </div>
+
+    <div class="listen-task">
+      <strong>Part A — Write the chorus</strong> (the part that repeats). Listen carefully and fill in the 6 lines below:
+      <div class="write-lines">
+        <div class="write-line" data-num="1."></div>
+        <div class="write-line" data-num="2."></div>
+        <div class="write-line" data-num="3."></div>
+        <div class="write-line" data-num="4."></div>
+        <div class="write-line" data-num="5."></div>
+        <div class="write-line" data-num="6."></div>
+      </div>
+    </div>
+
+    <div class="listen-task" style="margin-top:14px;">
+      <strong>Part B — First impressions.</strong> Circle your answer:
+      <br><br>
+      The song makes me feel: &nbsp; <strong>sad</strong> &nbsp;/&nbsp; <strong>happy</strong> &nbsp;/&nbsp; <strong>calm</strong> &nbsp;/&nbsp; <strong>romantic</strong> &nbsp;/&nbsp; <strong>nostalgic</strong>
+      <br><br>
+      One word I heard (in English): ________________________________
+    </div>
+
     <div class="tip-box">
-      💡 <strong>After listening:</strong> Ask your classmates — <em>"How does the song make you feel? Choose one word: happy / sad / calm / romantic / nostalgic."</em>
+      💡 <strong>Chorus answer key (after class):</strong> <em>Strumming my pain with his fingers / Singing my life with his words / Killing me softly with his song (×3) / Telling my whole life with his words / Killing me softly with his song.</em>
     </div>
   </div>
 </section>
@@ -1269,6 +785,14 @@ section { margin-bottom: 48px; }
         <div class="vocab-translation">🇪🇸 rezar / rogar</div><div class="vocab-hint">👆 tap to reveal</div>
       </div>
       <div class="vocab-card" onclick="revealVocab(this)">
+        <div class="vocab-word">fever</div><div class="vocab-pron">/ˈfiːvər/</div>
+        <div class="vocab-translation">🇪🇸 fiebre / ardor</div><div class="vocab-hint">👆 tap to reveal</div>
+      </div>
+      <div class="vocab-card" onclick="revealVocab(this)">
+        <div class="vocab-word">despair</div><div class="vocab-pron">/dɪˈspɛr/</div>
+        <div class="vocab-translation">🇪🇸 desesperación</div><div class="vocab-hint">👆 tap to reveal</div>
+      </div>
+      <div class="vocab-card" onclick="revealVocab(this)">
         <div class="vocab-word">to swear</div><div class="vocab-pron">/swɛr/</div>
         <div class="vocab-translation">🇪🇸 jurar</div><div class="vocab-hint">👆 tap to reveal</div>
       </div>
@@ -1290,44 +814,56 @@ section { margin-bottom: 48px; }
     </div>
     <div class="card-title">Step 1 — Choose a word:</div>
     <div class="match-words-row" id="matchWords">
-      <div class="match-chip" data-word="softly" onclick="selectMatchChip(this)">softly</div>
-      <div class="match-chip" data-word="crowd" onclick="selectMatchChip(this)">crowd</div>
-      <div class="match-chip" data-word="soul" onclick="selectMatchChip(this)">soul</div>
-      <div class="match-chip" data-word="stranger" onclick="selectMatchChip(this)">stranger</div>
-      <div class="match-chip" data-word="flushed" onclick="selectMatchChip(this)">flushed</div>
-      <div class="match-chip" data-word="gaze" onclick="selectMatchChip(this)">gaze</div>
+      <div class="match-chip" data-word="softly"      onclick="selectMatchChip(this)">softly</div>
+      <div class="match-chip" data-word="crowd"       onclick="selectMatchChip(this)">crowd</div>
+      <div class="match-chip" data-word="soul"        onclick="selectMatchChip(this)">soul</div>
+      <div class="match-chip" data-word="stranger"    onclick="selectMatchChip(this)">stranger</div>
+      <div class="match-chip" data-word="flushed"     onclick="selectMatchChip(this)">flushed</div>
+      <div class="match-chip" data-word="gaze"        onclick="selectMatchChip(this)">gaze</div>
+      <div class="match-chip" data-word="embarrassed" onclick="selectMatchChip(this)">embarrassed</div>
+      <div class="match-chip" data-word="fever"       onclick="selectMatchChip(this)">fever</div>
     </div>
     <div class="card-title" style="margin-top:16px;">Step 2 — Tap the correct definition:</div>
     <div class="match-defs" id="matchDefs">
       <div class="match-def-row" data-answer="stranger" onclick="placeMatch(this)">
         <span class="match-def-letter">A.</span>
         <span class="match-def-text">A person you don't know</span>
-        <span class="match-def-placed" id="mp-stranger"></span>
+        <span class="match-def-placed"></span>
       </div>
       <div class="match-def-row" data-answer="soul" onclick="placeMatch(this)">
         <span class="match-def-letter">B.</span>
-        <span class="match-def-text">The spiritual part of a person</span>
-        <span class="match-def-placed" id="mp-soul"></span>
+        <span class="match-def-text">The spiritual / inner part of a person</span>
+        <span class="match-def-placed"></span>
       </div>
       <div class="match-def-row" data-answer="crowd" onclick="placeMatch(this)">
         <span class="match-def-letter">C.</span>
         <span class="match-def-text">A large group of people</span>
-        <span class="match-def-placed" id="mp-crowd"></span>
+        <span class="match-def-placed"></span>
       </div>
       <div class="match-def-row" data-answer="softly" onclick="placeMatch(this)">
         <span class="match-def-letter">D.</span>
         <span class="match-def-text">In a gentle, quiet way</span>
-        <span class="match-def-placed" id="mp-softly"></span>
+        <span class="match-def-placed"></span>
       </div>
       <div class="match-def-row" data-answer="flushed" onclick="placeMatch(this)">
         <span class="match-def-letter">E.</span>
-        <span class="match-def-text">Red in the face / feeling hot and embarrassed</span>
-        <span class="match-def-placed" id="mp-flushed"></span>
+        <span class="match-def-text">Red in the face / feeling hot with emotion</span>
+        <span class="match-def-placed"></span>
       </div>
       <div class="match-def-row" data-answer="gaze" onclick="placeMatch(this)">
         <span class="match-def-letter">F.</span>
-        <span class="match-def-text">To look at something for a long time</span>
-        <span class="match-def-placed" id="mp-gaze"></span>
+        <span class="match-def-text">To look steadily at something for a long time</span>
+        <span class="match-def-placed"></span>
+      </div>
+      <div class="match-def-row" data-answer="embarrassed" onclick="placeMatch(this)">
+        <span class="match-def-letter">G.</span>
+        <span class="match-def-text">Feeling ashamed or uncomfortable in front of others</span>
+        <span class="match-def-placed"></span>
+      </div>
+      <div class="match-def-row" data-answer="fever" onclick="placeMatch(this)">
+        <span class="match-def-letter">H.</span>
+        <span class="match-def-text">High body temperature / intense excitement</span>
+        <span class="match-def-placed"></span>
       </div>
     </div>
     <button class="match-check-btn" onclick="checkMatches()">✅ Check Answers</button>
@@ -1335,21 +871,35 @@ section { margin-bottom: 48px; }
   </div>
 </section>
 
-<!-- ══ SECTION 4: FULL LYRICS GAP-FILL ══ -->
+<!-- ══ SECTION 4: LISTENING + GAP-FILL SONG ══ -->
 <section id="sec-lyrics">
   <div class="section-header">
     <div class="section-num">4</div>
-    <div class="section-title">Gap-Fill — Song Lyrics 🎵</div>
+    <div class="section-title">Full Song — Listen &amp; Gap-Fill 🎵</div>
     <div class="section-time">⏱ 15 min</div>
   </div>
+
+  <!-- PART A: LISTENING — write the chorus -->
   <div class="card">
+    <div class="card-title">🎧 Part A — Listen again and complete the chorus below (write the words you hear):</div>
     <div class="lyrics-instructions">
-      🎧 Listen again. <strong>Step 1:</strong> Tap a word from the bank below. <strong>Step 2:</strong> Tap the blank <span style="border-bottom:2px solid var(--gold);padding:0 6px;background:var(--gold-lt);border-radius:3px;">________</span> where it belongs.
+      👂 Focus on the chorus — it repeats! Write each word in the blank lines provided in Section 1. Then compare with a classmate.
+    </div>
+    <div class="tip-box">
+      💡 The chorus starts with: <em>"Strumming my pain…"</em> — can you catch all 6 lines?
+    </div>
+  </div>
+
+  <!-- PART B: GAP-FILL with word bank (digital) / write in (print) -->
+  <div class="card">
+    <div class="card-title">🎵 Part B — Complete the full song. Tap a word, then tap a blank:</div>
+    <div class="lyrics-instructions">
+      <strong>Digital:</strong> Tap a word in the bank, then tap a blank. &nbsp;|&nbsp; <strong>Print:</strong> Write the correct word in each blank.
     </div>
 
     <!-- WORD BANK -->
     <div class="word-bank-wrap">
-      <div class="word-bank-label">🔤 Word Bank — tap a word, then tap a blank</div>
+      <div class="word-bank-label">🔤 Word Bank</div>
       <div class="word-bank" id="wordBank">
         <div class="word-chip" data-chip="strumming"   onclick="selectChip(this)">strumming</div>
         <div class="word-chip" data-chip="embarrassed" onclick="selectChip(this)">embarrassed</div>
@@ -1361,68 +911,70 @@ section { margin-bottom: 48px; }
         <div class="word-chip" data-chip="felt"        onclick="selectChip(this)">felt</div>
         <div class="word-chip" data-chip="flushed"     onclick="selectChip(this)">flushed</div>
         <div class="word-chip" data-chip="crowd"       onclick="selectChip(this)">crowd</div>
-        <div class="word-chip" data-chip="he"          onclick="selectChip(this)">he</div>
         <div class="word-chip" data-chip="knew"        onclick="selectChip(this)">knew</div>
+        <div class="word-chip" data-chip="life"        onclick="selectChip(this)">life</div>
       </div>
     </div>
 
     <div class="lyrics-columns">
-      <!-- LEFT COLUMN -->
+      <!-- LEFT -->
       <div class="lyrics-col">
         <div class="lyrics-wrap">
           <div class="verse-label">♩ Verse 1</div>
-          <span class="lyric-line">I heard <span class="gap-blank" data-answer="he" onclick="fillBlank(this)">he</span> <span class="gap-blank" data-answer="sang" onclick="fillBlank(this)">sang</span> a good song,</span>
+          <span class="lyric-line">I heard he <span class="gap-blank" data-answer="sang" onclick="fillBlank(this)">sang</span> a good song,</span>
           <span class="lyric-line">I heard he had a style.</span>
           <span class="lyric-line">And so I came to see him,</span>
           <span class="lyric-line">to listen for a while.</span>
           <span class="lyric-line">And there he was, this young boy,</span>
           <span class="lyric-line">a <span class="gap-blank" data-answer="stranger" onclick="fillBlank(this)">stranger</span> to my eyes.</span>
 
-          <div class="verse-label">♩ Verse 2</div>
-          <span class="lyric-line">I <span class="gap-blank" data-answer="felt" onclick="fillBlank(this)">felt</span> all <span class="gap-blank" data-answer="flushed" onclick="fillBlank(this)">flushed</span> with fever,</span>
-          <span class="lyric-line"><span class="gap-blank" data-answer="embarrassed" onclick="fillBlank(this)">embarrassed</span> by the <span class="gap-blank" data-answer="crowd" onclick="fillBlank(this)">crowd</span>.</span>
-          <span class="lyric-line">I felt he found my <span class="gap-blank" data-answer="letters" onclick="fillBlank(this)">letters</span></span>
-          <span class="lyric-line">and read each one out loud.</span>
-          <span class="lyric-line">I prayed that he would finish,</span>
-          <span class="lyric-line">but he just kept right on…</span>
-
           <div class="verse-label">🎵 Chorus</div>
           <span class="lyric-line chorus-line"><span class="gap-blank" data-answer="strumming" onclick="fillBlank(this)">strumming</span> my pain with his fingers,</span>
-          <span class="lyric-line chorus-line">Singing my life with his words,</span>
+          <span class="lyric-line chorus-line">Singing my <span class="gap-blank" data-answer="life" onclick="fillBlank(this)">life</span> with his words,</span>
           <span class="lyric-line chorus-line">Killing me <span class="gap-blank" data-answer="softly" onclick="fillBlank(this)">softly</span> with his song,</span>
           <span class="lyric-line chorus-line">Killing me softly with his song,</span>
           <span class="lyric-line chorus-line">Telling my whole life with his words,</span>
           <span class="lyric-line chorus-line">Killing me softly with his <span class="gap-blank" data-answer="soul" onclick="fillBlank(this)">soul</span>.</span>
+
+          <div class="verse-label">♩ Verse 2</div>
+          <span class="lyric-line">I <span class="gap-blank" data-answer="felt" onclick="fillBlank(this)">felt</span> all <span class="gap-blank" data-answer="flushed" onclick="fillBlank(this)">flushed</span> with fever,</span>
+          <span class="lyric-line"><span class="gap-blank" data-answer="embarrassed" onclick="fillBlank(this)">embarrassed</span> by the <span class="gap-blank" data-answer="crowd" onclick="fillBlank(this)">crowd</span>.</span>
+          <span class="lyric-line">I felt he found my <span class="gap-blank" data-answer="letters" onclick="fillBlank(this)">letters</span>,</span>
+          <span class="lyric-line">then read each one out loud.</span>
+          <span class="lyric-line">I prayed that he would finish,</span>
+          <span class="lyric-line">but he just kept right on…</span>
         </div>
       </div>
 
-      <!-- RIGHT COLUMN -->
+      <!-- RIGHT -->
       <div class="lyrics-col">
         <div class="lyrics-wrap">
-          <div class="verse-label">♩ Verse 3</div>
-          <span class="lyric-line">He sang as if he <span class="gap-blank" data-answer="knew" onclick="fillBlank(this)">knew</span> me</span>
-          <span class="lyric-line">In all my dark despair.</span>
-          <span class="lyric-line">And then he looked right through me</span>
-          <span class="lyric-line">as if I wasn't there.</span>
-          <span class="lyric-line">And he just kept on singing,</span>
-          <span class="lyric-line">singing clear and strong…</span>
-
           <div class="verse-label">🎵 Chorus (repeat)</div>
           <span class="lyric-line chorus-line">Strumming my pain with his fingers,</span>
           <span class="lyric-line chorus-line">Singing my life with his words,</span>
           <span class="lyric-line chorus-line">Killing me softly with his song,</span>
           <span class="lyric-line chorus-line">Killing me softly with his song,</span>
           <span class="lyric-line chorus-line">Telling my whole life with his words,</span>
-          <span class="lyric-line chorus-line">Killing me softly with his soul.</span>
+          <span class="lyric-line chorus-line">Killing me softly with his song.</span>
 
-          <div class="verse-label" style="margin-top:18px;">🎵 Outro (Fugees)</div>
-          <span class="lyric-line" style="color:var(--blue);font-style:italic;font-size:.86rem;">One time, one time…</span>
-          <span class="lyric-line" style="color:var(--blue);font-style:italic;font-size:.86rem;">Two times, two times…</span>
-          <span class="lyric-line" style="color:var(--blue);font-style:italic;font-size:.86rem;">Killing me softly…</span>
+          <div class="verse-label">♩ Verse 3</div>
+          <span class="lyric-line">He sang as if he <span class="gap-blank" data-answer="knew" onclick="fillBlank(this)">knew</span> me,</span>
+          <span class="lyric-line">in all my dark despair.</span>
+          <span class="lyric-line">And then he looked right through me,</span>
+          <span class="lyric-line">as if I wasn't there.</span>
+          <span class="lyric-line">And he just kept on singing,</span>
+          <span class="lyric-line">singing clear and strong…</span>
+
+          <div class="verse-label">🎵 Final Chorus</div>
+          <span class="lyric-line chorus-line">Yes, he was singing my life with his words,</span>
+          <span class="lyric-line chorus-line">Killing me softly with his song,</span>
+          <span class="lyric-line chorus-line">Killing me softly with his song,</span>
+          <span class="lyric-line chorus-line">Telling my whole life with his words,</span>
+          <span class="lyric-line chorus-line">Killing me softly with his song.</span>
 
           <div class="info-box" style="margin-top:16px;">
             <strong>💡 Did you notice?</strong><br>
-            The Fugees version adds a rap section and outro. The original (1973) by Roberta Flack is pure soul ballad. Both use the <em>same</em> lyrics!
+            The Fugees version (1996) adds a rap intro by Wyclef Jean. The original (1973) by Roberta Flack is a pure soul ballad. Both use the <em>same</em> chorus!
           </div>
         </div>
       </div>
@@ -1445,29 +997,23 @@ section { margin-bottom: 48px; }
   </div>
   <div class="card">
 
-    <!-- WHAT IS IT? -->
     <div class="grammar-intro">
       <strong>What is "Verb To Be"?</strong><br>
-      <em>To be</em> is the most important verb in English. We use it to describe <strong>who we are</strong>, <strong>what we are like</strong>, and <strong>where we are</strong>. It changes depending on the subject (I, you, he…) and the time (present or past).
-      <br><br>
+      <em>To be</em> is the most important verb in English. We use it to say <strong>who we are</strong>, <strong>what we are like</strong>, and <strong>where we are</strong>. It changes depending on the subject (I, you, he…) and the time (present or past).<br><br>
       In Spanish: <em>ser / estar</em> → In English, both become <strong>to be</strong>.
     </div>
 
-    <!-- FROM THE SONG -->
     <div class="grammar-song-examples">
-      <div class="ex-label">🎵 Verb To Be in the song</div>
-      <span style="display:block;">There <strong style="color:var(--rust);">he was</strong>, this young boy… → <em>he = subject, was = verb to be (past)</em></span>
+      <div class="ex-label">🎵 Verb To Be — in the song</div>
+      <span style="display:block;">There <strong style="color:var(--rust);">he was</strong>, this young boy… → <em>was = verb to be (past)</em></span>
       <span style="display:block;">A stranger to my eyes. → He <strong style="color:var(--rust);">was</strong> a stranger.</span>
       <span style="display:block;">I felt all flushed… → I <strong style="color:var(--rust);">was</strong> embarrassed.</span>
       <span style="display:block;">As if I <strong style="color:var(--rust);">wasn't</strong> there. → <em>wasn't = was + not (negative)</em></span>
     </div>
 
-    <!-- PRESENT + PAST TABLE -->
     <div class="card-title">📌 Full conjugation — present &amp; past</div>
-    <table class="grammar-table" style="margin-bottom:20px;">
-      <thead>
-        <tr><th>Subject</th><th>🟢 Present (now)</th><th>🔵 Past (before)</th></tr>
-      </thead>
+    <table class="grammar-table">
+      <thead><tr><th>Subject</th><th>🟢 Present (now)</th><th>🔵 Past (before)</th></tr></thead>
       <tbody>
         <tr>
           <td><strong>I</strong></td>
@@ -1487,101 +1033,95 @@ section { margin-bottom: 48px; }
       </tbody>
     </table>
 
-    <!-- POSITIVE / NEGATIVE / QUESTION -->
     <div class="card-title">📌 Positive · Negative · Question forms</div>
     <table class="grammar-full-table">
-      <thead>
-        <tr><th>Subject</th><th>✅ Positive</th><th>❌ Negative</th><th>❓ Question</th></tr>
-      </thead>
+      <thead><tr><th>Subject</th><th>✅ Positive</th><th>❌ Negative</th><th>❓ Question</th></tr></thead>
       <tbody>
         <tr>
           <td>I (present)</td>
-          <td class="col-pos">I <strong>am</strong> here.</td>
-          <td class="col-neg">I <strong>am not</strong> here.<br><span style="font-size:.72rem;color:#888;">= I'm not here.</span></td>
-          <td class="col-q"><strong>Am</strong> I here?</td>
+          <td class="col-pos">I <strong>am</strong> embarrassed.</td>
+          <td class="col-neg">I <strong>am not</strong> sure.<br><span style="font-size:.72rem;color:#888;">= I'm not…</span></td>
+          <td class="col-q"><strong>Am</strong> I right?</td>
         </tr>
         <tr>
           <td>He/She (present)</td>
-          <td class="col-pos">She <strong>is</strong> brave.</td>
-          <td class="col-neg">She <strong>is not</strong> brave.<br><span style="font-size:.72rem;color:#888;">= She isn't brave.</span></td>
-          <td class="col-q"><strong>Is</strong> she brave?</td>
+          <td class="col-pos">He <strong>is</strong> a stranger.</td>
+          <td class="col-neg">He <strong>is not</strong> here.<br><span style="font-size:.72rem;color:#888;">= He isn't…</span></td>
+          <td class="col-q"><strong>Is</strong> he a stranger?</td>
         </tr>
         <tr>
           <td>They (present)</td>
-          <td class="col-pos">They <strong>are</strong> here.</td>
-          <td class="col-neg">They <strong>are not</strong> here.<br><span style="font-size:.72rem;color:#888;">= They aren't here.</span></td>
-          <td class="col-q"><strong>Are</strong> they here?</td>
+          <td class="col-pos">They <strong>are</strong> singing.</td>
+          <td class="col-neg">They <strong>are not</strong> here.<br><span style="font-size:.72rem;color:#888;">= They aren't…</span></td>
+          <td class="col-q"><strong>Are</strong> they singing?</td>
         </tr>
         <tr>
           <td>I/He/She (past)</td>
           <td class="col-pos">He <strong>was</strong> a stranger.</td>
-          <td class="col-neg">He <strong>was not</strong> a stranger.<br><span style="font-size:.72rem;color:#888;">= He wasn't…</span></td>
+          <td class="col-neg">He <strong>was not</strong> there.<br><span style="font-size:.72rem;color:#888;">= He wasn't…</span></td>
           <td class="col-q"><strong>Was</strong> he a stranger?</td>
         </tr>
         <tr>
           <td>They (past)</td>
           <td class="col-pos">They <strong>were</strong> happy.</td>
-          <td class="col-neg">They <strong>were not</strong> happy.<br><span style="font-size:.72rem;color:#888;">= They weren't…</span></td>
+          <td class="col-neg">They <strong>were not</strong> there.<br><span style="font-size:.72rem;color:#888;">= They weren't…</span></td>
           <td class="col-q"><strong>Were</strong> they happy?</td>
         </tr>
       </tbody>
     </table>
 
-    <!-- KEY RULE BOX -->
     <div class="grammar-rule-box">
       <strong>💡 Key rules to remember:</strong><br>
       1. For <strong>questions</strong>, move Verb To Be <em>before</em> the subject: "She <u>is</u> kind." → "<u>Is</u> she kind?"<br>
       2. For <strong>negatives</strong>, add <em>not</em> after: "They <u>are</u> here." → "They <u>are not</u> here." (= aren't)<br>
-      3. <strong>Contractions</strong>: am not → I'm not · is not → isn't · are not → aren't · was not → wasn't · were not → weren't
+      3. <strong>Contractions</strong>: am not → I'm not &nbsp;· isn't · aren't · wasn't · weren't
     </div>
 
-    <!-- INTERACTIVE PRACTICE -->
     <div class="grammar-practice">
       <div class="gp-title">✏️ Practice — tap a form, then tap a blank</div>
-
       <div class="gp-wordbank" id="gpBank">
-        <div class="gp-chip" data-gpc="am"    onclick="selectGpChip(this)">am</div>
-        <div class="gp-chip" data-gpc="is"    onclick="selectGpChip(this)">is</div>
-        <div class="gp-chip" data-gpc="are"   onclick="selectGpChip(this)">are</div>
-        <div class="gp-chip" data-gpc="was"   onclick="selectGpChip(this)">was</div>
-        <div class="gp-chip" data-gpc="were"  onclick="selectGpChip(this)">were</div>
+        <div class="gp-chip" data-gpc="am"     onclick="selectGpChip(this)">am</div>
+        <div class="gp-chip" data-gpc="is"     onclick="selectGpChip(this)">is</div>
+        <div class="gp-chip" data-gpc="are"    onclick="selectGpChip(this)">are</div>
+        <div class="gp-chip" data-gpc="was"    onclick="selectGpChip(this)">was</div>
+        <div class="gp-chip" data-gpc="were"   onclick="selectGpChip(this)">were</div>
         <div class="gp-chip" data-gpc="wasn't" onclick="selectGpChip(this)">wasn't</div>
         <div class="gp-chip" data-gpc="isn't"  onclick="selectGpChip(this)">isn't</div>
-        <div class="gp-chip" data-gpc="Were"  onclick="selectGpChip(this)">Were</div>
-        <div class="gp-chip" data-gpc="Is"    onclick="selectGpChip(this)">Is</div>
+        <div class="gp-chip" data-gpc="Were"   onclick="selectGpChip(this)">Were</div>
+        <div class="gp-chip" data-gpc="Is"     onclick="selectGpChip(this)">Is</div>
       </div>
 
       <div class="gp-item">
         <span class="gp-num">1.</span>
-        <span>He <span class="gp-blank" data-ans="was" onclick="fillGpBlank(this)">was</span> a stranger to my eyes. <span class="gp-hint">(past ✓)</span></span>
+        <span>He <span class="gp-blank" data-ans="was" onclick="fillGpBlank(this)">was</span> a stranger to my eyes. <span class="gp-hint">(past)</span></span>
       </div>
       <div class="gp-item">
         <span class="gp-num">2.</span>
-        <span>The music <span class="gp-blank" data-ans="is" onclick="fillGpBlank(this)">is</span> beautiful tonight. <span class="gp-hint">(present ✓)</span></span>
+        <span>The music <span class="gp-blank" data-ans="is" onclick="fillGpBlank(this)">is</span> beautiful tonight. <span class="gp-hint">(present)</span></span>
       </div>
       <div class="gp-item">
         <span class="gp-num">3.</span>
-        <span>They <span class="gp-blank" data-ans="were" onclick="fillGpBlank(this)">were</span> in the crowd last night. <span class="gp-hint">(past ✓)</span></span>
+        <span>They <span class="gp-blank" data-ans="were" onclick="fillGpBlank(this)">were</span> in the crowd last night. <span class="gp-hint">(past)</span></span>
       </div>
       <div class="gp-item">
         <span class="gp-num">4.</span>
-        <span>I <span class="gp-blank" data-ans="am" onclick="fillGpBlank(this)">am</span> so embarrassed right now! <span class="gp-hint">(present ✓)</span></span>
+        <span>I <span class="gp-blank" data-ans="am" onclick="fillGpBlank(this)">am</span> so embarrassed right now! <span class="gp-hint">(present)</span></span>
       </div>
       <div class="gp-item">
         <span class="gp-num">5.</span>
-        <span>She <span class="gp-blank" data-ans="wasn't" onclick="fillGpBlank(this)">wasn't</span> happy at the concert. <span class="gp-hint">(past negative ✓)</span></span>
+        <span>She <span class="gp-blank" data-ans="wasn't" onclick="fillGpBlank(this)">wasn't</span> happy at the concert. <span class="gp-hint">(past negative)</span></span>
       </div>
       <div class="gp-item">
         <span class="gp-num">6.</span>
-        <span>The singer <span class="gp-blank" data-ans="isn't" onclick="fillGpBlank(this)">isn't</span> a stranger anymore. <span class="gp-hint">(present negative ✓)</span></span>
+        <span>The singer <span class="gp-blank" data-ans="isn't" onclick="fillGpBlank(this)">isn't</span> a stranger anymore. <span class="gp-hint">(present negative)</span></span>
       </div>
       <div class="gp-item">
         <span class="gp-num">7.</span>
-        <span><span class="gp-blank" data-ans="Were" onclick="fillGpBlank(this)">Were</span> they at the concert last night? <span class="gp-hint">(past question ✓)</span></span>
+        <span><span class="gp-blank" data-ans="Were" onclick="fillGpBlank(this)">Were</span> they at the concert last night? <span class="gp-hint">(past question)</span></span>
       </div>
       <div class="gp-item">
         <span class="gp-num">8.</span>
-        <span><span class="gp-blank" data-ans="Is" onclick="fillGpBlank(this)">Is</span> the musician from Colombia? <span class="gp-hint">(present question ✓)</span></span>
+        <span><span class="gp-blank" data-ans="Is" onclick="fillGpBlank(this)">Is</span> the musician from Colombia? <span class="gp-hint">(present question)</span></span>
       </div>
 
       <button class="gp-check-btn" onclick="checkGrammar()">✅ Check answers</button>
@@ -1591,56 +1131,71 @@ section { margin-bottom: 48px; }
   </div>
 </section>
 
-<!-- ══ SECTION 6: TRUE/FALSE QUIZ ══ -->
+<!-- ══ SECTION 6: QUIZ ══ -->
 <section id="sec-quiz">
   <div class="section-header">
     <div class="section-num">6</div>
     <div class="section-title">Quick Quiz — True or False? ✅</div>
-    <div class="section-time">⏱ 5 min</div>
+    <div class="section-time">⏱ 6 min</div>
   </div>
   <div class="card">
-    <div class="card-title">Tap TRUE or FALSE for each statement about the song.</div>
+    <div class="card-title">Circle or tap TRUE / FALSE for each statement about the song.</div>
     <div id="quizBody">
+
       <div class="quiz-card" data-correct="false">
-        <div class="quiz-q">1. The singer heard the musician playing a <em>bad</em> song.</div>
+        <div class="quiz-q">1. The singer heard the musician playing a <em>bad</em> song, and that's why she went to see him.</div>
         <div class="tf-btns">
           <button class="tf-btn" onclick="answerTF(this,'true')">TRUE</button>
           <button class="tf-btn" onclick="answerTF(this,'false')">FALSE</button>
         </div>
         <div class="quiz-feedback"></div>
       </div>
+
       <div class="quiz-card" data-correct="true">
-        <div class="quiz-q">2. The singer felt embarrassed and flushed in the crowd.</div>
+        <div class="quiz-q">2. The singer felt embarrassed and flushed while she was in the crowd.</div>
         <div class="tf-btns">
           <button class="tf-btn" onclick="answerTF(this,'true')">TRUE</button>
           <button class="tf-btn" onclick="answerTF(this,'false')">FALSE</button>
         </div>
         <div class="quiz-feedback"></div>
       </div>
+
       <div class="quiz-card" data-correct="false">
-        <div class="quiz-q">3. The young musician was the singer's best friend.</div>
+        <div class="quiz-q">3. The young musician was the singer's best friend — she knew him well.</div>
         <div class="tf-btns">
           <button class="tf-btn" onclick="answerTF(this,'true')">TRUE</button>
           <button class="tf-btn" onclick="answerTF(this,'false')">FALSE</button>
         </div>
         <div class="quiz-feedback"></div>
       </div>
+
       <div class="quiz-card" data-correct="true">
-        <div class="quiz-q">4. "Strumming" is related to playing a string instrument like a guitar.</div>
+        <div class="quiz-q">4. "Strumming" is connected to playing a string instrument like a guitar.</div>
         <div class="tf-btns">
           <button class="tf-btn" onclick="answerTF(this,'true')">TRUE</button>
           <button class="tf-btn" onclick="answerTF(this,'false')">FALSE</button>
         </div>
         <div class="quiz-feedback"></div>
       </div>
+
       <div class="quiz-card" data-correct="false">
-        <div class="quiz-q">5. In verse 3, the musician looked at her directly and smiled.</div>
+        <div class="quiz-q">5. In verse 3, the musician looked right at her and smiled.</div>
         <div class="tf-btns">
           <button class="tf-btn" onclick="answerTF(this,'true')">TRUE</button>
           <button class="tf-btn" onclick="answerTF(this,'false')">FALSE</button>
         </div>
         <div class="quiz-feedback"></div>
       </div>
+
+      <div class="quiz-card" data-correct="true">
+        <div class="quiz-q">6. The Fugees version of the song has a rap section not in the original Roberta Flack song.</div>
+        <div class="tf-btns">
+          <button class="tf-btn" onclick="answerTF(this,'true')">TRUE</button>
+          <button class="tf-btn" onclick="answerTF(this,'false')">FALSE</button>
+        </div>
+        <div class="quiz-feedback"></div>
+      </div>
+
     </div>
     <button class="quiz-submit-btn" onclick="submitQuiz()">📊 See My Score</button>
     <div id="quiz-result"></div>
@@ -1655,122 +1210,124 @@ section { margin-bottom: 48px; }
     <div class="section-time">⏱ 8 min</div>
   </div>
   <div class="card">
-    <div class="card-title">Answer in English — there are no wrong answers!</div>
+    <div class="card-title">Answer in English — there are no wrong answers! Use Verb To Be.</div>
     <ul class="discussion-list">
       <li>
         <div class="disc-num">1</div>
-        <div>
+        <div style="flex:1;">
           <div class="disc-q">How does <em>"Killing Me Softly"</em> make you feel? Choose: <strong>sad / calm / happy / nostalgic / romantic / moved.</strong></div>
           <div class="disc-tip">💡 Try: "The song makes me feel ___" or "I feel ___ when I hear it."</div>
+          <div class="disc-lines"><span class="disc-line"></span><span class="disc-line"></span></div>
         </div>
       </li>
       <li>
         <div class="disc-num">2</div>
-        <div>
+        <div style="flex:1;">
           <div class="disc-q">Have you ever felt embarrassed in public? What happened? Where were you?</div>
-          <div class="disc-tip">💡 Use Verb To Be! "Yes! I <strong>was</strong> embarrassed when ___. I <strong>was</strong> at ___."</div>
+          <div class="disc-tip">💡 Use Verb To Be (past)! "Yes! I <strong>was</strong> embarrassed when ___. I <strong>was</strong> at ___."</div>
+          <div class="disc-lines"><span class="disc-line"></span><span class="disc-line"></span></div>
         </div>
       </li>
       <li>
         <div class="disc-num">3</div>
-        <div>
+        <div style="flex:1;">
           <div class="disc-q">The title says "Killing me softly." But she doesn't die! What do you think it really means?</div>
           <div class="disc-tip">💡 "I think it means ___ because ___."</div>
+          <div class="disc-lines"><span class="disc-line"></span><span class="disc-line"></span></div>
         </div>
       </li>
       <li>
         <div class="disc-num">4</div>
-        <div>
-          <div class="disc-q">Do you know a song in Spanish or another language that tells a story? What is it about?</div>
+        <div style="flex:1;">
+          <div class="disc-q">Do you know a song in Spanish (or another language) that tells a story? What is it about?</div>
           <div class="disc-tip">💡 "I know a song called ___. It <strong>is</strong> about ___. It makes me feel ___."</div>
+          <div class="disc-lines"><span class="disc-line"></span><span class="disc-line"></span></div>
         </div>
       </li>
     </ul>
   </div>
 </section>
 
-<!-- ══ SECTION 8: BOOK OF LIFE ══ -->
+<!-- ══ SECTION 8: BOOK OF LIFE TRAILER ══ -->
 <section id="sec-bol">
   <div class="section-header">
     <div class="section-num">8</div>
     <div class="section-title">Preview — The Book of Life 🎬</div>
-    <div class="section-time">⏱ 7 min</div>
+    <div class="section-time">⏱ 8 min</div>
   </div>
   <div class="card">
     <div class="card-title">🍿 Watch the trailer — what do you see?</div>
     <div class="video-wrap" style="margin-bottom:12px;">
-      <iframe
-        src="https://www.youtube.com/embed/_i69CJc1BgE?si=IcnI2IrhO3OkykRp"
-        title="The Book of Life — Official Trailer"
-        frameborder="0"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-        referrerpolicy="strict-origin-when-cross-origin"
-        allowfullscreen></iframe>
+      <iframe src="https://www.youtube.com/embed/_i69CJc1BgE?si=IcnI2IrhO3OkykRp"
+        title="The Book of Life — Official Trailer" frameborder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
     </div>
     <div class="video-links" style="margin-bottom:20px;">
       <a class="btn-yt" href="https://www.youtube.com/watch?v=_i69CJc1BgE" target="_blank" rel="noopener">▶ Watch on YouTube</a>
     </div>
 
-    <div class="card-title">🔑 Learn these 6 words before next class — tap to reveal!</div>
+    <!-- TRAILER VOCABULARY -->
+    <div class="card-title">🔑 Learn these 6 words — tap to reveal!</div>
     <div class="bol-vocab-grid" id="bolVocabGrid">
       <div class="bol-vocab-card" onclick="revealBolVocab(this)">
         <div class="bol-word">brave</div><div class="bol-pron">/breɪv/</div>
         <div class="bol-translation">🇪🇸 valiente</div>
-        <div class="bol-example">He is very brave.</div>
-        <div class="bol-hint">👆 tap</div>
+        <div class="bol-example">He is very brave.</div><div class="bol-hint">👆 tap</div>
       </div>
       <div class="bol-vocab-card" onclick="revealBolVocab(this)">
         <div class="bol-word">kind</div><div class="bol-pron">/kaɪnd/</div>
         <div class="bol-translation">🇪🇸 amable / bondadoso</div>
-        <div class="bol-example">She is very kind.</div>
-        <div class="bol-hint">👆 tap</div>
+        <div class="bol-example">She is very kind.</div><div class="bol-hint">👆 tap</div>
       </div>
       <div class="bol-vocab-card" onclick="revealBolVocab(this)">
         <div class="bol-word">funny</div><div class="bol-pron">/ˈfʌni/</div>
         <div class="bol-translation">🇪🇸 gracioso / chistoso</div>
-        <div class="bol-example">He is so funny!</div>
-        <div class="bol-hint">👆 tap</div>
+        <div class="bol-example">He is so funny!</div><div class="bol-hint">👆 tap</div>
       </div>
       <div class="bol-vocab-card" onclick="revealBolVocab(this)">
         <div class="bol-word">strong</div><div class="bol-pron">/strɒŋ/</div>
         <div class="bol-translation">🇪🇸 fuerte</div>
-        <div class="bol-example">She is strong.</div>
-        <div class="bol-hint">👆 tap</div>
+        <div class="bol-example">She is strong.</div><div class="bol-hint">👆 tap</div>
       </div>
       <div class="bol-vocab-card" onclick="revealBolVocab(this)">
         <div class="bol-word">family</div><div class="bol-pron">/ˈfæmɪli/</div>
         <div class="bol-translation">🇪🇸 familia</div>
-        <div class="bol-example">My family is big.</div>
-        <div class="bol-hint">👆 tap</div>
+        <div class="bol-example">My family is big.</div><div class="bol-hint">👆 tap</div>
       </div>
       <div class="bol-vocab-card" onclick="revealBolVocab(this)">
         <div class="bol-word">love</div><div class="bol-pron">/lʌv/</div>
         <div class="bol-translation">🇪🇸 amor / amar</div>
-        <div class="bol-example">Love is beautiful.</div>
-        <div class="bol-hint">👆 tap</div>
+        <div class="bol-example">Love is beautiful.</div><div class="bol-hint">👆 tap</div>
       </div>
     </div>
 
-    <!-- SENTENCE BUILDER -->
-    <div class="sb-area">
-      <div class="sb-title">🏗️ Build a sentence about a character using Verb To Be!</div>
-      <div class="sb-display" id="sbDisplay">
-        This character
-        <span class="sb-blank" data-slot="verb" onclick="fillSbBlank(this,'verb')">___</span>
-        <span class="sb-blank" data-slot="adj" onclick="fillSbBlank(this,'adj')">___</span>,
-        he/she is from
-        <span class="sb-blank" data-slot="place" onclick="fillSbBlank(this,'place')">___</span>.
+    <!-- TRAILER SENTENCES TASK -->
+    <div class="trailer-task" style="margin-top:20px;">
+      <div class="trailer-task-title">✏️ After watching — write 3 sentences about what you saw in the trailer. Use Verb To Be!</div>
+
+      <div class="trailer-item">
+        <span class="trailer-item-num">1.</span>
+        <div class="trailer-write">
+          <span style="font-size:.78rem;color:var(--gold);font-style:italic;">Describe a character: "He / She <strong>is</strong> ___. He / She <strong>is</strong> from ___."</span>
+          <span></span>
+          <span></span>
+        </div>
       </div>
-      <div class="sb-label" style="margin-bottom:8px;">Step 1 — tap a word, then tap a blank above:</div>
-      <div class="sb-chips" id="sbWordBank">
-        <div class="sb-chip" data-sbchip="is"    data-type="verb"  onclick="selectSbChip(this)">is</div>
-        <div class="sb-chip" data-sbchip="brave" data-type="adj"   onclick="selectSbChip(this)">brave</div>
-        <div class="sb-chip" data-sbchip="kind"  data-type="adj"   onclick="selectSbChip(this)">kind</div>
-        <div class="sb-chip" data-sbchip="funny" data-type="adj"   onclick="selectSbChip(this)">funny</div>
-        <div class="sb-chip" data-sbchip="strong" data-type="adj"  onclick="selectSbChip(this)">strong</div>
-        <div class="sb-chip" data-sbchip="Mexico" data-type="place" onclick="selectSbChip(this)">Mexico</div>
-        <div class="sb-chip" data-sbchip="Colombia" data-type="place" onclick="selectSbChip(this)">Colombia</div>
-        <div class="sb-chip" data-sbchip="the Land of the Remembered" data-type="place" onclick="selectSbChip(this)">the Land of the Remembered</div>
+      <div class="trailer-item">
+        <span class="trailer-item-num">2.</span>
+        <div class="trailer-write">
+          <span style="font-size:.78rem;color:var(--gold);font-style:italic;">Describe a place or a feeling: "The world <strong>is</strong> ___. It <strong>is</strong> ___."</span>
+          <span></span>
+          <span></span>
+        </div>
+      </div>
+      <div class="trailer-item">
+        <span class="trailer-item-num">3.</span>
+        <div class="trailer-write">
+          <span style="font-size:.78rem;color:var(--gold);font-style:italic;">Free sentence — use any word from today's vocab!</span>
+          <span></span>
+          <span></span>
+        </div>
       </div>
     </div>
 
@@ -1778,7 +1335,7 @@ section { margin-bottom: 48px; }
       <div class="nb-emoji">🎬</div>
       <div>
         <div class="nb-title">Next Session — The Book of Life (Deep Dive)</div>
-        <div class="nb-sub">We'll describe characters with adjectives, practice pronunciation, and use Verb To Be in full sentences: <em>"This character <strong>is</strong> ___, she/he <strong>is</strong> from ___"</em></div>
+        <div class="nb-sub">We'll describe the characters with adjectives, practice pronunciation, and use Verb To Be in full sentences: <em>"This character <strong>is</strong> ___, she/he <strong>is</strong> from ___"</em></div>
       </div>
     </div>
   </div>
@@ -1787,12 +1344,12 @@ section { margin-bottom: 48px; }
 </div><!-- /page -->
 
 <script>
-// ─── VOCAB REVEAL ───────────────────────────────
+// ─── VOCAB REVEAL ────────────────────────────────
 let allRevealed = false;
 function revealVocab(card) {
   card.classList.toggle('revealed');
   const revealed = document.querySelectorAll('.vocab-card.revealed').length;
-  if (revealed >= 5) markProgress('pd-vocab');
+  if (revealed >= 6) markProgress('pd-vocab');
 }
 function revealAllVocab() {
   allRevealed = !allRevealed;
@@ -1808,7 +1365,7 @@ function revealBolVocab(card) {
   if (rev >= 4) markProgress('pd-bol');
 }
 
-// ─── MATCHING ────────────────────────────────────
+// ─── MATCHING ───────────────────────────────────
 let selectedMatchChip = null;
 function selectMatchChip(chip) {
   if (chip.classList.contains('chip-used')) return;
@@ -1816,10 +1373,6 @@ function selectMatchChip(chip) {
   if (selectedMatchChip === chip) { selectedMatchChip = null; return; }
   selectedMatchChip = chip;
   chip.classList.add('chip-selected');
-  document.querySelectorAll('.match-def-row:not(.correct)').forEach(r => {
-    r.classList.add('def-hover');
-    setTimeout(() => r.classList.remove('def-hover'), 400);
-  });
 }
 function placeMatch(defRow) {
   if (defRow.classList.contains('correct')) return;
@@ -1975,11 +1528,12 @@ function resetGrammar() {
 // ─── TRUE/FALSE QUIZ ────────────────────────────
 const quizAnswers = {};
 const explanations = {
-  0: '"I heard he sang a GOOD song" — that\'s why she went to see him!',
+  0: '"I heard he sang a GOOD song" — that\'s why she went to see him.',
   1: 'Yes! "I felt all flushed with fever, embarrassed by the crowd."',
-  2: 'He was a STRANGER — "a stranger to my eyes." She didn\'t know him.',
-  3: '"Strumming" means sweeping the strings of a guitar with your fingers.',
-  4: 'In verse 3: "He looked right through me as if I wasn\'t there." No smile!'
+  2: 'He was a stranger — "a stranger to my eyes." She didn\'t know him.',
+  3: '"Strumming" means sweeping the strings of a guitar.',
+  4: 'In verse 3: "He looked right through me as if I wasn\'t there." No smile!',
+  5: 'Correct! Wyclef Jean\'s rap intro is unique to The Fugees\' 1996 version.'
 };
 function answerTF(btn, answer) {
   const card = btn.closest('.quiz-card');
@@ -1993,9 +1547,9 @@ function submitQuiz() {
   let score = 0;
   cards.forEach((card, i) => {
     const correct = card.dataset.correct;
-    const given = quizAnswers[i];
-    const fb = card.querySelector('.quiz-feedback');
-    const btns = card.querySelectorAll('.tf-btn');
+    const given   = quizAnswers[i];
+    const fb      = card.querySelector('.quiz-feedback');
+    const btns    = card.querySelectorAll('.tf-btn');
     if (!given) { fb.textContent = '⚠️ Please answer this one!'; fb.style.color = 'var(--rust)'; return; }
     btns.forEach(b => {
       const bVal = b.textContent.trim().toLowerCase() === 'true' ? 'true' : 'false';
@@ -2025,30 +1579,8 @@ function submitQuiz() {
     result.style.cssText = 'background:#FDECEA;color:var(--rust);border-radius:12px;padding:18px;text-align:center;display:block;';
     result.innerHTML = `📚 ${score} / ${cards.length} — Keep practicing! (${pct}%)`;
   }
-  if (score >= 3) markProgress('pd-quiz');
-}
-
-// ─── SENTENCE BUILDER ───────────────────────────
-let selectedSbChip = null;
-function selectSbChip(chip) {
-  if (chip.classList.contains('sb-used')) return;
-  if (selectedSbChip) selectedSbChip.classList.remove('sb-sel');
-  if (selectedSbChip === chip) { selectedSbChip = null; return; }
-  selectedSbChip = chip;
-  chip.classList.add('sb-sel');
-}
-function fillSbBlank(blank) {
-  if (!selectedSbChip) {
-    blank.style.animation = 'shake .4s';
-    setTimeout(() => blank.style.animation = '', 500);
-    return;
-  }
-  blank.textContent = selectedSbChip.dataset.sbchip;
-  blank.classList.add('filled');
-  selectedSbChip.classList.add('sb-used');
-  selectedSbChip.classList.remove('sb-sel');
-  selectedSbChip = null;
-  markProgress('pd-bol');
+  if (score >= 4) markProgress('pd-quiz');
+  markProgress('pd-disc');
 }
 
 // ─── PROGRESS ───────────────────────────────────
@@ -2056,6 +1588,12 @@ function markProgress(id) {
   const dot = document.getElementById(id);
   if (dot) dot.classList.add('done');
 }
+
+// Mark listening when page loads (user sees section 1)
+window.addEventListener('scroll', function onFirstScroll() {
+  markProgress('pd-listen');
+  window.removeEventListener('scroll', onFirstScroll);
+}, { passive: true });
 </script>
 </body>
 </html>
