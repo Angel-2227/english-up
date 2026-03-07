@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Module 0 · Session 1 — Killing Me Softly (The Fugees)</title>
+<title>Module 0 · Session 1 — Killing Me Softly · 120 min</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,400;1,700&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
@@ -224,15 +224,7 @@ section { margin-bottom: 48px; }
   font-size: .87rem;
 }
 .listen-task strong { color: var(--rust); }
-.write-lines { display: flex; flex-direction: column; gap: 10px; margin-top: 12px; }
-.write-line {
-  border-bottom: 1.5px solid #bbb;
-  min-height: 28px;
-  font-family: var(--font-h);
-  font-size: .9rem;
-  color: transparent;
-}
-.write-line::before { content: attr(data-num); font-family: var(--font-b); font-size: .7rem; color: var(--gold); font-weight: 700; margin-right: 8px; }
+.write-lines { display: flex; flex-direction: column; gap: 4px; margin-top: 12px; }
 
 /* ── VOCAB GRID ── */
 .vocab-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
@@ -468,8 +460,21 @@ section { margin-bottom: 48px; }
 }
 .disc-q { font-size: .88rem; line-height: 1.6; }
 .disc-tip { font-size: .75rem; color: var(--gold); font-style: italic; margin-top: 5px; }
-.disc-lines { margin-top: 8px; display: flex; flex-direction: column; gap: 6px; }
-.disc-line { border-bottom: 1px solid #ccc; min-height: 22px; }
+.disc-lines { margin-top: 8px; display: flex; flex-direction: column; gap: 4px; }
+.disc-line {
+  border-bottom: 1.5px solid #bbb;
+  min-height: 30px;
+  display: flex;
+  align-items: flex-end;
+  cursor: text;
+}
+.disc-line [contenteditable] {
+  flex: 1; outline: none; font-family: var(--font-h); font-size: .88rem;
+  color: var(--ink); padding: 3px 2px; min-height: 24px; background: transparent;
+  caret-color: var(--rust);
+}
+.disc-line [contenteditable]:empty::before { content: attr(data-placeholder); color: #ccc; font-style: italic; pointer-events: none; }
+.disc-line:focus-within { border-bottom-color: var(--gold); background: rgba(201,134,42,.04); }
 
 /* ── TRAILER / BOL VOCAB ── */
 .bol-vocab-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-top: 16px; }
@@ -493,8 +498,16 @@ section { margin-bottom: 48px; }
 .trailer-task-title { font-family: var(--font-h); font-weight: 700; font-size: .9rem; color: var(--brown); margin-bottom: 10px; }
 .trailer-item { display: flex; gap: 10px; align-items: baseline; margin-bottom: 14px; font-size: .86rem; }
 .trailer-item-num { font-weight: 700; color: var(--gold); font-size: .75rem; min-width: 18px; flex-shrink: 0; }
-.trailer-write { display: flex; flex-direction: column; flex: 1; gap: 6px; }
-.trailer-write span { border-bottom: 1.5px solid #bbb; min-height: 24px; display: block; }
+.trailer-write { display: flex; flex-direction: column; flex: 1; gap: 4px; }
+.trailer-write .tw-line {
+  border-bottom: 1.5px solid #bbb; min-height: 30px; display: flex; align-items: flex-end; cursor: text;
+}
+.trailer-write .tw-line [contenteditable] {
+  flex: 1; outline: none; font-family: var(--font-h); font-size: .88rem;
+  color: var(--ink); padding: 3px 2px; min-height: 24px; background: transparent; caret-color: var(--rust);
+}
+.trailer-write .tw-line [contenteditable]:empty::before { content: attr(data-placeholder); color: #ccc; font-style: italic; pointer-events: none; }
+.trailer-write .tw-line:focus-within { border-bottom-color: var(--gold); background: rgba(201,134,42,.04); }
 
 /* ── INFO / TIP BOXES ── */
 .info-box { background: var(--blue-lt); border-left: 4px solid var(--blue); border-radius: 0 8px 8px 0; padding: 12px 16px; font-size: .84rem; margin-top: 14px; }
@@ -524,6 +537,156 @@ section { margin-bottom: 48px; }
   0%,100%{ transform: translateX(0);  }
   25%    { transform: translateX(-5px); }
   75%    { transform: translateX(5px);  }
+}
+
+/* ── EDITABLE LINES (tipo papel, clicable en digital) ── */
+.write-line {
+  position: relative;
+  border-bottom: 1.5px solid #bbb;
+  min-height: 32px;
+  display: flex;
+  align-items: flex-end;
+  margin-bottom: 2px;
+  cursor: text;
+}
+.write-line::before {
+  content: attr(data-num);
+  font-family: var(--font-b);
+  font-size: .7rem;
+  color: var(--gold);
+  font-weight: 700;
+  margin-right: 6px;
+  flex-shrink: 0;
+  padding-bottom: 4px;
+  line-height: 1;
+}
+.write-line [contenteditable] {
+  flex: 1;
+  outline: none;
+  font-family: var(--font-h);
+  font-size: .92rem;
+  color: var(--ink);
+  padding: 4px 2px;
+  min-height: 26px;
+  line-height: 1.4;
+  background: transparent;
+  caret-color: var(--rust);
+}
+.write-line [contenteditable]:empty::before {
+  content: attr(data-placeholder);
+  color: #ccc;
+  font-style: italic;
+  pointer-events: none;
+}
+.write-line:focus-within {
+  border-bottom-color: var(--gold);
+  background: rgba(201,134,42,.04);
+}
+/* Para líneas sin número (discussion, trailer) */
+.write-line.no-num::before { display: none; }
+.write-line.no-num [contenteditable] { padding-left: 0; }
+
+/* ── UNSCRAMBLE ── */
+.unscramble-list { display: flex; flex-direction: column; gap: 22px; }
+.us-item { background: var(--cream); border: 2px solid var(--parchment); border-radius: 10px; padding: 14px 16px; }
+.us-num  { font-size: .7rem; font-weight: 700; color: var(--gold); font-family: var(--font-b); margin-bottom: 8px; letter-spacing:.05em; text-transform:uppercase; }
+.us-chips-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  margin-bottom: 12px;
+  min-height: 38px;
+}
+.us-chip {
+  background: white;
+  border: 2px solid var(--blue);
+  color: var(--blue);
+  border-radius: 8px;
+  padding: 6px 13px;
+  cursor: pointer;
+  font-family: var(--font-h);
+  font-weight: 700;
+  font-size: .88rem;
+  transition: all .18s;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+.us-chip:hover, .us-chip:active { background: var(--blue); color: white; }
+.us-chip.us-selected { background: var(--rust); border-color: var(--rust); color: white; transform: scale(1.07); }
+.us-chip.us-placed   { opacity: .28; pointer-events: none; text-decoration: line-through; }
+.us-answer-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  min-height: 36px;
+  background: var(--parchment);
+  border-radius: 8px;
+  padding: 6px 10px;
+  align-items: center;
+}
+.us-slot {
+  display: inline-block;
+  min-width: 60px;
+  border-bottom: 2px solid var(--brown);
+  padding: 2px 8px;
+  font-family: var(--font-h);
+  font-weight: 700;
+  font-size: .88rem;
+  color: var(--brown);
+  cursor: pointer;
+  background: white;
+  border-radius: 4px;
+  transition: all .18s;
+  text-align: center;
+  -webkit-tap-highlight-color: transparent;
+}
+.us-slot:empty::before { content: '___'; color: #ccc; }
+.us-slot:hover { border-color: var(--rust); background: #FDECEA; }
+.us-slot.us-correct { background: var(--sage-lt); border-color: var(--sage); color: var(--sage); cursor: default; }
+.us-slot.us-wrong   { background: #FDECEA; border-color: var(--rust); color: var(--rust); animation: shake .4s; }
+.us-feedback { font-size: .78rem; font-weight: 700; margin-top: 8px; min-height: 16px; }
+.us-check-btn {
+  margin-top: 16px;
+  background: var(--brown);
+  color: white;
+  border: none;
+  padding: 10px 22px;
+  border-radius: 99px;
+  cursor: pointer;
+  font-family: var(--font-b);
+  font-weight: 700;
+  font-size: .83rem;
+  transition: background .2s;
+}
+.us-check-btn:hover { background: var(--rust); }
+.us-reset-btn {
+  background: none;
+  border: 2px solid #DDD;
+  color: var(--brown);
+  padding: 9px 18px;
+  border-radius: 99px;
+  cursor: pointer;
+  font-family: var(--font-b);
+  font-weight: 600;
+  font-size: .83rem;
+  transition: all .2s;
+  margin-left: 8px;
+}
+.us-reset-btn:hover { border-color: var(--brown); }
+#us-score { margin-top: 12px; font-weight: 700; font-size: .85rem; }
+
+/* ── PRINT: unscramble ── */
+@media print {
+  .us-chips-row { display: flex !important; flex-wrap: wrap; gap: 5pt; margin-bottom: 6pt; }
+  .us-chip { border: 1pt solid #777 !important; background: #F5F5F5 !important; color: #333 !important; font-size: 9pt !important; padding: 3pt 8pt !important; cursor: default; pointer-events: none; }
+  .us-chip.us-placed, .us-chip.us-selected { opacity: 1 !important; text-decoration: none !important; background: #F5F5F5 !important; color: #333 !important; }
+  .us-answer-row { background: white !important; border: 1pt solid #CCC !important; min-height: 26pt; }
+  .us-slot { border-bottom: 1.5pt solid #888 !important; background: white !important; color: white !important; min-width: 50pt; }
+  .us-slot.us-correct, .us-slot.us-wrong { color: white !important; background: white !important; border-color: #888 !important; }
+  .us-check-btn, .us-reset-btn, #us-score, .us-feedback { display: none !important; }
+  /* Líneas clicables → solo la línea, sin el contenteditable visible */
+  .write-line [contenteditable] { color: transparent !important; background: transparent !important; min-height: 20pt; }
+  .write-line:focus-within { background: transparent !important; }
 }
 
 /* ══════════════════════════════════════════════
@@ -631,7 +794,8 @@ section { margin-bottom: 48px; }
 
   /* === DISCUSSION === */
   .discussion-list li { break-inside: avoid; }
-  .disc-line { border-bottom: 1pt solid #999 !important; min-height: 20pt; display: block; }
+  .disc-line { border-bottom: 1pt solid #999 !important; min-height: 20pt; display: flex !important; }
+  .disc-line [contenteditable] { color: transparent !important; min-height: 18pt; }
   .disc-lines { margin-top: 6pt; gap: 5pt; }
 
   /* === TRAILER / BOL === */
@@ -640,7 +804,8 @@ section { margin-bottom: 48px; }
   .bol-hint { display: none !important; }
   .bol-vocab-card.revealed { background: white !important; border-color: #CCC !important; }
   .trailer-task { background: #F0E8D5 !important; border: 1pt solid #CCC; }
-  .trailer-write span { border-bottom: 1pt solid #999 !important; min-height: 20pt; display: block; }
+  .tw-line { border-bottom: 1pt solid #999 !important; min-height: 20pt; display: flex !important; }
+  .tw-line [contenteditable] { color: transparent !important; min-height: 18pt; }
 
   @page { margin: 1.6cm 2cm; size: A4; }
   h2, h3, .section-title, .card-title { break-after: avoid; }
@@ -665,7 +830,7 @@ section { margin-bottom: 48px; }
     <span class="tag">💛 Vocabulary: Emotions</span>
     <span class="tag">⭐ Verb To Be</span>
     <span class="tag">🎬 Book of Life preview</span>
-    <span class="tag">⏱ ~70 min</span>
+    <span class="tag">⏱ ~120 min</span>
     <span class="tag">🔰 A1–A2</span>
   </div>
 </div>
@@ -687,6 +852,7 @@ section { margin-bottom: 48px; }
   <div class="pt-item"><div class="pt-dot" id="pd-match"></div><span>Matching</span></div>
   <div class="pt-item"><div class="pt-dot" id="pd-lyrics"></div><span>Gap-fill</span></div>
   <div class="pt-item"><div class="pt-dot" id="pd-grammar"></div><span>Grammar</span></div>
+  <div class="pt-item"><div class="pt-dot" id="pd-unscramble"></div><span>Unscramble</span></div>
   <div class="pt-item"><div class="pt-dot" id="pd-quiz"></div><span>Quiz</span></div>
   <div class="pt-item"><div class="pt-dot" id="pd-disc"></div><span>Discussion</span></div>
   <div class="pt-item"><div class="pt-dot" id="pd-bol"></div><span>Book of Life</span></div>
@@ -699,7 +865,7 @@ section { margin-bottom: 48px; }
   <div class="section-header">
     <div class="section-num">1</div>
     <div class="section-title">Listening — Write the Chorus 🎧</div>
-    <div class="section-time">⏱ 10 min</div>
+    <div class="section-time">⏱ 15 min</div>
   </div>
   <div class="card">
     <div class="card-title">🎵 Watch &amp; listen — first time, just feel it. Second time, write the chorus!</div>
@@ -715,12 +881,12 @@ section { margin-bottom: 48px; }
     <div class="listen-task">
       <strong>Part A — Write the chorus</strong> (the part that repeats). Listen carefully and fill in the 6 lines below:
       <div class="write-lines">
-        <div class="write-line" data-num="1."></div>
-        <div class="write-line" data-num="2."></div>
-        <div class="write-line" data-num="3."></div>
-        <div class="write-line" data-num="4."></div>
-        <div class="write-line" data-num="5."></div>
-        <div class="write-line" data-num="6."></div>
+        <div class="write-line" data-num="1."><div contenteditable="true" data-placeholder="escribe aquí…"></div></div>
+        <div class="write-line" data-num="2."><div contenteditable="true" data-placeholder="escribe aquí…"></div></div>
+        <div class="write-line" data-num="3."><div contenteditable="true" data-placeholder="escribe aquí…"></div></div>
+        <div class="write-line" data-num="4."><div contenteditable="true" data-placeholder="escribe aquí…"></div></div>
+        <div class="write-line" data-num="5."><div contenteditable="true" data-placeholder="escribe aquí…"></div></div>
+        <div class="write-line" data-num="6."><div contenteditable="true" data-placeholder="escribe aquí…"></div></div>
       </div>
     </div>
 
@@ -743,7 +909,7 @@ section { margin-bottom: 48px; }
   <div class="section-header">
     <div class="section-num">2</div>
     <div class="section-title">Vocabulary — Emotions &amp; Key Words</div>
-    <div class="section-time">⏱ 10 min</div>
+    <div class="section-time">⏱ 12 min</div>
   </div>
   <div class="card">
     <div class="card-title">🃏 Tap each card to reveal the Spanish translation</div>
@@ -806,7 +972,7 @@ section { margin-bottom: 48px; }
   <div class="section-header">
     <div class="section-num">3</div>
     <div class="section-title">Matching — Tap to Connect</div>
-    <div class="section-time">⏱ 7 min</div>
+    <div class="section-time">⏱ 8 min</div>
   </div>
   <div class="card">
     <div class="match-instructions">
@@ -876,7 +1042,7 @@ section { margin-bottom: 48px; }
   <div class="section-header">
     <div class="section-num">4</div>
     <div class="section-title">Full Song — Listen &amp; Gap-Fill 🎵</div>
-    <div class="section-time">⏱ 15 min</div>
+    <div class="section-time">⏱ 18 min</div>
   </div>
 
   <!-- PART A: LISTENING — write the chorus -->
@@ -993,7 +1159,7 @@ section { margin-bottom: 48px; }
   <div class="section-header">
     <div class="section-num">5</div>
     <div class="section-title">Grammar — Verb To Be ⭐</div>
-    <div class="section-time">⏱ 12 min</div>
+    <div class="section-time">⏱ 15 min</div>
   </div>
   <div class="card">
 
@@ -1131,12 +1297,152 @@ section { margin-bottom: 48px; }
   </div>
 </section>
 
-<!-- ══ SECTION 6: QUIZ ══ -->
-<section id="sec-quiz">
+<!-- ══ SECTION 6: SENTENCE UNSCRAMBLE ══ -->
+<section id="sec-unscramble">
   <div class="section-header">
     <div class="section-num">6</div>
+    <div class="section-title">Sentence Unscramble — Put It Together! 🧩</div>
+    <div class="section-time">⏱ 12 min</div>
+  </div>
+  <div class="card">
+    <div class="match-instructions">
+      🧩 <strong>How to play:</strong> Tap a word from the scrambled row to select it (goes red), then tap a slot below to place it in order. Tap a filled slot to remove a word and try again.
+    </div>
+    <div class="card-title">Build these sentences from the song &amp; grammar lesson:</div>
+
+    <div class="unscramble-list" id="unscrambleList">
+
+      <!-- Sentence 1 -->
+      <div class="us-item" data-id="0">
+        <div class="us-num">1 · From the song — put the chorus line in order:</div>
+        <div class="us-chips-row">
+          <span class="us-chip" data-word="pain">pain</span>
+          <span class="us-chip" data-word="my">my</span>
+          <span class="us-chip" data-word="Strumming">Strumming</span>
+          <span class="us-chip" data-word="fingers">fingers</span>
+          <span class="us-chip" data-word="with">with</span>
+          <span class="us-chip" data-word="his">his</span>
+        </div>
+        <div class="us-answer-row">
+          <span class="us-slot"></span>
+          <span class="us-slot"></span>
+          <span class="us-slot"></span>
+          <span class="us-slot"></span>
+          <span class="us-slot"></span>
+          <span class="us-slot"></span>
+        </div>
+        <div class="us-feedback"></div>
+      </div>
+
+      <!-- Sentence 2 -->
+      <div class="us-item" data-id="1">
+        <div class="us-num">2 · Verb To Be (present) — describe him:</div>
+        <div class="us-chips-row">
+          <span class="us-chip" data-word="is">is</span>
+          <span class="us-chip" data-word="young">young</span>
+          <span class="us-chip" data-word="He">He</span>
+          <span class="us-chip" data-word="a">a</span>
+          <span class="us-chip" data-word="boy">boy</span>
+          <span class="us-chip" data-word="and">and</span>
+          <span class="us-chip" data-word="talented">talented</span>
+        </div>
+        <div class="us-answer-row">
+          <span class="us-slot"></span>
+          <span class="us-slot"></span>
+          <span class="us-slot"></span>
+          <span class="us-slot"></span>
+          <span class="us-slot"></span>
+          <span class="us-slot"></span>
+          <span class="us-slot"></span>
+        </div>
+        <div class="us-feedback"></div>
+      </div>
+
+      <!-- Sentence 3 -->
+      <div class="us-item" data-id="2">
+        <div class="us-num">3 · Verb To Be (past) — how she felt:</div>
+        <div class="us-chips-row">
+          <span class="us-chip" data-word="embarrassed">embarrassed</span>
+          <span class="us-chip" data-word="crowd">crowd</span>
+          <span class="us-chip" data-word="I">I</span>
+          <span class="us-chip" data-word="by">by</span>
+          <span class="us-chip" data-word="was">was</span>
+          <span class="us-chip" data-word="the">the</span>
+        </div>
+        <div class="us-answer-row">
+          <span class="us-slot"></span>
+          <span class="us-slot"></span>
+          <span class="us-slot"></span>
+          <span class="us-slot"></span>
+          <span class="us-slot"></span>
+          <span class="us-slot"></span>
+        </div>
+        <div class="us-feedback"></div>
+      </div>
+
+      <!-- Sentence 4 -->
+      <div class="us-item" data-id="3">
+        <div class="us-num">4 · Question form — ask about him:</div>
+        <div class="us-chips-row">
+          <span class="us-chip" data-word="stranger">stranger</span>
+          <span class="us-chip" data-word="Was">Was</span>
+          <span class="us-chip" data-word="a">a</span>
+          <span class="us-chip" data-word="he">he</span>
+          <span class="us-chip" data-word="you">you</span>
+          <span class="us-chip" data-word="to">to</span>
+        </div>
+        <div class="us-answer-row">
+          <span class="us-slot"></span>
+          <span class="us-slot"></span>
+          <span class="us-slot"></span>
+          <span class="us-slot"></span>
+          <span class="us-slot"></span>
+          <span class="us-slot"></span>
+        </div>
+        <div class="us-feedback"></div>
+      </div>
+
+      <!-- Sentence 5 -->
+      <div class="us-item" data-id="4">
+        <div class="us-num">5 · Negative form — he didn't see her:</div>
+        <div class="us-chips-row">
+          <span class="us-chip" data-word="wasn't">wasn't</span>
+          <span class="us-chip" data-word="He">He</span>
+          <span class="us-chip" data-word="her">her</span>
+          <span class="us-chip" data-word="looking">looking</span>
+          <span class="us-chip" data-word="at">at</span>
+        </div>
+        <div class="us-answer-row">
+          <span class="us-slot"></span>
+          <span class="us-slot"></span>
+          <span class="us-slot"></span>
+          <span class="us-slot"></span>
+          <span class="us-slot"></span>
+        </div>
+        <div class="us-feedback"></div>
+      </div>
+
+    </div><!-- /unscramble-list -->
+
+    <div style="margin-top:20px;display:flex;gap:10px;flex-wrap:wrap;">
+      <button class="us-check-btn" onclick="checkAllUnscramble()">✅ Check All</button>
+      <button class="us-reset-btn" onclick="resetAllUnscramble()">↺ Reset All</button>
+    </div>
+    <div id="us-score"></div>
+
+    <div class="tip-box" style="margin-top:16px;">
+      💡 <strong>Answer key:</strong>
+      <em>1. Strumming my pain with his fingers &nbsp;·&nbsp; 2. He is a young and talented boy &nbsp;·&nbsp; 3. I was embarrassed by the crowd &nbsp;·&nbsp; 4. Was he a stranger to you &nbsp;·&nbsp; 5. He wasn't looking at her</em>
+    </div>
+  </div>
+</section>
+
+<!-- ══ SECTION 7: QUIZ (renumerada) ══ -->
+<section id="sec-quiz">
+  <div class="section-header">
+    <div class="section-num">7</div>
     <div class="section-title">Quick Quiz — True or False? ✅</div>
-    <div class="section-time">⏱ 6 min</div>
+    <div class="section-time">⏱ 8 min</div>
   </div>
   <div class="card">
     <div class="card-title">Circle or tap TRUE / FALSE for each statement about the song.</div>
@@ -1205,9 +1511,9 @@ section { margin-bottom: 48px; }
 <!-- ══ SECTION 7: DISCUSSION ══ -->
 <section id="sec-disc">
   <div class="section-header">
-    <div class="section-num">7</div>
+    <div class="section-num">8</div>
     <div class="section-title">Discussion — Let's Talk! 💬</div>
-    <div class="section-time">⏱ 8 min</div>
+    <div class="section-time">⏱ 12 min</div>
   </div>
   <div class="card">
     <div class="card-title">Answer in English — there are no wrong answers! Use Verb To Be.</div>
@@ -1217,7 +1523,10 @@ section { margin-bottom: 48px; }
         <div style="flex:1;">
           <div class="disc-q">How does <em>"Killing Me Softly"</em> make you feel? Choose: <strong>sad / calm / happy / nostalgic / romantic / moved.</strong></div>
           <div class="disc-tip">💡 Try: "The song makes me feel ___" or "I feel ___ when I hear it."</div>
-          <div class="disc-lines"><span class="disc-line"></span><span class="disc-line"></span></div>
+          <div class="disc-lines">
+            <div class="disc-line"><div contenteditable="true" data-placeholder="escribe tu respuesta…"></div></div>
+            <div class="disc-line"><div contenteditable="true" data-placeholder="continúa aquí…"></div></div>
+          </div>
         </div>
       </li>
       <li>
@@ -1225,7 +1534,10 @@ section { margin-bottom: 48px; }
         <div style="flex:1;">
           <div class="disc-q">Have you ever felt embarrassed in public? What happened? Where were you?</div>
           <div class="disc-tip">💡 Use Verb To Be (past)! "Yes! I <strong>was</strong> embarrassed when ___. I <strong>was</strong> at ___."</div>
-          <div class="disc-lines"><span class="disc-line"></span><span class="disc-line"></span></div>
+          <div class="disc-lines">
+            <div class="disc-line"><div contenteditable="true" data-placeholder="escribe tu respuesta…"></div></div>
+            <div class="disc-line"><div contenteditable="true" data-placeholder="continúa aquí…"></div></div>
+          </div>
         </div>
       </li>
       <li>
@@ -1233,7 +1545,10 @@ section { margin-bottom: 48px; }
         <div style="flex:1;">
           <div class="disc-q">The title says "Killing me softly." But she doesn't die! What do you think it really means?</div>
           <div class="disc-tip">💡 "I think it means ___ because ___."</div>
-          <div class="disc-lines"><span class="disc-line"></span><span class="disc-line"></span></div>
+          <div class="disc-lines">
+            <div class="disc-line"><div contenteditable="true" data-placeholder="escribe tu respuesta…"></div></div>
+            <div class="disc-line"><div contenteditable="true" data-placeholder="continúa aquí…"></div></div>
+          </div>
         </div>
       </li>
       <li>
@@ -1241,7 +1556,10 @@ section { margin-bottom: 48px; }
         <div style="flex:1;">
           <div class="disc-q">Do you know a song in Spanish (or another language) that tells a story? What is it about?</div>
           <div class="disc-tip">💡 "I know a song called ___. It <strong>is</strong> about ___. It makes me feel ___."</div>
-          <div class="disc-lines"><span class="disc-line"></span><span class="disc-line"></span></div>
+          <div class="disc-lines">
+            <div class="disc-line"><div contenteditable="true" data-placeholder="escribe tu respuesta…"></div></div>
+            <div class="disc-line"><div contenteditable="true" data-placeholder="continúa aquí…"></div></div>
+          </div>
         </div>
       </li>
     </ul>
@@ -1251,9 +1569,9 @@ section { margin-bottom: 48px; }
 <!-- ══ SECTION 8: BOOK OF LIFE TRAILER ══ -->
 <section id="sec-bol">
   <div class="section-header">
-    <div class="section-num">8</div>
+    <div class="section-num">9</div>
     <div class="section-title">Preview — The Book of Life 🎬</div>
-    <div class="section-time">⏱ 8 min</div>
+    <div class="section-time">⏱ 10 min</div>
   </div>
   <div class="card">
     <div class="card-title">🍿 Watch the trailer — what do you see?</div>
@@ -1309,24 +1627,24 @@ section { margin-bottom: 48px; }
         <span class="trailer-item-num">1.</span>
         <div class="trailer-write">
           <span style="font-size:.78rem;color:var(--gold);font-style:italic;">Describe a character: "He / She <strong>is</strong> ___. He / She <strong>is</strong> from ___."</span>
-          <span></span>
-          <span></span>
+          <div class="tw-line"><div contenteditable="true" data-placeholder="escribe aquí…"></div></div>
+          <div class="tw-line"><div contenteditable="true" data-placeholder="continúa…"></div></div>
         </div>
       </div>
       <div class="trailer-item">
         <span class="trailer-item-num">2.</span>
         <div class="trailer-write">
           <span style="font-size:.78rem;color:var(--gold);font-style:italic;">Describe a place or a feeling: "The world <strong>is</strong> ___. It <strong>is</strong> ___."</span>
-          <span></span>
-          <span></span>
+          <div class="tw-line"><div contenteditable="true" data-placeholder="escribe aquí…"></div></div>
+          <div class="tw-line"><div contenteditable="true" data-placeholder="continúa…"></div></div>
         </div>
       </div>
       <div class="trailer-item">
         <span class="trailer-item-num">3.</span>
         <div class="trailer-write">
           <span style="font-size:.78rem;color:var(--gold);font-style:italic;">Free sentence — use any word from today's vocab!</span>
-          <span></span>
-          <span></span>
+          <div class="tw-line"><div contenteditable="true" data-placeholder="escribe aquí…"></div></div>
+          <div class="tw-line"><div contenteditable="true" data-placeholder="continúa…"></div></div>
         </div>
       </div>
     </div>
@@ -1581,6 +1899,101 @@ function submitQuiz() {
   }
   if (score >= 4) markProgress('pd-quiz');
   markProgress('pd-disc');
+}
+
+// ─── SENTENCE UNSCRAMBLE ────────────────────────
+const US_ANSWERS = [
+  ['Strumming','my','pain','with','his','fingers'],
+  ['He','is','a','young','and','talented','boy'],
+  ['I','was','embarrassed','by','the','crowd'],
+  ['Was','he','a','stranger','to','you'],
+  ['He','wasn\'t','looking','at','her']
+];
+let usSelected = null; // {itemEl, chipEl}
+
+document.querySelectorAll('.us-chip').forEach(chip => {
+  chip.addEventListener('click', () => {
+    if (chip.classList.contains('us-placed')) return;
+    // deselect if clicking same chip
+    if (usSelected && usSelected.chipEl === chip) {
+      chip.classList.remove('us-selected');
+      usSelected = null;
+      return;
+    }
+    // deselect previous
+    if (usSelected) usSelected.chipEl.classList.remove('us-selected');
+    usSelected = { itemEl: chip.closest('.us-item'), chipEl: chip };
+    chip.classList.add('us-selected');
+  });
+});
+
+document.querySelectorAll('.us-slot').forEach(slot => {
+  slot.addEventListener('click', () => {
+    // if slot already filled → remove that word back to chips
+    if (slot.dataset.word) {
+      const word = slot.dataset.word;
+      const itemEl = slot.closest('.us-item');
+      const chip = [...itemEl.querySelectorAll('.us-chip')].find(c => c.dataset.word === word && c.classList.contains('us-placed'));
+      if (chip) { chip.classList.remove('us-placed'); }
+      slot.textContent = '';
+      delete slot.dataset.word;
+      slot.classList.remove('us-correct','us-wrong');
+      return;
+    }
+    if (!usSelected) return;
+    // make sure slot belongs to same item as selected chip
+    const slotItem = slot.closest('.us-item');
+    if (slotItem !== usSelected.itemEl) {
+      // wrong item — flash
+      slotItem.style.outline = '2px solid var(--rust)';
+      setTimeout(() => slotItem.style.outline = '', 400);
+      return;
+    }
+    slot.textContent = usSelected.chipEl.dataset.word;
+    slot.dataset.word = usSelected.chipEl.dataset.word;
+    slot.classList.remove('us-correct','us-wrong');
+    usSelected.chipEl.classList.add('us-placed');
+    usSelected.chipEl.classList.remove('us-selected');
+    usSelected = null;
+  });
+});
+
+function checkAllUnscramble() {
+  let totalCorrect = 0, totalItems = US_ANSWERS.length;
+  document.querySelectorAll('.us-item').forEach((item, i) => {
+    const slots = [...item.querySelectorAll('.us-slot')];
+    const answer = US_ANSWERS[i];
+    const fb = item.querySelector('.us-feedback');
+    let correct = 0;
+    slots.forEach((slot, j) => {
+      const placed = slot.dataset.word || '';
+      const ok = placed === answer[j];
+      slot.classList.toggle('us-correct', ok && !!placed);
+      slot.classList.toggle('us-wrong',  !ok && !!placed);
+      if (ok && placed) correct++;
+    });
+    const filled = slots.filter(s => s.dataset.word).length;
+    if (!filled) { fb.textContent = '⚠️ Fill in the sentence first!'; fb.style.color = 'var(--rust)'; return; }
+    if (correct === answer.length) {
+      fb.textContent = '✅ Perfect!'; fb.style.color = 'var(--sage)'; totalCorrect++;
+    } else {
+      fb.textContent = `${correct}/${answer.length} words correct — try again!`; fb.style.color = 'var(--rust)';
+    }
+  });
+  const scoreEl = document.getElementById('us-score');
+  scoreEl.textContent = `🧩 ${totalCorrect} / ${totalItems} sentences correct${totalCorrect === totalItems ? ' — Outstanding! 🎉' : ''}`;
+  scoreEl.style.color = totalCorrect >= Math.ceil(totalItems * .6) ? 'var(--sage)' : 'var(--rust)';
+  if (totalCorrect >= Math.ceil(totalItems * .6)) markProgress('pd-unscramble');
+}
+
+function resetAllUnscramble() {
+  document.querySelectorAll('.us-slot').forEach(s => {
+    s.textContent = ''; delete s.dataset.word; s.classList.remove('us-correct','us-wrong');
+  });
+  document.querySelectorAll('.us-chip').forEach(c => c.classList.remove('us-placed','us-selected'));
+  document.querySelectorAll('.us-feedback').forEach(f => f.textContent = '');
+  document.getElementById('us-score').textContent = '';
+  usSelected = null;
 }
 
 // ─── PROGRESS ───────────────────────────────────
