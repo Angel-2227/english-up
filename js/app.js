@@ -10,12 +10,12 @@ import { currentUser, currentProfile, isAdmin } from "./auth.js";
 // ════════════════════════════════════════════
 
 export const State = {
-  route:          "home",       // ruta actual
-  moduleId:       null,         // módulo activo
-  lessonId:       null,         // lección activa
-  progress:       null,         // progreso del usuario cargado
-  modules:        [],           // lista de módulos cacheada
-  theme:          "light"       // light | dark
+  route:    "home",   // ruta actual
+  moduleId: null,     // módulo activo
+  lessonId: null,     // lección activa
+  progress: null,     // progreso del usuario cargado
+  modules:  [],       // lista de módulos cacheada
+  theme:    "light"   // light | dark
 };
 
 // ════════════════════════════════════════════
@@ -52,12 +52,12 @@ document.getElementById("btn-toggle-theme")
 
 /**
  * Mapa de rutas:
- * home         → dashboard del estudiante / docente
- * module/:id   → vista de módulo
- * lesson/:mid/:lid → vista de lección
- * profile      → perfil del estudiante
- * teacher      → panel docente (solo admin)
- * badges       → página de insignias
+ * home              → dashboard del estudiante / docente
+ * module/:id        → vista de módulo
+ * lesson/:mid/:lid  → vista de lección
+ * profile           → perfil del estudiante
+ * teacher           → panel docente (solo admin)
+ * badges            → página de insignias
  */
 
 const routes = {
@@ -81,6 +81,7 @@ export function navigate(route, params = {}) {
   render();
   scrollTo({ top: 0, behavior: "smooth" });
   updateNavLinks(route);
+  updateBottomNav(route);
 }
 
 function buildURL(route, params) {
@@ -100,6 +101,7 @@ window.addEventListener("popstate", (e) => {
     State.lessonId = e.state.lessonId || null;
     render();
     updateNavLinks(State.route);
+    updateBottomNav(State.route);
   }
 });
 
@@ -109,7 +111,8 @@ function parseHash() {
   if (!hash || hash === "home") return { route: "home" };
 
   const parts = hash.split("/");
-  if (parts[0] === "module" && parts[1]) return { route: "module", moduleId: parts[1] };
+  if (parts[0] === "module" && parts[1])
+    return { route: "module", moduleId: parts[1] };
   if (parts[0] === "lesson" && parts[1] && parts[2])
     return { route: "lesson", moduleId: parts[1], lessonId: parts[2] };
   if (parts[0] === "profile") return { route: "profile" };
@@ -133,7 +136,7 @@ function render() {
 }
 
 // ════════════════════════════════════════════
-// NAVBAR LINKS
+// NAVBAR LINKS (top — desktop)
 // ════════════════════════════════════════════
 
 function buildNavLinks(role) {
@@ -147,9 +150,9 @@ function buildNavLinks(role) {
   ];
 
   const adminLinks = [
-    { route: "home",    label: "🏠 Home"    },
-    { route: "teacher", label: "⚙️ Panel"   },
-    { route: "badges",  label: "🏅 Badges"  }
+    { route: "home",    label: "🏠 Home"   },
+    { route: "teacher", label: "⚙️ Panel"  },
+    { route: "badges",  label: "🏅 Badges" }
   ];
 
   const links = role === "admin" ? adminLinks : studentLinks;
@@ -172,10 +175,76 @@ function updateNavLinks(activeRoute) {
   });
 }
 
+// ════════════════════════════════════════════
+// BOTTOM NAV (móvil)
+// ════════════════════════════════════════════
+
+function buildBottomNav(role, activeRoute) {
+  const container = document.getElementById("bottom-nav-inner");
+  if (!container) return;
+
+  const studentItems = [
+    { route: "home",    icon: "🏠", label: "Inicio"  },
+    { route: "badges",  icon: "🏅", label: "Logros"  },
+    { route: "profile", icon: "👤", label: "Perfil"  }
+  ];
+
+  const adminItems = [
+    { route: "home",    icon: "🏠", label: "Inicio" },
+    { route: "teacher", icon: "⚙️", label: "Panel"  },
+    { route: "badges",  icon: "🏅", label: "Logros" }
+  ];
+
+  const items = role === "admin" ? adminItems : studentItems;
+
+  // Insertar botón AI en el centro
+  const mid = Math.ceil(items.length / 2);
+  const allItems = [
+    ...items.slice(0, mid),
+    { route: "__ai__", icon: "🤖", label: "AI", isAI: true },
+    ...items.slice(mid)
+  ];
+
+  container.innerHTML = allItems.map(item => `
+    <button
+      class="bottom-nav__item ${item.isAI ? "bottom-nav__item--ai" : ""} ${activeRoute === item.route ? "active" : ""}"
+      data-route="${item.route}"
+      aria-label="${item.label}"
+    >
+      <span class="nav-icon">${item.icon}</span>
+      <span class="nav-label">${item.label}</span>
+    </button>
+  `).join("");
+
+  container.querySelectorAll("[data-route]").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const route = btn.dataset.route;
+
+      // Botón especial: abrir asistente IA
+      if (route === "__ai__") {
+        // Intenta abrir el panel de IA por el FAB o el botón de navbar
+        const fab    = document.getElementById("btn-ai-fab");
+        const navBtn = document.getElementById("btn-open-ai");
+        if (fab)    fab.click();
+        else if (navBtn) navBtn.click();
+        return;
+      }
+
+      navigate(route);
+    });
+  });
+}
+
+function updateBottomNav(activeRoute) {
+  document.querySelectorAll(".bottom-nav__item[data-route]").forEach(btn => {
+    const route = btn.dataset.route;
+    btn.classList.toggle("active", route === activeRoute && route !== "__ai__");
+  });
+}
+
 
 // ════════════════════════════════════════════
-// PÁGINAS (implementación básica — los módulos
-// JS específicos inyectan el contenido real)
+// PÁGINAS
 // ════════════════════════════════════════════
 
 async function renderHome() {
@@ -234,9 +303,12 @@ window.__EU_INIT_APP = async function(role) {
     State.route = "home";
   }
 
+  // Construir bottom nav móvil
+  buildBottomNav(role, State.route);
+
   render();
 
-  // ✅ Iniciar chat de IA (crea el panel y enlaza eventos)
+  // ✅ Iniciar chat de IA
   try {
     const { initAI } = await import("./ai-assistant.js");
     await initAI();
@@ -320,8 +392,8 @@ export function escapeHTML(str) {
     .replace(/"/g, "&quot;");
 }
 
-// Exponer navigate globalmente para usar desde HTML inline
-window.navigate = navigate;
+// Exponer globalmente para usar desde HTML inline
+window.navigate  = navigate;
 window.showToast = showToast;
 window.openModal = openModal;
 window.closeModal = closeModal;
