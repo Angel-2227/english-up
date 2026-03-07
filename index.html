@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>English Up!</title>
+  <meta name="description" content="Your personal English learning platform" />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet" />
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="css/main.css" />
+  <link rel="stylesheet" href="css/components.css" />
+  <link rel="stylesheet" href="css/dashboard.css" />
+  <link rel="stylesheet" href="css/lesson.css" />
+
+  <!-- Firebase SDK -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+    import { getAuth } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+    import { getFirestore } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+    import { getStorage } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-storage.js";
+
+    // Will be replaced by firebase-config.js values
+    window._firebaseModules = { initializeApp, getAuth, getFirestore, getStorage };
+  </script>
+</head>
+
+<body>
+  <!-- ===== LOADING SCREEN ===== -->
+  <div id="loading-screen" class="loading-screen">
+    <div class="loading-logo">
+      <div class="loading-icon">📚</div>
+      <h1 class="loading-title">English Up!</h1>
+      <div class="loading-bar-wrap">
+        <div class="loading-bar"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== LOGIN SCREEN ===== -->
+  <div id="login-screen" class="login-screen hidden">
+    <div class="login-bg-shapes">
+      <div class="shape shape-1"></div>
+      <div class="shape shape-2"></div>
+      <div class="shape shape-3"></div>
+    </div>
+    <div class="login-card">
+      <div class="login-logo">
+        <span class="login-emoji">📚</span>
+        <h1>English Up!</h1>
+        <p>Your journey to fluency starts here</p>
+      </div>
+      <button id="btn-google-login" class="btn-google">
+        <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google" width="20" />
+        Continue with Google
+      </button>
+      <div id="login-message" class="login-message hidden"></div>
+    </div>
+  </div>
+
+  <!-- ===== PENDING APPROVAL SCREEN ===== -->
+  <div id="pending-screen" class="pending-screen hidden">
+    <div class="pending-card">
+      <div class="pending-icon">⏳</div>
+      <h2>Account Pending Approval</h2>
+      <p>Your account is waiting for teacher approval.<br>You'll receive access soon!</p>
+      <p class="pending-email" id="pending-user-email"></p>
+      <button id="btn-logout-pending" class="btn-secondary">Sign out</button>
+    </div>
+  </div>
+
+  <!-- ===== MAIN APP ===== -->
+  <div id="app" class="app hidden">
+
+    <!-- NAVBAR -->
+    <nav class="navbar" id="navbar">
+      <div class="nav-left">
+        <button class="nav-logo" data-route="home">
+          <span>📚</span>
+          <span class="nav-brand">English Up!</span>
+        </button>
+      </div>
+
+      <div class="nav-center" id="nav-links">
+        <!-- Injected by app.js based on role -->
+      </div>
+
+      <div class="nav-right">
+        <button id="btn-toggle-theme" class="nav-icon-btn" title="Toggle theme">
+          <span id="theme-icon">🌙</span>
+        </button>
+        <button id="btn-open-ai" class="nav-icon-btn nav-ai-btn" title="Ask the AI">
+          <span>🤖</span>
+        </button>
+        <div class="nav-user" id="nav-user">
+          <img id="nav-avatar" src="" alt="avatar" class="nav-avatar" />
+          <div class="nav-user-info">
+            <span id="nav-username" class="nav-username"></span>
+            <span id="nav-xp" class="nav-xp">0 XP</span>
+          </div>
+          <button id="btn-logout" class="nav-icon-btn" title="Sign out">↩</button>
+        </div>
+      </div>
+    </nav>
+
+    <!-- MAIN CONTENT (router renders here) -->
+    <main class="main-content" id="main-content">
+      <!-- Dynamic content injected here -->
+    </main>
+
+    <!-- AI ASSISTANT WIDGET -->
+    <div id="ai-widget" class="ai-widget hidden">
+      <div class="ai-header">
+        <div class="ai-header-left">
+          <span class="ai-avatar">🤖</span>
+          <div>
+            <div class="ai-name">English Assistant</div>
+            <div class="ai-status">Online • Powered by Groq</div>
+          </div>
+        </div>
+        <div class="ai-header-right">
+          <button id="btn-toggle-lang" class="ai-lang-btn" title="Switch language">🇺🇸 EN</button>
+          <button id="btn-close-ai" class="ai-close-btn">✕</button>
+        </div>
+      </div>
+      <div class="ai-messages" id="ai-messages">
+        <div class="ai-message ai-message--bot">
+          <span>👋 Hi! I'm your English assistant. Ask me anything about today's lesson or about English in general!</span>
+        </div>
+      </div>
+      <div class="ai-input-area">
+        <input type="text" id="ai-input" class="ai-input" placeholder="Ask me something..." maxlength="300" />
+        <button id="btn-ai-send" class="ai-send-btn">➤</button>
+      </div>
+    </div>
+
+    <!-- AI TOGGLE BUTTON (mobile) -->
+    <button id="btn-ai-fab" class="ai-fab" title="Ask the AI assistant">
+      <span>🤖</span>
+      <span class="ai-fab-label">Ask AI</span>
+    </button>
+
+    <!-- TOAST NOTIFICATIONS -->
+    <div id="toast-container" class="toast-container"></div>
+
+    <!-- MODAL OVERLAY -->
+    <div id="modal-overlay" class="modal-overlay hidden">
+      <div id="modal-box" class="modal-box">
+        <button id="modal-close" class="modal-close-btn">✕</button>
+        <div id="modal-content"></div>
+      </div>
+    </div>
+
+  </div><!-- /app -->
+
+  <!-- QUILL EDITOR (for teacher lesson editing) -->
+  <link href="https://cdn.quilljs.com/1.3.7/quill.snow.css" rel="stylesheet" />
+  <script src="https://cdn.quilljs.com/1.3.7/quill.min.js"></script>
+
+  <!-- APP SCRIPTS (type=module for ES6 imports) -->
+  <script type="module" src="firebase-config.js"></script>
+  <script type="module" src="js/auth.js"></script>
+  <script type="module" src="js/db.js"></script>
+  <script type="module" src="js/storage.js"></script>
+  <script type="module" src="js/gamification.js"></script>
+  <script type="module" src="js/modules.js"></script>
+  <script type="module" src="js/lesson.js"></script>
+  <script type="module" src="js/quiz.js"></script>
+  <script type="module" src="js/teacher.js"></script>
+  <script type="module" src="js/ai-assistant.js"></script>
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>
