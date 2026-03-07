@@ -944,8 +944,25 @@ section { margin-bottom: 48px; }
   .hero-sub, .hero-tags, .hero-badge { display: none; }
   .objectives-bar { background: #F0E8D5 !important; border-top: 2pt solid #C9862A; padding: 8pt; flex-direction: row; flex-wrap: wrap; }
   .page { padding: 6pt 0; max-width: 100%; }
-  section { break-inside: avoid; page-break-inside: avoid; margin-bottom: 20pt; }
-  .card { box-shadow: none !important; border: 1pt solid #CCC !important; break-inside: avoid; page-break-inside: avoid; margin-bottom: 8pt; padding: 10pt 12pt !important; }
+
+  /* Sections flow naturally — NO break-inside on the whole section.
+     This lets content continue on the same page instead of jumping ahead. */
+  section { margin-bottom: 16pt; }
+  /* Keep section header glued to first card — no orphan titles */
+  .section-header { break-after: avoid; page-break-after: avoid; }
+
+  /* Cards can break across pages (their content may be long),
+     but individual small items inside stay together */
+  .card { box-shadow: none !important; border: 1pt solid #CCC !important; margin-bottom: 8pt; padding: 10pt 12pt !important; }
+
+  /* Small atomic items that must never be split */
+  .vocab-card,
+  .bol-vocab-card,
+  .quiz-card,
+  .match-def-row,
+  .gp-item,
+  .discussion-list li { break-inside: avoid; page-break-inside: avoid; }
+
   .section-num { background: #EEE !important; color: #111 !important; border: 1pt solid #999; }
   .section-title { font-size: 12pt; }
   .section-time { display: none; }
