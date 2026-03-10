@@ -41,10 +41,20 @@ export async function navigate(name, params = {}) {
   State.route       = name;
   State.routeParams = params;
 
-  // Actualizar nav-link activo
+  // Actualizar nav-link activo (top navbar)
   document.querySelectorAll(".nav-link").forEach(btn => {
     btn.classList.toggle("active", btn.dataset.route === name);
   });
+
+  // Actualizar bottom nav activo (mobile)
+  document.querySelectorAll(".bottom-nav-item[data-route]").forEach(btn => {
+    btn.classList.toggle("active", btn.dataset.route === name);
+  });
+  // Profile button: active when on profile route
+  const bnavProfileBtn = document.getElementById("bnav-profile-btn");
+  if (bnavProfileBtn) {
+    bnavProfileBtn.classList.toggle("active", name === "profile");
+  }
 
   const container = document.getElementById("page-container");
   if (!container) return;
@@ -155,10 +165,19 @@ function bindNavButtons() {
   document.getElementById("btn-nav-home")
     ?.addEventListener("click", () => navigate("home"));
 
-  // Nav links
+  // Top nav links
   document.querySelectorAll(".nav-link[data-route]").forEach(btn => {
     btn.addEventListener("click", () => navigate(btn.dataset.route));
   });
+
+  // Bottom nav route links
+  document.querySelectorAll(".bottom-nav-item[data-route]").forEach(btn => {
+    btn.addEventListener("click", () => navigate(btn.dataset.route));
+  });
+
+  // Bottom nav profile button
+  document.getElementById("bnav-profile-btn")
+    ?.addEventListener("click", () => navigate("profile"));
 }
 
 // ════════════════════════════════════════════

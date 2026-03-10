@@ -5,7 +5,7 @@
 // =============================================
 
 import { auth, db }          from "../firebase-config.js";
-import { State, navigate, showToast, openModal, closeModal, escapeHTML, showBottomNav }
+import { State, navigate, showToast, openModal, closeModal, escapeHTML }
                              from "./app.js";
 import {
   GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged
@@ -113,6 +113,17 @@ export function updateNavbar(profile) {
     avatarImg.alt = profile.name;
   }
 
+  // Bottom nav avatar sync
+  const bnavAvatar = document.getElementById("bnav-avatar");
+  if (bnavAvatar) {
+    if (profile.avatar) {
+      bnavAvatar.src = emojiToDataURL(profile.avatar, 56);
+    } else {
+      bnavAvatar.src = profile.photoURL || makeInitialsAvatar(profile.name);
+    }
+    bnavAvatar.alt = profile.name;
+  }
+
   const xpEl     = document.getElementById("nav-xp");
   const streakEl = document.getElementById("nav-streak");
   if (xpEl)     xpEl.textContent    = (profile.xp     ?? 0).toLocaleString();
@@ -124,14 +135,15 @@ export function updateNavbar(profile) {
   if (ddName)  ddName.textContent  = profile.nickname || profile.name  || "";
   if (ddEmail) ddEmail.textContent = profile.email || "";
 
-  // Mostrar/ocultar nav links según rol
+  // Mostrar/ocultar nav links según rol (top navbar)
   document.getElementById("nav-links-student")
     ?.classList.toggle("hidden",  State.isAdmin);
   document.getElementById("nav-links-teacher")
     ?.classList.toggle("hidden", !State.isAdmin);
 
-  // Mostrar barra inferior mobile con las tabs del rol correcto
-  showBottomNav(State.isAdmin ? "teacher" : "student");
+  // Mostrar/ocultar Teacher tab en bottom nav
+  document.getElementById("bnav-teacher")
+    ?.classList.toggle("hidden", !State.isAdmin);
 }
 
 // ════════════════════════════════════════════
@@ -361,7 +373,7 @@ export function initAuth() {
         registerDashboard();
 
         if (State.isAdmin) {
-          const { registerTeacher } = await import("./students.js");
+          const { registerTeacher } = await import("./teacher/students.js");
           registerTeacher();
         }
 

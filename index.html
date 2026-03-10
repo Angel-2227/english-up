@@ -130,51 +130,33 @@
       </div>
     </nav>
 
+    <!-- BOTTOM NAV (mobile only) -->
+    <nav class="bottom-nav" id="bottom-nav" aria-label="Mobile navigation">
+      <button class="bottom-nav-item active" data-route="home" id="bnav-home">
+        <span class="bottom-nav-icon">🏠</span>
+        <span class="bottom-nav-label">My Path</span>
+      </button>
+      <button class="bottom-nav-item" data-route="missions" id="bnav-missions">
+        <span class="bottom-nav-icon">🎯</span>
+        <span class="bottom-nav-label">Missions</span>
+      </button>
+      <!-- Teacher only -->
+      <button class="bottom-nav-item hidden" data-route="teacher" id="bnav-teacher">
+        <span class="bottom-nav-icon">🏫</span>
+        <span class="bottom-nav-label">Teacher</span>
+      </button>
+      <button class="bottom-nav-item" id="bnav-profile-btn">
+        <span class="bottom-nav-icon">
+          <img id="bnav-avatar" src="" alt="avatar" class="bnav-avatar-img" />
+        </span>
+        <span class="bottom-nav-label">Profile</span>
+      </button>
+    </nav>
+
     <!-- PAGE CONTAINER -->
     <main class="page-container" id="page-container">
       <!-- Pages are rendered here by JS -->
     </main>
-
-    <!-- BOTTOM NAV (mobile only) -->
-    <nav class="bottom-nav hidden" id="bottom-nav" aria-label="Mobile navigation">
-
-      <!-- Student tabs -->
-      <div class="bottom-nav-tabs" id="bottom-nav-student">
-        <button class="bottom-tab active" data-route="home">
-          <span class="bottom-tab-icon">🗺️</span>
-          <span class="bottom-tab-label">My Path</span>
-        </button>
-        <button class="bottom-tab" data-route="missions">
-          <span class="bottom-tab-icon">🎯</span>
-          <span class="bottom-tab-label">Missions</span>
-        </button>
-        <button class="bottom-tab" data-route="profile">
-          <span class="bottom-tab-icon">👤</span>
-          <span class="bottom-tab-label">Profile</span>
-        </button>
-      </div>
-
-      <!-- Teacher tabs -->
-      <div class="bottom-nav-tabs hidden" id="bottom-nav-teacher">
-        <button class="bottom-tab active" data-route="home">
-          <span class="bottom-tab-icon">🗺️</span>
-          <span class="bottom-tab-label">My Path</span>
-        </button>
-        <button class="bottom-tab" data-route="missions">
-          <span class="bottom-tab-icon">🎯</span>
-          <span class="bottom-tab-label">Missions</span>
-        </button>
-        <button class="bottom-tab" data-route="teacher">
-          <span class="bottom-tab-icon">🏫</span>
-          <span class="bottom-tab-label">Panel</span>
-        </button>
-        <button class="bottom-tab" data-route="profile">
-          <span class="bottom-tab-icon">👤</span>
-          <span class="bottom-tab-label">Profile</span>
-        </button>
-      </div>
-
-    </nav>
 
   </div>
 

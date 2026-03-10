@@ -153,8 +153,7 @@
   --z-ai:      150;
 
   /* ── Navbar height (used in layout offsets) ── */
-  --navbar-h:     60px;
-  --bottom-nav-h: 64px;   /* mobile bottom nav */
+  --navbar-h: 60px;
 
 }
 
