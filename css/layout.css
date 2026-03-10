@@ -225,6 +225,8 @@
 @media (max-width: 600px) {
   .page-container {
     padding: var(--sp-6) var(--sp-3);
+    /* Extra bottom padding so content clears the bottom nav */
+    padding-bottom: calc(var(--bottom-nav-h) + var(--sp-6));
   }
 }
 
@@ -373,6 +375,12 @@
   gap:       var(--sp-2);
   z-index:   var(--z-toast);
   pointer-events: none;
+}
+
+@media (max-width: 600px) {
+  .toast-container {
+    bottom: calc(var(--bottom-nav-h) + var(--sp-4));
+  }
 }
 
 .toast {
@@ -602,11 +610,131 @@
     right:  var(--sp-3);
     left:   var(--sp-3);
     width:  auto;
-    bottom: var(--sp-3);
+    bottom: calc(var(--bottom-nav-h) + var(--sp-3));
   }
 
   .ai-fab {
     right:  var(--sp-4);
-    bottom: var(--sp-4);
+    bottom: calc(var(--bottom-nav-h) + var(--sp-4));
   }
+}
+
+
+/* ═══════════════════════════════════════════
+   BOTTOM NAV  (mobile only — Duolingo style)
+═══════════════════════════════════════════ */
+
+/* Hide top navbar links on mobile; show bottom nav instead */
+@media (max-width: 600px) {
+  /* Collapse top navbar to just logo + XP/streak */
+  .navbar {
+    height: 52px;
+  }
+
+  .nav-links {
+    display: none !important;
+  }
+
+  /* Hide avatar button — profile is in bottom nav */
+  .nav-avatar-btn,
+  .nav-dropdown {
+    display: none !important;
+  }
+
+  /* Also adjust page-container top margin */
+  .page-container {
+    margin-top: 52px;
+  }
+}
+
+/* The bar itself */
+.bottom-nav {
+  display:          none;   /* shown via JS when app is ready */
+  position:         fixed;
+  bottom:           0;
+  left:             0;
+  right:            0;
+  height:           var(--bottom-nav-h);
+  background:       var(--color-surface);
+  border-top:       1.5px solid var(--color-border-soft);
+  box-shadow:       0 -2px 12px rgba(0,0,0,.07);
+  z-index:          var(--z-navbar);
+  /* Safe-area for notch phones */
+  padding-bottom:   env(safe-area-inset-bottom);
+}
+
+/* Only actually render the bar on small screens */
+@media (min-width: 601px) {
+  .bottom-nav {
+    display: none !important;
+  }
+}
+
+/* Tab container fills the bar */
+.bottom-nav-tabs {
+  display:         flex;
+  align-items:     stretch;
+  height:          100%;
+}
+
+/* Each tab */
+.bottom-tab {
+  flex:            1;
+  display:         flex;
+  flex-direction:  column;
+  align-items:     center;
+  justify-content: center;
+  gap:             3px;
+  padding:         var(--sp-1) var(--sp-2);
+  color:           var(--color-text-muted);
+  font-size:       var(--text-xs);
+  font-weight:     var(--weight-bold);
+  font-family:     var(--font-body);
+  transition:      color var(--duration-fast) var(--ease-default),
+                   background var(--duration-fast) var(--ease-default);
+  position:        relative;
+  border:          none;
+  background:      transparent;
+  cursor:          pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.bottom-tab:active {
+  background: var(--color-surface-alt);
+}
+
+.bottom-tab-icon {
+  font-size: 1.35rem;
+  line-height: 1;
+  transition: transform var(--duration-fast) var(--ease-spring);
+}
+
+.bottom-tab-label {
+  font-size:   0.65rem;
+  font-weight: var(--weight-bold);
+  letter-spacing: 0.01em;
+  line-height: 1;
+}
+
+/* Active state — colored dot + text */
+.bottom-tab.active {
+  color: var(--brand-700);
+}
+
+.bottom-tab.active .bottom-tab-icon {
+  transform: translateY(-2px) scale(1.1);
+}
+
+/* Active indicator pill under icon */
+.bottom-tab.active::before {
+  content:       '';
+  position:      absolute;
+  top:           6px;
+  left:          50%;
+  transform:     translateX(-50%);
+  width:         36px;
+  height:        32px;
+  background:    var(--brand-100);
+  border-radius: var(--radius-full);
+  z-index:       -1;
 }

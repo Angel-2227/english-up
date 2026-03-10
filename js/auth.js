@@ -5,7 +5,7 @@
 // =============================================
 
 import { auth, db }          from "../firebase-config.js";
-import { State, navigate, showToast, openModal, closeModal, escapeHTML }
+import { State, navigate, showToast, openModal, closeModal, escapeHTML, showBottomNav }
                              from "./app.js";
 import {
   GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged
@@ -129,6 +129,9 @@ export function updateNavbar(profile) {
     ?.classList.toggle("hidden",  State.isAdmin);
   document.getElementById("nav-links-teacher")
     ?.classList.toggle("hidden", !State.isAdmin);
+
+  // Mostrar barra inferior mobile con las tabs del rol correcto
+  showBottomNav(State.isAdmin ? "teacher" : "student");
 }
 
 // ════════════════════════════════════════════
