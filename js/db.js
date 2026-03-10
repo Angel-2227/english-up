@@ -368,3 +368,84 @@ export async function getAppConfig() {
 export async function updateAppConfig(data) {
   await setDoc(doc(db, "config", "app"), data, { merge: true });
 }
+
+// ════════════════════════════════════════════
+// MISIONES
+// ════════════════════════════════════════════
+
+export async function getAllMissions() {
+  const snap = await getDocs(collection(db, "missions"));
+  return snap.docs.map(d => ({ id: d.id, ...d.data() }));
+}
+
+export async function getAssignedMissions(uid) {
+  const q = query(
+    collection(db, "missions"),
+    where("assignedTo", "array-contains", uid)
+  );
+  const snap = await getDocs(q);
+  return snap.docs.map(d => ({ id: d.id, ...d.data() }));
+}
+
+export async function createMission(data) {
+  const ref = await addDoc(collection(db, "missions"), {
+    ...data,
+    assignedTo: [],
+    createdAt:  serverTimestamp(),
+  });
+  return ref.id;
+}
+
+export async function updateMission(missionId, data) {
+  await updateDoc(doc(db, "missions", missionId), {
+    ...data,
+    updatedAt: serverTimestamp(),
+  });
+}
+
+export async function deleteMission(missionId) {
+  await deleteDoc(doc(db, "missions", missionId));
+}
+
+export async function assignMission(missionId, uid) {
+  await updateDoc(doc(db, "missions", missionId), {
+    assignedTo: arrayUnion(uid),
+  });
+}
+
+export async function unassignMission(missionId, uid) {
+  await updateDoc(doc(db, "missions", missionId), {
+    assignedTo: arrayRemove(uid),
+  });
+}
+
+export async function saveMissionResult(uid, missionId, result) {
+  const docId = `${uid}_${missionId}`;
+  const ref   = doc(db, "missionResults", docId);
+  const snap  = await getDoc(ref);
+
+  const attempts = (snap.exists() ? snap.data().attempts ?? 0 : 0) + 1;
+  const xpToAdd  = result.xpEarned ?? 0;
+
+  await setDoc(ref, {
+    uid,
+    missionId,
+    score:       result.score,
+    xpEarned:    result.xpEarned,
+    attempts,
+    answers:     result.answers ?? [],
+    completedAt: serverTimestamp(),
+  });
+
+  if (xpToAdd > 0) {
+    await updateDoc(doc(db, "users", uid), {
+      xp: increment(xpToAdd),
+    });
+  }
+}
+
+export async function getMissionResult(uid, missionId) {
+  const docId = `${uid}_${missionId}`;
+  const snap  = await getDoc(doc(db, "missionResults", docId));
+  return snap.exists() ? snap.data() : null;
+}

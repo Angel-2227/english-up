@@ -38,10 +38,12 @@ async function renderTeacherPanel(_, container) {
       <div class="teacher-tabs">
         <button class="teacher-tab active" data-tab="students">👥 Students</button>
         <button class="teacher-tab"        data-tab="modules">📚 Modules</button>
+        <button class="teacher-tab"        data-tab="missions">🎯 Missions</button>
         <button class="teacher-tab"        data-tab="settings">⚙️ Settings</button>
       </div>
       <div id="tab-students" class="teacher-tab-content active"></div>
       <div id="tab-modules"  class="teacher-tab-content"></div>
+      <div id="tab-missions"  class="teacher-tab-content"></div> 
       <div id="tab-settings" class="teacher-tab-content"></div>
     </div>
   `;
@@ -59,6 +61,10 @@ async function renderTeacherPanel(_, container) {
         const { renderModulesTab } = await import("./modules.js");
         renderModulesTab(document.getElementById("tab-modules"));
       }
+      if (btn.dataset.tab === "missions") {
+      const { renderMissionsTeacherTab } = await import("./missions.js");
+      renderMissionsTeacherTab(document.getElementById("tab-missions"));
+      } 
       if (btn.dataset.tab === "settings") {
         renderSettingsTab(document.getElementById("tab-settings"));
       }

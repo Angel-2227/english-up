@@ -338,6 +338,10 @@ export function initAuth() {
         const { registerLesson } = await import("./lesson.js");
         registerLesson();
 
+        // Missions
+        const { registerMissions } = await import("./missions.js");
+        registerMissions();
+
         // AI widget
         const { initAI } = await import("./ai.js");
         initAI();
