@@ -1,0 +1,704 @@
+/* =============================================
+   ENGLISH UP! — css/profile.css
+   Perfil del estudiante, badges, compañeros
+   ============================================= */
+
+/* ════════════════════════════════════════════
+   PROFILE PAGE
+   ════════════════════════════════════════════ */
+
+.profile-page {
+  max-width: 680px;
+  margin: 0 auto;
+  padding: var(--sp-6) var(--sp-4) var(--sp-10);
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-5);
+}
+
+.profile-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 300px;
+}
+
+.profile-spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid var(--color-border);
+  border-top-color: var(--color-primary);
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ── Hero ──────────────────────────────────── */
+
+.profile-hero {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--sp-5);
+  background: var(--color-surface);
+  border: 1.5px solid var(--color-border);
+  border-radius: var(--radius-2xl);
+  padding: var(--sp-6);
+  box-shadow: var(--shadow-sm);
+}
+
+.profile-avatar-wrap {
+  position: relative;
+  flex-shrink: 0;
+}
+
+.profile-avatar-lg {
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  border: 3px solid var(--color-primary);
+  object-fit: cover;
+  display: block;
+}
+
+.profile-avatar-edit {
+  position: absolute;
+  bottom: 2px;
+  right: 2px;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--color-primary);
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--shadow-md);
+  transition: background 150ms;
+}
+.profile-avatar-edit:hover { background: var(--color-primary-dark, #7c3aed); }
+
+.profile-hero-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.profile-name-row {
+  display: flex;
+  align-items: baseline;
+  gap: var(--sp-2);
+  flex-wrap: wrap;
+}
+
+.profile-name {
+  font-size: var(--text-2xl);
+  font-weight: var(--weight-extrabold);
+  color: var(--color-text);
+  line-height: 1.2;
+}
+
+.profile-realname {
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+  font-weight: var(--weight-normal);
+}
+
+.profile-email {
+  font-size: var(--text-sm);
+  color: var(--color-text-faint);
+  margin-top: var(--sp-1);
+}
+
+.profile-nickname-row {
+  margin-top: var(--sp-3);
+}
+
+/* XP level bar */
+
+.profile-level-row {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  margin-top: var(--sp-3);
+  flex-wrap: wrap;
+}
+
+.profile-level-badge {
+  font-size: var(--text-sm);
+  font-weight: var(--weight-bold);
+  color: var(--color-primary);
+  background: color-mix(in srgb, var(--color-primary) 10%, transparent);
+  border-radius: var(--radius-full);
+  padding: 2px var(--sp-3);
+  white-space: nowrap;
+}
+
+.profile-xp-bar-wrap {
+  flex: 1;
+  height: 8px;
+  background: var(--color-border);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+  min-width: 60px;
+}
+
+.profile-xp-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--color-primary), #a78bfa);
+  border-radius: var(--radius-full);
+  transition: width 500ms ease;
+}
+
+.profile-xp-label {
+  font-size: var(--text-xs);
+  color: var(--color-text-faint);
+  white-space: nowrap;
+}
+
+/* ── Stats grid ─────────────────────────────── */
+
+.profile-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--sp-3);
+}
+
+@media (max-width: 480px) {
+  .profile-stats-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+.profile-stat-card {
+  background: var(--color-surface);
+  border: 1.5px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  padding: var(--sp-4) var(--sp-3);
+  text-align: center;
+  box-shadow: var(--shadow-sm);
+  transition: transform 150ms, box-shadow 150ms;
+}
+
+.profile-stat-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.profile-stat-icon {
+  font-size: 1.75rem;
+  margin-bottom: var(--sp-1);
+}
+
+.profile-stat-value {
+  font-size: var(--text-2xl);
+  font-weight: var(--weight-extrabold);
+  color: var(--color-text);
+  line-height: 1.1;
+}
+
+.profile-stat-label {
+  font-size: var(--text-xs);
+  color: var(--color-text-faint);
+  margin-top: 2px;
+}
+
+/* ── Cards ──────────────────────────────────── */
+
+.profile-card {
+  background: var(--color-surface);
+  border: 1.5px solid var(--color-border);
+  border-radius: var(--radius-2xl);
+  padding: var(--sp-5);
+  box-shadow: var(--shadow-sm);
+}
+
+.profile-card-muted {
+  opacity: 0.7;
+}
+
+.profile-card-title {
+  font-size: var(--text-base);
+  font-weight: var(--weight-extrabold);
+  color: var(--color-text);
+  margin-bottom: var(--sp-4);
+}
+
+/* ── Badges grid ────────────────────────────── */
+
+.profile-badges-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+  gap: var(--sp-3);
+}
+
+.profile-badge-card {
+  border-radius: var(--radius-xl);
+  padding: var(--sp-4) var(--sp-3);
+  text-align: center;
+  border: 1.5px solid var(--color-border);
+  transition: transform 150ms, box-shadow 150ms;
+  position: relative;
+}
+
+.profile-badge-card.earned {
+  background: linear-gradient(135deg, #fef9c3, #fef3c7);
+  border-color: #fbbf24;
+}
+
+.profile-badge-card.locked {
+  background: var(--color-bg);
+  opacity: 0.55;
+  filter: grayscale(0.6);
+}
+
+.profile-badge-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.profile-badge-emoji {
+  font-size: 2rem;
+  margin-bottom: var(--sp-2);
+}
+
+.profile-badge-name {
+  font-size: var(--text-sm);
+  font-weight: var(--weight-bold);
+  color: var(--color-text);
+  margin-bottom: 2px;
+}
+
+.profile-badge-desc {
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+  line-height: 1.4;
+}
+
+.profile-badge-earned-tag {
+  margin-top: var(--sp-2);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-bold);
+  color: #059669;
+}
+
+.profile-badge-locked-tag {
+  margin-top: var(--sp-2);
+  font-size: var(--text-xs);
+  color: var(--color-text-faint);
+}
+
+/* ── Classroom info ─────────────────────────── */
+
+.classroom-info-row {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-4);
+  margin-bottom: var(--sp-4);
+}
+
+.classroom-badge-big {
+  font-size: 2.5rem;
+  flex-shrink: 0;
+}
+
+.classroom-name-big {
+  font-size: var(--text-lg);
+  font-weight: var(--weight-extrabold);
+  color: var(--color-text);
+}
+
+.classroom-desc-sm {
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+  margin-top: 2px;
+}
+
+.classroom-members-count {
+  font-size: var(--text-sm);
+  color: var(--color-text-faint);
+  margin-top: var(--sp-1);
+}
+
+.profile-see-classmates {
+  width: 100%;
+}
+
+/* ── Footer ─────────────────────────────────── */
+
+.profile-footer {
+  display: flex;
+  justify-content: center;
+  padding-top: var(--sp-2);
+}
+
+.btn-danger-outline {
+  background: transparent;
+  border: 2px solid #ef4444;
+  color: #ef4444;
+  border-radius: var(--radius-full);
+  padding: var(--sp-2) var(--sp-6);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-bold);
+  cursor: pointer;
+  transition: background 150ms, color 150ms;
+}
+.btn-danger-outline:hover {
+  background: #ef4444;
+  color: #fff;
+}
+
+/* ── Nickname input ─────────────────────────── */
+
+.form-input {
+  width: 100%;
+  padding: var(--sp-3) var(--sp-4);
+  border: 1.5px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  font-size: var(--text-base);
+  font-family: inherit;
+  color: var(--color-text);
+  background: var(--color-bg);
+  outline: none;
+  transition: border-color 150ms;
+  box-sizing: border-box;
+}
+.form-input:focus { border-color: var(--color-primary); }
+
+/* ════════════════════════════════════════════
+   CLASSMATES PAGE
+   ════════════════════════════════════════════ */
+
+.classmates-page {
+  max-width: 680px;
+  margin: 0 auto;
+  padding: var(--sp-6) var(--sp-4) var(--sp-10);
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-5);
+}
+
+.classmates-header {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-4);
+}
+
+.classmates-classroom-info {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+}
+
+.classmates-classroom-emoji {
+  font-size: 2rem;
+  flex-shrink: 0;
+}
+
+.classmates-classroom-info h2 {
+  font-size: var(--text-xl);
+  font-weight: var(--weight-extrabold);
+  color: var(--color-text);
+  line-height: 1.2;
+}
+
+.classmates-classroom-desc {
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+}
+
+.classmates-section-title {
+  font-size: var(--text-base);
+  font-weight: var(--weight-extrabold);
+  color: var(--color-text-muted);
+  letter-spacing: 0.04em;
+}
+
+.classmates-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+}
+
+/* ── Member card ────────────────────────────── */
+
+.classmate-card {
+  background: var(--color-surface);
+  border: 1.5px solid var(--color-border);
+  border-radius: var(--radius-2xl);
+  padding: var(--sp-4) var(--sp-5);
+  display: flex;
+  align-items: center;
+  gap: var(--sp-4);
+  box-shadow: var(--shadow-sm);
+  transition: transform 150ms, box-shadow 150ms;
+  position: relative;
+}
+
+.classmate-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.classmate-card-me {
+  border-color: var(--color-primary);
+  background: color-mix(in srgb, var(--color-primary) 5%, var(--color-surface));
+}
+
+.classmate-rank {
+  min-width: 36px;
+  text-align: center;
+  font-size: var(--text-lg);
+  font-weight: var(--weight-extrabold);
+  color: var(--color-text-muted);
+  flex-shrink: 0;
+}
+
+.classmate-rank.top-1,
+.classmate-rank.top-2,
+.classmate-rank.top-3 {
+  font-size: 1.5rem;
+}
+
+.classmate-avatar {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  border: 2px solid var(--color-border);
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.classmate-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.classmate-name {
+  font-size: var(--text-base);
+  font-weight: var(--weight-extrabold);
+  color: var(--color-text);
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+}
+
+.classmate-me-tag {
+  font-size: var(--text-xs);
+  font-weight: var(--weight-bold);
+  color: var(--color-primary);
+  background: color-mix(in srgb, var(--color-primary) 15%, transparent);
+  border-radius: var(--radius-full);
+  padding: 1px var(--sp-2);
+}
+
+.classmate-meta {
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+  margin-top: 2px;
+}
+
+.classmate-badges {
+  margin-top: var(--sp-1);
+  font-size: 1rem;
+  display: flex;
+  gap: var(--sp-1);
+}
+
+/* ════════════════════════════════════════════
+   EMPTY STATE
+   ════════════════════════════════════════════ */
+
+.empty-state {
+  text-align: center;
+  padding: var(--sp-12) var(--sp-4);
+  color: var(--color-text-muted);
+}
+
+.empty-state-icon {
+  font-size: 3rem;
+  margin-bottom: var(--sp-3);
+}
+
+.empty-state h3 {
+  font-size: var(--text-xl);
+  font-weight: var(--weight-extrabold);
+  color: var(--color-text);
+  margin-bottom: var(--sp-2);
+}
+
+.empty-state p {
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+}
+
+/* ════════════════════════════════════════════
+   BUTTONS (extras)
+   ════════════════════════════════════════════ */
+
+.btn-xs {
+  padding: var(--sp-1) var(--sp-3);
+  font-size: var(--text-xs);
+  border-radius: var(--radius-full);
+}
+
+.btn-sm {
+  padding: var(--sp-2) var(--sp-4);
+  font-size: var(--text-sm);
+}
+
+/* ════════════════════════════════════════════
+   TEACHER: CLASSROOMS TAB
+   ════════════════════════════════════════════ */
+
+.classrooms-tab {
+  padding: var(--sp-4) 0;
+}
+
+.classrooms-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--sp-5);
+  gap: var(--sp-3);
+  flex-wrap: wrap;
+}
+
+.classrooms-toolbar h3 {
+  font-size: var(--text-lg);
+  font-weight: var(--weight-extrabold);
+}
+
+.classrooms-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: var(--sp-4);
+}
+
+.classroom-card {
+  background: var(--color-surface);
+  border: 1.5px solid var(--color-border);
+  border-radius: var(--radius-2xl);
+  padding: var(--sp-5);
+  box-shadow: var(--shadow-sm);
+  transition: transform 150ms, box-shadow 150ms;
+  cursor: pointer;
+}
+
+.classroom-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.classroom-card-header {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  margin-bottom: var(--sp-3);
+}
+
+.classroom-card-emoji {
+  font-size: 2rem;
+  flex-shrink: 0;
+}
+
+.classroom-card-title {
+  font-size: var(--text-base);
+  font-weight: var(--weight-extrabold);
+  color: var(--color-text);
+}
+
+.classroom-card-desc {
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+  margin-bottom: var(--sp-3);
+  line-height: 1.5;
+}
+
+.classroom-card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.classroom-card-count {
+  font-size: var(--text-sm);
+  color: var(--color-text-faint);
+}
+
+.classroom-card-actions {
+  display: flex;
+  gap: var(--sp-2);
+}
+
+/* Classroom form */
+.classroom-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-4);
+}
+
+.classroom-form label {
+  font-size: var(--text-sm);
+  font-weight: var(--weight-bold);
+  color: var(--color-text-muted);
+  display: block;
+  margin-bottom: var(--sp-1);
+}
+
+.classroom-emoji-picker {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-2);
+  margin-top: var(--sp-2);
+}
+
+.classroom-emoji-opt {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-lg);
+  border: 2px solid var(--color-border);
+  background: var(--color-bg);
+  font-size: 1.25rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: border-color 150ms, background 150ms;
+}
+.classroom-emoji-opt.selected,
+.classroom-emoji-opt:hover {
+  border-color: var(--color-primary);
+  background: color-mix(in srgb, var(--color-primary) 10%, transparent);
+}
+
+/* Members in classroom modal */
+.classroom-members-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+  max-height: 320px;
+  overflow-y: auto;
+}
+
+.classroom-member-row {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  padding: var(--sp-2) var(--sp-3);
+  border-radius: var(--radius-lg);
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+}
+
+.classroom-member-name {
+  flex: 1;
+  font-size: var(--text-sm);
+  font-weight: var(--weight-bold);
+  color: var(--color-text);
+}
+
+.classroom-member-xp {
+  font-size: var(--text-xs);
+  color: var(--color-text-faint);
+}
