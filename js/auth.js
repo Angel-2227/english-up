@@ -361,7 +361,7 @@ export function initAuth() {
         registerDashboard();
 
         if (State.isAdmin) {
-          const { registerTeacher } = await import("./teacher/students.js");
+          const { registerTeacher } = await import("./students.js");
           registerTeacher();
         }
 
