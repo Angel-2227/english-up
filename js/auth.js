@@ -78,17 +78,19 @@ async function getOrCreateProfile(user) {
 
   // Nuevo usuario — crear con status pending
   const profile = {
-    name:      user.displayName || "Student",
-    email:     user.email,
-    photoURL:  user.photoURL || "",
-    avatar:    null,           // emoji o null (usa foto Google)
-    status:    "pending",
-    role:      "student",
-    xp:        0,
-    streak:    0,
-    lastActive:null,
-    badges:    [],
-    createdAt: serverTimestamp(),
+    name:        user.displayName || "Student",
+    email:       user.email,
+    photoURL:    user.photoURL || "",
+    avatar:      null,           // emoji o null (usa foto Google)
+    nickname:    "",             // apodo personalizado
+    status:      "pending",
+    role:        "student",
+    xp:          0,
+    streak:      0,
+    lastActive:  null,
+    badges:      [],
+    classroomId: null,           // salón asignado
+    createdAt:   serverTimestamp(),
   };
 
   await setDoc(ref, profile);
@@ -104,7 +106,6 @@ export function updateNavbar(profile) {
   const avatarImg = document.getElementById("nav-avatar");
   if (avatarImg) {
     if (profile.avatar) {
-      // Emoji avatar → render en canvas como imagen
       avatarImg.src = emojiToDataURL(profile.avatar, 72);
     } else {
       avatarImg.src = profile.photoURL || makeInitialsAvatar(profile.name);
@@ -114,13 +115,13 @@ export function updateNavbar(profile) {
 
   const xpEl     = document.getElementById("nav-xp");
   const streakEl = document.getElementById("nav-streak");
-  if (xpEl)     xpEl.textContent     = (profile.xp     ?? 0).toLocaleString();
-  if (streakEl) streakEl.textContent  = profile.streak  ?? 0;
+  if (xpEl)     xpEl.textContent    = (profile.xp     ?? 0).toLocaleString();
+  if (streakEl) streakEl.textContent = profile.streak  ?? 0;
 
-  // Dropdown info
+  // Dropdown info: mostrar nickname si tiene, si no nombre real
   const ddName  = document.getElementById("dd-name");
   const ddEmail = document.getElementById("dd-email");
-  if (ddName)  ddName.textContent  = profile.name  || "";
+  if (ddName)  ddName.textContent  = profile.nickname || profile.name  || "";
   if (ddEmail) ddEmail.textContent = profile.email || "";
 
   // Mostrar/ocultar nav links según rol
@@ -134,7 +135,7 @@ export function updateNavbar(profile) {
 // AVATAR HELPERS
 // ════════════════════════════════════════════
 
-/** Convierte emoji a data URL (36×36 canvas) */
+/** Convierte emoji a data URL */
 export function emojiToDataURL(emoji, size = 72) {
   const canvas = document.createElement("canvas");
   canvas.width  = size;
@@ -165,9 +166,11 @@ function makeInitialsAvatar(name) {
 
 // ════════════════════════════════════════════
 // AVATAR PICKER MODAL
+// Acepta callback opcional (onSaved) para
+// que el perfil pueda refrescarse.
 // ════════════════════════════════════════════
 
-export function openAvatarPicker() {
+export function openAvatarPicker(onSaved = null) {
   const currentAvatar = State.profile?.avatar ?? null;
   const photoURL      = State.profile?.photoURL ?? "";
 
@@ -231,6 +234,16 @@ export function openAvatarPicker() {
     }
   });
 
+  // Also handle the Google photo button outside the grid
+  document.querySelector(".avatar-option[data-emoji='__google__']")?.addEventListener("click", e => {
+    const btn = e.currentTarget;
+    selected = "__google__";
+    document.querySelectorAll(".avatar-option").forEach(b => b.classList.remove("selected"));
+    btn.classList.add("selected");
+    const preview = document.getElementById("avatar-picker-preview");
+    if (preview) preview.src = photoURL;
+  });
+
   document.getElementById("btn-save-avatar")?.addEventListener("click", async () => {
     const saveBtn = document.getElementById("btn-save-avatar");
     saveBtn.disabled = true;
@@ -241,7 +254,11 @@ export function openAvatarPicker() {
       State.profile.avatar = newAvatar;
       updateNavbar(State.profile);
       closeModal();
-      showToast("Avatar updated!", "success");
+      showToast("Avatar updated! 🎉", "success");
+
+      // Callback para que la página de perfil pueda refrescarse
+      if (typeof onSaved === "function") onSaved();
+
     } catch (err) {
       console.error(err);
       showToast("Could not save avatar.", "error");
@@ -276,11 +293,18 @@ export function initAuth() {
       document.getElementById("nav-dropdown")?.classList.add("hidden");
     });
 
-    // Change avatar
+    // Change avatar (from dropdown)
     document.getElementById("dd-avatar")
       ?.addEventListener("click", () => {
         document.getElementById("nav-dropdown")?.classList.add("hidden");
         openAvatarPicker();
+      });
+
+    // Profile page (from dropdown)
+    document.getElementById("dd-profile")
+      ?.addEventListener("click", () => {
+        document.getElementById("nav-dropdown")?.classList.add("hidden");
+        navigate("profile");
       });
 
     // Observer
@@ -325,6 +349,10 @@ export function initAuth() {
         showScreen("app");
         updateNavbar(profile);
 
+        // Exponer SYSTEM_BADGES globalmente para classmates page
+        const { SYSTEM_BADGES } = await import("./db.js");
+        window.__SYSTEM_BADGES__ = SYSTEM_BADGES;
+
         // Lazy-load módulos y rutas
         const { registerDashboard } = await import("./dashboard.js");
         registerDashboard();
@@ -334,13 +362,19 @@ export function initAuth() {
           registerTeacher();
         }
 
-        // Registrar ruta lesson
+        // Ruta lesson
         const { registerLesson } = await import("./lesson.js");
         registerLesson();
 
         // Missions
         const { registerMissions } = await import("./missions.js");
         registerMissions();
+
+        // Profile & classmates
+        const { registerProfile }    = await import("./profile.js");
+        const { registerClassmates } = await import("./classrooms.js");
+        registerProfile();
+        registerClassmates();
 
         // AI widget
         const { initAI } = await import("./ai.js");

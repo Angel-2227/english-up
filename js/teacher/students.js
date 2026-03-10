@@ -37,14 +37,16 @@ async function renderTeacherPanel(_, container) {
       </div>
       <div class="teacher-tabs">
         <button class="teacher-tab active" data-tab="students">👥 Students</button>
+        <button class="teacher-tab"        data-tab="classrooms">🏫 Classrooms</button>
         <button class="teacher-tab"        data-tab="modules">📚 Modules</button>
         <button class="teacher-tab"        data-tab="missions">🎯 Missions</button>
         <button class="teacher-tab"        data-tab="settings">⚙️ Settings</button>
       </div>
-      <div id="tab-students" class="teacher-tab-content active"></div>
-      <div id="tab-modules"  class="teacher-tab-content"></div>
-      <div id="tab-missions"  class="teacher-tab-content"></div> 
-      <div id="tab-settings" class="teacher-tab-content"></div>
+      <div id="tab-students"   class="teacher-tab-content active"></div>
+      <div id="tab-classrooms" class="teacher-tab-content"></div>
+      <div id="tab-modules"    class="teacher-tab-content"></div>
+      <div id="tab-missions"   class="teacher-tab-content"></div>
+      <div id="tab-settings"   class="teacher-tab-content"></div>
     </div>
   `;
 
@@ -57,14 +59,18 @@ async function renderTeacherPanel(_, container) {
       const tabId = `tab-${btn.dataset.tab}`;
       document.getElementById(tabId)?.classList.add("active");
 
+      if (btn.dataset.tab === "classrooms") {
+        const { renderClassroomsTab } = await import("./classrooms.js");
+        renderClassroomsTab(document.getElementById("tab-classrooms"));
+      }
       if (btn.dataset.tab === "modules") {
         const { renderModulesTab } = await import("./modules.js");
         renderModulesTab(document.getElementById("tab-modules"));
       }
       if (btn.dataset.tab === "missions") {
-      const { renderMissionsTeacherTab } = await import("./missions.js");
-      renderMissionsTeacherTab(document.getElementById("tab-missions"));
-      } 
+        const { renderMissionsTeacherTab } = await import("./missions.js");
+        renderMissionsTeacherTab(document.getElementById("tab-missions"));
+      }
       if (btn.dataset.tab === "settings") {
         renderSettingsTab(document.getElementById("tab-settings"));
       }
@@ -80,435 +86,341 @@ async function renderTeacherPanel(_, container) {
 // ════════════════════════════════════════════
 
 function renderStudentsTab(container) {
-  if (_unsubUsers) _unsubUsers();
+  if (!container) return;
 
   container.innerHTML = `
-    <div class="section-header">
-      <span class="section-title">All Students</span>
-      <div style="display:flex;gap:var(--sp-2);flex-wrap:wrap">
-        <select id="student-filter" class="form-select" style="width:auto;font-size:var(--text-xs)">
-          <option value="all">All</option>
-          <option value="pending">Pending</option>
-          <option value="active">Active</option>
-          <option value="blocked">Blocked</option>
-        </select>
+    <div class="students-toolbar">
+      <div class="students-search-wrap">
+        <input type="search" id="student-search" class="students-search" placeholder="🔍 Search by name or email…" />
+      </div>
+      <div class="students-filter-group">
+        <button class="filter-btn active" data-filter="all">All</button>
+        <button class="filter-btn" data-filter="pending">⏳ Pending</button>
+        <button class="filter-btn" data-filter="active">✅ Active</button>
+        <button class="filter-btn" data-filter="blocked">🚫 Blocked</button>
       </div>
     </div>
-    <div id="pending-banner" class="pending-banner hidden">
-      <span class="pending-banner-icon">⏳</span>
-      <span class="pending-banner-text" id="pending-banner-text"></span>
-    </div>
-    <div id="students-grid" class="students-grid">
-      <div class="path-skeleton" style="grid-column:1/-1">
-        ${[1,2,3].map(() => `<div class="skeleton-node"></div>`).join("")}
-      </div>
-    </div>
+    <div id="students-list" class="students-list"></div>
   `;
 
-  let filterValue = "all";
-  document.getElementById("student-filter")?.addEventListener("change", e => {
-    filterValue = e.target.value;
-    renderCards(latestUsers, filterValue);
-  });
+  let allUsers  = [];
+  let filter    = "all";
+  let searchVal = "";
 
-  let latestUsers = [];
-
-  _unsubUsers = watchAllUsers(users => {
-    latestUsers = users;
-    // Pending banner
-    const pending = users.filter(u => u.status === "pending");
-    const banner  = document.getElementById("pending-banner");
-    const bannerText = document.getElementById("pending-banner-text");
-    if (banner && bannerText) {
-      if (pending.length > 0) {
-        banner.classList.remove("hidden");
-        bannerText.textContent = `${pending.length} student${pending.length > 1 ? "s" : ""} waiting for approval`;
-      } else {
-        banner.classList.add("hidden");
+  function renderList() {
+    let users = allUsers.filter(u => {
+      if (u.id === State.user?.uid) return false; // Skip self (admin)
+      if (filter !== "all" && u.status !== filter) return false;
+      if (searchVal) {
+        const q = searchVal.toLowerCase();
+        return (u.name||"").toLowerCase().includes(q)
+          || (u.email||"").toLowerCase().includes(q)
+          || (u.nickname||"").toLowerCase().includes(q);
       }
-    }
-    renderCards(users, filterValue);
-  });
-}
+      return true;
+    });
 
-function renderCards(users, filter) {
-  const grid = document.getElementById("students-grid");
-  if (!grid) return;
-
-  const filtered = filter === "all"
-    ? users
-    : users.filter(u => u.status === filter);
-
-  if (filtered.length === 0) {
-    grid.innerHTML = `
-      <div class="path-empty" style="grid-column:1/-1;padding:var(--sp-12)">
-        <div class="path-empty-icon">🤷</div>
-        <h3>No students found</h3>
-        <p>No students match this filter.</p>
-      </div>`;
-    return;
-  }
-
-  // Sort: pending first, then alphabetical
-  const sorted = [...filtered].sort((a, b) => {
-    if (a.status === "pending" && b.status !== "pending") return -1;
-    if (b.status === "pending" && a.status !== "pending") return  1;
-    return (a.name || "").localeCompare(b.name || "");
-  });
-
-  grid.innerHTML = sorted.map(u => buildStudentCard(u)).join("");
-
-  // Bind actions
-  grid.querySelectorAll("[data-action]").forEach(btn => {
-    btn.addEventListener("click", e => handleStudentAction(e, btn));
-  });
-}
-
-// ── Student card HTML ─────────────────────────────────────────────────────────
-
-function buildStudentCard(u) {
-  const avatarSrc = u.avatar
-    ? emojiToDataURL(u.avatar, 52)
-    : (u.photoURL || "");
-
-  const badges = (u.badges ?? []).slice(0, 5).map(id => {
-    const def = SYSTEM_BADGES.find(b => b.id === id);
-    return def ? `<div class="sc-badge" title="${escapeHTML(def.name)}">${def.emoji}</div>` : "";
-  }).join("");
-
-  const xp     = u.xp     ?? 0;
-  const streak = u.streak ?? 0;
-
-  // Simple progress: count completed lessons
-  const progressCount = Object.values(u.progress ?? {}).filter(p => p.completed).length;
-
-  return `
-    <div class="student-card ${u.status}" data-uid="${escapeHTML(u.id)}">
-      <div class="sc-top">
-        <img class="sc-avatar"
-             src="${escapeHTML(avatarSrc)}"
-             alt="${escapeHTML(u.name)}"
-             onerror="this.style.background='var(--brand-200)';this.src=''">
-        <div class="sc-info">
-          <div class="sc-name">${escapeHTML(u.name || "Unknown")}</div>
-          <div class="sc-email">${escapeHTML(u.email || "")}</div>
-        </div>
-        <span class="sc-status ${u.status}">${u.status}</span>
-      </div>
-
-      <div class="sc-stats">
-        <div class="sc-stat">⚡ <strong>${xp.toLocaleString()}</strong> XP</div>
-        <div class="sc-stat">🔥 <strong>${streak}</strong> days</div>
-        <div class="sc-stat">✅ <strong>${progressCount}</strong> done</div>
-      </div>
-
-      ${badges ? `<div class="sc-badges">${badges}</div>` : ""}
-
-      <div class="sc-progress-track">
-        <div class="sc-progress-fill" style="width:${Math.min(xp / 5, 100)}%"></div>
-      </div>
-
-      <div class="sc-actions">
-        ${u.status === "pending" ? `
-          <button class="btn btn-secondary btn-sm" data-action="approve" data-uid="${u.id}">✅ Approve</button>
-          <button class="btn btn-ghost btn-sm"     data-action="block"   data-uid="${u.id}">🚫 Block</button>
-        ` : u.status === "active" ? `
-          <button class="btn btn-ghost btn-sm"   data-action="edit-xp"   data-uid="${u.id}">⚡ XP</button>
-          <button class="btn btn-ghost btn-sm"   data-action="badges"    data-uid="${u.id}">🏅 Badges</button>
-          <button class="btn btn-ghost btn-sm"   data-action="unlock"    data-uid="${u.id}">🔓 Unlock</button>
-          <button class="btn btn-danger btn-sm"  data-action="block"     data-uid="${u.id}">🚫</button>
-        ` : `
-          <button class="btn btn-secondary btn-sm" data-action="unblock" data-uid="${u.id}">✅ Unblock</button>
-        `}
-      </div>
-    </div>
-  `;
-}
-
-// ── Action handler ────────────────────────────────────────────────────────────
-
-async function handleStudentAction(e, btn) {
-  const action = btn.dataset.action;
-  const uid    = btn.dataset.uid;
-  if (!uid) return;
-
-  btn.disabled = true;
-
-  try {
-    switch (action) {
-      case "approve":
-        await approveUser(uid);
-        showToast("Student approved ✅", "success");
-        break;
-
-      case "block":
-        await blockUser(uid);
-        showToast("Student blocked", "info");
-        break;
-
-      case "unblock":
-        await unblockUser(uid);
-        showToast("Student unblocked ✅", "success");
-        break;
-
-      case "edit-xp":
-        openXPModal(uid);
-        break;
-
-      case "badges":
-        openBadgesModal(uid);
-        break;
-
-      case "unlock":
-        openUnlockModal(uid);
-        break;
-    }
-  } catch (err) {
-    console.error("[Students]", err);
-    showToast("Something went wrong", "error");
-  } finally {
-    btn.disabled = false;
-  }
-}
-
-// ── XP Modal ──────────────────────────────────────────────────────────────────
-
-function openXPModal(uid) {
-  const card = document.querySelector(`.student-card[data-uid="${uid}"]`);
-  const name = card?.querySelector(".sc-name")?.textContent || "Student";
-
-  openModal(`
-    <div class="modal-header">
-      <h3>⚡ Edit XP — ${escapeHTML(name)}</h3>
-      <button class="modal-close" onclick="closeModal()">✕</button>
-    </div>
-    <div class="modal-body">
-      <div class="form-group">
-        <label class="form-label">Set XP to</label>
-        <input id="xp-input" class="form-input" type="number" min="0" placeholder="e.g. 250" />
-        <span class="form-hint">This will overwrite the current XP value.</span>
-      </div>
-    </div>
-    <div class="modal-footer">
-      <button class="btn btn-ghost" onclick="closeModal()">Cancel</button>
-      <button class="btn btn-primary" id="btn-save-xp">Save XP</button>
-    </div>
-  `);
-
-  document.getElementById("btn-save-xp")?.addEventListener("click", async () => {
-    const val = parseInt(document.getElementById("xp-input")?.value ?? "", 10);
-    if (isNaN(val) || val < 0) { showToast("Enter a valid number", "warning"); return; }
-    try {
-      await updateUserProfile(uid, { xp: val });
-      showToast("XP updated ✅", "success");
-      closeModal();
-    } catch {
-      showToast("Could not update XP", "error");
-    }
-  });
-}
-
-// ── Badges Modal ──────────────────────────────────────────────────────────────
-
-function openBadgesModal(uid) {
-  const card   = document.querySelector(`.student-card[data-uid="${uid}"]`);
-  const name   = card?.querySelector(".sc-name")?.textContent || "Student";
-  const earned = new Set(
-    [...(card?.querySelectorAll(".sc-badge") ?? [])].map(b => b.title)
-  );
-
-  // Re-read from DOM isn't reliable; fetch inline via watchAllUsers cache isn't available here.
-  // Instead, build checkbox list from SYSTEM_BADGES
-
-  openModal(`
-    <div class="modal-header">
-      <h3>🏅 Badges — ${escapeHTML(name)}</h3>
-      <button class="modal-close" onclick="closeModal()">✕</button>
-    </div>
-    <div class="modal-body">
-      <p class="form-hint" style="margin-bottom:var(--sp-4)">
-        Check badges to award them; uncheck to revoke.
-      </p>
-      <div style="display:flex;flex-direction:column;gap:var(--sp-3)">
-        ${SYSTEM_BADGES.map(b => `
-          <label style="display:flex;align-items:center;gap:var(--sp-3);cursor:pointer;
-                        padding:var(--sp-3) var(--sp-4);border-radius:var(--radius-md);
-                        background:var(--color-surface-alt);font-size:var(--text-sm)">
-            <input type="checkbox" data-badge-id="${b.id}"
-                   style="width:16px;height:16px;cursor:pointer">
-            <span style="font-size:20px">${b.emoji}</span>
-            <div>
-              <div style="font-weight:var(--weight-bold)">${escapeHTML(b.name)}</div>
-              <div style="font-size:var(--text-xs);color:var(--color-text-muted)">${escapeHTML(b.desc)}</div>
-            </div>
-          </label>
-        `).join("")}
-      </div>
-    </div>
-    <div class="modal-footer">
-      <button class="btn btn-ghost" onclick="closeModal()">Cancel</button>
-      <button class="btn btn-primary" id="btn-save-badges">Save Badges</button>
-    </div>
-  `);
-
-  document.getElementById("btn-save-badges")?.addEventListener("click", async () => {
-    const checks = [...document.querySelectorAll("[data-badge-id]")];
-    const toAward  = checks.filter(c => c.checked).map(c => c.dataset.badgeId);
-    const toRevoke = checks.filter(c => !c.checked).map(c => c.dataset.badgeId);
-    try {
-      await Promise.all([
-        ...toAward.map(id  => awardBadge(uid, id)),
-        ...toRevoke.map(id => revokeBadge(uid, id)),
-      ]);
-      showToast("Badges updated ✅", "success");
-      closeModal();
-    } catch {
-      showToast("Could not update badges", "error");
-    }
-  });
-}
-
-// ── Unlock Lessons Modal ──────────────────────────────────────────────────────
-
-async function openUnlockModal(uid) {
-  openModal(`
-    <div class="modal-header">
-      <h3>🔓 Unlock Lessons</h3>
-      <button class="modal-close" onclick="closeModal()">✕</button>
-    </div>
-    <div class="modal-body">
-      <p class="form-hint" style="margin-bottom:var(--sp-5)">
-        Check lessons to unlock them manually for this student,
-        regardless of their progress.
-      </p>
-      <div id="unlock-list">Loading…</div>
-    </div>
-    <div class="modal-footer">
-      <button class="btn btn-ghost" onclick="closeModal()">Cancel</button>
-      <button class="btn btn-primary" id="btn-save-unlock">Save</button>
-    </div>
-  `);
-
-  // Load modules + lessons
-  try {
-    const modules = await getModules();
-    const modulesWithLessons = await Promise.all(
-      modules.map(async m => ({ ...m, lessons: await getLessons(m.id) }))
-    );
-
-    const listEl = document.getElementById("unlock-list");
+    const listEl = document.getElementById("students-list");
     if (!listEl) return;
 
-    listEl.innerHTML = modulesWithLessons
-      .filter(m => m.lessons.length > 0)
-      .map(m => `
-        <div class="unlock-module-group">
-          <div class="unlock-module-title">${m.emoji || "📚"} ${escapeHTML(m.title)}</div>
-          ${m.lessons.map(l => `
-            <div class="unlock-lesson-row">
-              <span class="unlock-lesson-name">${escapeHTML(l.title)}</span>
-              <label class="toggle-switch">
-                <input type="checkbox"
-                       data-module="${m.id}"
-                       data-lesson="${l.id}"
-                       ${Array.isArray(l.unlockedFor) && l.unlockedFor.includes(uid) ? "checked" : ""}>
-                <span class="toggle-track"></span>
-              </label>
-            </div>
-          `).join("")}
-        </div>
-      `).join("") || "<p class='form-hint'>No modules available.</p>";
+    if (users.length === 0) {
+      listEl.innerHTML = `
+        <div style="padding:var(--sp-10);text-align:center;color:var(--color-text-faint)">
+          No students found.
+        </div>`;
+      return;
+    }
 
-  } catch (err) {
-    document.getElementById("unlock-list").textContent = "Could not load modules.";
-    console.error(err);
+    listEl.innerHTML = users.map(u => buildStudentRow(u)).join("");
+
+    // Bind actions
+    listEl.querySelectorAll("[data-uid]").forEach(row => {
+      const uid = row.dataset.uid;
+      const u   = allUsers.find(x => x.id === uid);
+      if (!u) return;
+
+      row.querySelector(".btn-approve")?.addEventListener("click",  () => handleApprove(uid));
+      row.querySelector(".btn-block")?.addEventListener("click",    () => handleBlock(uid));
+      row.querySelector(".btn-unblock")?.addEventListener("click",  () => handleUnblock(uid));
+      row.querySelector(".btn-details")?.addEventListener("click",  () => openStudentModal(u));
+    });
   }
 
-  document.getElementById("btn-save-unlock")?.addEventListener("click", async () => {
-    const checks = [...document.querySelectorAll("#unlock-list input[type=checkbox]")];
-    try {
-      await Promise.all(checks.map(c => {
-        const fn = c.checked ? unlockLessonForUser : lockLessonForUser;
-        return fn(c.dataset.module, c.dataset.lesson, uid);
-      }));
-      showToast("Access updated ✅", "success");
-      closeModal();
-    } catch {
-      showToast("Could not update access", "error");
-    }
+  // Real-time listener
+  if (_unsubUsers) _unsubUsers();
+  _unsubUsers = watchAllUsers(users => {
+    allUsers = users;
+    renderList();
+  });
+
+  // Filters
+  container.querySelectorAll(".filter-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
+      container.querySelectorAll(".filter-btn").forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+      filter = btn.dataset.filter;
+      renderList();
+    });
+  });
+
+  // Search
+  container.querySelector("#student-search")?.addEventListener("input", e => {
+    searchVal = e.target.value.trim();
+    renderList();
   });
 }
 
+// ── Row builder ───────────────────────────────────────────────────────────────
+
+function buildStudentRow(u) {
+  let avatarSrc;
+  if (u.avatar) {
+    avatarSrc = emojiToDataURL(u.avatar, 48);
+  } else {
+    avatarSrc = u.photoURL || "";
+  }
+
+  const statusClass = { pending: "badge-warning", active: "badge-success", blocked: "badge-danger" }[u.status] || "";
+  const statusLabel = { pending: "⏳ Pending", active: "✅ Active", blocked: "🚫 Blocked" }[u.status] || u.status;
+  const displayName = u.nickname ? `${u.nickname} <span class="student-realname">(${escapeHTML(u.name)})</span>` : escapeHTML(u.name);
+
+  return `
+    <div class="student-row" data-uid="${escapeHTML(u.id)}">
+      <img class="student-row-avatar"
+           src="${escapeHTML(avatarSrc)}"
+           alt="${escapeHTML(u.name)}"
+           onerror="this.src=''" />
+      <div class="student-row-info">
+        <div class="student-row-name">${displayName}</div>
+        <div class="student-row-email">${escapeHTML(u.email)}</div>
+      </div>
+      <div class="student-row-stats">
+        <span class="stat-mini">⚡ ${(u.xp ?? 0).toLocaleString()}</span>
+        <span class="stat-mini">🔥 ${u.streak ?? 0}</span>
+        <span class="stat-mini">🏅 ${(u.badges ?? []).length}</span>
+      </div>
+      <span class="badge ${statusClass}">${statusLabel}</span>
+      <div class="student-row-actions">
+        ${u.status === "pending"  ? `<button class="btn btn-success btn-sm btn-approve">Approve</button>` : ""}
+        ${u.status === "active"   ? `<button class="btn btn-danger  btn-sm btn-block">Block</button>` : ""}
+        ${u.status === "blocked"  ? `<button class="btn btn-ghost   btn-sm btn-unblock">Unblock</button>` : ""}
+        <button class="btn btn-ghost btn-sm btn-details">Details</button>
+      </div>
+    </div>
+  `;
+}
+
+// ── Actions ───────────────────────────────────────────────────────────────────
+
+async function handleApprove(uid) {
+  try { await approveUser(uid); showToast("Student approved!", "success"); }
+  catch(e) { showToast("Error: " + e.message, "error"); }
+}
+
+async function handleBlock(uid) {
+  try { await blockUser(uid); showToast("Student blocked.", "info"); }
+  catch(e) { showToast("Error: " + e.message, "error"); }
+}
+
+async function handleUnblock(uid) {
+  try { await unblockUser(uid); showToast("Student unblocked.", "success"); }
+  catch(e) { showToast("Error: " + e.message, "error"); }
+}
+
+// ════════════════════════════════════════════
+// STUDENT DETAIL MODAL
+// ════════════════════════════════════════════
+
+async function openStudentModal(u) {
+  openModal(`
+    <div class="modal-header">
+      <h3>👤 ${escapeHTML(u.nickname || u.name)}</h3>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body" id="student-modal-body">
+      <div style="color:var(--color-text-faint);text-align:center;padding:var(--sp-4)">Loading…</div>
+    </div>
+  `);
+
+  try {
+    const modules = await getModules();
+    const allLessons = await Promise.all(modules.map(async m => ({
+      module: m,
+      lessons: await getLessons(m.id),
+    })));
+
+    const body = document.getElementById("student-modal-body");
+    if (!body) return;
+
+    const progress = u.progress ?? {};
+    const badges   = u.badges   ?? [];
+
+    // Badges section
+    const badgesHTML = SYSTEM_BADGES.map(b => {
+      const has = badges.includes(b.id);
+      return `
+        <div class="badge-row" data-badge="${escapeHTML(b.id)}" data-has="${has ? "1" : "0"}">
+          <span>${b.emoji} ${escapeHTML(b.name)}</span>
+          <button class="btn btn-xs ${has ? "btn-danger" : "btn-primary"} btn-badge-toggle">
+            ${has ? "Revoke" : "Award"}
+          </button>
+        </div>`;
+    }).join("");
+
+    // Lessons section
+    const lessonsHTML = allLessons.map(({ module: m, lessons }) => {
+      if (!lessons.length) return "";
+      return `
+        <div style="margin-bottom:var(--sp-4)">
+          <div style="font-weight:var(--weight-bold);margin-bottom:var(--sp-2)">${m.emoji || "📚"} ${escapeHTML(m.title)}</div>
+          ${lessons.map(l => {
+            const key  = `${m.id}_${l.id}`;
+            const done = progress[key]?.completed === true;
+            const unlocked = Array.isArray(l.unlockedFor) && l.unlockedFor.includes(u.id);
+            return `
+              <div class="lesson-unlock-row">
+                <span class="${done ? "text-green" : ""}">
+                  ${done ? "✅" : "⬜"} ${escapeHTML(l.title)}
+                </span>
+                <button class="btn btn-xs ${unlocked ? "btn-danger" : "btn-ghost"} btn-unlock-lesson"
+                        data-module="${escapeHTML(m.id)}"
+                        data-lesson="${escapeHTML(l.id)}"
+                        data-unlocked="${unlocked ? "1" : "0"}">
+                  ${unlocked ? "🔒 Lock" : "🔓 Unlock"}
+                </button>
+              </div>`;
+          }).join("")}
+        </div>`;
+    }).join("");
+
+    body.innerHTML = `
+      <div class="student-modal-grid">
+        <div>
+          <div class="modal-section-title">📊 Stats</div>
+          <div class="student-stats-mini">
+            <span>⚡ ${(u.xp ?? 0).toLocaleString()} XP</span>
+            <span>🔥 ${u.streak ?? 0} streak</span>
+            <span>🏅 ${badges.length} badges</span>
+          </div>
+        </div>
+        <div>
+          <div class="modal-section-title">🏅 Badges</div>
+          <div class="badges-manage-list">${badgesHTML}</div>
+        </div>
+        <div>
+          <div class="modal-section-title">🔓 Lesson Access</div>
+          ${lessonsHTML || "<p style='color:var(--color-text-faint)'>No modules yet.</p>"}
+        </div>
+      </div>
+    `;
+
+    // Badge toggles
+    body.querySelectorAll(".btn-badge-toggle").forEach(btn => {
+      const row = btn.closest(".badge-row");
+      btn.addEventListener("click", async () => {
+        const badgeId = row.dataset.badge;
+        const has     = row.dataset.has === "1";
+        btn.disabled  = true;
+        try {
+          if (has) { await revokeBadge(u.id, badgeId); row.dataset.has = "0"; btn.textContent = "Award"; btn.className = "btn btn-xs btn-primary btn-badge-toggle"; }
+          else     { await awardBadge(u.id, badgeId);  row.dataset.has = "1"; btn.textContent = "Revoke"; btn.className = "btn btn-xs btn-danger btn-badge-toggle"; }
+          showToast("Badge updated!", "success");
+        } catch(e) { showToast("Error.", "error"); }
+        btn.disabled = false;
+      });
+    });
+
+    // Lesson unlock toggles
+    body.querySelectorAll(".btn-unlock-lesson").forEach(btn => {
+      btn.addEventListener("click", async () => {
+        const { moduleId: mId, lessonId: lId } = { moduleId: btn.dataset.module, lessonId: btn.dataset.lesson };
+        // Use correct variable names
+        const mod = btn.dataset.module;
+        const les = btn.dataset.lesson;
+        const unlocked = btn.dataset.unlocked === "1";
+        btn.disabled = true;
+        try {
+          if (unlocked) {
+            await lockLessonForUser(mod, les, u.id);
+            btn.dataset.unlocked = "0";
+            btn.textContent = "🔓 Unlock";
+            btn.className = "btn btn-xs btn-ghost btn-unlock-lesson";
+          } else {
+            await unlockLessonForUser(mod, les, u.id);
+            btn.dataset.unlocked = "1";
+            btn.textContent = "🔒 Lock";
+            btn.className = "btn btn-xs btn-danger btn-unlock-lesson";
+          }
+          showToast("Access updated!", "success");
+        } catch(e) { showToast("Error.", "error"); }
+        btn.disabled = false;
+      });
+    });
+
+  } catch (err) {
+    console.error(err);
+    const body = document.getElementById("student-modal-body");
+    if (body) body.innerHTML = `<p style="color:#ef4444">Could not load details.</p>`;
+  }
+}
 
 // ════════════════════════════════════════════
 // TAB: SETTINGS
 // ════════════════════════════════════════════
 
 async function renderSettingsTab(container) {
-  const cfg = await getAppConfig().catch(() => ({}));
+  if (!container) return;
+  container.innerHTML = `<div style="padding:var(--sp-4);color:var(--color-text-faint)">Loading settings…</div>`;
 
-  container.innerHTML = `
-    <div class="settings-section">
-      <h3>Platform</h3>
-      <div class="form-group">
-        <label class="form-label">Platform Name</label>
-        <input id="cfg-name" class="form-input" type="text"
-               value="${escapeHTML(cfg.platformName || "English Up!")}" />
-      </div>
-      <div class="form-group">
-        <label class="form-label">Welcome Message</label>
-        <input id="cfg-welcome" class="form-input" type="text"
-               value="${escapeHTML(cfg.welcomeMessage || "")}"
-               placeholder="Shown to students on the dashboard" />
-      </div>
-      <button class="btn btn-primary" id="btn-save-platform">💾 Save</button>
-    </div>
+  try {
+    const config = await getAppConfig();
 
-    <div class="settings-section">
-      <h3>Features</h3>
-      <div class="toggle-row">
-        <div>
-          <div class="toggle-label">AI Assistant</div>
-          <div class="toggle-hint">Let students use the AI chat widget</div>
+    container.innerHTML = `
+      <div class="settings-form">
+        <div class="settings-group">
+          <h3 class="settings-group-title">⚙️ App Settings</h3>
+
+          <label class="settings-label">
+            App Name
+            <input type="text" id="cfg-app-name" class="settings-input"
+                   value="${escapeHTML(config.appName || "English Up!")}" />
+          </label>
+
+          <label class="settings-label">
+            Welcome Message
+            <input type="text" id="cfg-welcome" class="settings-input"
+                   value="${escapeHTML(config.welcomeMessage || "")}"
+                   placeholder="Shown on login screen" />
+          </label>
+
+          <label class="settings-label settings-toggle">
+            <span>Allow students to see leaderboard</span>
+            <input type="checkbox" id="cfg-leaderboard"
+                   ${config.showLeaderboard ? "checked" : ""} />
+          </label>
         </div>
-        <label class="toggle-switch">
-          <input type="checkbox" id="cfg-ai" ${cfg.aiEnabled !== false ? "checked" : ""}>
-          <span class="toggle-track"></span>
-        </label>
-      </div>
-      <div class="toggle-row">
-        <div>
-          <div class="toggle-label">Gamification</div>
-          <div class="toggle-hint">Show XP, streaks, and badges to students</div>
-        </div>
-        <label class="toggle-switch">
-          <input type="checkbox" id="cfg-gamification" ${cfg.gamificationEnabled !== false ? "checked" : ""}>
-          <span class="toggle-track"></span>
-        </label>
-      </div>
-      <div style="margin-top:var(--sp-5)">
-        <button class="btn btn-primary" id="btn-save-features">💾 Save</button>
-      </div>
-    </div>
-  `;
 
-  document.getElementById("btn-save-platform")?.addEventListener("click", async () => {
-    try {
-      await updateAppConfig({
-        platformName:   document.getElementById("cfg-name")?.value    || "English Up!",
-        welcomeMessage: document.getElementById("cfg-welcome")?.value || "",
-      });
-      showToast("Platform settings saved ✅", "success");
-    } catch { showToast("Could not save", "error"); }
-  });
+        <button class="btn btn-primary" id="btn-save-settings">Save Settings</button>
+        <p id="settings-saved" class="settings-saved hidden">✅ Saved!</p>
+      </div>
+    `;
 
-  document.getElementById("btn-save-features")?.addEventListener("click", async () => {
-    try {
-      await updateAppConfig({
-        aiEnabled:            document.getElementById("cfg-ai")?.checked ?? true,
-        gamificationEnabled:  document.getElementById("cfg-gamification")?.checked ?? true,
-      });
-      showToast("Features saved ✅", "success");
-    } catch { showToast("Could not save", "error"); }
-  });
+    container.querySelector("#btn-save-settings")?.addEventListener("click", async () => {
+      const data = {
+        appName:         document.getElementById("cfg-app-name")?.value.trim() || "English Up!",
+        welcomeMessage:  document.getElementById("cfg-welcome")?.value.trim()  || "",
+        showLeaderboard: document.getElementById("cfg-leaderboard")?.checked   ?? false,
+      };
+      try {
+        await updateAppConfig(data);
+        const saved = document.getElementById("settings-saved");
+        saved?.classList.remove("hidden");
+        setTimeout(() => saved?.classList.add("hidden"), 2000);
+        showToast("Settings saved!", "success");
+      } catch(e) { showToast("Could not save settings.", "error"); }
+    });
+
+  } catch(err) {
+    container.innerHTML = `<p style="color:#ef4444;padding:var(--sp-4)">Could not load settings.</p>`;
+  }
 }

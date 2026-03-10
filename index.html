@@ -20,6 +20,7 @@
   <link rel="stylesheet" href="css/teacher.css" />
   <link rel="stylesheet" href="css/lesson.css" />
   <link rel="stylesheet" href="css/missions.css" />
+  <link rel="stylesheet" href="css/profile.css" />
   <link rel="stylesheet" href="css/print.css" media="print" />
 </head>
 
@@ -97,7 +98,7 @@
       <!-- Teacher nav -->
       <div class="nav-links hidden" id="nav-links-teacher">
         <button class="nav-link" data-route="home">My Path</button>
-        <button class="nav-link" data-route="missions">🎯 Missions</button> 
+        <button class="nav-link" data-route="missions">🎯 Missions</button>
         <button class="nav-link" data-route="teacher">Teacher Panel</button>
       </div>
 
@@ -122,6 +123,7 @@
             <strong id="dd-name"></strong>
             <span id="dd-email"></span>
           </div>
+          <button class="dd-item" id="dd-profile">👤 My Profile</button>
           <button class="dd-item" id="dd-avatar">🎨 Change Avatar</button>
           <button class="dd-item" id="btn-logout">🚪 Sign out</button>
         </div>
@@ -171,7 +173,7 @@
     </div>
     <div class="ai-messages" id="ai-messages"></div>
     <div class="ai-input-row">
-      <input id="ai-input" class="ai-input" type="text" placeholder="Ask me anything..." autocomplete="off" />
+      <input id="ai-input" class="ai-input" type="text" placeholder="Ask me anything…" autocomplete="off" />
       <button id="ai-send" class="ai-send-btn" aria-label="Send">➤</button>
     </div>
   </div>
