@@ -76,6 +76,25 @@ async function renderLesson({ moduleId, lessonId }, container) {
       );
     }
 
+    // Reveal complete bar only when user scrolls near the bottom
+    // (already-completed lessons are always visible via CSS)
+    if (!isCompleted) {
+      const bar      = container.querySelector(".lesson-complete-bar");
+      const sentinel = container.querySelector(".lesson-content-sentinel");
+      if (bar && sentinel) {
+        const observer = new IntersectionObserver(
+          (entries) => {
+            if (entries[0].isIntersecting) {
+              bar.classList.add("visible");
+              observer.disconnect();
+            }
+          },
+          { threshold: 0.1 }
+        );
+        observer.observe(sentinel);
+      }
+    }
+
     // Render content
     renderLessonContent(lesson, container);
 
@@ -122,23 +141,25 @@ function buildLessonPage(module, lesson, isCompleted) {
       <!-- Content injected here -->
       <div id="lesson-content-area"></div>
 
+      <!-- Sentinel: IntersectionObserver watches this to reveal complete bar -->
+      <div class="lesson-content-sentinel"></div>
+
       <!-- Complete bar -->
-      <div class="lesson-complete-bar ${isCompleted ? "completed" : ""}">
+      <div class="lesson-complete-bar ${isCompleted ? "completed" : ""}">${isCompleted ? `
         <div class="lcb-left">
-          ${isCompleted
-            ? `<div class="lcb-title">✅ You completed this lesson!</div>
-               <div class="lcb-desc">Great work. Keep going on your path.</div>`
-            : `<div class="lcb-title">Done with this lesson?</div>
-               <div class="lcb-desc">Mark it complete to earn your XP and keep your streak.</div>`
-          }
+          <div class="lcb-title">✅ You completed this lesson!</div>
+          <div class="lcb-desc">Great work. Keep going on your path.</div>
         </div>
-        ${isCompleted
-          ? `<button class="btn btn-ghost" onclick="navigate('home')">← Back to path</button>`
-          : `<button id="btn-complete-lesson" class="btn btn-primary btn-lg">
-               ⚡ Complete — +${xp} XP
-             </button>`
-        }
-      </div>
+        <button class="btn btn-ghost" onclick="navigate('home')">← Back to path</button>
+      ` : `
+        <div class="lcb-left">
+          <div class="lcb-title">Done with this lesson?</div>
+          <div class="lcb-desc">Mark it complete to earn your XP and keep your streak.</div>
+        </div>
+        <button id="btn-complete-lesson" class="btn btn-primary btn-lg">
+          ⚡ Complete — +${xp} XP
+        </button>
+      `}</div>
 
     </div>
   `;

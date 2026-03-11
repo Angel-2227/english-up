@@ -244,10 +244,6 @@
    COMPLETE LESSON BAR
 ═══════════════════════════════════════════ */
 .lesson-complete-bar {
-  position:      sticky;
-  bottom:        var(--sp-4);
-  left:          0;
-  right:         0;
   display:       flex;
   align-items:   center;
   justify-content:space-between;
@@ -258,13 +254,32 @@
   padding:       var(--sp-4) var(--sp-6);
   box-shadow:    var(--shadow-xl);
   flex-wrap:     wrap;
-  z-index:       var(--z-base);
-  animation:     slideUp var(--duration-slow) var(--ease-spring) 0.4s both;
+  /* Hidden until user reaches bottom of content */
+  opacity:       0;
+  transform:     translateY(20px);
+  transition:    opacity 400ms var(--ease-spring),
+                 transform 400ms var(--ease-spring);
+  pointer-events: none;
 }
 
-@keyframes slideUp {
-  from { opacity: 0; transform: translateY(20px); }
-  to   { opacity: 1; transform: translateY(0); }
+.lesson-complete-bar.visible {
+  opacity:        1;
+  transform:      translateY(0);
+  pointer-events: auto;
+}
+
+/* Already-completed lessons show immediately */
+.lesson-complete-bar.completed {
+  background:    #f0fdf4;
+  border-color:  #bbf7d0;
+  opacity:       1;
+  transform:     none;
+  pointer-events: auto;
+}
+
+
+.lesson-complete-bar.completed .lcb-title {
+  color: var(--green-600);
 }
 
 .lcb-left {
@@ -283,19 +298,11 @@
   color:     var(--color-text-muted);
 }
 
-.lesson-complete-bar.completed {
-  background:    #f0fdf4;
-  border-color:  #bbf7d0;
+/* Sentinel element used by IntersectionObserver */
+.lesson-content-sentinel {
+  height: 1px;
+  width: 100%;
 }
-
-.lesson-complete-bar.completed .lcb-title {
-  color: var(--green-600);
-}
-
-
-/* ═══════════════════════════════════════════
-   COMPLETION ANIMATION (XP pop)
-═══════════════════════════════════════════ */
 .xp-pop {
   position:      fixed;
   bottom:        120px;
