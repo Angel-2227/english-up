@@ -4,6 +4,7 @@
 // =============================================
 
 import { initAuth } from "./auth.js";
+import { registerSW, initInstallBanner } from "./pwa.js";
 
 // ════════════════════════════════════════════
 // ESTADO GLOBAL
@@ -186,6 +187,8 @@ function bindNavButtons() {
 
 async function init() {
   bindNavButtons();
+  registerSW();
+  initInstallBanner();
 
   // La auth arranca todo lo demás a través de onAuthStateChanged
   await initAuth();
