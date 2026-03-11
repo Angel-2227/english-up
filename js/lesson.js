@@ -8,7 +8,6 @@ import { State, registerRoute, navigate, showToast, escapeHTML } from "./app.js"
 import { getModule, getLesson, completeLesson, checkAutoBadges } from "./db.js";
 import { renderEditorContent } from "./teacher/editor.js";
 import { updateNavbar } from "./auth.js";
-import { showLessonComplete } from "./celebrations.js";
 
 // Dominios que bloquean iframe (X-Frame-Options: DENY / SAMEORIGIN)
 const NO_EMBED_DOMAINS = [
@@ -77,6 +76,25 @@ async function renderLesson({ moduleId, lessonId }, container) {
       );
     }
 
+    // Reveal complete bar only when user scrolls near the bottom
+    // (already-completed lessons are always visible via CSS)
+    if (!isCompleted) {
+      const bar      = container.querySelector(".lesson-complete-bar");
+      const sentinel = container.querySelector(".lesson-content-sentinel");
+      if (bar && sentinel) {
+        const observer = new IntersectionObserver(
+          (entries) => {
+            if (entries[0].isIntersecting) {
+              bar.classList.add("visible");
+              observer.disconnect();
+            }
+          },
+          { threshold: 0.1 }
+        );
+        observer.observe(sentinel);
+      }
+    }
+
     // Render content
     renderLessonContent(lesson, container);
 
@@ -123,23 +141,25 @@ function buildLessonPage(module, lesson, isCompleted) {
       <!-- Content injected here -->
       <div id="lesson-content-area"></div>
 
+      <!-- Sentinel: IntersectionObserver watches this to reveal complete bar -->
+      <div class="lesson-content-sentinel"></div>
+
       <!-- Complete bar -->
-      <div class="lesson-complete-bar ${isCompleted ? "completed" : ""}">
+      <div class="lesson-complete-bar ${isCompleted ? "completed" : ""}">${isCompleted ? `
         <div class="lcb-left">
-          ${isCompleted
-            ? `<div class="lcb-title">✅ You completed this lesson!</div>
-               <div class="lcb-desc">Great work. Keep going on your path.</div>`
-            : `<div class="lcb-title">Done with this lesson?</div>
-               <div class="lcb-desc">Mark it complete to earn your XP and keep your streak.</div>`
-          }
+          <div class="lcb-title">✅ You completed this lesson!</div>
+          <div class="lcb-desc">Great work. Keep going on your path.</div>
         </div>
-        ${isCompleted
-          ? `<button class="btn btn-ghost" onclick="navigate('home')">← Back to path</button>`
-          : `<button id="btn-complete-lesson" class="btn btn-primary btn-lg">
-               ⚡ Complete — +${xp} XP
-             </button>`
-        }
-      </div>
+        <button class="btn btn-ghost" onclick="navigate('home')">← Back to path</button>
+      ` : `
+        <div class="lcb-left">
+          <div class="lcb-title">Done with this lesson?</div>
+          <div class="lcb-desc">Mark it complete to earn your XP and keep your streak.</div>
+        </div>
+        <button id="btn-complete-lesson" class="btn btn-primary btn-lg">
+          ⚡ Complete — +${xp} XP
+        </button>
+      `}</div>
 
     </div>
   `;
@@ -265,22 +285,18 @@ async function handleComplete(moduleId, lessonId, xpReward, btn) {
     // Check + award auto-badges
     const newBadges = await checkAutoBadges(State.user.uid);
 
-    // XP before and after (for bar animation)
-    const xpBefore = State.profile.xp ?? 0;
-    const xpAfter  = xpBefore + xpReward;
-
     // Update local state
     const progressKey = `${moduleId}_${lessonId}`;
     if (!State.profile.progress) State.profile.progress = {};
     State.profile.progress[progressKey] = { completed: true };
-    State.profile.xp     = xpAfter;
-    State.profile.streak = (State.profile.streak ?? 0);
+    State.profile.xp     = (State.profile.xp ?? 0) + xpReward;
+    State.profile.streak = (State.profile.streak ?? 0);  // will refresh on next load
 
     // Update navbar
     updateNavbar(State.profile);
 
-    // 🎉 Celebration animation (replaces old xp-pop)
-    showLessonComplete(xpReward, xpBefore, xpAfter);
+    // XP pop animation
+    showXPPop(xpReward);
 
     // Update bar UI
     const bar = document.querySelector(".lesson-complete-bar");
@@ -305,13 +321,13 @@ async function handleComplete(moduleId, lessonId, xpReward, btn) {
       meta.appendChild(done);
     }
 
-    // Badge toasts (with delay so they appear after celebration)
+    // Badge toasts
     if (newBadges?.length > 0) {
       newBadges.forEach((id, i) => {
         setTimeout(() => {
           const def = (window.__SYSTEM_BADGES ?? []).find(b => b.id === id);
           if (def) showToast(`${def.emoji} New badge: ${def.name}!`, "success", 4000);
-        }, 3200 + i * 600); // after celebrations finish
+        }, i * 600);
       });
     }
 
@@ -321,6 +337,18 @@ async function handleComplete(moduleId, lessonId, xpReward, btn) {
     btn.disabled    = false;
     btn.textContent = `⚡ Complete — +${xpReward} XP`;
   }
+}
+
+// ════════════════════════════════════════════
+// XP POP ANIMATION
+// ════════════════════════════════════════════
+
+function showXPPop(xp) {
+  const el = document.createElement("div");
+  el.className   = "xp-pop";
+  el.textContent = `+${xp} XP ⚡`;
+  document.body.appendChild(el);
+  el.addEventListener("animationend", () => el.remove(), { once: true });
 }
 
 // ════════════════════════════════════════════

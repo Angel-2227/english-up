@@ -54,30 +54,6 @@ export async function unblockUser(uid) {
   await updateDoc(doc(db, "users", uid), { status: "active" });
 }
 
-/**
- * Elimina permanentemente un usuario de Firestore.
- * - Borra su documento en /users/{uid}
- * - Lo desvincula de su salon (si tenia)
- * Nota: No elimina la cuenta de Firebase Auth (requiere Admin SDK).
- */
-export async function deleteUser(uid) {
-  const userRef  = doc(db, "users", uid);
-  const userSnap = await getDoc(userRef);
-  if (!userSnap.exists()) return;
-
-  const batch = writeBatch(db);
-
-  const classroomId = userSnap.data().classroomId;
-  if (classroomId) {
-    batch.update(doc(db, "classrooms", classroomId), {
-      members: arrayRemove(uid)
-    });
-  }
-
-  batch.delete(userRef);
-  await batch.commit();
-}
-
 export async function updateUserProfile(uid, data) {
   await updateDoc(doc(db, "users", uid), data);
 }

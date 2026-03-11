@@ -8,7 +8,7 @@ import {
   showToast, openModal, closeModal, escapeHTML
 } from "../app.js";
 import {
-  watchAllUsers, approveUser, blockUser, unblockUser, deleteUser,
+  watchAllUsers, approveUser, blockUser, unblockUser,
   updateUserProfile, awardBadge, revokeBadge,
   getModules, getLessons, unlockLessonForUser, lockLessonForUser,
   SYSTEM_BADGES, getAppConfig, updateAppConfig
@@ -143,7 +143,6 @@ function renderStudentsTab(container) {
       row.querySelector(".btn-block")?.addEventListener("click",    () => handleBlock(uid));
       row.querySelector(".btn-unblock")?.addEventListener("click",  () => handleUnblock(uid));
       row.querySelector(".btn-details")?.addEventListener("click",  () => openStudentModal(u));
-      row.querySelector(".btn-delete")?.addEventListener("click",   () => confirmDeleteStudent(u));
     });
   }
 
@@ -206,7 +205,6 @@ function buildStudentRow(u) {
         ${u.status === "active"   ? `<button class="btn btn-danger  btn-sm btn-block">Block</button>` : ""}
         ${u.status === "blocked"  ? `<button class="btn btn-ghost   btn-sm btn-unblock">Unblock</button>` : ""}
         <button class="btn btn-ghost btn-sm btn-details">Details</button>
-        <button class="btn btn-danger btn-sm btn-delete" title="Delete student">🗑</button>
       </div>
     </div>
   `;
@@ -227,45 +225,6 @@ async function handleBlock(uid) {
 async function handleUnblock(uid) {
   try { await unblockUser(uid); showToast("Student unblocked.", "success"); }
   catch(e) { showToast("Error: " + e.message, "error"); }
-}
-
-function confirmDeleteStudent(u) {
-  const displayName = u.nickname || u.name || "this student";
-  openModal(`
-    <div class="modal-header">
-      <h3>🗑 Delete Student</h3>
-      <button class="modal-close" onclick="closeModal()">✕</button>
-    </div>
-    <div class="modal-body">
-      <p>Are you sure you want to permanently delete <strong>${escapeHTML(displayName)}</strong>?</p>
-      <p style="margin-top:var(--sp-3);padding:var(--sp-3) var(--sp-4);background:#fff1f2;border-radius:var(--radius-md);border:1px solid #fecdd3;font-size:var(--text-sm);color:#be123c;">
-        ⚠️ This will delete all their data — XP, progress, badges, and classroom membership. This action cannot be undone.
-      </p>
-      <p style="margin-top:var(--sp-3);font-size:var(--text-sm);color:var(--color-text-muted);">
-        Note: their Google account will not be deleted, only their profile in this app.
-      </p>
-    </div>
-    <div class="modal-footer">
-      <button class="btn btn-ghost" onclick="closeModal()">Cancel</button>
-      <button class="btn btn-danger" id="btn-confirm-delete-student">Yes, delete permanently</button>
-    </div>
-  `);
-
-  document.getElementById("btn-confirm-delete-student")?.addEventListener("click", async () => {
-    const btn = document.getElementById("btn-confirm-delete-student");
-    btn.disabled    = true;
-    btn.textContent = "Deleting…";
-    try {
-      await deleteUser(u.id);
-      closeModal();
-      showToast(`${escapeHTML(displayName)} has been deleted.`, "info");
-    } catch(err) {
-      console.error(err);
-      showToast("Could not delete student. Try again.", "error");
-      btn.disabled    = false;
-      btn.textContent = "Yes, delete permanently";
-    }
-  });
 }
 
 // ════════════════════════════════════════════
