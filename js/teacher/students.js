@@ -11,9 +11,11 @@ import {
   watchAllUsers, approveUser, blockUser, unblockUser, deleteUser,
   updateUserProfile, awardBadge, revokeBadge,
   getModules, getLessons, unlockLessonForUser, lockLessonForUser,
-  SYSTEM_BADGES, getAppConfig, updateAppConfig
+  SYSTEM_BADGES, getAppConfig, updateAppConfig,
+  getSkinsConfig, updateSkinsEnabled, updateSkinsScheduled,
 } from "../db.js";
 import { emojiToDataURL } from "../auth.js";
+import { SKINS, applySkin, _updateSkinsCache } from "../theme.js";
 
 // ════════════════════════════════════════════
 // REGISTRO
@@ -406,7 +408,7 @@ async function openStudentModal(u) {
 }
 
 // ════════════════════════════════════════════
-// TAB: SETTINGS
+// TAB: SETTINGS (General + Skins)
 // ════════════════════════════════════════════
 
 async function renderSettingsTab(container) {
@@ -414,54 +416,449 @@ async function renderSettingsTab(container) {
   container.innerHTML = `<div style="padding:var(--sp-4);color:var(--color-text-faint)">Loading settings…</div>`;
 
   try {
-    const config = await getAppConfig();
-
-    container.innerHTML = `
-      <div class="settings-form">
-        <div class="settings-group">
-          <h3 class="settings-group-title">⚙️ App Settings</h3>
-
-          <label class="settings-label">
-            App Name
-            <input type="text" id="cfg-app-name" class="settings-input"
-                   value="${escapeHTML(config.appName || "English Up!")}" />
-          </label>
-
-          <label class="settings-label">
-            Welcome Message
-            <input type="text" id="cfg-welcome" class="settings-input"
-                   value="${escapeHTML(config.welcomeMessage || "")}"
-                   placeholder="Shown on login screen" />
-          </label>
-
-          <label class="settings-label settings-toggle">
-            <span>Allow students to see leaderboard</span>
-            <input type="checkbox" id="cfg-leaderboard"
-                   ${config.showLeaderboard ? "checked" : ""} />
-          </label>
-        </div>
-
-        <button class="btn btn-primary" id="btn-save-settings">Save Settings</button>
-        <p id="settings-saved" class="settings-saved hidden">✅ Saved!</p>
-      </div>
-    `;
-
-    container.querySelector("#btn-save-settings")?.addEventListener("click", async () => {
-      const data = {
-        appName:         document.getElementById("cfg-app-name")?.value.trim() || "English Up!",
-        welcomeMessage:  document.getElementById("cfg-welcome")?.value.trim()  || "",
-        showLeaderboard: document.getElementById("cfg-leaderboard")?.checked   ?? false,
-      };
-      try {
-        await updateAppConfig(data);
-        const saved = document.getElementById("settings-saved");
-        saved?.classList.remove("hidden");
-        setTimeout(() => saved?.classList.add("hidden"), 2000);
-        showToast("Settings saved!", "success");
-      } catch(e) { showToast("Could not save settings.", "error"); }
-    });
-
+    const [config, skinsConfig] = await Promise.all([getAppConfig(), getSkinsConfig()]);
+    renderSettingsHTML(container, config, skinsConfig);
   } catch(err) {
     container.innerHTML = `<p style="color:#ef4444;padding:var(--sp-4)">Could not load settings.</p>`;
   }
+}
+
+function renderSettingsHTML(container, config, skinsConfig) {
+  container.innerHTML = `
+    <div class="settings-tabs">
+      <button class="settings-tab-btn active" data-stab="general">⚙️ General</button>
+      <button class="settings-tab-btn" data-stab="skins">🎨 Temáticas</button>
+    </div>
+    <div id="stab-general" class="settings-tab-panel">
+      ${buildGeneralSettings(config)}
+    </div>
+    <div id="stab-skins" class="settings-tab-panel hidden">
+      ${buildSkinsPanel(skinsConfig)}
+    </div>
+  `;
+
+  // Sub-tab switching
+  container.querySelectorAll(".settings-tab-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
+      container.querySelectorAll(".settings-tab-btn").forEach(b => b.classList.remove("active"));
+      container.querySelectorAll(".settings-tab-panel").forEach(p => p.classList.add("hidden"));
+      btn.classList.add("active");
+      document.getElementById(`stab-${btn.dataset.stab}`)?.classList.remove("hidden");
+    });
+  });
+
+  bindGeneralSettings(container, config);
+  bindSkinsPanel(container, skinsConfig);
+}
+
+// ── General Settings ─────────────────────────────────────────────────────────
+
+function buildGeneralSettings(config) {
+  return `
+    <div class="settings-form">
+      <div class="settings-group">
+        <h3 class="settings-group-title">⚙️ App Settings</h3>
+        <label class="settings-label">
+          App Name
+          <input type="text" id="cfg-app-name" class="settings-input"
+                 value="${escapeHTML(config.appName || "English Up!")}" />
+        </label>
+        <label class="settings-label">
+          Welcome Message
+          <input type="text" id="cfg-welcome" class="settings-input"
+                 value="${escapeHTML(config.welcomeMessage || "")}"
+                 placeholder="Shown on login screen" />
+        </label>
+        <label class="settings-label settings-toggle">
+          <span>Allow students to see leaderboard</span>
+          <input type="checkbox" id="cfg-leaderboard"
+                 ${config.showLeaderboard ? "checked" : ""} />
+        </label>
+      </div>
+      <button class="btn btn-primary" id="btn-save-settings">Save Settings</button>
+      <p id="settings-saved" class="settings-saved hidden">✅ Saved!</p>
+    </div>
+  `;
+}
+
+function bindGeneralSettings(container, config) {
+  container.querySelector("#btn-save-settings")?.addEventListener("click", async () => {
+    const data = {
+      appName:         document.getElementById("cfg-app-name")?.value.trim() || "English Up!",
+      welcomeMessage:  document.getElementById("cfg-welcome")?.value.trim()  || "",
+      showLeaderboard: document.getElementById("cfg-leaderboard")?.checked   ?? false,
+    };
+    try {
+      await updateAppConfig(data);
+      const saved = document.getElementById("settings-saved");
+      saved?.classList.remove("hidden");
+      setTimeout(() => saved?.classList.add("hidden"), 2000);
+      showToast("Settings saved!", "success");
+    } catch(e) { showToast("Could not save settings.", "error"); }
+  });
+}
+
+// ── Skins Panel ───────────────────────────────────────────────────────────────
+
+function buildSkinsPanel(skinsConfig) {
+  const enabled   = skinsConfig.enabled   ?? [];
+  const scheduled = skinsConfig.scheduled ?? [];
+
+  const toggleableSkins = Object.values(SKINS).filter(s => s.teacherCanToggle);
+
+  const skinToggles = toggleableSkins.map(skin => {
+    const isOn = enabled.includes(skin.id);
+    return `
+      <div class="skin-mgr-card ${isOn ? "skin-mgr-card-on" : ""}">
+        <span class="skin-mgr-emoji">${skin.emoji}</span>
+        <div class="skin-mgr-info">
+          <span class="skin-mgr-name">${skin.name}</span>
+          <span class="skin-mgr-desc">${skin.desc}</span>
+          ${skin.autoDate ? `<span class="skin-mgr-auto">📅 Auto: mes ${skin.autoDate.month}, días ${skin.autoDate.dayStart}–${skin.autoDate.dayEnd}</span>` : ""}
+        </div>
+        <label class="toggle-switch" title="${isOn ? "Deshabilitar" : "Habilitar"} para estudiantes">
+          <input type="checkbox" class="skin-toggle-cb" data-skin-id="${skin.id}" ${isOn ? "checked" : ""}>
+          <span class="toggle-slider"></span>
+        </label>
+        <button class="btn btn-sm btn-outline skin-preview-btn" data-skin-id="${skin.id}">
+          👁 Preview
+        </button>
+      </div>
+    `;
+  }).join("");
+
+  const schedItems = scheduled.length === 0
+    ? `<p class="skin-sched-empty">No hay programaciones. Usa ＋ Nueva para crear una.</p>`
+    : scheduled.map((s, i) => buildSchedRow(s, i)).join("");
+
+  return `
+    <div class="skins-panel">
+      <section class="skins-section">
+        <div class="section-header">
+          <h3 class="section-title">🎨 Temáticas disponibles</h3>
+        </div>
+        <p class="skins-hint">Activa las temáticas que los estudiantes podrán elegir.</p>
+        <div class="skin-mgr-list" id="skin-mgr-list">
+          ${skinToggles}
+        </div>
+      </section>
+
+      <section class="skins-section">
+        <div class="section-header">
+          <h3 class="section-title">📅 Programaciones automáticas</h3>
+          <button class="btn btn-primary btn-sm" id="btn-new-sched">＋ Nueva</button>
+        </div>
+        <p class="skins-hint">Define cuándo se activa una temática automáticamente para todos.</p>
+        <div class="skin-sched-list" id="skin-sched-list">
+          ${schedItems}
+        </div>
+      </section>
+    </div>
+  `;
+}
+
+function buildSchedRow(sched, index) {
+  const skin   = SKINS[sched.skinId];
+  const label  = sched.label || (skin ? skin.name : sched.skinId);
+  const typeLabel = { range: "📅 Rango de fechas", days: "📆 Días de semana", hours: "🕐 Rango horario" }[sched.type] || sched.type;
+
+  let detail = "";
+  if (sched.type === "range") {
+    detail = `${sched.startDate} → ${sched.endDate}`;
+    if (sched.startTime) detail += ` (${sched.startTime}–${sched.endTime || "23:59"})`;
+  } else if (sched.type === "days") {
+    const dayNames = ["Dom","Lun","Mar","Mié","Jue","Vie","Sáb"];
+    detail = (sched.daysOfWeek || []).map(d => dayNames[d]).join(", ");
+    if (sched.startTime) detail += ` ${sched.startTime}–${sched.endTime}`;
+  } else if (sched.type === "hours") {
+    detail = `Todos los días ${sched.startTime}–${sched.endTime}`;
+  }
+
+  return `
+    <div class="skin-sched-row ${sched.active ? "sched-active" : "sched-inactive"}" data-sched-idx="${index}">
+      <span class="sched-emoji">${skin ? skin.emoji : "🎨"}</span>
+      <div class="sched-info">
+        <span class="sched-label">${escapeHTML(label)}</span>
+        <span class="sched-type">${typeLabel}</span>
+        <span class="sched-detail">${escapeHTML(detail)}</span>
+      </div>
+      <label class="toggle-switch toggle-switch-sm" title="Activar/desactivar esta programación">
+        <input type="checkbox" class="sched-active-cb" data-sched-idx="${index}" ${sched.active ? "checked" : ""}>
+        <span class="toggle-slider"></span>
+      </label>
+      <button class="btn btn-sm btn-outline sched-edit-btn" data-sched-idx="${index}">✏️</button>
+      <button class="btn btn-sm btn-danger sched-del-btn" data-sched-idx="${index}">🗑</button>
+    </div>
+  `;
+}
+
+function bindSkinsPanel(container, skinsConfig) {
+  let enabled   = [...(skinsConfig.enabled ?? [])];
+  let scheduled = [...(skinsConfig.scheduled ?? [])];
+
+  // Toggle de skin habilitada
+  container.querySelectorAll(".skin-toggle-cb").forEach(cb => {
+    cb.addEventListener("change", async () => {
+      const skinId = cb.dataset.skinId;
+      if (cb.checked) {
+        if (!enabled.includes(skinId)) enabled.push(skinId);
+      } else {
+        enabled = enabled.filter(id => id !== skinId);
+      }
+      cb.closest(".skin-mgr-card").classList.toggle("skin-mgr-card-on", cb.checked);
+      try {
+        await updateSkinsEnabled(enabled);
+        _updateSkinsCache({ enabled, scheduled });
+        showToast(cb.checked ? `✅ ${skinId} habilitado` : `${skinId} deshabilitado`, "success");
+      } catch(e) { showToast("Error al guardar.", "error"); }
+    });
+  });
+
+  // Preview
+  container.querySelectorAll(".skin-preview-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
+      applySkin(btn.dataset.skinId, true);
+      showToast(`Preview: ${btn.dataset.skinId}`, "info", 1500);
+    });
+  });
+
+  // Nueva programación
+  container.querySelector("#btn-new-sched")?.addEventListener("click", () => {
+    openSchedModal(null, scheduled, async (newList) => {
+      scheduled = newList;
+      try {
+        await updateSkinsScheduled(scheduled);
+        _updateSkinsCache({ enabled, scheduled });
+        refreshSchedList(container, scheduled, enabled);
+        showToast("Programación guardada.", "success");
+      } catch(e) { showToast("Error al guardar.", "error"); }
+    });
+  });
+
+  // Delegación de eventos en la lista de programaciones
+  bindSchedList(container, scheduled, enabled, async (newList) => {
+    scheduled = newList;
+    try {
+      await updateSkinsScheduled(scheduled);
+      _updateSkinsCache({ enabled, scheduled });
+      showToast("Guardado.", "success");
+    } catch(e) { showToast("Error al guardar.", "error"); }
+  });
+}
+
+function refreshSchedList(container, scheduled, enabled) {
+  const el = container.querySelector("#skin-sched-list");
+  if (!el) return;
+  el.innerHTML = scheduled.length === 0
+    ? `<p class="skin-sched-empty">No hay programaciones.</p>`
+    : scheduled.map((s, i) => buildSchedRow(s, i)).join("");
+  bindSchedList(container, scheduled, enabled, async (newList) => {
+    try {
+      await updateSkinsScheduled(newList);
+      _updateSkinsCache({ enabled, scheduled: newList });
+    } catch(e) { showToast("Error al guardar.", "error"); }
+  });
+}
+
+function bindSchedList(container, scheduled, enabled, onSave) {
+  const el = container.querySelector("#skin-sched-list");
+  if (!el) return;
+
+  el.querySelectorAll(".sched-active-cb").forEach(cb => {
+    cb.addEventListener("change", async () => {
+      const idx = parseInt(cb.dataset.schedIdx);
+      scheduled[idx] = { ...scheduled[idx], active: cb.checked };
+      cb.closest(".skin-sched-row").classList.toggle("sched-active", cb.checked);
+      cb.closest(".skin-sched-row").classList.toggle("sched-inactive", !cb.checked);
+      await onSave([...scheduled]);
+    });
+  });
+
+  el.querySelectorAll(".sched-edit-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const idx = parseInt(btn.dataset.schedIdx);
+      openSchedModal(scheduled[idx], scheduled, async (newList) => {
+        await onSave(newList);
+        refreshSchedList(container, newList, enabled);
+      }, idx);
+    });
+  });
+
+  el.querySelectorAll(".sched-del-btn").forEach(btn => {
+    btn.addEventListener("click", async () => {
+      const idx = parseInt(btn.dataset.schedIdx);
+      if (!confirm("¿Eliminar esta programación?")) return;
+      scheduled.splice(idx, 1);
+      await onSave([...scheduled]);
+      refreshSchedList(container, scheduled, enabled);
+    });
+  });
+}
+
+// ── Modal: crear/editar programación ─────────────────────────────────────────
+
+function openSchedModal(existing, scheduled, onSave, editIdx = null) {
+  const toggleableSkins = Object.values(SKINS).filter(s => s.teacherCanToggle);
+  const skinOptions = toggleableSkins.map(s =>
+    `<option value="${s.id}" ${existing?.skinId === s.id ? "selected" : ""}>${s.emoji} ${s.name}</option>`
+  ).join("");
+
+  const type = existing?.type || "range";
+
+  const html = `
+    <div class="modal-header">
+      <h3>📅 ${existing ? "Editar" : "Nueva"} Programación</h3>
+      <button class="modal-close" onclick="window.closeModal()" type="button">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="sched-form">
+        <label class="settings-label">
+          Nombre / Etiqueta
+          <input type="text" id="sched-label" class="settings-input"
+                 value="${escapeHTML(existing?.label || "")}" placeholder="Ej: Navidad 2025" />
+        </label>
+
+        <label class="settings-label">
+          Temática
+          <select id="sched-skin" class="settings-input">${skinOptions}</select>
+        </label>
+
+        <label class="settings-label">
+          Tipo de programación
+          <select id="sched-type" class="settings-input">
+            <option value="range" ${type === "range" ? "selected" : ""}>📅 Rango de fechas</option>
+            <option value="days"  ${type === "days"  ? "selected" : ""}>📆 Días de la semana</option>
+            <option value="hours" ${type === "hours" ? "selected" : ""}>🕐 Rango horario diario</option>
+          </select>
+        </label>
+
+        <div id="sched-fields-range" class="sched-fields ${type !== "range" ? "hidden" : ""}">
+          <div class="form-row">
+            <label class="settings-label">
+              Fecha inicio
+              <input type="date" id="sched-start-date" class="settings-input"
+                     value="${existing?.startDate || ""}">
+            </label>
+            <label class="settings-label">
+              Fecha fin
+              <input type="date" id="sched-end-date" class="settings-input"
+                     value="${existing?.endDate || ""}">
+            </label>
+          </div>
+          <div class="form-row">
+            <label class="settings-label">
+              Hora inicio (opcional)
+              <input type="time" id="sched-start-time-range" class="settings-input"
+                     value="${existing?.startTime || ""}">
+            </label>
+            <label class="settings-label">
+              Hora fin (opcional)
+              <input type="time" id="sched-end-time-range" class="settings-input"
+                     value="${existing?.endTime || ""}">
+            </label>
+          </div>
+        </div>
+
+        <div id="sched-fields-days" class="sched-fields ${type !== "days" ? "hidden" : ""}">
+          <label class="settings-label">Días de la semana</label>
+          <div class="days-picker">
+            ${["Dom","Lun","Mar","Mié","Jue","Vie","Sáb"].map((d, i) => `
+              <label class="day-chip ${(existing?.daysOfWeek || []).includes(i) ? "day-chip-on" : ""}">
+                <input type="checkbox" value="${i}" class="day-cb"
+                       ${(existing?.daysOfWeek || []).includes(i) ? "checked" : ""}>
+                ${d}
+              </label>`).join("")}
+          </div>
+          <div class="form-row" style="margin-top:var(--sp-3)">
+            <label class="settings-label">
+              Hora inicio (opcional)
+              <input type="time" id="sched-start-time-days" class="settings-input"
+                     value="${existing?.startTime || ""}">
+            </label>
+            <label class="settings-label">
+              Hora fin (opcional)
+              <input type="time" id="sched-end-time-days" class="settings-input"
+                     value="${existing?.endTime || ""}">
+            </label>
+          </div>
+        </div>
+
+        <div id="sched-fields-hours" class="sched-fields ${type !== "hours" ? "hidden" : ""}">
+          <div class="form-row">
+            <label class="settings-label">
+              Hora inicio
+              <input type="time" id="sched-start-time-hours" class="settings-input"
+                     value="${existing?.startTime || ""}">
+            </label>
+            <label class="settings-label">
+              Hora fin
+              <input type="time" id="sched-end-time-hours" class="settings-input"
+                     value="${existing?.endTime || ""}">
+            </label>
+          </div>
+        </div>
+
+        <label class="settings-label settings-toggle">
+          <span>Activa inmediatamente</span>
+          <input type="checkbox" id="sched-active" ${existing?.active !== false ? "checked" : ""}>
+        </label>
+
+        <button class="btn btn-primary" id="btn-save-sched">💾 Guardar programación</button>
+      </div>
+    </div>
+  `;
+
+  const overlay = document.getElementById("modal-overlay");
+  const box     = document.getElementById("modal-box");
+  if (!overlay || !box) return;
+  box.innerHTML = html;
+  overlay.classList.remove("hidden");
+  overlay.onclick = e => { if (e.target === overlay) overlay.classList.add("hidden"); };
+
+  // Mostrar campos según tipo
+  const typeSelect = box.querySelector("#sched-type");
+  typeSelect.addEventListener("change", () => {
+    box.querySelectorAll(".sched-fields").forEach(f => f.classList.add("hidden"));
+    box.querySelector(`#sched-fields-${typeSelect.value}`)?.classList.remove("hidden");
+  });
+
+  // Day chips
+  box.querySelectorAll(".day-chip").forEach(chip => {
+    chip.addEventListener("click", () => chip.classList.toggle("day-chip-on"));
+  });
+
+  box.querySelector("#btn-save-sched").addEventListener("click", () => {
+    const schedType = typeSelect.value;
+    const newSched = {
+      id:      existing?.id || `sched_${Date.now()}`,
+      skinId:  box.querySelector("#sched-skin").value,
+      label:   box.querySelector("#sched-label").value.trim() || "Sin nombre",
+      type:    schedType,
+      active:  box.querySelector("#sched-active").checked,
+      startDate:   null, endDate: null,
+      startTime:   null, endTime: null,
+      daysOfWeek:  null,
+    };
+
+    if (schedType === "range") {
+      newSched.startDate = box.querySelector("#sched-start-date").value  || null;
+      newSched.endDate   = box.querySelector("#sched-end-date").value    || null;
+      newSched.startTime = box.querySelector("#sched-start-time-range").value || null;
+      newSched.endTime   = box.querySelector("#sched-end-time-range").value   || null;
+    } else if (schedType === "days") {
+      newSched.daysOfWeek = [...box.querySelectorAll(".day-cb:checked")].map(cb => parseInt(cb.value));
+      newSched.startTime  = box.querySelector("#sched-start-time-days").value || null;
+      newSched.endTime    = box.querySelector("#sched-end-time-days").value   || null;
+    } else if (schedType === "hours") {
+      newSched.startTime = box.querySelector("#sched-start-time-hours").value || null;
+      newSched.endTime   = box.querySelector("#sched-end-time-hours").value   || null;
+    }
+
+    const newList = [...scheduled];
+    if (editIdx !== null) newList[editIdx] = newSched;
+    else newList.push(newSched);
+
+    overlay.classList.add("hidden");
+    onSave(newList);
+  });
 }

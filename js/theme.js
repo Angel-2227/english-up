@@ -4,15 +4,15 @@
 //   - data-theme: "light" | "dark"  (brillo)
 //   - data-skin:  "default" | "valentine" | ...  (temática)
 //
-// Prioridades:
-//   1. Temáticas automáticas por fecha (no cancelables)
-//   2. Preferencia guardada del usuario
-//   3. Preferencia del sistema (dark/light)
+// Prioridades de skin:
+//   1. Programación activa del teacher (Firestore config/skins → scheduled)
+//   2. Skin elegida por el usuario (si está en la lista habilitada)
+//   3. Skin del día (autoDate local — fallback sin Firestore)
+//   4. "default"
 // =============================================
 
 // ════════════════════════════════════════════
-// CONFIGURACIÓN CENTRAL DE TEMÁTICAS
-// Para añadir una nueva: agregar aquí y crear su CSS.
+// CATÁLOGO CENTRAL DE TEMÁTICAS
 // ════════════════════════════════════════════
 
 export const SKINS = {
@@ -34,7 +34,6 @@ export const SKINS = {
     autoDate:         { month: 2, dayStart: 10, dayEnd: 14 },
     teacherCanToggle: true,
   },
-  // Plantillas para el futuro — descomentar y crear el CSS:
   // christmas: {
   //   id: "christmas", name: "Navidad", emoji: "🎄",
   //   css: "css/christmas.css",
@@ -56,18 +55,36 @@ export const SKINS = {
 };
 
 // ════════════════════════════════════════════
-// KEYS DE ALMACENAMIENTO
+// KEYS DE ALMACENAMIENTO LOCAL
 // ════════════════════════════════════════════
 
-const THEME_KEY         = "eu_theme";
-const SKIN_KEY          = "eu_skin";
-const TEACHER_SKINS_KEY = "eu_teacher_skins";
+const THEME_KEY = "eu_theme";
+const SKIN_KEY  = "eu_skin";
 
 // ════════════════════════════════════════════
-// HELPERS: FECHA
+// ESTADO INTERNO (cache Firestore)
 // ════════════════════════════════════════════
 
-function getTodaySkin() {
+let _skinsConfig = { enabled: [], scheduled: [] };
+let _unsubSkins  = null;
+
+// ════════════════════════════════════════════
+// STORAGE LOCAL
+// ════════════════════════════════════════════
+
+function store(key, val) {
+  try { localStorage.setItem(key, val); } catch (_) {}
+}
+
+function retrieve(key) {
+  try { return localStorage.getItem(key); } catch (_) { return null; }
+}
+
+// ════════════════════════════════════════════
+// HELPERS: FECHA Y PROGRAMACIÓN
+// ════════════════════════════════════════════
+
+function getAutoDateSkin() {
   const now   = new Date();
   const month = now.getMonth() + 1;
   const day   = now.getDate();
@@ -79,68 +96,82 @@ function getTodaySkin() {
   return null;
 }
 
+function isScheduleActive(sched) {
+  if (!sched.active) return false;
+  const now = new Date();
+
+  if (sched.type === "range" && sched.startDate && sched.endDate) {
+    const start = new Date(sched.startDate + "T" + (sched.startTime || "00:00") + ":00");
+    const end   = new Date(sched.endDate   + "T" + (sched.endTime   || "23:59") + ":59");
+    return now >= start && now <= end;
+  }
+
+  if (sched.type === "days" && Array.isArray(sched.daysOfWeek)) {
+    const todayDow = now.getDay();
+    if (!sched.daysOfWeek.includes(todayDow)) return false;
+    if (sched.startTime && sched.endTime) {
+      const [sh, sm] = sched.startTime.split(":").map(Number);
+      const [eh, em] = sched.endTime.split(":").map(Number);
+      const mins = now.getHours() * 60 + now.getMinutes();
+      return mins >= sh * 60 + sm && mins <= eh * 60 + em;
+    }
+    return true;
+  }
+
+  if (sched.type === "hours" && sched.startTime && sched.endTime) {
+    const [sh, sm] = sched.startTime.split(":").map(Number);
+    const [eh, em] = sched.endTime.split(":").map(Number);
+    const mins = now.getHours() * 60 + now.getMinutes();
+    return mins >= sh * 60 + sm && mins <= eh * 60 + em;
+  }
+
+  return false;
+}
+
+function getScheduledSkin() {
+  for (const sched of (_skinsConfig.scheduled ?? [])) {
+    if (isScheduleActive(sched) && SKINS[sched.skinId]) return sched.skinId;
+  }
+  return null;
+}
+
 // ════════════════════════════════════════════
-// HELPERS: STORAGE
-// ════════════════════════════════════════════
-
-function store(key, val) {
-  try { localStorage.setItem(key, val); } catch (_) {}
-}
-
-function retrieve(key) {
-  try { return localStorage.getItem(key); } catch (_) { return null; }
-}
-
-function retrieveJSON(key, fallback) {
-  try { return JSON.parse(localStorage.getItem(key)) ?? fallback; } catch (_) { return fallback; }
-}
-
-function storeJSON(key, val) {
-  try { localStorage.setItem(key, JSON.stringify(val)); } catch (_) {}
-}
-
-// ════════════════════════════════════════════
-// SKIN — resolver y aplicar
+// SKIN — RESOLVER
 // ════════════════════════════════════════════
 
 export function resolveActiveSkin() {
-  const dateSkin = getTodaySkin();
+  const scheduled = getScheduledSkin();
+  if (scheduled) return scheduled;
+
+  const dateSkin = getAutoDateSkin();
   if (dateSkin) return dateSkin;
 
-  const userSkin     = retrieve(SKIN_KEY);
-  const enabledSkins = getEnabledSkins();
-  if (userSkin && userSkin !== "default" && enabledSkins.includes(userSkin)) {
-    return userSkin;
-  }
+  const userSkin = retrieve(SKIN_KEY);
+  const enabled  = _skinsConfig.enabled ?? [];
+  if (userSkin && userSkin !== "default" && enabled.includes(userSkin)) return userSkin;
+
   return "default";
 }
 
 export function getAvailableSkins() {
-  const enabled   = getEnabledSkins();
-  const dateSkin  = getTodaySkin();
+  const enabled   = _skinsConfig.enabled ?? [];
+  const dateSkin  = getAutoDateSkin();
+  const scheduled = getScheduledSkin();
   const available = new Set(["default", ...enabled]);
-  if (dateSkin) available.add(dateSkin);
+  if (dateSkin)  available.add(dateSkin);
+  if (scheduled) available.add(scheduled);
   return [...available].map(id => SKINS[id]).filter(Boolean);
 }
 
-// ════════════════════════════════════════════
-// TEACHER API
-// ════════════════════════════════════════════
-
 export function getEnabledSkins() {
-  return retrieveJSON(TEACHER_SKINS_KEY, []);
+  return _skinsConfig.enabled ?? [];
 }
 
-export function teacherEnableSkin(skinId) {
-  if (!SKINS[skinId]) return;
-  const list = new Set(getEnabledSkins());
-  list.add(skinId);
-  storeJSON(TEACHER_SKINS_KEY, [...list]);
-}
-
-export function teacherDisableSkin(skinId) {
-  storeJSON(TEACHER_SKINS_KEY, getEnabledSkins().filter(id => id !== skinId));
-  if (retrieve(SKIN_KEY) === skinId) store(SKIN_KEY, "default");
+export function _updateSkinsCache(config) {
+  _skinsConfig = config;
+  const active = resolveActiveSkin();
+  applySkin(active, false);
+  updateSkinUI(active);
 }
 
 // ════════════════════════════════════════════
@@ -159,7 +190,6 @@ function loadSkinCSS(skinId, cb) {
   removeSkinCSS();
   const skin = SKINS[skinId];
   if (!skin?.css) { cb?.(); return; }
-
   const link  = document.createElement("link");
   link.rel    = "stylesheet";
   link.href   = skin.css;
@@ -184,7 +214,7 @@ export function applySkin(skinId, animate = false) {
     });
   }
 
-  if (!getTodaySkin()) store(SKIN_KEY, id);
+  if (!getScheduledSkin() && !getAutoDateSkin()) store(SKIN_KEY, id);
   updateSkinUI(id);
 }
 
@@ -217,7 +247,6 @@ export function applyTheme(theme, animate = false) {
       meta.content = theme === "dark" ? "#231e19" : "#e8a045";
     }
   }
-
   syncThemeBtn(theme);
 }
 
@@ -242,7 +271,7 @@ function watchSystemTheme() {
 }
 
 // ════════════════════════════════════════════
-// UI — SELECTOR DE TEMÁTICAS
+// UI — SELECTOR DEL ESTUDIANTE
 // ════════════════════════════════════════════
 
 function updateSkinUI(activeSkinId) {
@@ -252,13 +281,14 @@ function updateSkinUI(activeSkinId) {
 }
 
 export function openSkinSelector() {
-  const available  = getAvailableSkins();
-  const activeSkin = resolveActiveSkin();
-  const dateSkin   = getTodaySkin();
+  const available   = getAvailableSkins();
+  const activeSkin  = resolveActiveSkin();
+  const isScheduled = !!getScheduledSkin();
+  const isAutoDate  = !!getAutoDateSkin();
 
   const items = available.map(skin => {
     const isActive = activeSkin === skin.id;
-    const isAuto   = dateSkin === skin.id;
+    const isAuto   = (isScheduled || isAutoDate) && activeSkin === skin.id;
     return `
       <button class="skin-option ${isActive ? "skin-option-active" : ""}"
               data-skin-id="${skin.id}"
@@ -267,7 +297,7 @@ export function openSkinSelector() {
         <div class="skin-option-info">
           <span class="skin-option-name">${skin.name}</span>
           <span class="skin-option-desc">${skin.desc}</span>
-          ${isAuto   ? `<span class="skin-option-tag skin-option-tag-auto">✨ Automático hoy</span>` : ""}
+          ${isAuto ? `<span class="skin-option-tag skin-option-tag-auto">✨ Activo automáticamente</span>` : ""}
           ${isActive && !isAuto ? `<span class="skin-option-tag skin-option-tag-on">Activo</span>` : ""}
         </div>
         ${isActive ? `<span class="skin-option-check">✓</span>` : ""}
@@ -312,34 +342,37 @@ window._applySkinAndClose = (skinId) => {
 // ════════════════════════════════════════════
 
 export function initTheme() {
-  const theme  = resolveTheme();
-  const skinId = resolveActiveSkin();
-
+  const theme = resolveTheme();
   applyTheme(theme, false);
-  if (skinId !== "default") applySkin(skinId, false);
-
   watchSystemTheme();
 
+  // Suscripción Firestore en tiempo real
+  import("./db.js").then(({ watchSkinsConfig }) => {
+    if (_unsubSkins) _unsubSkins();
+    _unsubSkins = watchSkinsConfig(config => {
+      _updateSkinsCache(config);
+    });
+  }).catch(() => {
+    // Sin Firestore: fallback a autoDate local
+    const skinId = resolveActiveSkin();
+    if (skinId !== "default") applySkin(skinId, false);
+  });
+
   document.addEventListener("DOMContentLoaded", () => {
-    // Theme toggle buttons (marcados con data-theme-toggle)
     document.querySelectorAll("[data-theme-toggle]").forEach(btn => {
       btn.addEventListener("click", toggleTheme);
     });
-    // Skin selector
     document.querySelectorAll("[data-skin-selector]").forEach(btn => {
       btn.addEventListener("click", openSkinSelector);
     });
     syncThemeBtn(theme);
-    updateSkinUI(skinId);
+    updateSkinUI(resolveActiveSkin());
   });
 }
 
 initTheme();
 
-// Globales
-window.toggleTheme        = toggleTheme;
-window.openSkinSelector   = openSkinSelector;
-window.applySkin          = applySkin;
-window.teacherEnableSkin  = teacherEnableSkin;
-window.teacherDisableSkin = teacherDisableSkin;
-window.getEnabledSkins    = getEnabledSkins;
+window.toggleTheme      = toggleTheme;
+window.openSkinSelector = openSkinSelector;
+window.applySkin        = applySkin;
+window.getEnabledSkins  = getEnabledSkins;

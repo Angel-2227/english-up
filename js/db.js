@@ -394,6 +394,58 @@ export async function updateAppConfig(data) {
 }
 
 // ════════════════════════════════════════════
+// CONFIGURACIÓN DE SKINS / TEMÁTICAS
+// Estructura en Firestore: config/skins
+// {
+//   enabled: ["valentine", "jungle"],   // skins habilitadas para estudiantes
+//   scheduled: [                        // programaciones por fecha/hora
+//     {
+//       id: "sched_abc",
+//       skinId: "valentine",
+//       label: "San Valentín 2025",
+//       type: "range",         // "range" | "days" | "hours"
+//       startDate: "2025-02-10",
+//       endDate:   "2025-02-14",
+//       startTime: null,       // "HH:MM" o null (todo el día)
+//       endTime:   null,
+//       daysOfWeek: null,      // [0,1,2,...] o null
+//       active: true,
+//     }
+//   ]
+// }
+// ════════════════════════════════════════════
+
+export async function getSkinsConfig() {
+  const snap = await getDoc(doc(db, "config", "skins"));
+  if (!snap.exists()) return { enabled: [], scheduled: [] };
+  const data = snap.data();
+  return {
+    enabled:   data.enabled   ?? [],
+    scheduled: data.scheduled ?? [],
+  };
+}
+
+export async function updateSkinsEnabled(enabledList) {
+  await setDoc(doc(db, "config", "skins"), { enabled: enabledList }, { merge: true });
+}
+
+export async function updateSkinsScheduled(scheduledList) {
+  await setDoc(doc(db, "config", "skins"), { scheduled: scheduledList }, { merge: true });
+}
+
+/** Escucha cambios en tiempo real en la config de skins */
+export function watchSkinsConfig(callback) {
+  return onSnapshot(doc(db, "config", "skins"), snap => {
+    if (snap.exists()) {
+      const data = snap.data();
+      callback({ enabled: data.enabled ?? [], scheduled: data.scheduled ?? [] });
+    } else {
+      callback({ enabled: [], scheduled: [] });
+    }
+  });
+}
+
+// ════════════════════════════════════════════
 // MISIONES
 // ════════════════════════════════════════════
 
