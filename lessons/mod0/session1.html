@@ -2008,5 +2008,19 @@ window.addEventListener('scroll', function onFirstScroll() {
   window.removeEventListener('scroll', onFirstScroll);
 }, { passive: true });
 </script>
+
+<!-- Bridge: permite al AI leer el contenido de esta lección -->
+<script>
+  window.addEventListener("message", function(event) {
+    if (event.origin !== window.location.origin) return;
+    if (event.data?.type !== "ENGLISHUP_GET_TEXT") return;
+    const text = (document.body?.innerText || "")
+      .replace(/\n{3,}/g, "\n\n").trim().slice(0, 4000);
+    event.source.postMessage(
+      { type: "ENGLISHUP_LESSON_TEXT", text },
+      event.origin
+    );
+  });
+</script>
 </body>
 </html>

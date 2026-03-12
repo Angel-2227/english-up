@@ -21,18 +21,39 @@ export async function registerSW() {
 // ── Banner de instalación (botón "Instalar app") ──
 let deferredPrompt = null;
 
+/** Detecta si la app ya está corriendo como PWA instalada */
+function isRunningStandalone() {
+  return (
+    window.matchMedia("(display-mode: standalone)").matches ||
+    window.navigator.standalone === true ||
+    document.referrer.includes("android-app://")
+  );
+}
+
 export function initInstallBanner() {
+  // Si ya está instalada y corriendo como app, no hacer nada
+  if (isRunningStandalone()) {
+    console.log("[PWA] Corriendo como app instalada — banner omitido.");
+    return;
+  }
+
   // Capturar el evento nativo de instalación
   window.addEventListener("beforeinstallprompt", e => {
     e.preventDefault();
     deferredPrompt = e;
+
+    // No mostrar si el usuario ya lo dismissó o ya instaló
+    const dismissed = localStorage.getItem("pwa-banner-dismissed");
+    if (dismissed) return;
+
     showInstallBanner();
   });
 
-  // Ocultar banner si ya se instaló
+  // Ocultar banner y marcar como instalada
   window.addEventListener("appinstalled", () => {
     console.log("[PWA] App instalada ✅");
     hideInstallBanner();
+    localStorage.setItem("pwa-banner-dismissed", "installed");
     deferredPrompt = null;
   });
 }
@@ -113,6 +134,8 @@ function showInstallBanner() {
 function hideInstallBanner() {
   const banner = document.getElementById("pwa-install-banner");
   if (banner) banner.remove();
+  // Guardar que el usuario cerró el banner para no volver a mostrarlo
+  localStorage.setItem("pwa-banner-dismissed", "dismissed");
 }
 
 async function triggerInstall() {

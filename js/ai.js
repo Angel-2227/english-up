@@ -1,44 +1,67 @@
 // =============================================
 // ENGLISH UP! — js/ai.js
 // Chat AI: Groq via Cloudflare Worker proxy
+// + contexto de lección activa
 // =============================================
 
 import { State } from "./app.js";
 import { GROQ_WORKER_URL, GROQ_MODEL } from "../firebase-config.js";
 import { getAppConfig } from "./db.js";
+import { extractLessonContext } from "./lesson-context.js";  // ← NUEVO
 
 // ════════════════════════════════════════════
 // ESTADO
 // ════════════════════════════════════════════
 
 const chat = {
-  open:    false,
-  lang:    "en",         // "en" | "es"
-  history: [],           // { role, content }[]
-  loading: false,
+  open:          false,
+  lang:          "en",   // "en" | "es"
+  history:       [],     // { role, content }[]
+  loading:       false,
+  lessonContext: null,   // ← NUEVO: { title, type, text } | null
 };
 
-// System prompts
-const SYSTEM_PROMPTS = {
-  en: `You are a friendly English language tutor for adult learners at A1–A2 level. 
-Keep explanations simple and encouraging. 
-Use short sentences. Give examples. 
-If the student makes a grammar mistake in their message, gently correct it at the end of your reply.
-Never use complex vocabulary without explaining it.`,
+// ════════════════════════════════════════════
+// SYSTEM PROMPT DINÁMICO  ← reemplaza SYSTEM_PROMPTS estático
+// ════════════════════════════════════════════
 
-  es: `Eres un tutor de inglés amigable para adultos en nivel A1–A2.
+function buildSystemPrompt() {
+  // Bloque de contenido de lección (si existe)
+  let lessonBlock = "";
+  const lc = chat.lessonContext;
+  if (lc?.text) {
+    lessonBlock = `
+
+--- CURRENT LESSON ---
+Title: ${lc.title}
+${lc.text}
+--- END OF LESSON ---
+Use the lesson content above to answer any questions the student has about it.
+If they ask about something not in the lesson, help them with general English questions.`;
+  } else if (lc?.type === "html_unreadable") {
+    lessonBlock = `\nThe student is currently viewing the lesson "${lc.title}". Help them with any English questions related to it.`;
+  }
+
+  if (chat.lang === "es") {
+    return `Eres un tutor de inglés amigable para adultos en nivel A1–A2.
 El estudiante prefiere explicaciones en español, pero siempre incluye los términos en inglés también.
 Usa frases cortas y ejemplos claros.
 Si el estudiante comete un error gramatical, corrígelo con amabilidad al final de tu respuesta.
-Nunca uses vocabulario complejo sin explicarlo.`,
-};
+Nunca uses vocabulario complejo sin explicarlo.${lessonBlock}`;
+  }
+
+  return `You are a friendly English language tutor for adult learners at A1–A2 level.
+Keep explanations simple and encouraging.
+Use short sentences. Give examples.
+If the student makes a grammar mistake in their message, gently correct it at the end of your reply.
+Never use complex vocabulary without explaining it.${lessonBlock}`;
+}
 
 // ════════════════════════════════════════════
 // INIT
 // ════════════════════════════════════════════
 
 export async function initAI() {
-  // Check if AI is enabled in config
   try {
     const cfg = await getAppConfig();
     if (cfg.aiEnabled === false) return;  // AI disabled by teacher
@@ -57,11 +80,20 @@ function showFAB() {
   document.getElementById("ai-fab")?.classList.remove("hidden");
 }
 
-function openPanel() {
+async function openPanel() {                          // ← ahora async
   chat.open = true;
   document.getElementById("ai-fab")?.classList.add("hidden");
   document.getElementById("ai-panel")?.classList.remove("hidden");
   document.getElementById("ai-input")?.focus();
+
+  // Extraer contexto de la lección activa al abrir el panel
+  chat.lessonContext = await extractLessonContext();
+
+  // Actualizar subtítulo si hay lección
+  const status = document.getElementById("ai-status");
+  if (status && chat.lessonContext?.title && chat.lessonContext.type !== "html_unreadable") {
+    status.textContent = `📖 ${chat.lessonContext.title}`;
+  }
 }
 
 function closePanel() {
@@ -92,7 +124,6 @@ function bindEvents() {
       }
     });
 
-  // Lang toggle
   document.getElementById("ai-lang-toggle")
     ?.addEventListener("click", toggleLang);
 }
@@ -114,13 +145,14 @@ function toggleLang() {
 function renderWelcome() {
   const name = State.profile?.name?.split(" ")[0] || "there";
   appendBotMessage(
-    `👋 Hi ${name}! I'm your English assistant. Ask me anything about English — vocabulary, grammar, pronunciation, or just practice chatting!`,
+    `👋 Hi ${name}! I'm your English assistant. Ask me anything about today's lesson or about English in general!`,
     false
   );
   appendQuickPrompts([
     "What does 'softly' mean?",
     "How do I use 'to be'?",
     "How do I introduce myself?",
+    "Explain today's lesson to me",
     "Correct my English: 'I am go to school'",
   ]);
 }
@@ -179,6 +211,11 @@ async function handleSend() {
 
   input.value = "";
 
+  // Si aún no tenemos contexto de lección, intentar extraerlo ahora
+  if (!chat.lessonContext) {
+    chat.lessonContext = await extractLessonContext();
+  }
+
   // Track "curious" badge trigger
   try {
     const { awardBadge } = await import("./db.js");
@@ -201,7 +238,6 @@ async function handleSend() {
     appendBotMessage(reply);
     chat.history.push({ role: "assistant", content: reply });
 
-    // Keep history bounded (last 20 turns)
     if (chat.history.length > 20) {
       chat.history = chat.history.slice(-20);
     }
@@ -221,7 +257,7 @@ async function handleSend() {
 
 async function callGroq(history) {
   const messages = [
-    { role: "system", content: SYSTEM_PROMPTS[chat.lang] },
+    { role: "system", content: buildSystemPrompt() },  // ← dinámico
     ...history,
   ];
 
@@ -265,7 +301,6 @@ function appendBotMessage(text, animate = true) {
   if (!messages) return;
   const div = document.createElement("div");
   div.className = "ai-msg ai-msg-bot";
-  // Simple markdown-like formatting
   div.innerHTML = formatBotText(text);
   if (animate) {
     div.style.opacity   = "0";
@@ -289,8 +324,8 @@ function appendThinking() {
   if (!messages) return null;
   const id  = `thinking-${++thinkingCounter}`;
   const div = document.createElement("div");
-  div.id        = id;
-  div.className = "ai-msg ai-msg-bot thinking";
+  div.id          = id;
+  div.className   = "ai-msg ai-msg-bot thinking";
   div.textContent = "Thinking…";
   messages.appendChild(div);
   scrollMessages();
@@ -314,25 +349,15 @@ function setLoading(val) {
   if (input) input.disabled = val;
 }
 
-// ── Simple text formatter ─────────────────────────────────────────────────────
-
 function formatBotText(text) {
-  // Escape HTML first
   let html = text
     .replace(/&/g, "&amp;")
     .replace(/</g, "&lt;")
     .replace(/>/g, "&gt;");
 
-  // **bold**
   html = html.replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>");
-
-  // *italic*
   html = html.replace(/\*(.+?)\*/g, "<em>$1</em>");
-
-  // `code`
   html = html.replace(/`([^`]+)`/g, `<code style="background:var(--neutral-100);padding:1px 5px;border-radius:4px;font-family:monospace">$1</code>`);
-
-  // Line breaks
   html = html.replace(/\n/g, "<br>");
 
   return html;
