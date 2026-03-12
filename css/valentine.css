@@ -1,0 +1,510 @@
+/* =============================================
+   ENGLISH UP! — valentine.css
+   Temática San Valentín 💕
+   Activa cuando <html data-skin="valentine">
+   Se combina perfectamente con data-theme="dark"
+============================================= */
+
+/* ══════════════════════════════════════════════
+   TOKENS DE LA TEMÁTICA
+   Solo sobreescribimos lo que cambia visualmente.
+   El resto sigue usando los tokens base.
+══════════════════════════════════════════════ */
+
+[data-skin="valentine"] {
+  /* Paleta rosa/fucsia/rojo */
+  --skin-primary:       #e91e8c;
+  --skin-primary-hover: #c2177a;
+  --skin-primary-light: #fce4f3;
+  --skin-primary-text:  #ffffff;
+
+  --skin-secondary:       #ff6b9d;
+  --skin-secondary-hover: #e5507f;
+  --skin-secondary-light: #ffe0ef;
+
+  --skin-accent:   #ff4f7b;
+  --skin-bg-tint:  #fff5f9;
+  --skin-surface:  #fff9fc;
+
+  /* Reemplaza el amber como color primario */
+  --color-primary:       var(--skin-primary);
+  --color-primary-hover: var(--skin-primary-hover);
+  --color-primary-text:  var(--skin-primary-text);
+
+  --color-secondary:       var(--skin-secondary);
+  --color-secondary-hover: var(--skin-secondary-hover);
+  --color-secondary-text:  #ffffff;
+
+  --color-bg:          var(--skin-bg-tint);
+  --color-surface:     var(--skin-surface);
+  --color-surface-alt: #fff0f7;
+
+  --color-border:      #f9c0dc;
+  --color-border-soft: #fdd8ea;
+
+  /* Glows románticos */
+  --shadow-glow-brand: 0 0 0 3px rgba(233,30,140,.22);
+  --shadow-glow-teal:  0 0 0 3px rgba(255,107,157,.22);
+
+  /* Node colors */
+  --node-current: var(--skin-primary);
+}
+
+/* ══════════════════════════════════════════════
+   FONDO ANIMADO — corazones flotantes
+   (solo decoración, no interfiere con el layout)
+══════════════════════════════════════════════ */
+
+[data-skin="valentine"] body::before {
+  content: "💕  🌹  💘  🌸  💗  🩷  💝  🌺  💖  🌷";
+  position: fixed;
+  top: -60px;
+  left: 0;
+  width: 100%;
+  font-size: 1.5rem;
+  letter-spacing: 3.5rem;
+  white-space: nowrap;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.18;
+  animation: heartFloat 18s linear infinite;
+  user-select: none;
+}
+
+[data-skin="valentine"] body::after {
+  content: "🌸  💕  🩷  💘  🌹  💗  🌷  💝  💖  🌺";
+  position: fixed;
+  top: -60px;
+  left: -5%;
+  width: 110%;
+  font-size: 1.2rem;
+  letter-spacing: 4rem;
+  white-space: nowrap;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.12;
+  animation: heartFloat 26s linear infinite;
+  animation-delay: -10s;
+  user-select: none;
+}
+
+@keyframes heartFloat {
+  0%   { transform: translateY(0vh) rotate(0deg); opacity: 0; }
+  5%   { opacity: 0.18; }
+  90%  { opacity: 0.14; }
+  100% { transform: translateY(110vh) rotate(15deg); opacity: 0; }
+}
+
+/* ══════════════════════════════════════════════
+   NAVBAR
+══════════════════════════════════════════════ */
+
+[data-skin="valentine"] .navbar {
+  background: linear-gradient(135deg, #fff5f9 0%, #ffe0ef 100%);
+  border-bottom: 1.5px solid #f9c0dc;
+}
+
+[data-skin="valentine"] .nav-wordmark {
+  background: linear-gradient(90deg, #e91e8c, #ff6b9d);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+[data-skin="valentine"] .nav-xp-pill {
+  background: #fce4f3;
+  color:      #c2177a;
+}
+
+[data-skin="valentine"] .nav-streak-pill {
+  background: #ffe0ef;
+  color:      #e91e8c;
+}
+
+[data-skin="valentine"] .nav-link.active {
+  background: #fce4f3;
+  color:      #c2177a;
+}
+
+[data-skin="valentine"] .nav-link:hover {
+  background: #fff0f7;
+}
+
+[data-skin="valentine"] .nav-dropdown {
+  border-color: #f9c0dc;
+}
+
+/* Bottom nav */
+[data-skin="valentine"] .bottom-nav {
+  background:    linear-gradient(180deg, #fff5f9 0%, #fff9fc 100%);
+  border-top:    1.5px solid #f9c0dc;
+}
+
+[data-skin="valentine"] .bottom-nav-item.active {
+  color: var(--skin-primary);
+}
+
+[data-skin="valentine"] .bottom-nav-item.active::before {
+  background: var(--skin-primary);
+}
+
+/* ══════════════════════════════════════════════
+   BOTONES
+══════════════════════════════════════════════ */
+
+[data-skin="valentine"] .btn-primary {
+  background: var(--skin-primary);
+  color:      #fff;
+}
+
+[data-skin="valentine"] .btn-primary:hover {
+  background:  var(--skin-primary-hover);
+  box-shadow:  var(--shadow-glow-brand);
+}
+
+[data-skin="valentine"] .btn-secondary {
+  background: var(--skin-secondary);
+  color:      #fff;
+}
+
+[data-skin="valentine"] .btn-ghost {
+  border-color: #f9c0dc;
+  color:        #c2177a;
+}
+
+[data-skin="valentine"] .btn-ghost:hover {
+  background: #fff0f7;
+  color:      var(--skin-primary);
+}
+
+/* Badge chips */
+[data-skin="valentine"] .badge-chip-green {
+  background: #fce4f3;
+  color:      #c2177a;
+}
+
+[data-skin="valentine"] .badge-chip-teal {
+  background: #ffe0ef;
+  color:      #e91e8c;
+}
+
+/* ══════════════════════════════════════════════
+   DASHBOARD — PATH & NODES
+══════════════════════════════════════════════ */
+
+[data-skin="valentine"] .student-header {
+  background:    linear-gradient(135deg, #fff5f9, #ffe0ef);
+  border-color:  #f9c0dc;
+}
+
+[data-skin="valentine"] .stat-pill-xp {
+  background: #fce4f3;
+  color:      #c2177a;
+}
+
+[data-skin="valentine"] .stat-pill-streak {
+  background: #ffe0ef;
+  color:      #e91e8c;
+}
+
+[data-skin="valentine"] .lesson-node.current {
+  background:   #fff0f7;
+  border-color: #f9a8d4;
+  box-shadow:   var(--shadow-md), 0 0 0 4px #fce7f3;
+}
+
+[data-skin="valentine"] .lesson-node.current:hover {
+  box-shadow: var(--shadow-lg), 0 0 0 4px #fce7f3;
+}
+
+[data-skin="valentine"] .node-icon {
+  background: var(--skin-primary) !important;
+}
+
+[data-skin="valentine"] .lesson-node.current .node-icon {
+  background: var(--skin-primary) !important;
+}
+
+[data-skin="valentine"] .lesson-node.current .node-title {
+  color: #c2177a;
+}
+
+[data-skin="valentine"] .node-arrow { color: var(--skin-primary); }
+
+[data-skin="valentine"] @keyframes nodePulse {
+  0%, 100% { box-shadow: var(--shadow-sm); }
+  50%       { box-shadow: 0 0 0 6px #fce7f3, var(--shadow-sm); }
+}
+
+/* Module headers: mantienen su color pero con borde rosa */
+[data-skin="valentine"] .module-header {
+  box-shadow: var(--shadow-md), 0 0 0 1px rgba(233,30,140,.15);
+}
+
+[data-skin="valentine"] .module-progress-bar-track {
+  background: rgba(255,255,255,0.4);
+}
+
+/* ══════════════════════════════════════════════
+   LESSON VIEWER
+══════════════════════════════════════════════ */
+
+[data-skin="valentine"] .lesson-module-tag {
+  background: #fce4f3;
+  color:      #c2177a;
+}
+
+[data-skin="valentine"] .lesson-header-card {
+  border-color: #f9c0dc;
+  background: linear-gradient(135deg, #fff9fc, #fff5f9);
+}
+
+[data-skin="valentine"] .lesson-complete-bar {
+  border-color: #f9c0dc;
+  background:   linear-gradient(135deg, #fff9fc, #fff0f7);
+}
+
+/* ══════════════════════════════════════════════
+   MISSIONS & GAME
+══════════════════════════════════════════════ */
+
+[data-skin="valentine"] .mission-card:hover {
+  border-color: #f9a8d4;
+}
+
+[data-skin="valentine"] .mc-icon {
+  background: #fce4f3;
+}
+
+[data-skin="valentine"] .mc-badge-type { background: #ffe0ef; color: #e91e8c; }
+[data-skin="valentine"] .mc-badge-xp   { background: #fce4f3; color: #c2177a; }
+
+[data-skin="valentine"] .mc-option:hover:not(:disabled) {
+  background:   #fff0f7;
+  border-color: #f9a8d4;
+}
+
+[data-skin="valentine"] .mc-option.selected {
+  background:   #fce4f3;
+  border-color: var(--skin-primary);
+}
+
+[data-skin="valentine"] .gapfill-chip:hover {
+  background: #fce4f3;
+}
+
+[data-skin="valentine"] .gap-input {
+  border-bottom-color: var(--skin-primary);
+  color:               #c2177a;
+}
+
+[data-skin="valentine"] .match-item.selected {
+  background:   #fce4f3;
+  border-color: var(--skin-primary);
+  box-shadow:   var(--shadow-glow-brand);
+}
+
+[data-skin="valentine"] .unscramble-drop-zone {
+  border-color: #f9a8d4;
+  background:   #fff5f9;
+}
+
+[data-skin="valentine"] .word-chip.placed {
+  background:   #fce4f3;
+  border-color: #f9a8d4;
+  color:        #c2177a;
+}
+
+[data-skin="valentine"] .results-xp-earned {
+  background: #fce4f3;
+  color:      #c2177a;
+}
+
+[data-skin="valentine"] .ring-fill { stroke: var(--skin-primary); }
+
+/* ══════════════════════════════════════════════
+   FORMULARIOS & INPUTS
+══════════════════════════════════════════════ */
+
+[data-skin="valentine"] .form-input:focus,
+[data-skin="valentine"] .form-select:focus,
+[data-skin="valentine"] .form-textarea:focus,
+[data-skin="valentine"] .settings-input:focus,
+[data-skin="valentine"] .students-search:focus,
+[data-skin="valentine"] .ai-input:focus {
+  border-color: var(--skin-primary);
+  box-shadow:   var(--shadow-glow-brand);
+}
+
+/* ══════════════════════════════════════════════
+   AI WIDGET
+══════════════════════════════════════════════ */
+
+[data-skin="valentine"] .ai-fab {
+  background: var(--skin-primary);
+}
+
+[data-skin="valentine"] .ai-panel-header {
+  background: linear-gradient(135deg, #fff0f7, #fce4f3);
+  border-bottom-color: #f9c0dc;
+}
+
+[data-skin="valentine"] .ai-avatar-icon {
+  background: #fce4f3;
+}
+
+[data-skin="valentine"] .ai-name { color: #c2177a; }
+
+[data-skin="valentine"] .ai-lang-btn:hover,
+[data-skin="valentine"] .ai-close-btn:hover {
+  background: #fce4f3;
+  color:      #c2177a;
+}
+
+[data-skin="valentine"] .ai-msg-user {
+  background: var(--skin-primary);
+}
+
+[data-skin="valentine"] .ai-send-btn {
+  background: var(--skin-primary);
+}
+
+[data-skin="valentine"] .ai-send-btn:hover {
+  background: var(--skin-primary-hover);
+}
+
+[data-skin="valentine"] .ai-input:focus {
+  border-color: var(--skin-primary);
+}
+
+/* ══════════════════════════════════════════════
+   PROFILE & CLASSMATES
+══════════════════════════════════════════════ */
+
+[data-skin="valentine"] .student-avatar,
+[data-skin="valentine"] .profile-avatar-lg {
+  border-color: var(--skin-primary);
+  box-shadow:   var(--shadow-glow-brand);
+}
+
+[data-skin="valentine"] .profile-level-badge {
+  background: #fce4f3;
+  color:      #c2177a;
+}
+
+[data-skin="valentine"] .profile-xp-bar-fill {
+  background: linear-gradient(90deg, var(--skin-primary), var(--skin-secondary));
+}
+
+[data-skin="valentine"] .profile-badge-card.earned {
+  background:   linear-gradient(135deg, #fff0f7, #fce4f3);
+  border-color: #f9a8d4;
+}
+
+[data-skin="valentine"] .classmate-card-me {
+  border-color: #f9a8d4;
+  background:   #fff5f9;
+}
+
+[data-skin="valentine"] .classmate-me-tag {
+  background: #fce4f3;
+  color:      #c2177a;
+}
+
+/* ══════════════════════════════════════════════
+   TEACHER PANEL
+══════════════════════════════════════════════ */
+
+[data-skin="valentine"] .filter-btn.active {
+  background:   var(--skin-primary);
+  border-color: var(--skin-primary);
+  color:        #fff;
+}
+
+[data-skin="valentine"] .filter-btn:hover {
+  border-color: var(--skin-primary);
+  color:        var(--skin-primary);
+}
+
+/* ══════════════════════════════════════════════
+   TOAST (colores valentín)
+══════════════════════════════════════════════ */
+
+[data-skin="valentine"] .toast-success {
+  background: #fce4f3;
+  color:      #c2177a;
+}
+
+[data-skin="valentine"] .toast-info {
+  background: #ffe0ef;
+  color:      #e91e8c;
+}
+
+/* ══════════════════════════════════════════════
+   DARK MODE + VALENTINE (combinado)
+   Cuando el usuario tiene ambos activos.
+══════════════════════════════════════════════ */
+
+[data-theme="dark"][data-skin="valentine"] {
+  --color-bg:          #1f0d16;
+  --color-surface:     #2a1020;
+  --color-surface-alt: #361628;
+  --color-border:      #5a2040;
+  --color-border-soft: #4a1a35;
+  --color-text:        #fde8f4;
+  --color-text-muted:  #c47098;
+  --color-text-faint:  #8a4060;
+}
+
+[data-theme="dark"][data-skin="valentine"] .navbar {
+  background:    linear-gradient(135deg, #2a1020, #361628);
+  border-bottom: 1.5px solid #5a2040;
+}
+
+[data-theme="dark"][data-skin="valentine"] .nav-wordmark {
+  background: linear-gradient(90deg, #ff6b9d, #ffb3d1);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+[data-theme="dark"][data-skin="valentine"] .nav-xp-pill {
+  background: rgba(233,30,140,.2);
+  color:      #ff6b9d;
+}
+
+[data-theme="dark"][data-skin="valentine"] .nav-streak-pill {
+  background: rgba(255,107,157,.18);
+  color:      #ffb3d1;
+}
+
+[data-theme="dark"][data-skin="valentine"] .student-header {
+  background:   linear-gradient(135deg, #2a1020, #361628);
+  border-color: #5a2040;
+}
+
+[data-theme="dark"][data-skin="valentine"] .lesson-node.current {
+  background:   rgba(233,30,140,.1);
+  border-color: rgba(233,30,140,.4);
+  box-shadow:   var(--shadow-md), 0 0 0 4px rgba(233,30,140,.1);
+}
+
+[data-theme="dark"][data-skin="valentine"] .ai-panel-header {
+  background: linear-gradient(135deg, #361628, #2a1020);
+  border-bottom-color: #5a2040;
+}
+
+[data-theme="dark"][data-skin="valentine"] body::before,
+[data-theme="dark"][data-skin="valentine"] body::after {
+  opacity: 0.10;
+}
+
+[data-theme="dark"][data-skin="valentine"] .mission-card {
+  background:   #2a1020;
+  border-color: #5a2040;
+}
+
+[data-theme="dark"][data-skin="valentine"] .login-card {
+  background: rgba(42,16,32,.92);
+  border-color: rgba(255,255,255,.06);
+}

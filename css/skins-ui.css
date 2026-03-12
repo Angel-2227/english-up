@@ -1,0 +1,191 @@
+/* =============================================
+   ENGLISH UP! — skins-ui.css
+   UI del selector de temáticas (modal).
+   Agnóstico al tema — funciona en claro, oscuro
+   y con cualquier skin activo.
+============================================= */
+
+/* ── Hint intro ─────────────────────────── */
+.skin-selector-hint {
+  font-size:     var(--text-sm);
+  color:         var(--color-text-muted);
+  margin-bottom: var(--sp-5);
+  line-height:   var(--leading-relaxed);
+}
+
+/* ── Grid de opciones ──────────────────── */
+.skin-options-grid {
+  display:        flex;
+  flex-direction: column;
+  gap:            var(--sp-2);
+}
+
+/* ── Botón de cada opción ──────────────── */
+.skin-option {
+  display:       flex;
+  align-items:   center;
+  gap:           var(--sp-4);
+  width:         100%;
+  padding:       var(--sp-4) var(--sp-5);
+  border-radius: var(--radius-xl);
+  border:        2px solid var(--color-border);
+  background:    var(--color-surface-alt);
+  text-align:    left;
+  cursor:        pointer;
+  transition:    background  var(--duration-normal) var(--ease-default),
+                 border-color var(--duration-normal) var(--ease-default),
+                 transform   var(--duration-fast)   var(--ease-spring),
+                 box-shadow  var(--duration-normal) var(--ease-default);
+  position:      relative;
+}
+
+.skin-option:hover {
+  background:    var(--color-surface);
+  border-color:  var(--color-primary);
+  transform:     translateX(3px);
+  box-shadow:    var(--shadow-sm);
+}
+
+.skin-option:active {
+  transform: scale(0.98) translateX(0);
+}
+
+.skin-option-active {
+  border-color:  var(--color-primary);
+  background:    var(--color-surface);
+  box-shadow:    var(--shadow-glow-brand);
+}
+
+/* Emoji grande */
+.skin-option-emoji {
+  font-size:   2rem;
+  line-height: 1;
+  flex-shrink: 0;
+  width:       44px;
+  text-align:  center;
+  filter:      drop-shadow(0 2px 4px rgba(0,0,0,.1));
+  transition:  transform var(--duration-normal) var(--ease-spring);
+}
+
+.skin-option:hover .skin-option-emoji {
+  transform: scale(1.2) rotate(-5deg);
+}
+
+/* Info texto */
+.skin-option-info {
+  flex:    1;
+  display: flex;
+  flex-direction: column;
+  gap:     3px;
+  min-width: 0;
+}
+
+.skin-option-name {
+  font-size:   var(--text-sm);
+  font-weight: var(--weight-extrabold);
+  color:       var(--color-text);
+}
+
+.skin-option-desc {
+  font-size: var(--text-xs);
+  color:     var(--color-text-muted);
+}
+
+/* Tags (automático / activo) */
+.skin-option-tag {
+  display:       inline-block;
+  font-size:     10px;
+  font-weight:   var(--weight-bold);
+  padding:       2px var(--sp-2);
+  border-radius: var(--radius-full);
+  width:         fit-content;
+  margin-top:    2px;
+  letter-spacing: 0.02em;
+}
+
+.skin-option-tag-auto {
+  background: var(--brand-100);
+  color:      var(--brand-700);
+}
+
+.skin-option-tag-on {
+  background: #dcfce7;
+  color:      var(--green-600);
+}
+
+/* Check mark activo */
+.skin-option-check {
+  font-size:   var(--text-md);
+  font-weight: var(--weight-black);
+  color:       var(--color-primary);
+  flex-shrink: 0;
+  animation:   checkIn var(--duration-normal) var(--ease-spring);
+}
+
+@keyframes checkIn {
+  from { transform: scale(0) rotate(-30deg); opacity: 0; }
+  to   { transform: scale(1) rotate(0deg);   opacity: 1; }
+}
+
+/* Nota de vacío */
+.skin-empty-note {
+  font-size:  var(--text-xs);
+  color:      var(--color-text-muted);
+  text-align: center;
+  padding:    var(--sp-4) var(--sp-3);
+  border:     1.5px dashed var(--color-border);
+  border-radius: var(--radius-lg);
+  margin-top: var(--sp-2);
+}
+
+/* ── Dark mode ──────────────────────────── */
+[data-theme="dark"] .skin-option {
+  background:   var(--color-surface-alt);
+  border-color: var(--color-border);
+}
+
+[data-theme="dark"] .skin-option:hover {
+  background:   var(--color-surface);
+  border-color: var(--color-primary);
+}
+
+[data-theme="dark"] .skin-option-active {
+  background:   var(--color-surface);
+  border-color: var(--color-primary);
+}
+
+[data-theme="dark"] .skin-option-tag-auto {
+  background: rgba(245,158,11,.15);
+  color:      var(--brand-400);
+}
+
+[data-theme="dark"] .skin-option-tag-on {
+  background: rgba(74,222,128,.15);
+  color:      #4ade80;
+}
+
+/* ── Valentine skin ────────────────────── */
+[data-skin="valentine"] .skin-option-active {
+  border-color: #e91e8c;
+  box-shadow:   0 0 0 3px rgba(233,30,140,.18);
+}
+
+[data-skin="valentine"] .skin-option:hover {
+  border-color: #e91e8c;
+}
+
+[data-skin="valentine"] .skin-option-check { color: #e91e8c; }
+
+[data-skin="valentine"] .skin-option-tag-auto {
+  background: #fce4f3;
+  color:      #c2177a;
+}
+
+/* ── Responsive ─────────────────────────── */
+@media (max-width: 480px) {
+  .skin-option {
+    padding: var(--sp-3) var(--sp-4);
+    gap:     var(--sp-3);
+  }
+  .skin-option-emoji { font-size: 1.6rem; width: 36px; }
+}

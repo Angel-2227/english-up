@@ -1,145 +1,345 @@
 // =============================================
 // ENGLISH UP! — js/theme.js
-// Sistema de gestión de tema (claro / oscuro).
-// Se inicializa antes del resto de la app para
-// evitar el "flash of wrong theme".
+// Sistema de temas unificado:
+//   - data-theme: "light" | "dark"  (brillo)
+//   - data-skin:  "default" | "valentine" | ...  (temática)
+//
+// Prioridades:
+//   1. Temáticas automáticas por fecha (no cancelables)
+//   2. Preferencia guardada del usuario
+//   3. Preferencia del sistema (dark/light)
 // =============================================
 
-const THEME_KEY   = "eu_theme";
-const VALID_THEMES = ["light", "dark"];
-
 // ════════════════════════════════════════════
-// HELPERS INTERNOS
+// CONFIGURACIÓN CENTRAL DE TEMÁTICAS
+// Para añadir una nueva: agregar aquí y crear su CSS.
 // ════════════════════════════════════════════
 
-function getStoredTheme() {
-  try {
-    const stored = localStorage.getItem(THEME_KEY);
-    if (VALID_THEMES.includes(stored)) return stored;
-  } catch (_) { /* storage puede estar bloqueado */ }
+export const SKINS = {
+  default: {
+    id:               "default",
+    name:             "English Up!",
+    emoji:            "📚",
+    desc:             "El tema original",
+    css:              null,
+    autoDate:         null,
+    teacherCanToggle: false,
+  },
+  valentine: {
+    id:               "valentine",
+    name:             "San Valentín",
+    emoji:            "💕",
+    desc:             "Amor y rosas para febrero",
+    css:              "css/valentine.css",
+    autoDate:         { month: 2, dayStart: 10, dayEnd: 14 },
+    teacherCanToggle: true,
+  },
+  // Plantillas para el futuro — descomentar y crear el CSS:
+  // christmas: {
+  //   id: "christmas", name: "Navidad", emoji: "🎄",
+  //   css: "css/christmas.css",
+  //   autoDate: { month: 12, dayStart: 1, dayEnd: 31 },
+  //   teacherCanToggle: true,
+  // },
+  // halloween: {
+  //   id: "halloween", name: "Halloween", emoji: "🎃",
+  //   css: "css/halloween.css",
+  //   autoDate: { month: 10, dayStart: 24, dayEnd: 31 },
+  //   teacherCanToggle: true,
+  // },
+  // jungle: {
+  //   id: "jungle", name: "Jungla", emoji: "🌿",
+  //   css: "css/jungle.css",
+  //   autoDate: null,
+  //   teacherCanToggle: true,
+  // },
+};
+
+// ════════════════════════════════════════════
+// KEYS DE ALMACENAMIENTO
+// ════════════════════════════════════════════
+
+const THEME_KEY         = "eu_theme";
+const SKIN_KEY          = "eu_skin";
+const TEACHER_SKINS_KEY = "eu_teacher_skins";
+
+// ════════════════════════════════════════════
+// HELPERS: FECHA
+// ════════════════════════════════════════════
+
+function getTodaySkin() {
+  const now   = new Date();
+  const month = now.getMonth() + 1;
+  const day   = now.getDate();
+  for (const skin of Object.values(SKINS)) {
+    if (!skin.autoDate) continue;
+    const { month: m, dayStart, dayEnd } = skin.autoDate;
+    if (month === m && day >= dayStart && day <= dayEnd) return skin.id;
+  }
   return null;
 }
 
-function getSystemTheme() {
-  return window.matchMedia?.("(prefers-color-scheme: dark)").matches
-    ? "dark"
-    : "light";
+// ════════════════════════════════════════════
+// HELPERS: STORAGE
+// ════════════════════════════════════════════
+
+function store(key, val) {
+  try { localStorage.setItem(key, val); } catch (_) {}
 }
 
-/**
- * Resuelve el tema efectivo a aplicar.
- * Prioridad: preferencia guardada > preferencia del sistema.
- */
-export function resolveTheme() {
-  return getStoredTheme() ?? getSystemTheme();
+function retrieve(key) {
+  try { return localStorage.getItem(key); } catch (_) { return null; }
+}
+
+function retrieveJSON(key, fallback) {
+  try { return JSON.parse(localStorage.getItem(key)) ?? fallback; } catch (_) { return fallback; }
+}
+
+function storeJSON(key, val) {
+  try { localStorage.setItem(key, JSON.stringify(val)); } catch (_) {}
 }
 
 // ════════════════════════════════════════════
-// APLICAR TEMA
+// SKIN — resolver y aplicar
 // ════════════════════════════════════════════
 
-/**
- * Aplica un tema al <html> y actualiza el botón toggle.
- * @param {"light"|"dark"} theme
- * @param {boolean} [animate=false] — usar transición suave (no en init)
- */
-export function applyTheme(theme, animate = false) {
-  if (!VALID_THEMES.includes(theme)) return;
+export function resolveActiveSkin() {
+  const dateSkin = getTodaySkin();
+  if (dateSkin) return dateSkin;
 
-  const html = document.documentElement;
+  const userSkin     = retrieve(SKIN_KEY);
+  const enabledSkins = getEnabledSkins();
+  if (userSkin && userSkin !== "default" && enabledSkins.includes(userSkin)) {
+    return userSkin;
+  }
+  return "default";
+}
+
+export function getAvailableSkins() {
+  const enabled   = getEnabledSkins();
+  const dateSkin  = getTodaySkin();
+  const available = new Set(["default", ...enabled]);
+  if (dateSkin) available.add(dateSkin);
+  return [...available].map(id => SKINS[id]).filter(Boolean);
+}
+
+// ════════════════════════════════════════════
+// TEACHER API
+// ════════════════════════════════════════════
+
+export function getEnabledSkins() {
+  return retrieveJSON(TEACHER_SKINS_KEY, []);
+}
+
+export function teacherEnableSkin(skinId) {
+  if (!SKINS[skinId]) return;
+  const list = new Set(getEnabledSkins());
+  list.add(skinId);
+  storeJSON(TEACHER_SKINS_KEY, [...list]);
+}
+
+export function teacherDisableSkin(skinId) {
+  storeJSON(TEACHER_SKINS_KEY, getEnabledSkins().filter(id => id !== skinId));
+  if (retrieve(SKIN_KEY) === skinId) store(SKIN_KEY, "default");
+}
+
+// ════════════════════════════════════════════
+// APLICAR SKIN
+// ════════════════════════════════════════════
+
+let _skinLink = null;
+
+function removeSkinCSS() {
+  _skinLink?.remove();
+  _skinLink = null;
+  document.documentElement.removeAttribute("data-skin");
+}
+
+function loadSkinCSS(skinId, cb) {
+  removeSkinCSS();
+  const skin = SKINS[skinId];
+  if (!skin?.css) { cb?.(); return; }
+
+  const link  = document.createElement("link");
+  link.rel    = "stylesheet";
+  link.href   = skin.css;
+  link.onload = () => cb?.();
+  document.head.appendChild(link);
+  _skinLink = link;
+}
+
+export function applySkin(skinId, animate = false) {
+  const id = SKINS[skinId] ? skinId : "default";
 
   if (animate) {
+    document.documentElement.classList.add("theme-transitioning");
+    setTimeout(() => document.documentElement.classList.remove("theme-transitioning"), 350);
+  }
+
+  if (id === "default") {
+    removeSkinCSS();
+  } else {
+    loadSkinCSS(id, () => {
+      document.documentElement.setAttribute("data-skin", id);
+    });
+  }
+
+  if (!getTodaySkin()) store(SKIN_KEY, id);
+  updateSkinUI(id);
+}
+
+// ════════════════════════════════════════════
+// DARK / LIGHT
+// ════════════════════════════════════════════
+
+export function resolveTheme() {
+  const s = retrieve(THEME_KEY);
+  if (s === "light" || s === "dark") return s;
+  return window.matchMedia?.("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+}
+
+export function applyTheme(theme, animate = false) {
+  if (theme !== "light" && theme !== "dark") return;
+  const html = document.documentElement;
+  if (animate) {
     html.classList.add("theme-transitioning");
-    // Quitar la clase cuando terminen las transiciones
-    html.addEventListener("transitionend", () => {
-      html.classList.remove("theme-transitioning");
-    }, { once: true });
-    // Fallback: si no hay transición, quitar en 300ms
     setTimeout(() => html.classList.remove("theme-transitioning"), 300);
   }
-
   html.setAttribute("data-theme", theme);
+  store(THEME_KEY, theme);
 
-  // Persistir elección
-  try {
-    localStorage.setItem(THEME_KEY, theme);
-  } catch (_) { /* silenciar */ }
-
-  // Actualizar meta theme-color del navegador
-  const metaThemeColor = document.querySelector("meta[name='theme-color']");
-  if (metaThemeColor) {
-    metaThemeColor.content = theme === "dark" ? "#231e19" : "#e8a045";
+  const meta = document.querySelector("meta[name='theme-color']");
+  if (meta) {
+    const skin = html.getAttribute("data-skin");
+    if (skin === "valentine") {
+      meta.content = theme === "dark" ? "#1f0d16" : "#fff5f9";
+    } else {
+      meta.content = theme === "dark" ? "#231e19" : "#e8a045";
+    }
   }
 
-  // Sincronizar botón toggle
-  syncToggleButton(theme);
+  syncThemeBtn(theme);
 }
 
-// ════════════════════════════════════════════
-// TOGGLE
-// ════════════════════════════════════════════
-
-/**
- * Alterna entre claro y oscuro con animación.
- */
 export function toggleTheme() {
-  const current = document.documentElement.getAttribute("data-theme") ?? "light";
-  const next    = current === "dark" ? "light" : "dark";
-  applyTheme(next, true);
+  const cur = document.documentElement.getAttribute("data-theme") ?? "light";
+  applyTheme(cur === "dark" ? "light" : "dark", true);
 }
 
-/**
- * Actualiza el icono y aria-label del botón toggle.
- */
-function syncToggleButton(theme) {
-  const btn = document.getElementById("theme-toggle-btn");
-  if (!btn) return;
-  btn.setAttribute("aria-label", theme === "dark" ? "Cambiar a modo claro" : "Cambiar a modo oscuro");
-  btn.title = theme === "dark" ? "Modo claro" : "Modo oscuro";
+function syncThemeBtn(theme) {
+  document.querySelectorAll("[data-theme-toggle]").forEach(btn => {
+    btn.setAttribute("aria-label", theme === "dark" ? "Modo claro" : "Modo oscuro");
+    btn.title = theme === "dark" ? "Modo claro" : "Modo oscuro";
+  });
 }
 
-// ════════════════════════════════════════════
-// ESCUCHAR CAMBIOS DEL SISTEMA
-// ════════════════════════════════════════════
-
-/**
- * Escucha cambios en prefers-color-scheme y los aplica
- * SOLO si el usuario no tiene una preferencia guardada.
- */
 function watchSystemTheme() {
   window.matchMedia?.("(prefers-color-scheme: dark)")
-    .addEventListener("change", (e) => {
-      // Respetar siempre la preferencia guardada del usuario
-      if (getStoredTheme()) return;
+    .addEventListener("change", e => {
+      if (retrieve(THEME_KEY)) return;
       applyTheme(e.matches ? "dark" : "light", true);
     });
 }
 
 // ════════════════════════════════════════════
-// INIT — llamar lo antes posible (anti-flash)
+// UI — SELECTOR DE TEMÁTICAS
 // ════════════════════════════════════════════
 
-/**
- * Inicialización temprana: aplica el tema sin animación
- * para evitar flash. Llamar desde <head> o al inicio del bundle.
- */
+function updateSkinUI(activeSkinId) {
+  const skin = SKINS[activeSkinId] ?? SKINS.default;
+  const el   = document.getElementById("current-skin-indicator");
+  if (el) el.textContent = `${skin.emoji} ${skin.name}`;
+}
+
+export function openSkinSelector() {
+  const available  = getAvailableSkins();
+  const activeSkin = resolveActiveSkin();
+  const dateSkin   = getTodaySkin();
+
+  const items = available.map(skin => {
+    const isActive = activeSkin === skin.id;
+    const isAuto   = dateSkin === skin.id;
+    return `
+      <button class="skin-option ${isActive ? "skin-option-active" : ""}"
+              data-skin-id="${skin.id}"
+              onclick="window._applySkinAndClose('${skin.id}')">
+        <span class="skin-option-emoji">${skin.emoji}</span>
+        <div class="skin-option-info">
+          <span class="skin-option-name">${skin.name}</span>
+          <span class="skin-option-desc">${skin.desc}</span>
+          ${isAuto   ? `<span class="skin-option-tag skin-option-tag-auto">✨ Automático hoy</span>` : ""}
+          ${isActive && !isAuto ? `<span class="skin-option-tag skin-option-tag-on">Activo</span>` : ""}
+        </div>
+        ${isActive ? `<span class="skin-option-check">✓</span>` : ""}
+      </button>`;
+  }).join("");
+
+  const emptyNote = available.length <= 1
+    ? `<p class="skin-empty-note">Tu profe activará más temáticas cuando estén disponibles 🎨</p>`
+    : "";
+
+  const html = `
+    <div class="modal-header">
+      <h3>🎨 Temáticas</h3>
+      <button class="modal-close" onclick="window.closeModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <p class="skin-selector-hint">
+        El modo oscuro se puede combinar con cualquier temática.
+      </p>
+      <div class="skin-options-grid">
+        ${items}
+        ${emptyNote}
+      </div>
+    </div>`;
+
+  const overlay = document.getElementById("modal-overlay");
+  const box     = document.getElementById("modal-box");
+  if (overlay && box) {
+    box.innerHTML = html;
+    overlay.classList.remove("hidden");
+    overlay.onclick = e => { if (e.target === overlay) overlay.classList.add("hidden"); };
+  }
+}
+
+window._applySkinAndClose = (skinId) => {
+  applySkin(skinId, true);
+  document.getElementById("modal-overlay")?.classList.add("hidden");
+};
+
+// ════════════════════════════════════════════
+// INIT
+// ════════════════════════════════════════════
+
 export function initTheme() {
-  const theme = resolveTheme();
-  applyTheme(theme, false);   // sin transición en el arranque
+  const theme  = resolveTheme();
+  const skinId = resolveActiveSkin();
+
+  applyTheme(theme, false);
+  if (skinId !== "default") applySkin(skinId, false);
+
   watchSystemTheme();
 
-  // Enlazar botón toggle cuando el DOM esté listo
   document.addEventListener("DOMContentLoaded", () => {
-    const btn = document.getElementById("theme-toggle-btn");
-    if (btn) {
+    // Theme toggle buttons (marcados con data-theme-toggle)
+    document.querySelectorAll("[data-theme-toggle]").forEach(btn => {
       btn.addEventListener("click", toggleTheme);
-      syncToggleButton(theme);
-    }
+    });
+    // Skin selector
+    document.querySelectorAll("[data-skin-selector]").forEach(btn => {
+      btn.addEventListener("click", openSkinSelector);
+    });
+    syncThemeBtn(theme);
+    updateSkinUI(skinId);
   });
 }
 
-// Auto-init al importar el módulo
 initTheme();
 
-// Exponer para onclick inline si fuera necesario
-window.toggleTheme = toggleTheme;
+// Globales
+window.toggleTheme        = toggleTheme;
+window.openSkinSelector   = openSkinSelector;
+window.applySkin          = applySkin;
+window.teacherEnableSkin  = teacherEnableSkin;
+window.teacherDisableSkin = teacherDisableSkin;
+window.getEnabledSkins    = getEnabledSkins;
