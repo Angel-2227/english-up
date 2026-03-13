@@ -395,6 +395,11 @@ export function initAuth() {
         const { initAI } = await import("./ai.js");
         initAI();
 
+        // *** AÑADE ESTO AQUÍ ***
+        const { registerCalendar, initCalendarFAB } = await import("./calendar.js");
+        registerCalendar();
+        initCalendarFAB();
+
         // Navegar a home
         navigate("home");
 
