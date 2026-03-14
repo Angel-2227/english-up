@@ -398,7 +398,7 @@ export function initAuth() {
         // *** AÑADE ESTO AQUÍ ***
         const { registerCalendar, initCalendarFAB } = await import("./calendar.js");
         registerCalendar();
-        initCalendarFAB();
+        //initCalendarFAB();
 
         // Navegar a home
         navigate("home");
