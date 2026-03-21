@@ -1,0 +1,261 @@
+/* =============================================
+   ENGLISH UP! — print.css
+   Estilos para imprimir clases como worksheets
+   Sólo se aplica en @media print
+============================================= */
+
+@media print {
+
+  /* ── Reset del layout de la app ──────────── */
+  .navbar,
+  .ai-fab,
+  .ai-panel,
+  .toast-container,
+  .modal-overlay,
+  #nav-dropdown,
+  .student-header,
+  .path-container,
+  .btn-back-lesson,
+  .lesson-nav-bar,
+  .lesson-controls      { display: none !important; }
+
+  body {
+    background:  white !important;
+    color:       #111 !important;
+    font-family: Georgia, 'Times New Roman', serif;
+    font-size:   11pt;
+    line-height: 1.6;
+  }
+
+  .app,
+  .page-container {
+    margin:   0 !important;
+    padding:  0 !important;
+    max-width:100% !important;
+  }
+
+  /* ── Page setup ──────────────────────────── */
+  @page {
+    size:   A4 portrait;
+    margin: 20mm 18mm 20mm 18mm;
+  }
+
+  /* Avoid breaking inside key elements */
+  h1, h2, h3, h4 { page-break-after: avoid; }
+  table          { page-break-inside: avoid; }
+  figure         { page-break-inside: avoid; }
+
+  /* ── Lesson viewer ───────────────────────── */
+  .lesson-viewer {
+    display:  block !important;
+    width:    100% !important;
+    border:   none !important;
+    padding:  0 !important;
+    box-shadow: none !important;
+  }
+
+  /* When lesson is in an iframe, print frame content */
+  .lesson-iframe-wrap {
+    display: none !important;
+  }
+
+  /* ── Worksheet header ────────────────────── */
+  .print-header {
+    display:       flex !important;
+    align-items:   center;
+    justify-content: space-between;
+    border-bottom: 2px solid #111;
+    padding-bottom:8pt;
+    margin-bottom: 16pt;
+  }
+
+  .print-header-logo {
+    font-size:   16pt;
+    font-weight: bold;
+    font-family: Georgia, serif;
+  }
+
+  .print-header-meta {
+    font-size: 9pt;
+    color:     #555;
+    text-align:right;
+  }
+
+  /* ── Typography ──────────────────────────── */
+  h1 { font-size: 18pt; margin-bottom: 8pt; }
+  h2 { font-size: 14pt; margin: 14pt 0 6pt; }
+  h3 { font-size: 12pt; margin: 10pt 0 4pt; }
+  p  { margin-bottom: 6pt; orphans: 3; widows: 3; }
+
+  /* ── Interactive elements → print versions ── */
+
+  /* Videos: show search instruction instead */
+  .video-section,
+  .lesson-video,
+  iframe[src*="youtube"],
+  iframe[src*="youtu.be"] {
+    display: none !important;
+  }
+
+  .video-print-note {
+    display:      block !important;
+    border:       1.5pt solid #aaa;
+    border-radius:4pt;
+    padding:      8pt 10pt;
+    margin:       10pt 0;
+    font-size:    9pt;
+    color:        #555;
+    font-style:   italic;
+  }
+
+  /* Buttons: hide all action buttons */
+  .btn,
+  button:not(.print-show) {
+    display: none !important;
+  }
+
+  /* Tap-based gap fill → show blank lines */
+  .gap-chip,
+  .gap-chip-bank,
+  .chip-bank        { display: none !important; }
+
+  .gap-blank {
+    display:      inline-block !important;
+    min-width:    60pt;
+    border-bottom:1pt solid #555;
+    margin:       0 3pt;
+  }
+
+  /* Matching exercise → two-column list */
+  .match-targets,
+  .match-check-btn   { display: none !important; }
+
+  .match-items-print {
+    display: block !important;
+  }
+
+  .match-print-row {
+    display:         flex;
+    align-items:     flex-start;
+    gap:             12pt;
+    margin-bottom:   6pt;
+    font-size:       10pt;
+  }
+
+  .match-print-label {
+    font-weight: bold;
+    min-width:   20pt;
+  }
+
+  .match-print-line {
+    flex:         1;
+    border-bottom:1pt solid #aaa;
+    min-height:   14pt;
+  }
+
+  /* Contenteditable write lines → keep as lines */
+  [contenteditable] {
+    border:        none !important;
+    border-bottom: 1pt solid #aaa !important;
+    border-radius: 0 !important;
+    background:    transparent !important;
+    box-shadow:    none !important;
+    min-height:    20pt;
+    display:       block !important;
+    padding:       0 !important;
+  }
+
+  /* True/False quiz → show blanks */
+  .tf-options { display: none !important; }
+
+  .tf-print-blank {
+    display:      inline-block !important;
+    min-width:    40pt;
+    border-bottom:1pt solid #555;
+    margin-left:  6pt;
+  }
+
+  /* Unscramble → show blank */
+  .scramble-chips   { display: none !important; }
+
+  .scramble-answer-print {
+    display:      block !important;
+    border-bottom:1pt solid #aaa;
+    min-height:   16pt;
+    margin:       6pt 0;
+    font-size:    10pt;
+  }
+
+  /* Word bank → static comma-separated list */
+  .word-bank-interactive { display: none !important; }
+
+  .word-bank-print {
+    display:       block !important;
+    font-size:     9pt;
+    color:         #444;
+    font-style:    italic;
+    margin-bottom: 8pt;
+  }
+
+  .word-bank-print::before {
+    content:     "Word bank: ";
+    font-weight: bold;
+    font-style:  normal;
+  }
+
+  /* Answer keys: always hidden on print */
+  .answer-key,
+  .check-result,
+  .correct-answer { display: none !important; }
+
+  /* ── Name / Date line at top of worksheet ── */
+  .worksheet-meta {
+    display:     flex !important;
+    gap:         40pt;
+    margin:      16pt 0 12pt;
+    font-size:   10pt;
+  }
+
+  .worksheet-meta-field {
+    flex:    1;
+    display: flex;
+    flex-direction: column;
+    gap:     4pt;
+  }
+
+  .worksheet-meta-field label {
+    font-size:   8pt;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color:       #777;
+  }
+
+  .worksheet-meta-field .meta-line {
+    border-bottom: 1pt solid #aaa;
+    height:        16pt;
+  }
+
+  /* ── Section dividers ────────────────────── */
+  .section-divider-print {
+    border-top:  1pt solid #ddd;
+    margin:      12pt 0;
+  }
+
+  /* ── Images ──────────────────────────────── */
+  img {
+    max-width:   100% !important;
+    page-break-inside: avoid;
+  }
+
+  /* ── Links ───────────────────────────────── */
+  a[href]::after {
+    content: none;   /* don't print URLs */
+  }
+
+  /* ── Colours → grayscale-safe ────────────── */
+  * {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust:         exact;
+  }
+}
