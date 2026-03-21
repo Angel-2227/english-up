@@ -520,6 +520,49 @@ section { margin-bottom: 48px; }
 .nb-title { font-family: var(--font-h); font-weight: 700; font-size: .98rem; }
 .nb-sub { font-size: .78rem; opacity: .88; margin-top: 4px; line-height: 1.5; }
 
+/* ── SEND ALL BAR ── */
+.send-all-bar {
+  background: linear-gradient(135deg, #1A1208, #3D1A06);
+  color: var(--cream);
+  border-radius: var(--radius);
+  padding: 20px 24px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-top: 32px;
+  box-shadow: 0 4px 24px rgba(26,18,8,.25);
+}
+.sab-left { flex: 1; min-width: 200px; }
+.sab-title { font-family: var(--font-h); font-weight: 700; font-size: 1rem; margin-bottom: 4px; color: var(--gold-lt); }
+.sab-desc  { font-size: .8rem; opacity: .75; line-height: 1.5; }
+.btn-send-all {
+  background: var(--gold);
+  color: var(--ink);
+  border: none;
+  padding: 13px 28px;
+  border-radius: 99px;
+  cursor: pointer;
+  font-family: var(--font-b);
+  font-weight: 700;
+  font-size: .9rem;
+  white-space: nowrap;
+  transition: background .2s;
+  flex-shrink: 0;
+}
+.btn-send-all:hover { background: var(--gold-lt); }
+.sab-sent {
+  font-size: .85rem;
+  font-weight: 700;
+  color: #86efac;
+  display: none;
+  flex-shrink: 0;
+}
+.sab-sent.show { display: block; }
+@media (max-width: 480px) {
+  .btn-send-all { width: 100%; }
+}
+
 /* ── PROGRESS TRACKER ── */
 .progress-tracker {
   position: fixed; bottom: 20px; right: 16px; z-index: 90;
@@ -539,7 +582,7 @@ section { margin-bottom: 48px; }
   75%    { transform: translateX(5px);  }
 }
 
-/* ── EDITABLE LINES (tipo papel, clicable en digital) ── */
+/* ── EDITABLE LINES ── */
 .write-line {
   position: relative;
   border-bottom: 1.5px solid #bbb;
@@ -582,7 +625,6 @@ section { margin-bottom: 48px; }
   border-bottom-color: var(--gold);
   background: rgba(201,134,42,.04);
 }
-/* Para líneas sin número (discussion, trailer) */
 .write-line.no-num::before { display: none; }
 .write-line.no-num [contenteditable] { padding-left: 0; }
 
@@ -590,54 +632,23 @@ section { margin-bottom: 48px; }
 .unscramble-list { display: flex; flex-direction: column; gap: 22px; }
 .us-item { background: var(--cream); border: 2px solid var(--parchment); border-radius: 10px; padding: 14px 16px; }
 .us-num  { font-size: .7rem; font-weight: 700; color: var(--gold); font-family: var(--font-b); margin-bottom: 8px; letter-spacing:.05em; text-transform:uppercase; }
-.us-chips-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 7px;
-  margin-bottom: 12px;
-  min-height: 38px;
-}
+.us-chips-row { display: flex; flex-wrap: wrap; gap: 7px; margin-bottom: 12px; min-height: 38px; }
 .us-chip {
-  background: white;
-  border: 2px solid var(--blue);
-  color: var(--blue);
-  border-radius: 8px;
-  padding: 6px 13px;
-  cursor: pointer;
-  font-family: var(--font-h);
-  font-weight: 700;
-  font-size: .88rem;
-  transition: all .18s;
-  user-select: none;
-  -webkit-tap-highlight-color: transparent;
+  background: white; border: 2px solid var(--blue); color: var(--blue); border-radius: 8px;
+  padding: 6px 13px; cursor: pointer; font-family: var(--font-h); font-weight: 700; font-size: .88rem;
+  transition: all .18s; user-select: none; -webkit-tap-highlight-color: transparent;
 }
 .us-chip:hover, .us-chip:active { background: var(--blue); color: white; }
 .us-chip.us-selected { background: var(--rust); border-color: var(--rust); color: white; transform: scale(1.07); }
 .us-chip.us-placed   { opacity: .28; pointer-events: none; text-decoration: line-through; }
 .us-answer-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-  min-height: 36px;
-  background: var(--parchment);
-  border-radius: 8px;
-  padding: 6px 10px;
-  align-items: center;
+  display: flex; flex-wrap: wrap; gap: 6px; min-height: 36px;
+  background: var(--parchment); border-radius: 8px; padding: 6px 10px; align-items: center;
 }
 .us-slot {
-  display: inline-block;
-  min-width: 60px;
-  border-bottom: 2px solid var(--brown);
-  padding: 2px 8px;
-  font-family: var(--font-h);
-  font-weight: 700;
-  font-size: .88rem;
-  color: var(--brown);
-  cursor: pointer;
-  background: white;
-  border-radius: 4px;
-  transition: all .18s;
-  text-align: center;
+  display: inline-block; min-width: 60px; border-bottom: 2px solid var(--brown); padding: 2px 8px;
+  font-family: var(--font-h); font-weight: 700; font-size: .88rem; color: var(--brown);
+  cursor: pointer; background: white; border-radius: 4px; transition: all .18s; text-align: center;
   -webkit-tap-highlight-color: transparent;
 }
 .us-slot:empty::before { content: '___'; color: #ccc; }
@@ -646,36 +657,20 @@ section { margin-bottom: 48px; }
 .us-slot.us-wrong   { background: #FDECEA; border-color: var(--rust); color: var(--rust); animation: shake .4s; }
 .us-feedback { font-size: .78rem; font-weight: 700; margin-top: 8px; min-height: 16px; }
 .us-check-btn {
-  margin-top: 16px;
-  background: var(--brown);
-  color: white;
-  border: none;
-  padding: 10px 22px;
-  border-radius: 99px;
-  cursor: pointer;
-  font-family: var(--font-b);
-  font-weight: 700;
-  font-size: .83rem;
-  transition: background .2s;
+  margin-top: 16px; background: var(--brown); color: white; border: none;
+  padding: 10px 22px; border-radius: 99px; cursor: pointer;
+  font-family: var(--font-b); font-weight: 700; font-size: .83rem; transition: background .2s;
 }
 .us-check-btn:hover { background: var(--rust); }
 .us-reset-btn {
-  background: none;
-  border: 2px solid #DDD;
-  color: var(--brown);
-  padding: 9px 18px;
-  border-radius: 99px;
-  cursor: pointer;
-  font-family: var(--font-b);
-  font-weight: 600;
-  font-size: .83rem;
-  transition: all .2s;
-  margin-left: 8px;
+  background: none; border: 2px solid #DDD; color: var(--brown); padding: 9px 18px;
+  border-radius: 99px; cursor: pointer; font-family: var(--font-b); font-weight: 600;
+  font-size: .83rem; transition: all .2s; margin-left: 8px;
 }
 .us-reset-btn:hover { border-color: var(--brown); }
 #us-score { margin-top: 12px; font-weight: 700; font-size: .85rem; }
 
-/* ── PRINT: unscramble ── */
+/* ── PRINT ── */
 @media print {
   .us-chips-row { display: flex !important; flex-wrap: wrap; gap: 5pt; margin-bottom: 6pt; }
   .us-chip { border: 1pt solid #777 !important; background: #F5F5F5 !important; color: #333 !important; font-size: 9pt !important; padding: 3pt 8pt !important; cursor: default; pointer-events: none; }
@@ -684,31 +679,20 @@ section { margin-bottom: 48px; }
   .us-slot { border-bottom: 1.5pt solid #888 !important; background: white !important; color: white !important; min-width: 50pt; }
   .us-slot.us-correct, .us-slot.us-wrong { color: white !important; background: white !important; border-color: #888 !important; }
   .us-check-btn, .us-reset-btn, #us-score, .us-feedback { display: none !important; }
-  /* Líneas clicables → solo la línea, sin el contenteditable visible */
   .write-line [contenteditable] { color: transparent !important; background: transparent !important; min-height: 20pt; }
   .write-line:focus-within { background: transparent !important; }
+  .send-all-bar { display: none !important; }
 }
 
-/* ══════════════════════════════════════════════
-   PRINT STYLES — clean worksheet, NO answers
-══════════════════════════════════════════════ */
 @media print {
-  /* === HIDE screen-only elements === */
-  .print-bar .btn-print,
-  .progress-tracker,
-  .video-wrap,
-  .btn-yt, .btn-yt-alt, .video-links,
+  .print-bar .btn-print, .progress-tracker,
+  .video-wrap, .btn-yt, .btn-yt-alt, .video-links,
   .lyrics-check-btn, .lyrics-reset-btn, .lyrics-actions,
-  .match-check-btn,
-  .quiz-submit-btn,
-  .reveal-all-btn,
-  .word-bank-wrap,
-  .next-banner,
-  #match-feedback, #lyrics-score, #quiz-result,
-  .quiz-feedback,
+  .match-check-btn, .quiz-submit-btn, .reveal-all-btn,
+  .word-bank-wrap, .next-banner,
+  #match-feedback, #lyrics-score, #quiz-result, .quiz-feedback,
   .gp-wordbank, .gp-check-btn, .gp-reset-btn, #gp-score,
   iframe { display: none !important; }
-
   * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
   body { background: white !important; font-size: 10.5pt; color: #111; }
   .hero { background: #1A1208 !important; padding: 14pt 0; }
@@ -724,81 +708,45 @@ section { margin-bottom: 48px; }
   .section-title { font-size: 12pt; }
   .section-time { display: none; }
   .print-bar { background: #EEE !important; color: #333 !important; padding: 5pt 10pt; font-size: 8pt; }
-
-  /* === LISTENING WRITE LINES === */
   .write-line { border-bottom: 1.5pt solid #888 !important; min-height: 26pt !important; display: block; }
   .listen-task { background: #F0E8D5 !important; border: 1pt solid #CCC; }
-
-  /* === VOCAB === */
   .vocab-card { break-inside: avoid; border: 1pt solid #CCC !important; padding: 7pt 9pt !important; background: white !important; min-height: 0 !important; cursor: default; }
   .vocab-translation { display: none !important; }
   .vocab-hint { display: none !important; }
   .vocab-card.revealed { background: white !important; border: 1pt solid #CCC !important; }
-
-  /* === MATCHING — print word list as static text === */
   .match-instructions { background: #F0E8D5 !important; border: 1pt solid #CCC !important; border-left: 3pt solid #C9862A !important; font-size: 8.5pt; }
   .match-words-row { display: none !important; }
-  .match-instructions::after {
-    content: "Palabras: softly · crowd · soul · stranger · flushed · gaze · embarrassed · fever";
-    display: block; font-weight: 700; margin-top: 5pt; font-size: 9pt; color: #333;
-  }
+  .match-instructions::after { content: "Palabras: softly · crowd · soul · stranger · flushed · gaze · embarrassed · fever"; display: block; font-weight: 700; margin-top: 5pt; font-size: 9pt; color: #333; }
   .match-defs { display: block; }
   .match-def-row { border: 1pt solid #DDD !important; margin-bottom: 5pt; cursor: default; background: #FAFAFA !important; break-inside: avoid; }
   .match-def-placed { display: none !important; }
   .match-def-row::after { content: "Answer: _______________"; font-family: monospace; font-size: 9pt; color: #888; white-space: nowrap; margin-left: 8pt; flex-shrink: 0; }
-
-  /* === LYRICS === */
   .lyrics-columns { flex-direction: row !important; gap: 14pt; }
   .lyrics-col { flex: 1 !important; }
   .lyrics-wrap { line-height: 2.8; font-size: 9.5pt; }
   .lyrics-instructions { background: #F0E8D5 !important; border: 1pt solid #CCC; font-size: 8.5pt; }
-  .gap-blank {
-    color: white !important; background: transparent !important;
-    border-top: none !important; border-left: none !important; border-right: none !important;
-    border-bottom: 1.5pt solid #555 !important; border-radius: 0 !important;
-    min-width: 60pt !important; display: inline-block; transform: none !important; box-shadow: none !important;
-  }
+  .gap-blank { color: white !important; background: transparent !important; border-top: none !important; border-left: none !important; border-right: none !important; border-bottom: 1.5pt solid #555 !important; border-radius: 0 !important; min-width: 60pt !important; display: inline-block; transform: none !important; box-shadow: none !important; }
   .gap-blank.filled, .gap-blank.correct-ans, .gap-blank.wrong-ans { color: white !important; background: transparent !important; border-color: #555 !important; animation: none !important; }
   .word-bank-wrap { display: block !important; background: #F5F5F5 !important; border: 1pt solid #CCC !important; border-radius: 4pt !important; padding: 6pt 8pt !important; margin-bottom: 8pt !important; }
   .word-bank { display: none !important; }
   .word-bank-label { display: none !important; }
-  .word-bank-wrap::after {
-    content: "📝 Word Bank: strumming · embarrassed · softly · stranger · soul · letters · sang · felt · flushed · crowd · knew · life";
-    display: block; font-size: 8.5pt; color: #444; font-style: italic;
-  }
-
-  /* === GRAMMAR === */
+  .word-bank-wrap::after { content: "📝 Word Bank: strumming · embarrassed · softly · stranger · soul · letters · sang · felt · flushed · crowd · knew · life"; display: block; font-size: 8.5pt; color: #444; font-style: italic; }
   .grammar-intro { background: #F0E8D5 !important; border-radius: 4pt; }
   .grammar-song-examples { background: #FFF8EC !important; border: 1pt solid #C9862A; }
   .grammar-rule-box { background: #D4DFF0 !important; border-left: 3pt solid #2A4A7A !important; }
   .grammar-practice { background: #FAFAFA !important; border: 1pt solid #CCC !important; }
   .gp-wordbank { display: none !important; }
-  .grammar-practice::before {
-    content: "✏️ Completa con: am · is · are · was · were · wasn't · isn't · Were · Is";
-    display: block; font-size: 8.5pt; color: #444; font-style: italic;
-    background: #F0E8D5; border: 1pt solid #CCC; padding: 5pt 8pt; border-radius: 3pt; margin-bottom: 8pt;
-  }
-  .gp-blank {
-    color: white !important; background: transparent !important;
-    border-top: none !important; border-left: none !important; border-right: none !important;
-    border-bottom: 1.5pt solid #555 !important; border-radius: 0 !important;
-    min-width: 55pt !important; display: inline-block;
-  }
+  .grammar-practice::before { content: "✏️ Completa con: am · is · are · was · were · wasn't · isn't · Were · Is"; display: block; font-size: 8.5pt; color: #444; font-style: italic; background: #F0E8D5; border: 1pt solid #CCC; padding: 5pt 8pt; border-radius: 3pt; margin-bottom: 8pt; }
+  .gp-blank { color: white !important; background: transparent !important; border-top: none !important; border-left: none !important; border-right: none !important; border-bottom: 1.5pt solid #555 !important; border-radius: 0 !important; min-width: 55pt !important; display: inline-block; }
   .gp-blank.gp-filled, .gp-blank.gp-correct, .gp-blank.gp-wrong { color: white !important; background: transparent !important; border-color: #555 !important; }
-
-  /* === QUIZ === */
   .quiz-card { break-inside: avoid; border: 1pt solid #CCC !important; background: white !important; }
   .tf-btns { display: flex; gap: 20pt; flex-wrap: nowrap; }
   .tf-btn { border: 1.5pt solid #AAA !important; background: white !important; color: #333 !important; padding: 4pt 18pt !important; font-size: 9pt !important; }
   .tf-btn.sel-t, .tf-btn.sel-f, .tf-btn.correct, .tf-btn.wrong { background: white !important; color: #333 !important; border-color: #AAA !important; }
-
-  /* === DISCUSSION === */
   .discussion-list li { break-inside: avoid; }
   .disc-line { border-bottom: 1pt solid #999 !important; min-height: 20pt; display: flex !important; }
   .disc-line [contenteditable] { color: transparent !important; min-height: 18pt; }
   .disc-lines { margin-top: 6pt; gap: 5pt; }
-
-  /* === TRAILER / BOL === */
   .bol-vocab-card { break-inside: avoid; border: 1pt solid #CCC !important; background: white !important; min-height: 0 !important; }
   .bol-translation { display: none !important; }
   .bol-hint { display: none !important; }
@@ -806,7 +754,6 @@ section { margin-bottom: 48px; }
   .trailer-task { background: #F0E8D5 !important; border: 1pt solid #CCC; }
   .tw-line { border-bottom: 1pt solid #999 !important; min-height: 20pt; display: flex !important; }
   .tw-line [contenteditable] { color: transparent !important; min-height: 18pt; }
-
   @page { margin: 1.6cm 2cm; size: A4; }
   h2, h3, .section-title, .card-title { break-after: avoid; }
 }
@@ -881,12 +828,12 @@ section { margin-bottom: 48px; }
     <div class="listen-task">
       <strong>Part A — Write the chorus</strong> (the part that repeats). Listen carefully and fill in the 6 lines below:
       <div class="write-lines">
-        <div class="write-line" data-num="1."><div contenteditable="true" data-placeholder="escribe aquí…"></div></div>
-        <div class="write-line" data-num="2."><div contenteditable="true" data-placeholder="escribe aquí…"></div></div>
-        <div class="write-line" data-num="3."><div contenteditable="true" data-placeholder="escribe aquí…"></div></div>
-        <div class="write-line" data-num="4."><div contenteditable="true" data-placeholder="escribe aquí…"></div></div>
-        <div class="write-line" data-num="5."><div contenteditable="true" data-placeholder="escribe aquí…"></div></div>
-        <div class="write-line" data-num="6."><div contenteditable="true" data-placeholder="escribe aquí…"></div></div>
+        <div class="write-line" data-num="1."><div contenteditable="true" data-placeholder="escribe aquí…" data-label="chorus_line_1"></div></div>
+        <div class="write-line" data-num="2."><div contenteditable="true" data-placeholder="escribe aquí…" data-label="chorus_line_2"></div></div>
+        <div class="write-line" data-num="3."><div contenteditable="true" data-placeholder="escribe aquí…" data-label="chorus_line_3"></div></div>
+        <div class="write-line" data-num="4."><div contenteditable="true" data-placeholder="escribe aquí…" data-label="chorus_line_4"></div></div>
+        <div class="write-line" data-num="5."><div contenteditable="true" data-placeholder="escribe aquí…" data-label="chorus_line_5"></div></div>
+        <div class="write-line" data-num="6."><div contenteditable="true" data-placeholder="escribe aquí…" data-label="chorus_line_6"></div></div>
       </div>
     </div>
 
@@ -895,7 +842,7 @@ section { margin-bottom: 48px; }
       <br><br>
       The song makes me feel: &nbsp; <strong>sad</strong> &nbsp;/&nbsp; <strong>happy</strong> &nbsp;/&nbsp; <strong>calm</strong> &nbsp;/&nbsp; <strong>romantic</strong> &nbsp;/&nbsp; <strong>nostalgic</strong>
       <br><br>
-      One word I heard (in English): ________________________________
+      One word I heard (in English): <span contenteditable="true" data-label="word_i_heard" style="display:inline-block;min-width:180px;border-bottom:1.5px solid #bbb;padding:2px 4px;outline:none;font-family:var(--font-h);caret-color:var(--rust);" data-placeholder="…"></span>
     </div>
 
     <div class="tip-box">
@@ -914,54 +861,18 @@ section { margin-bottom: 48px; }
   <div class="card">
     <div class="card-title">🃏 Tap each card to reveal the Spanish translation</div>
     <div class="vocab-grid" id="vocabGrid">
-      <div class="vocab-card" onclick="revealVocab(this)">
-        <div class="vocab-word">to strum</div><div class="vocab-pron">/strʌm/</div>
-        <div class="vocab-translation">🇪🇸 rasguear (guitarra)</div><div class="vocab-hint">👆 tap to reveal</div>
-      </div>
-      <div class="vocab-card" onclick="revealVocab(this)">
-        <div class="vocab-word">embarrassed</div><div class="vocab-pron">/ɪmˈbærəst/</div>
-        <div class="vocab-translation">🇪🇸 avergonzada/o</div><div class="vocab-hint">👆 tap to reveal</div>
-      </div>
-      <div class="vocab-card" onclick="revealVocab(this)">
-        <div class="vocab-word">to gaze</div><div class="vocab-pron">/ɡeɪz/</div>
-        <div class="vocab-translation">🇪🇸 mirar fijamente</div><div class="vocab-hint">👆 tap to reveal</div>
-      </div>
-      <div class="vocab-card" onclick="revealVocab(this)">
-        <div class="vocab-word">softly</div><div class="vocab-pron">/ˈsɒftli/</div>
-        <div class="vocab-translation">🇪🇸 suavemente</div><div class="vocab-hint">👆 tap to reveal</div>
-      </div>
-      <div class="vocab-card" onclick="revealVocab(this)">
-        <div class="vocab-word">soul</div><div class="vocab-pron">/soʊl/</div>
-        <div class="vocab-translation">🇪🇸 alma</div><div class="vocab-hint">👆 tap to reveal</div>
-      </div>
-      <div class="vocab-card" onclick="revealVocab(this)">
-        <div class="vocab-word">stranger</div><div class="vocab-pron">/ˈstreɪndʒər/</div>
-        <div class="vocab-translation">🇪🇸 extraño / desconocido</div><div class="vocab-hint">👆 tap to reveal</div>
-      </div>
-      <div class="vocab-card" onclick="revealVocab(this)">
-        <div class="vocab-word">flushed</div><div class="vocab-pron">/flʌʃt/</div>
-        <div class="vocab-translation">🇪🇸 sonrojada/o</div><div class="vocab-hint">👆 tap to reveal</div>
-      </div>
-      <div class="vocab-card" onclick="revealVocab(this)">
-        <div class="vocab-word">crowd</div><div class="vocab-pron">/kraʊd/</div>
-        <div class="vocab-translation">🇪🇸 multitud / público</div><div class="vocab-hint">👆 tap to reveal</div>
-      </div>
-      <div class="vocab-card" onclick="revealVocab(this)">
-        <div class="vocab-word">to pray</div><div class="vocab-pron">/preɪ/</div>
-        <div class="vocab-translation">🇪🇸 rezar / rogar</div><div class="vocab-hint">👆 tap to reveal</div>
-      </div>
-      <div class="vocab-card" onclick="revealVocab(this)">
-        <div class="vocab-word">fever</div><div class="vocab-pron">/ˈfiːvər/</div>
-        <div class="vocab-translation">🇪🇸 fiebre / ardor</div><div class="vocab-hint">👆 tap to reveal</div>
-      </div>
-      <div class="vocab-card" onclick="revealVocab(this)">
-        <div class="vocab-word">despair</div><div class="vocab-pron">/dɪˈspɛr/</div>
-        <div class="vocab-translation">🇪🇸 desesperación</div><div class="vocab-hint">👆 tap to reveal</div>
-      </div>
-      <div class="vocab-card" onclick="revealVocab(this)">
-        <div class="vocab-word">to swear</div><div class="vocab-pron">/swɛr/</div>
-        <div class="vocab-translation">🇪🇸 jurar</div><div class="vocab-hint">👆 tap to reveal</div>
-      </div>
+      <div class="vocab-card" onclick="revealVocab(this)"><div class="vocab-word">to strum</div><div class="vocab-pron">/strʌm/</div><div class="vocab-translation">🇪🇸 rasguear (guitarra)</div><div class="vocab-hint">👆 tap to reveal</div></div>
+      <div class="vocab-card" onclick="revealVocab(this)"><div class="vocab-word">embarrassed</div><div class="vocab-pron">/ɪmˈbærəst/</div><div class="vocab-translation">🇪🇸 avergonzada/o</div><div class="vocab-hint">👆 tap to reveal</div></div>
+      <div class="vocab-card" onclick="revealVocab(this)"><div class="vocab-word">to gaze</div><div class="vocab-pron">/ɡeɪz/</div><div class="vocab-translation">🇪🇸 mirar fijamente</div><div class="vocab-hint">👆 tap to reveal</div></div>
+      <div class="vocab-card" onclick="revealVocab(this)"><div class="vocab-word">softly</div><div class="vocab-pron">/ˈsɒftli/</div><div class="vocab-translation">🇪🇸 suavemente</div><div class="vocab-hint">👆 tap to reveal</div></div>
+      <div class="vocab-card" onclick="revealVocab(this)"><div class="vocab-word">soul</div><div class="vocab-pron">/soʊl/</div><div class="vocab-translation">🇪🇸 alma</div><div class="vocab-hint">👆 tap to reveal</div></div>
+      <div class="vocab-card" onclick="revealVocab(this)"><div class="vocab-word">stranger</div><div class="vocab-pron">/ˈstreɪndʒər/</div><div class="vocab-translation">🇪🇸 extraño / desconocido</div><div class="vocab-hint">👆 tap to reveal</div></div>
+      <div class="vocab-card" onclick="revealVocab(this)"><div class="vocab-word">flushed</div><div class="vocab-pron">/flʌʃt/</div><div class="vocab-translation">🇪🇸 sonrojada/o</div><div class="vocab-hint">👆 tap to reveal</div></div>
+      <div class="vocab-card" onclick="revealVocab(this)"><div class="vocab-word">crowd</div><div class="vocab-pron">/kraʊd/</div><div class="vocab-translation">🇪🇸 multitud / público</div><div class="vocab-hint">👆 tap to reveal</div></div>
+      <div class="vocab-card" onclick="revealVocab(this)"><div class="vocab-word">to pray</div><div class="vocab-pron">/preɪ/</div><div class="vocab-translation">🇪🇸 rezar / rogar</div><div class="vocab-hint">👆 tap to reveal</div></div>
+      <div class="vocab-card" onclick="revealVocab(this)"><div class="vocab-word">fever</div><div class="vocab-pron">/ˈfiːvər/</div><div class="vocab-translation">🇪🇸 fiebre / ardor</div><div class="vocab-hint">👆 tap to reveal</div></div>
+      <div class="vocab-card" onclick="revealVocab(this)"><div class="vocab-word">despair</div><div class="vocab-pron">/dɪˈspɛr/</div><div class="vocab-translation">🇪🇸 desesperación</div><div class="vocab-hint">👆 tap to reveal</div></div>
+      <div class="vocab-card" onclick="revealVocab(this)"><div class="vocab-word">to swear</div><div class="vocab-pron">/swɛr/</div><div class="vocab-translation">🇪🇸 jurar</div><div class="vocab-hint">👆 tap to reveal</div></div>
     </div>
     <button class="reveal-all-btn" onclick="revealAllVocab()" id="revealAllBtn">👁 Reveal all</button>
   </div>
@@ -975,9 +886,7 @@ section { margin-bottom: 48px; }
     <div class="section-time">⏱ 8 min</div>
   </div>
   <div class="card">
-    <div class="match-instructions">
-      👆 <strong>How to play:</strong> Tap a word (top), then tap the correct definition (below).
-    </div>
+    <div class="match-instructions">👆 <strong>How to play:</strong> Tap a word (top), then tap the correct definition (below).</div>
     <div class="card-title">Step 1 — Choose a word:</div>
     <div class="match-words-row" id="matchWords">
       <div class="match-chip" data-word="softly"      onclick="selectMatchChip(this)">softly</div>
@@ -991,79 +900,35 @@ section { margin-bottom: 48px; }
     </div>
     <div class="card-title" style="margin-top:16px;">Step 2 — Tap the correct definition:</div>
     <div class="match-defs" id="matchDefs">
-      <div class="match-def-row" data-answer="stranger" onclick="placeMatch(this)">
-        <span class="match-def-letter">A.</span>
-        <span class="match-def-text">A person you don't know</span>
-        <span class="match-def-placed"></span>
-      </div>
-      <div class="match-def-row" data-answer="soul" onclick="placeMatch(this)">
-        <span class="match-def-letter">B.</span>
-        <span class="match-def-text">The spiritual / inner part of a person</span>
-        <span class="match-def-placed"></span>
-      </div>
-      <div class="match-def-row" data-answer="crowd" onclick="placeMatch(this)">
-        <span class="match-def-letter">C.</span>
-        <span class="match-def-text">A large group of people</span>
-        <span class="match-def-placed"></span>
-      </div>
-      <div class="match-def-row" data-answer="softly" onclick="placeMatch(this)">
-        <span class="match-def-letter">D.</span>
-        <span class="match-def-text">In a gentle, quiet way</span>
-        <span class="match-def-placed"></span>
-      </div>
-      <div class="match-def-row" data-answer="flushed" onclick="placeMatch(this)">
-        <span class="match-def-letter">E.</span>
-        <span class="match-def-text">Red in the face / feeling hot with emotion</span>
-        <span class="match-def-placed"></span>
-      </div>
-      <div class="match-def-row" data-answer="gaze" onclick="placeMatch(this)">
-        <span class="match-def-letter">F.</span>
-        <span class="match-def-text">To look steadily at something for a long time</span>
-        <span class="match-def-placed"></span>
-      </div>
-      <div class="match-def-row" data-answer="embarrassed" onclick="placeMatch(this)">
-        <span class="match-def-letter">G.</span>
-        <span class="match-def-text">Feeling ashamed or uncomfortable in front of others</span>
-        <span class="match-def-placed"></span>
-      </div>
-      <div class="match-def-row" data-answer="fever" onclick="placeMatch(this)">
-        <span class="match-def-letter">H.</span>
-        <span class="match-def-text">High body temperature / intense excitement</span>
-        <span class="match-def-placed"></span>
-      </div>
+      <div class="match-def-row" data-answer="stranger"    onclick="placeMatch(this)"><span class="match-def-letter">A.</span><span class="match-def-text">A person you don't know</span><span class="match-def-placed"></span></div>
+      <div class="match-def-row" data-answer="soul"        onclick="placeMatch(this)"><span class="match-def-letter">B.</span><span class="match-def-text">The spiritual / inner part of a person</span><span class="match-def-placed"></span></div>
+      <div class="match-def-row" data-answer="crowd"       onclick="placeMatch(this)"><span class="match-def-letter">C.</span><span class="match-def-text">A large group of people</span><span class="match-def-placed"></span></div>
+      <div class="match-def-row" data-answer="softly"      onclick="placeMatch(this)"><span class="match-def-letter">D.</span><span class="match-def-text">In a gentle, quiet way</span><span class="match-def-placed"></span></div>
+      <div class="match-def-row" data-answer="flushed"     onclick="placeMatch(this)"><span class="match-def-letter">E.</span><span class="match-def-text">Red in the face / feeling hot with emotion</span><span class="match-def-placed"></span></div>
+      <div class="match-def-row" data-answer="gaze"        onclick="placeMatch(this)"><span class="match-def-letter">F.</span><span class="match-def-text">To look steadily at something for a long time</span><span class="match-def-placed"></span></div>
+      <div class="match-def-row" data-answer="embarrassed" onclick="placeMatch(this)"><span class="match-def-letter">G.</span><span class="match-def-text">Feeling ashamed or uncomfortable in front of others</span><span class="match-def-placed"></span></div>
+      <div class="match-def-row" data-answer="fever"       onclick="placeMatch(this)"><span class="match-def-letter">H.</span><span class="match-def-text">High body temperature / intense excitement</span><span class="match-def-placed"></span></div>
     </div>
     <button class="match-check-btn" onclick="checkMatches()">✅ Check Answers</button>
     <div id="match-feedback"></div>
   </div>
 </section>
 
-<!-- ══ SECTION 4: LISTENING + GAP-FILL SONG ══ -->
+<!-- ══ SECTION 4: LYRICS GAP-FILL ══ -->
 <section id="sec-lyrics">
   <div class="section-header">
     <div class="section-num">4</div>
     <div class="section-title">Full Song — Listen &amp; Gap-Fill 🎵</div>
     <div class="section-time">⏱ 18 min</div>
   </div>
-
-  <!-- PART A: LISTENING — write the chorus -->
   <div class="card">
-    <div class="card-title">🎧 Part A — Listen again and complete the chorus below (write the words you hear):</div>
-    <div class="lyrics-instructions">
-      👂 Focus on the chorus — it repeats! Write each word in the blank lines provided in Section 1. Then compare with a classmate.
-    </div>
-    <div class="tip-box">
-      💡 The chorus starts with: <em>"Strumming my pain…"</em> — can you catch all 6 lines?
-    </div>
+    <div class="card-title">🎧 Part A — Listen again and complete the chorus below:</div>
+    <div class="lyrics-instructions">👂 Focus on the chorus — it repeats! Write each word in the blank lines in Section 1. Then compare with a classmate.</div>
+    <div class="tip-box">💡 The chorus starts with: <em>"Strumming my pain…"</em> — can you catch all 6 lines?</div>
   </div>
-
-  <!-- PART B: GAP-FILL with word bank (digital) / write in (print) -->
   <div class="card">
     <div class="card-title">🎵 Part B — Complete the full song. Tap a word, then tap a blank:</div>
-    <div class="lyrics-instructions">
-      <strong>Digital:</strong> Tap a word in the bank, then tap a blank. &nbsp;|&nbsp; <strong>Print:</strong> Write the correct word in each blank.
-    </div>
-
-    <!-- WORD BANK -->
+    <div class="lyrics-instructions"><strong>Digital:</strong> Tap a word in the bank, then tap a blank. &nbsp;|&nbsp; <strong>Print:</strong> Write the correct word in each blank.</div>
     <div class="word-bank-wrap">
       <div class="word-bank-label">🔤 Word Bank</div>
       <div class="word-bank" id="wordBank">
@@ -1081,9 +946,7 @@ section { margin-bottom: 48px; }
         <div class="word-chip" data-chip="life"        onclick="selectChip(this)">life</div>
       </div>
     </div>
-
     <div class="lyrics-columns">
-      <!-- LEFT -->
       <div class="lyrics-col">
         <div class="lyrics-wrap">
           <div class="verse-label">♩ Verse 1</div>
@@ -1093,7 +956,6 @@ section { margin-bottom: 48px; }
           <span class="lyric-line">to listen for a while.</span>
           <span class="lyric-line">And there he was, this young boy,</span>
           <span class="lyric-line">a <span class="gap-blank" data-answer="stranger" onclick="fillBlank(this)">stranger</span> to my eyes.</span>
-
           <div class="verse-label">🎵 Chorus</div>
           <span class="lyric-line chorus-line"><span class="gap-blank" data-answer="strumming" onclick="fillBlank(this)">strumming</span> my pain with his fingers,</span>
           <span class="lyric-line chorus-line">Singing my <span class="gap-blank" data-answer="life" onclick="fillBlank(this)">life</span> with his words,</span>
@@ -1101,7 +963,6 @@ section { margin-bottom: 48px; }
           <span class="lyric-line chorus-line">Killing me softly with his song,</span>
           <span class="lyric-line chorus-line">Telling my whole life with his words,</span>
           <span class="lyric-line chorus-line">Killing me softly with his <span class="gap-blank" data-answer="soul" onclick="fillBlank(this)">soul</span>.</span>
-
           <div class="verse-label">♩ Verse 2</div>
           <span class="lyric-line">I <span class="gap-blank" data-answer="felt" onclick="fillBlank(this)">felt</span> all <span class="gap-blank" data-answer="flushed" onclick="fillBlank(this)">flushed</span> with fever,</span>
           <span class="lyric-line"><span class="gap-blank" data-answer="embarrassed" onclick="fillBlank(this)">embarrassed</span> by the <span class="gap-blank" data-answer="crowd" onclick="fillBlank(this)">crowd</span>.</span>
@@ -1111,8 +972,6 @@ section { margin-bottom: 48px; }
           <span class="lyric-line">but he just kept right on…</span>
         </div>
       </div>
-
-      <!-- RIGHT -->
       <div class="lyrics-col">
         <div class="lyrics-wrap">
           <div class="verse-label">🎵 Chorus (repeat)</div>
@@ -1122,7 +981,6 @@ section { margin-bottom: 48px; }
           <span class="lyric-line chorus-line">Killing me softly with his song,</span>
           <span class="lyric-line chorus-line">Telling my whole life with his words,</span>
           <span class="lyric-line chorus-line">Killing me softly with his song.</span>
-
           <div class="verse-label">♩ Verse 3</div>
           <span class="lyric-line">He sang as if he <span class="gap-blank" data-answer="knew" onclick="fillBlank(this)">knew</span> me,</span>
           <span class="lyric-line">in all my dark despair.</span>
@@ -1130,14 +988,12 @@ section { margin-bottom: 48px; }
           <span class="lyric-line">as if I wasn't there.</span>
           <span class="lyric-line">And he just kept on singing,</span>
           <span class="lyric-line">singing clear and strong…</span>
-
           <div class="verse-label">🎵 Final Chorus</div>
           <span class="lyric-line chorus-line">Yes, he was singing my life with his words,</span>
           <span class="lyric-line chorus-line">Killing me softly with his song,</span>
           <span class="lyric-line chorus-line">Killing me softly with his song,</span>
           <span class="lyric-line chorus-line">Telling my whole life with his words,</span>
           <span class="lyric-line chorus-line">Killing me softly with his song.</span>
-
           <div class="info-box" style="margin-top:16px;">
             <strong>💡 Did you notice?</strong><br>
             The Fugees version (1996) adds a rap intro by Wyclef Jean. The original (1973) by Roberta Flack is a pure soul ballad. Both use the <em>same</em> chorus!
@@ -1145,7 +1001,6 @@ section { margin-bottom: 48px; }
         </div>
       </div>
     </div>
-
     <div class="lyrics-actions">
       <button class="lyrics-check-btn" onclick="checkLyrics()">🎵 Check My Answers</button>
       <button class="lyrics-reset-btn" onclick="resetLyrics()">↺ Reset</button>
@@ -1162,13 +1017,7 @@ section { margin-bottom: 48px; }
     <div class="section-time">⏱ 15 min</div>
   </div>
   <div class="card">
-
-    <div class="grammar-intro">
-      <strong>What is "Verb To Be"?</strong><br>
-      <em>To be</em> is the most important verb in English. We use it to say <strong>who we are</strong>, <strong>what we are like</strong>, and <strong>where we are</strong>. It changes depending on the subject (I, you, he…) and the time (present or past).<br><br>
-      In Spanish: <em>ser / estar</em> → In English, both become <strong>to be</strong>.
-    </div>
-
+    <div class="grammar-intro"><strong>What is "Verb To Be"?</strong><br><em>To be</em> is the most important verb in English. We use it to say <strong>who we are</strong>, <strong>what we are like</strong>, and <strong>where we are</strong>. It changes depending on the subject (I, you, he…) and the time (present or past).<br><br>In Spanish: <em>ser / estar</em> → In English, both become <strong>to be</strong>.</div>
     <div class="grammar-song-examples">
       <div class="ex-label">🎵 Verb To Be — in the song</div>
       <span style="display:block;">There <strong style="color:var(--rust);">he was</strong>, this young boy… → <em>was = verb to be (past)</em></span>
@@ -1176,73 +1025,27 @@ section { margin-bottom: 48px; }
       <span style="display:block;">I felt all flushed… → I <strong style="color:var(--rust);">was</strong> embarrassed.</span>
       <span style="display:block;">As if I <strong style="color:var(--rust);">wasn't</strong> there. → <em>wasn't = was + not (negative)</em></span>
     </div>
-
     <div class="card-title">📌 Full conjugation — present &amp; past</div>
     <table class="grammar-table">
       <thead><tr><th>Subject</th><th>🟢 Present (now)</th><th>🔵 Past (before)</th></tr></thead>
       <tbody>
-        <tr>
-          <td><strong>I</strong></td>
-          <td><strong style="color:var(--rust);">am</strong> &nbsp;<span style="font-size:.75rem;color:#888;">I am happy.</span></td>
-          <td><strong style="color:var(--blue);">was</strong> &nbsp;<span style="font-size:.75rem;color:#888;">I was happy.</span></td>
-        </tr>
-        <tr>
-          <td><strong>He / She / It</strong></td>
-          <td><strong style="color:var(--rust);">is</strong> &nbsp;<span style="font-size:.75rem;color:#888;">She is kind.</span></td>
-          <td><strong style="color:var(--blue);">was</strong> &nbsp;<span style="font-size:.75rem;color:#888;">She was kind.</span></td>
-        </tr>
-        <tr>
-          <td><strong>You / We / They</strong></td>
-          <td><strong style="color:var(--rust);">are</strong> &nbsp;<span style="font-size:.75rem;color:#888;">They are here.</span></td>
-          <td><strong style="color:var(--blue);">were</strong> &nbsp;<span style="font-size:.75rem;color:#888;">They were here.</span></td>
-        </tr>
+        <tr><td><strong>I</strong></td><td><strong style="color:var(--rust);">am</strong> &nbsp;<span style="font-size:.75rem;color:#888;">I am happy.</span></td><td><strong style="color:var(--blue);">was</strong> &nbsp;<span style="font-size:.75rem;color:#888;">I was happy.</span></td></tr>
+        <tr><td><strong>He / She / It</strong></td><td><strong style="color:var(--rust);">is</strong> &nbsp;<span style="font-size:.75rem;color:#888;">She is kind.</span></td><td><strong style="color:var(--blue);">was</strong> &nbsp;<span style="font-size:.75rem;color:#888;">She was kind.</span></td></tr>
+        <tr><td><strong>You / We / They</strong></td><td><strong style="color:var(--rust);">are</strong> &nbsp;<span style="font-size:.75rem;color:#888;">They are here.</span></td><td><strong style="color:var(--blue);">were</strong> &nbsp;<span style="font-size:.75rem;color:#888;">They were here.</span></td></tr>
       </tbody>
     </table>
-
     <div class="card-title">📌 Positive · Negative · Question forms</div>
     <table class="grammar-full-table">
       <thead><tr><th>Subject</th><th>✅ Positive</th><th>❌ Negative</th><th>❓ Question</th></tr></thead>
       <tbody>
-        <tr>
-          <td>I (present)</td>
-          <td class="col-pos">I <strong>am</strong> embarrassed.</td>
-          <td class="col-neg">I <strong>am not</strong> sure.<br><span style="font-size:.72rem;color:#888;">= I'm not…</span></td>
-          <td class="col-q"><strong>Am</strong> I right?</td>
-        </tr>
-        <tr>
-          <td>He/She (present)</td>
-          <td class="col-pos">He <strong>is</strong> a stranger.</td>
-          <td class="col-neg">He <strong>is not</strong> here.<br><span style="font-size:.72rem;color:#888;">= He isn't…</span></td>
-          <td class="col-q"><strong>Is</strong> he a stranger?</td>
-        </tr>
-        <tr>
-          <td>They (present)</td>
-          <td class="col-pos">They <strong>are</strong> singing.</td>
-          <td class="col-neg">They <strong>are not</strong> here.<br><span style="font-size:.72rem;color:#888;">= They aren't…</span></td>
-          <td class="col-q"><strong>Are</strong> they singing?</td>
-        </tr>
-        <tr>
-          <td>I/He/She (past)</td>
-          <td class="col-pos">He <strong>was</strong> a stranger.</td>
-          <td class="col-neg">He <strong>was not</strong> there.<br><span style="font-size:.72rem;color:#888;">= He wasn't…</span></td>
-          <td class="col-q"><strong>Was</strong> he a stranger?</td>
-        </tr>
-        <tr>
-          <td>They (past)</td>
-          <td class="col-pos">They <strong>were</strong> happy.</td>
-          <td class="col-neg">They <strong>were not</strong> there.<br><span style="font-size:.72rem;color:#888;">= They weren't…</span></td>
-          <td class="col-q"><strong>Were</strong> they happy?</td>
-        </tr>
+        <tr><td>I (present)</td><td class="col-pos">I <strong>am</strong> embarrassed.</td><td class="col-neg">I <strong>am not</strong> sure.<br><span style="font-size:.72rem;color:#888;">= I'm not…</span></td><td class="col-q"><strong>Am</strong> I right?</td></tr>
+        <tr><td>He/She (present)</td><td class="col-pos">He <strong>is</strong> a stranger.</td><td class="col-neg">He <strong>is not</strong> here.<br><span style="font-size:.72rem;color:#888;">= He isn't…</span></td><td class="col-q"><strong>Is</strong> he a stranger?</td></tr>
+        <tr><td>They (present)</td><td class="col-pos">They <strong>are</strong> singing.</td><td class="col-neg">They <strong>are not</strong> here.<br><span style="font-size:.72rem;color:#888;">= They aren't…</span></td><td class="col-q"><strong>Are</strong> they singing?</td></tr>
+        <tr><td>I/He/She (past)</td><td class="col-pos">He <strong>was</strong> a stranger.</td><td class="col-neg">He <strong>was not</strong> there.<br><span style="font-size:.72rem;color:#888;">= He wasn't…</span></td><td class="col-q"><strong>Was</strong> he a stranger?</td></tr>
+        <tr><td>They (past)</td><td class="col-pos">They <strong>were</strong> happy.</td><td class="col-neg">They <strong>were not</strong> there.<br><span style="font-size:.72rem;color:#888;">= They weren't…</span></td><td class="col-q"><strong>Were</strong> they happy?</td></tr>
       </tbody>
     </table>
-
-    <div class="grammar-rule-box">
-      <strong>💡 Key rules to remember:</strong><br>
-      1. For <strong>questions</strong>, move Verb To Be <em>before</em> the subject: "She <u>is</u> kind." → "<u>Is</u> she kind?"<br>
-      2. For <strong>negatives</strong>, add <em>not</em> after: "They <u>are</u> here." → "They <u>are not</u> here." (= aren't)<br>
-      3. <strong>Contractions</strong>: am not → I'm not &nbsp;· isn't · aren't · wasn't · weren't
-    </div>
-
+    <div class="grammar-rule-box"><strong>💡 Key rules to remember:</strong><br>1. For <strong>questions</strong>, move Verb To Be <em>before</em> the subject: "She <u>is</u> kind." → "<u>Is</u> she kind?"<br>2. For <strong>negatives</strong>, add <em>not</em> after: "They <u>are</u> here." → "They <u>are not</u> here." (= aren't)<br>3. <strong>Contractions</strong>: am not → I'm not &nbsp;· isn't · aren't · wasn't · weren't</div>
     <div class="grammar-practice">
       <div class="gp-title">✏️ Practice — tap a form, then tap a blank</div>
       <div class="gp-wordbank" id="gpBank">
@@ -1256,40 +1059,14 @@ section { margin-bottom: 48px; }
         <div class="gp-chip" data-gpc="Were"   onclick="selectGpChip(this)">Were</div>
         <div class="gp-chip" data-gpc="Is"     onclick="selectGpChip(this)">Is</div>
       </div>
-
-      <div class="gp-item">
-        <span class="gp-num">1.</span>
-        <span>He <span class="gp-blank" data-ans="was" onclick="fillGpBlank(this)">was</span> a stranger to my eyes. <span class="gp-hint">(past)</span></span>
-      </div>
-      <div class="gp-item">
-        <span class="gp-num">2.</span>
-        <span>The music <span class="gp-blank" data-ans="is" onclick="fillGpBlank(this)">is</span> beautiful tonight. <span class="gp-hint">(present)</span></span>
-      </div>
-      <div class="gp-item">
-        <span class="gp-num">3.</span>
-        <span>They <span class="gp-blank" data-ans="were" onclick="fillGpBlank(this)">were</span> in the crowd last night. <span class="gp-hint">(past)</span></span>
-      </div>
-      <div class="gp-item">
-        <span class="gp-num">4.</span>
-        <span>I <span class="gp-blank" data-ans="am" onclick="fillGpBlank(this)">am</span> so embarrassed right now! <span class="gp-hint">(present)</span></span>
-      </div>
-      <div class="gp-item">
-        <span class="gp-num">5.</span>
-        <span>She <span class="gp-blank" data-ans="wasn't" onclick="fillGpBlank(this)">wasn't</span> happy at the concert. <span class="gp-hint">(past negative)</span></span>
-      </div>
-      <div class="gp-item">
-        <span class="gp-num">6.</span>
-        <span>The singer <span class="gp-blank" data-ans="isn't" onclick="fillGpBlank(this)">isn't</span> a stranger anymore. <span class="gp-hint">(present negative)</span></span>
-      </div>
-      <div class="gp-item">
-        <span class="gp-num">7.</span>
-        <span><span class="gp-blank" data-ans="Were" onclick="fillGpBlank(this)">Were</span> they at the concert last night? <span class="gp-hint">(past question)</span></span>
-      </div>
-      <div class="gp-item">
-        <span class="gp-num">8.</span>
-        <span><span class="gp-blank" data-ans="Is" onclick="fillGpBlank(this)">Is</span> the musician from Colombia? <span class="gp-hint">(present question)</span></span>
-      </div>
-
+      <div class="gp-item"><span class="gp-num">1.</span><span>He <span class="gp-blank" data-ans="was" onclick="fillGpBlank(this)">was</span> a stranger to my eyes. <span class="gp-hint">(past)</span></span></div>
+      <div class="gp-item"><span class="gp-num">2.</span><span>The music <span class="gp-blank" data-ans="is" onclick="fillGpBlank(this)">is</span> beautiful tonight. <span class="gp-hint">(present)</span></span></div>
+      <div class="gp-item"><span class="gp-num">3.</span><span>They <span class="gp-blank" data-ans="were" onclick="fillGpBlank(this)">were</span> in the crowd last night. <span class="gp-hint">(past)</span></span></div>
+      <div class="gp-item"><span class="gp-num">4.</span><span>I <span class="gp-blank" data-ans="am" onclick="fillGpBlank(this)">am</span> so embarrassed right now! <span class="gp-hint">(present)</span></span></div>
+      <div class="gp-item"><span class="gp-num">5.</span><span>She <span class="gp-blank" data-ans="wasn't" onclick="fillGpBlank(this)">wasn't</span> happy at the concert. <span class="gp-hint">(past negative)</span></span></div>
+      <div class="gp-item"><span class="gp-num">6.</span><span>The singer <span class="gp-blank" data-ans="isn't" onclick="fillGpBlank(this)">isn't</span> a stranger anymore. <span class="gp-hint">(present negative)</span></span></div>
+      <div class="gp-item"><span class="gp-num">7.</span><span><span class="gp-blank" data-ans="Were" onclick="fillGpBlank(this)">Were</span> they at the concert last night? <span class="gp-hint">(past question)</span></span></div>
+      <div class="gp-item"><span class="gp-num">8.</span><span><span class="gp-blank" data-ans="Is" onclick="fillGpBlank(this)">Is</span> the musician from Colombia? <span class="gp-hint">(present question)</span></span></div>
       <button class="gp-check-btn" onclick="checkGrammar()">✅ Check answers</button>
       <button class="gp-reset-btn" onclick="resetGrammar()">↺ Reset</button>
       <div id="gp-score"></div>
@@ -1297,7 +1074,7 @@ section { margin-bottom: 48px; }
   </div>
 </section>
 
-<!-- ══ SECTION 6: SENTENCE UNSCRAMBLE ══ -->
+<!-- ══ SECTION 6: UNSCRAMBLE ══ -->
 <section id="sec-unscramble">
   <div class="section-header">
     <div class="section-num">6</div>
@@ -1305,139 +1082,50 @@ section { margin-bottom: 48px; }
     <div class="section-time">⏱ 12 min</div>
   </div>
   <div class="card">
-    <div class="match-instructions">
-      🧩 <strong>How to play:</strong> Tap a word from the scrambled row to select it (goes red), then tap a slot below to place it in order. Tap a filled slot to remove a word and try again.
-    </div>
+    <div class="match-instructions">🧩 <strong>How to play:</strong> Tap a word from the scrambled row to select it (goes red), then tap a slot below to place it in order. Tap a filled slot to remove a word and try again.</div>
     <div class="card-title">Build these sentences from the song &amp; grammar lesson:</div>
-
     <div class="unscramble-list" id="unscrambleList">
-
-      <!-- Sentence 1 -->
       <div class="us-item" data-id="0">
         <div class="us-num">1 · From the song — put the chorus line in order:</div>
-        <div class="us-chips-row">
-          <span class="us-chip" data-word="pain">pain</span>
-          <span class="us-chip" data-word="my">my</span>
-          <span class="us-chip" data-word="Strumming">Strumming</span>
-          <span class="us-chip" data-word="fingers">fingers</span>
-          <span class="us-chip" data-word="with">with</span>
-          <span class="us-chip" data-word="his">his</span>
-        </div>
-        <div class="us-answer-row">
-          <span class="us-slot"></span>
-          <span class="us-slot"></span>
-          <span class="us-slot"></span>
-          <span class="us-slot"></span>
-          <span class="us-slot"></span>
-          <span class="us-slot"></span>
-        </div>
+        <div class="us-chips-row"><span class="us-chip" data-word="pain">pain</span><span class="us-chip" data-word="my">my</span><span class="us-chip" data-word="Strumming">Strumming</span><span class="us-chip" data-word="fingers">fingers</span><span class="us-chip" data-word="with">with</span><span class="us-chip" data-word="his">his</span></div>
+        <div class="us-answer-row"><span class="us-slot"></span><span class="us-slot"></span><span class="us-slot"></span><span class="us-slot"></span><span class="us-slot"></span><span class="us-slot"></span></div>
         <div class="us-feedback"></div>
       </div>
-
-      <!-- Sentence 2 -->
       <div class="us-item" data-id="1">
         <div class="us-num">2 · Verb To Be (present) — describe him:</div>
-        <div class="us-chips-row">
-          <span class="us-chip" data-word="is">is</span>
-          <span class="us-chip" data-word="young">young</span>
-          <span class="us-chip" data-word="He">He</span>
-          <span class="us-chip" data-word="a">a</span>
-          <span class="us-chip" data-word="boy">boy</span>
-          <span class="us-chip" data-word="and">and</span>
-          <span class="us-chip" data-word="talented">talented</span>
-        </div>
-        <div class="us-answer-row">
-          <span class="us-slot"></span>
-          <span class="us-slot"></span>
-          <span class="us-slot"></span>
-          <span class="us-slot"></span>
-          <span class="us-slot"></span>
-          <span class="us-slot"></span>
-          <span class="us-slot"></span>
-        </div>
+        <div class="us-chips-row"><span class="us-chip" data-word="is">is</span><span class="us-chip" data-word="young">young</span><span class="us-chip" data-word="He">He</span><span class="us-chip" data-word="a">a</span><span class="us-chip" data-word="boy">boy</span><span class="us-chip" data-word="and">and</span><span class="us-chip" data-word="talented">talented</span></div>
+        <div class="us-answer-row"><span class="us-slot"></span><span class="us-slot"></span><span class="us-slot"></span><span class="us-slot"></span><span class="us-slot"></span><span class="us-slot"></span><span class="us-slot"></span></div>
         <div class="us-feedback"></div>
       </div>
-
-      <!-- Sentence 3 -->
       <div class="us-item" data-id="2">
         <div class="us-num">3 · Verb To Be (past) — how she felt:</div>
-        <div class="us-chips-row">
-          <span class="us-chip" data-word="embarrassed">embarrassed</span>
-          <span class="us-chip" data-word="crowd">crowd</span>
-          <span class="us-chip" data-word="I">I</span>
-          <span class="us-chip" data-word="by">by</span>
-          <span class="us-chip" data-word="was">was</span>
-          <span class="us-chip" data-word="the">the</span>
-        </div>
-        <div class="us-answer-row">
-          <span class="us-slot"></span>
-          <span class="us-slot"></span>
-          <span class="us-slot"></span>
-          <span class="us-slot"></span>
-          <span class="us-slot"></span>
-          <span class="us-slot"></span>
-        </div>
+        <div class="us-chips-row"><span class="us-chip" data-word="embarrassed">embarrassed</span><span class="us-chip" data-word="crowd">crowd</span><span class="us-chip" data-word="I">I</span><span class="us-chip" data-word="by">by</span><span class="us-chip" data-word="was">was</span><span class="us-chip" data-word="the">the</span></div>
+        <div class="us-answer-row"><span class="us-slot"></span><span class="us-slot"></span><span class="us-slot"></span><span class="us-slot"></span><span class="us-slot"></span><span class="us-slot"></span></div>
         <div class="us-feedback"></div>
       </div>
-
-      <!-- Sentence 4 -->
       <div class="us-item" data-id="3">
         <div class="us-num">4 · Question form — ask about him:</div>
-        <div class="us-chips-row">
-          <span class="us-chip" data-word="stranger">stranger</span>
-          <span class="us-chip" data-word="Was">Was</span>
-          <span class="us-chip" data-word="a">a</span>
-          <span class="us-chip" data-word="he">he</span>
-          <span class="us-chip" data-word="you">you</span>
-          <span class="us-chip" data-word="to">to</span>
-        </div>
-        <div class="us-answer-row">
-          <span class="us-slot"></span>
-          <span class="us-slot"></span>
-          <span class="us-slot"></span>
-          <span class="us-slot"></span>
-          <span class="us-slot"></span>
-          <span class="us-slot"></span>
-        </div>
+        <div class="us-chips-row"><span class="us-chip" data-word="stranger">stranger</span><span class="us-chip" data-word="Was">Was</span><span class="us-chip" data-word="a">a</span><span class="us-chip" data-word="he">he</span><span class="us-chip" data-word="you">you</span><span class="us-chip" data-word="to">to</span></div>
+        <div class="us-answer-row"><span class="us-slot"></span><span class="us-slot"></span><span class="us-slot"></span><span class="us-slot"></span><span class="us-slot"></span><span class="us-slot"></span></div>
         <div class="us-feedback"></div>
       </div>
-
-      <!-- Sentence 5 -->
       <div class="us-item" data-id="4">
         <div class="us-num">5 · Negative form — he didn't see her:</div>
-        <div class="us-chips-row">
-          <span class="us-chip" data-word="wasn't">wasn't</span>
-          <span class="us-chip" data-word="He">He</span>
-          <span class="us-chip" data-word="her">her</span>
-          <span class="us-chip" data-word="looking">looking</span>
-          <span class="us-chip" data-word="at">at</span>
-        </div>
-        <div class="us-answer-row">
-          <span class="us-slot"></span>
-          <span class="us-slot"></span>
-          <span class="us-slot"></span>
-          <span class="us-slot"></span>
-          <span class="us-slot"></span>
-        </div>
+        <div class="us-chips-row"><span class="us-chip" data-word="wasn't">wasn't</span><span class="us-chip" data-word="He">He</span><span class="us-chip" data-word="her">her</span><span class="us-chip" data-word="looking">looking</span><span class="us-chip" data-word="at">at</span></div>
+        <div class="us-answer-row"><span class="us-slot"></span><span class="us-slot"></span><span class="us-slot"></span><span class="us-slot"></span><span class="us-slot"></span></div>
         <div class="us-feedback"></div>
       </div>
-
-    </div><!-- /unscramble-list -->
-
+    </div>
     <div style="margin-top:20px;display:flex;gap:10px;flex-wrap:wrap;">
       <button class="us-check-btn" onclick="checkAllUnscramble()">✅ Check All</button>
       <button class="us-reset-btn" onclick="resetAllUnscramble()">↺ Reset All</button>
     </div>
     <div id="us-score"></div>
-
-    <div class="tip-box" style="margin-top:16px;">
-      💡 <strong>Answer key:</strong>
-      <em>1. Strumming my pain with his fingers &nbsp;·&nbsp; 2. He is a young and talented boy &nbsp;·&nbsp; 3. I was embarrassed by the crowd &nbsp;·&nbsp; 4. Was he a stranger to you &nbsp;·&nbsp; 5. He wasn't looking at her</em>
-    </div>
+    <div class="tip-box" style="margin-top:16px;">💡 <strong>Answer key:</strong> <em>1. Strumming my pain with his fingers &nbsp;·&nbsp; 2. He is a young and talented boy &nbsp;·&nbsp; 3. I was embarrassed by the crowd &nbsp;·&nbsp; 4. Was he a stranger to you &nbsp;·&nbsp; 5. He wasn't looking at her</em></div>
   </div>
 </section>
 
-<!-- ══ SECTION 7: QUIZ (renumerada) ══ -->
+<!-- ══ SECTION 7: QUIZ ══ -->
 <section id="sec-quiz">
   <div class="section-header">
     <div class="section-num">7</div>
@@ -1447,68 +1135,19 @@ section { margin-bottom: 48px; }
   <div class="card">
     <div class="card-title">Circle or tap TRUE / FALSE for each statement about the song.</div>
     <div id="quizBody">
-
-      <div class="quiz-card" data-correct="false">
-        <div class="quiz-q">1. The singer heard the musician playing a <em>bad</em> song, and that's why she went to see him.</div>
-        <div class="tf-btns">
-          <button class="tf-btn" onclick="answerTF(this,'true')">TRUE</button>
-          <button class="tf-btn" onclick="answerTF(this,'false')">FALSE</button>
-        </div>
-        <div class="quiz-feedback"></div>
-      </div>
-
-      <div class="quiz-card" data-correct="true">
-        <div class="quiz-q">2. The singer felt embarrassed and flushed while she was in the crowd.</div>
-        <div class="tf-btns">
-          <button class="tf-btn" onclick="answerTF(this,'true')">TRUE</button>
-          <button class="tf-btn" onclick="answerTF(this,'false')">FALSE</button>
-        </div>
-        <div class="quiz-feedback"></div>
-      </div>
-
-      <div class="quiz-card" data-correct="false">
-        <div class="quiz-q">3. The young musician was the singer's best friend — she knew him well.</div>
-        <div class="tf-btns">
-          <button class="tf-btn" onclick="answerTF(this,'true')">TRUE</button>
-          <button class="tf-btn" onclick="answerTF(this,'false')">FALSE</button>
-        </div>
-        <div class="quiz-feedback"></div>
-      </div>
-
-      <div class="quiz-card" data-correct="true">
-        <div class="quiz-q">4. "Strumming" is connected to playing a string instrument like a guitar.</div>
-        <div class="tf-btns">
-          <button class="tf-btn" onclick="answerTF(this,'true')">TRUE</button>
-          <button class="tf-btn" onclick="answerTF(this,'false')">FALSE</button>
-        </div>
-        <div class="quiz-feedback"></div>
-      </div>
-
-      <div class="quiz-card" data-correct="false">
-        <div class="quiz-q">5. In verse 3, the musician looked right at her and smiled.</div>
-        <div class="tf-btns">
-          <button class="tf-btn" onclick="answerTF(this,'true')">TRUE</button>
-          <button class="tf-btn" onclick="answerTF(this,'false')">FALSE</button>
-        </div>
-        <div class="quiz-feedback"></div>
-      </div>
-
-      <div class="quiz-card" data-correct="true">
-        <div class="quiz-q">6. The Fugees version of the song has a rap section not in the original Roberta Flack song.</div>
-        <div class="tf-btns">
-          <button class="tf-btn" onclick="answerTF(this,'true')">TRUE</button>
-          <button class="tf-btn" onclick="answerTF(this,'false')">FALSE</button>
-        </div>
-        <div class="quiz-feedback"></div>
-      </div>
-
+      <div class="quiz-card" data-correct="false"><div class="quiz-q">1. The singer heard the musician playing a <em>bad</em> song, and that's why she went to see him.</div><div class="tf-btns"><button class="tf-btn" onclick="answerTF(this,'true')">TRUE</button><button class="tf-btn" onclick="answerTF(this,'false')">FALSE</button></div><div class="quiz-feedback"></div></div>
+      <div class="quiz-card" data-correct="true"><div class="quiz-q">2. The singer felt embarrassed and flushed while she was in the crowd.</div><div class="tf-btns"><button class="tf-btn" onclick="answerTF(this,'true')">TRUE</button><button class="tf-btn" onclick="answerTF(this,'false')">FALSE</button></div><div class="quiz-feedback"></div></div>
+      <div class="quiz-card" data-correct="false"><div class="quiz-q">3. The young musician was the singer's best friend — she knew him well.</div><div class="tf-btns"><button class="tf-btn" onclick="answerTF(this,'true')">TRUE</button><button class="tf-btn" onclick="answerTF(this,'false')">FALSE</button></div><div class="quiz-feedback"></div></div>
+      <div class="quiz-card" data-correct="true"><div class="quiz-q">4. "Strumming" is connected to playing a string instrument like a guitar.</div><div class="tf-btns"><button class="tf-btn" onclick="answerTF(this,'true')">TRUE</button><button class="tf-btn" onclick="answerTF(this,'false')">FALSE</button></div><div class="quiz-feedback"></div></div>
+      <div class="quiz-card" data-correct="false"><div class="quiz-q">5. In verse 3, the musician looked right at her and smiled.</div><div class="tf-btns"><button class="tf-btn" onclick="answerTF(this,'true')">TRUE</button><button class="tf-btn" onclick="answerTF(this,'false')">FALSE</button></div><div class="quiz-feedback"></div></div>
+      <div class="quiz-card" data-correct="true"><div class="quiz-q">6. The Fugees version of the song has a rap section not in the original Roberta Flack song.</div><div class="tf-btns"><button class="tf-btn" onclick="answerTF(this,'true')">TRUE</button><button class="tf-btn" onclick="answerTF(this,'false')">FALSE</button></div><div class="quiz-feedback"></div></div>
     </div>
     <button class="quiz-submit-btn" onclick="submitQuiz()">📊 See My Score</button>
     <div id="quiz-result"></div>
   </div>
 </section>
 
-<!-- ══ SECTION 7: DISCUSSION ══ -->
+<!-- ══ SECTION 8: DISCUSSION ══ -->
 <section id="sec-disc">
   <div class="section-header">
     <div class="section-num">8</div>
@@ -1524,8 +1163,8 @@ section { margin-bottom: 48px; }
           <div class="disc-q">How does <em>"Killing Me Softly"</em> make you feel? Choose: <strong>sad / calm / happy / nostalgic / romantic / moved.</strong></div>
           <div class="disc-tip">💡 Try: "The song makes me feel ___" or "I feel ___ when I hear it."</div>
           <div class="disc-lines">
-            <div class="disc-line"><div contenteditable="true" data-placeholder="escribe tu respuesta…"></div></div>
-            <div class="disc-line"><div contenteditable="true" data-placeholder="continúa aquí…"></div></div>
+            <div class="disc-line"><div contenteditable="true" data-label="discussion_1_line1" data-placeholder="escribe tu respuesta…"></div></div>
+            <div class="disc-line"><div contenteditable="true" data-label="discussion_1_line2" data-placeholder="continúa aquí…"></div></div>
           </div>
         </div>
       </li>
@@ -1535,8 +1174,8 @@ section { margin-bottom: 48px; }
           <div class="disc-q">Have you ever felt embarrassed in public? What happened? Where were you?</div>
           <div class="disc-tip">💡 Use Verb To Be (past)! "Yes! I <strong>was</strong> embarrassed when ___. I <strong>was</strong> at ___."</div>
           <div class="disc-lines">
-            <div class="disc-line"><div contenteditable="true" data-placeholder="escribe tu respuesta…"></div></div>
-            <div class="disc-line"><div contenteditable="true" data-placeholder="continúa aquí…"></div></div>
+            <div class="disc-line"><div contenteditable="true" data-label="discussion_2_line1" data-placeholder="escribe tu respuesta…"></div></div>
+            <div class="disc-line"><div contenteditable="true" data-label="discussion_2_line2" data-placeholder="continúa aquí…"></div></div>
           </div>
         </div>
       </li>
@@ -1546,8 +1185,8 @@ section { margin-bottom: 48px; }
           <div class="disc-q">The title says "Killing me softly." But she doesn't die! What do you think it really means?</div>
           <div class="disc-tip">💡 "I think it means ___ because ___."</div>
           <div class="disc-lines">
-            <div class="disc-line"><div contenteditable="true" data-placeholder="escribe tu respuesta…"></div></div>
-            <div class="disc-line"><div contenteditable="true" data-placeholder="continúa aquí…"></div></div>
+            <div class="disc-line"><div contenteditable="true" data-label="discussion_3_line1" data-placeholder="escribe tu respuesta…"></div></div>
+            <div class="disc-line"><div contenteditable="true" data-label="discussion_3_line2" data-placeholder="continúa aquí…"></div></div>
           </div>
         </div>
       </li>
@@ -1557,8 +1196,8 @@ section { margin-bottom: 48px; }
           <div class="disc-q">Do you know a song in Spanish (or another language) that tells a story? What is it about?</div>
           <div class="disc-tip">💡 "I know a song called ___. It <strong>is</strong> about ___. It makes me feel ___."</div>
           <div class="disc-lines">
-            <div class="disc-line"><div contenteditable="true" data-placeholder="escribe tu respuesta…"></div></div>
-            <div class="disc-line"><div contenteditable="true" data-placeholder="continúa aquí…"></div></div>
+            <div class="disc-line"><div contenteditable="true" data-label="discussion_4_line1" data-placeholder="escribe tu respuesta…"></div></div>
+            <div class="disc-line"><div contenteditable="true" data-label="discussion_4_line2" data-placeholder="continúa aquí…"></div></div>
           </div>
         </div>
       </li>
@@ -1566,7 +1205,7 @@ section { margin-bottom: 48px; }
   </div>
 </section>
 
-<!-- ══ SECTION 8: BOOK OF LIFE TRAILER ══ -->
+<!-- ══ SECTION 9: BOOK OF LIFE ══ -->
 <section id="sec-bol">
   <div class="section-header">
     <div class="section-num">9</div>
@@ -1576,79 +1215,41 @@ section { margin-bottom: 48px; }
   <div class="card">
     <div class="card-title">🍿 Watch the trailer — what do you see?</div>
     <div class="video-wrap" style="margin-bottom:12px;">
-      <iframe src="https://www.youtube.com/embed/_i69CJc1BgE?si=IcnI2IrhO3OkykRp"
-        title="The Book of Life — Official Trailer" frameborder="0"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      <iframe src="https://www.youtube.com/embed/_i69CJc1BgE?si=IcnI2IrhO3OkykRp" title="The Book of Life — Official Trailer" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
     </div>
     <div class="video-links" style="margin-bottom:20px;">
       <a class="btn-yt" href="https://www.youtube.com/watch?v=_i69CJc1BgE" target="_blank" rel="noopener">▶ Watch on YouTube</a>
     </div>
-
-    <!-- TRAILER VOCABULARY -->
     <div class="card-title">🔑 Learn these 6 words — tap to reveal!</div>
     <div class="bol-vocab-grid" id="bolVocabGrid">
-      <div class="bol-vocab-card" onclick="revealBolVocab(this)">
-        <div class="bol-word">brave</div><div class="bol-pron">/breɪv/</div>
-        <div class="bol-translation">🇪🇸 valiente</div>
-        <div class="bol-example">He is very brave.</div><div class="bol-hint">👆 tap</div>
-      </div>
-      <div class="bol-vocab-card" onclick="revealBolVocab(this)">
-        <div class="bol-word">kind</div><div class="bol-pron">/kaɪnd/</div>
-        <div class="bol-translation">🇪🇸 amable / bondadoso</div>
-        <div class="bol-example">She is very kind.</div><div class="bol-hint">👆 tap</div>
-      </div>
-      <div class="bol-vocab-card" onclick="revealBolVocab(this)">
-        <div class="bol-word">funny</div><div class="bol-pron">/ˈfʌni/</div>
-        <div class="bol-translation">🇪🇸 gracioso / chistoso</div>
-        <div class="bol-example">He is so funny!</div><div class="bol-hint">👆 tap</div>
-      </div>
-      <div class="bol-vocab-card" onclick="revealBolVocab(this)">
-        <div class="bol-word">strong</div><div class="bol-pron">/strɒŋ/</div>
-        <div class="bol-translation">🇪🇸 fuerte</div>
-        <div class="bol-example">She is strong.</div><div class="bol-hint">👆 tap</div>
-      </div>
-      <div class="bol-vocab-card" onclick="revealBolVocab(this)">
-        <div class="bol-word">family</div><div class="bol-pron">/ˈfæmɪli/</div>
-        <div class="bol-translation">🇪🇸 familia</div>
-        <div class="bol-example">My family is big.</div><div class="bol-hint">👆 tap</div>
-      </div>
-      <div class="bol-vocab-card" onclick="revealBolVocab(this)">
-        <div class="bol-word">love</div><div class="bol-pron">/lʌv/</div>
-        <div class="bol-translation">🇪🇸 amor / amar</div>
-        <div class="bol-example">Love is beautiful.</div><div class="bol-hint">👆 tap</div>
-      </div>
+      <div class="bol-vocab-card" onclick="revealBolVocab(this)"><div class="bol-word">brave</div><div class="bol-pron">/breɪv/</div><div class="bol-translation">🇪🇸 valiente</div><div class="bol-example">He is very brave.</div><div class="bol-hint">👆 tap</div></div>
+      <div class="bol-vocab-card" onclick="revealBolVocab(this)"><div class="bol-word">kind</div><div class="bol-pron">/kaɪnd/</div><div class="bol-translation">🇪🇸 amable / bondadoso</div><div class="bol-example">She is very kind.</div><div class="bol-hint">👆 tap</div></div>
+      <div class="bol-vocab-card" onclick="revealBolVocab(this)"><div class="bol-word">funny</div><div class="bol-pron">/ˈfʌni/</div><div class="bol-translation">🇪🇸 gracioso / chistoso</div><div class="bol-example">He is so funny!</div><div class="bol-hint">👆 tap</div></div>
+      <div class="bol-vocab-card" onclick="revealBolVocab(this)"><div class="bol-word">strong</div><div class="bol-pron">/strɒŋ/</div><div class="bol-translation">🇪🇸 fuerte</div><div class="bol-example">She is strong.</div><div class="bol-hint">👆 tap</div></div>
+      <div class="bol-vocab-card" onclick="revealBolVocab(this)"><div class="bol-word">family</div><div class="bol-pron">/ˈfæmɪli/</div><div class="bol-translation">🇪🇸 familia</div><div class="bol-example">My family is big.</div><div class="bol-hint">👆 tap</div></div>
+      <div class="bol-vocab-card" onclick="revealBolVocab(this)"><div class="bol-word">love</div><div class="bol-pron">/lʌv/</div><div class="bol-translation">🇪🇸 amor / amar</div><div class="bol-example">Love is beautiful.</div><div class="bol-hint">👆 tap</div></div>
     </div>
-
-    <!-- TRAILER SENTENCES TASK -->
     <div class="trailer-task" style="margin-top:20px;">
       <div class="trailer-task-title">✏️ After watching — write 3 sentences about what you saw in the trailer. Use Verb To Be!</div>
-
-      <div class="trailer-item">
-        <span class="trailer-item-num">1.</span>
-        <div class="trailer-write">
-          <span style="font-size:.78rem;color:var(--gold);font-style:italic;">Describe a character: "He / She <strong>is</strong> ___. He / She <strong>is</strong> from ___."</span>
-          <div class="tw-line"><div contenteditable="true" data-placeholder="escribe aquí…"></div></div>
-          <div class="tw-line"><div contenteditable="true" data-placeholder="continúa…"></div></div>
+      <div class="trailer-item"><span class="trailer-item-num">1.</span>
+        <div class="trailer-write"><span style="font-size:.78rem;color:var(--gold);font-style:italic;">Describe a character: "He / She <strong>is</strong> ___. He / She <strong>is</strong> from ___."</span>
+          <div class="tw-line"><div contenteditable="true" data-label="trailer_sentence_1a" data-placeholder="escribe aquí…"></div></div>
+          <div class="tw-line"><div contenteditable="true" data-label="trailer_sentence_1b" data-placeholder="continúa…"></div></div>
         </div>
       </div>
-      <div class="trailer-item">
-        <span class="trailer-item-num">2.</span>
-        <div class="trailer-write">
-          <span style="font-size:.78rem;color:var(--gold);font-style:italic;">Describe a place or a feeling: "The world <strong>is</strong> ___. It <strong>is</strong> ___."</span>
-          <div class="tw-line"><div contenteditable="true" data-placeholder="escribe aquí…"></div></div>
-          <div class="tw-line"><div contenteditable="true" data-placeholder="continúa…"></div></div>
+      <div class="trailer-item"><span class="trailer-item-num">2.</span>
+        <div class="trailer-write"><span style="font-size:.78rem;color:var(--gold);font-style:italic;">Describe a place or a feeling: "The world <strong>is</strong> ___. It <strong>is</strong> ___."</span>
+          <div class="tw-line"><div contenteditable="true" data-label="trailer_sentence_2a" data-placeholder="escribe aquí…"></div></div>
+          <div class="tw-line"><div contenteditable="true" data-label="trailer_sentence_2b" data-placeholder="continúa…"></div></div>
         </div>
       </div>
-      <div class="trailer-item">
-        <span class="trailer-item-num">3.</span>
-        <div class="trailer-write">
-          <span style="font-size:.78rem;color:var(--gold);font-style:italic;">Free sentence — use any word from today's vocab!</span>
-          <div class="tw-line"><div contenteditable="true" data-placeholder="escribe aquí…"></div></div>
-          <div class="tw-line"><div contenteditable="true" data-placeholder="continúa…"></div></div>
+      <div class="trailer-item"><span class="trailer-item-num">3.</span>
+        <div class="trailer-write"><span style="font-size:.78rem;color:var(--gold);font-style:italic;">Free sentence — use any word from today's vocab!</span>
+          <div class="tw-line"><div contenteditable="true" data-label="trailer_sentence_3a" data-placeholder="escribe aquí…"></div></div>
+          <div class="tw-line"><div contenteditable="true" data-label="trailer_sentence_3b" data-placeholder="continúa…"></div></div>
         </div>
       </div>
     </div>
-
     <div class="next-banner" style="margin-top:20px;">
       <div class="nb-emoji">🎬</div>
       <div>
@@ -1659,31 +1260,78 @@ section { margin-bottom: 48px; }
   </div>
 </section>
 
+<!-- ══ SEND ALL BAR ══ -->
+<div class="send-all-bar">
+  <div class="sab-left">
+    <div class="sab-title">📤 Enviar todas mis respuestas al profe</div>
+    <div class="sab-desc">Incluye tus respuestas escritas, los resultados de ejercicios y el quiz. Puedes enviarlo varias veces si sigues editando.</div>
+  </div>
+  <button class="btn-send-all" onclick="sendAllResponses()">📤 Enviar al profe</button>
+  <div class="sab-sent" id="sab-sent">✅ ¡Enviado!</div>
+</div>
+
 </div><!-- /page -->
 
 <script>
-// ─── VOCAB REVEAL ────────────────────────────────
+// ══════════════════════════════════════════════════════════════
+// ENGLISH UP — lesson postMessage bridge (AI context reader)
+// ══════════════════════════════════════════════════════════════
+window.addEventListener("message", function(event) {
+  if (event.origin !== window.location.origin) return;
+  if (event.data?.type !== "ENGLISHUP_GET_TEXT") return;
+  const text = (document.body?.innerText || "").replace(/\n{3,}/g, "\n\n").trim().slice(0, 4000);
+  event.source.postMessage({ type: "ENGLISHUP_LESSON_TEXT", text }, event.origin);
+});
+
+// ══════════════════════════════════════════════════════════════
+// ENGLISH UP — EnglishUp.submit() helper
+// ══════════════════════════════════════════════════════════════
+window.EnglishUp = {
+  submit(responses, options = {}) {
+    if (!responses || typeof responses !== "object") return;
+    window.parent.postMessage({ type: "ENGLISHUP_LESSON_RESPONSE", responses }, "*");
+    if (options.showConfirmation !== false) {
+      _euToast(options.confirmationMessage || "✅ Enviado al profe");
+    }
+  }
+};
+
+function _euToast(msg) {
+  let el = document.getElementById("_eu_toast");
+  if (!el) {
+    el = document.createElement("div");
+    el.id = "_eu_toast";
+    el.style.cssText = "position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:#22c55e;color:#fff;padding:10px 22px;border-radius:12px;font-family:system-ui,sans-serif;font-size:14px;font-weight:600;box-shadow:0 4px 20px rgba(0,0,0,.2);z-index:99999;transition:opacity .3s;pointer-events:none;";
+    document.body.appendChild(el);
+  }
+  el.textContent = msg;
+  el.style.opacity = "1";
+  clearTimeout(el._t);
+  el._t = setTimeout(() => el.style.opacity = "0", 2800);
+}
+
+// ══════════════════════════════════════════════════════════════
+// VOCAB REVEAL
+// ══════════════════════════════════════════════════════════════
 let allRevealed = false;
 function revealVocab(card) {
   card.classList.toggle('revealed');
-  const revealed = document.querySelectorAll('.vocab-card.revealed').length;
-  if (revealed >= 6) markProgress('pd-vocab');
+  if (document.querySelectorAll('.vocab-card.revealed').length >= 6) markProgress('pd-vocab');
 }
 function revealAllVocab() {
   allRevealed = !allRevealed;
-  document.querySelectorAll('.vocab-card').forEach(c =>
-    allRevealed ? c.classList.add('revealed') : c.classList.remove('revealed')
-  );
+  document.querySelectorAll('.vocab-card').forEach(c => allRevealed ? c.classList.add('revealed') : c.classList.remove('revealed'));
   document.getElementById('revealAllBtn').textContent = allRevealed ? '🙈 Hide all' : '👁 Reveal all';
   if (allRevealed) markProgress('pd-vocab');
 }
 function revealBolVocab(card) {
   card.classList.toggle('revealed');
-  const rev = document.querySelectorAll('.bol-vocab-card.revealed').length;
-  if (rev >= 4) markProgress('pd-bol');
+  if (document.querySelectorAll('.bol-vocab-card.revealed').length >= 4) markProgress('pd-bol');
 }
 
-// ─── MATCHING ───────────────────────────────────
+// ══════════════════════════════════════════════════════════════
+// MATCHING
+// ══════════════════════════════════════════════════════════════
 let selectedMatchChip = null;
 function selectMatchChip(chip) {
   if (chip.classList.contains('chip-used')) return;
@@ -1694,19 +1342,14 @@ function selectMatchChip(chip) {
 }
 function placeMatch(defRow) {
   if (defRow.classList.contains('correct')) return;
-  if (!selectedMatchChip) {
-    defRow.classList.add('def-hover');
-    setTimeout(() => defRow.classList.remove('def-hover'), 300);
-    return;
-  }
-  const word = selectedMatchChip.dataset.word;
+  if (!selectedMatchChip) { defRow.classList.add('def-hover'); setTimeout(() => defRow.classList.remove('def-hover'), 300); return; }
   if (defRow.dataset.placed) {
     const oldChip = document.querySelector(`.match-chip[data-word="${defRow.dataset.placed}"]`);
     if (oldChip) oldChip.classList.remove('chip-used');
   }
-  defRow.dataset.placed = word;
+  defRow.dataset.placed = selectedMatchChip.dataset.word;
   const badge = defRow.querySelector('.match-def-placed');
-  badge.textContent = word;
+  badge.textContent = selectedMatchChip.dataset.word;
   badge.style.display = 'inline-block';
   defRow.classList.remove('correct','wrong');
   selectedMatchChip.classList.add('chip-used');
@@ -1716,22 +1359,35 @@ function placeMatch(defRow) {
 function checkMatches() {
   const targets = document.querySelectorAll('.match-def-row');
   let correct = 0, answered = 0;
-  targets.forEach(t => {
+  const responses = {};
+  targets.forEach((t, i) => {
+    const letter = t.querySelector('.match-def-letter')?.textContent?.trim() || `def_${i}`;
     if (!t.dataset.placed) return;
     answered++;
     const ok = t.dataset.placed === t.dataset.answer;
     t.classList.toggle('correct', ok);
     t.classList.toggle('wrong', !ok);
     if (ok) correct++;
+    responses[`matching_${letter}`] = t.dataset.placed;
   });
   const fb = document.getElementById('match-feedback');
   if (!answered) { fb.textContent = '⚠️ Place some words first!'; fb.style.color = 'var(--rust)'; return; }
   fb.textContent = `${correct} / ${targets.length} correct${correct === targets.length ? ' 🎉 Perfect!' : ' — try again!'}`;
   fb.style.color = correct === targets.length ? 'var(--sage)' : 'var(--rust)';
   if (correct === targets.length) markProgress('pd-match');
+
+  // ── ENVIAR al profe ──
+  EnglishUp.submit({
+    seccion: "3 · Matching",
+    score: `${correct}/${targets.length}`,
+    ...responses
+  }, { showConfirmation: false });
+  _euToast(`🎯 Matching enviado: ${correct}/${targets.length}`);
 }
 
-// ─── LYRICS GAP-FILL ────────────────────────────
+// ══════════════════════════════════════════════════════════════
+// LYRICS GAP-FILL
+// ══════════════════════════════════════════════════════════════
 let selectedChip = null;
 function selectChip(chip) {
   if (chip.classList.contains('used')) return;
@@ -1742,11 +1398,7 @@ function selectChip(chip) {
   chip.classList.add('selected-chip');
 }
 function fillBlank(blank) {
-  if (!selectedChip) {
-    blank.style.animation = 'shake .4s';
-    setTimeout(() => blank.style.animation = '', 500);
-    return;
-  }
+  if (!selectedChip) { blank.style.animation = 'shake .4s'; setTimeout(() => blank.style.animation = '', 500); return; }
   if (blank.dataset.placed) {
     const prev = document.querySelector(`.word-chip[data-chip="${blank.dataset.placed}"]`);
     if (prev) prev.classList.remove('used');
@@ -1762,7 +1414,8 @@ function fillBlank(blank) {
 function checkLyrics() {
   const blanks = document.querySelectorAll('.gap-blank');
   let correct = 0, answered = 0;
-  blanks.forEach(b => {
+  const responses = {};
+  blanks.forEach((b, i) => {
     if (!b.dataset.placed) return;
     answered++;
     const ok = b.dataset.placed === b.dataset.answer;
@@ -1770,6 +1423,7 @@ function checkLyrics() {
     b.classList.toggle('wrong-ans', !ok);
     b.classList.remove('filled');
     if (ok) correct++;
+    responses[`lyrics_blank_${i+1}`] = b.dataset.placed;
   });
   const total = blanks.length;
   const score = document.getElementById('lyrics-score');
@@ -1778,17 +1432,25 @@ function checkLyrics() {
   score.textContent = `🎵 ${correct} / ${total} correct${correct === total ? ' — Amazing! 🎉' : left > 0 ? ` (${left} blank${left>1?'s':''} still empty)` : ' — almost there!'}`;
   score.style.color = correct >= Math.ceil(total * .7) ? 'var(--sage)' : 'var(--rust)';
   if (correct >= Math.ceil(total * .7)) markProgress('pd-lyrics');
+
+  // ── ENVIAR al profe ──
+  EnglishUp.submit({
+    seccion: "4 · Gap-fill canción",
+    score: `${correct}/${total}`,
+    ...responses
+  }, { showConfirmation: false });
+  _euToast(`🎵 Gap-fill enviado: ${correct}/${total}`);
 }
 function resetLyrics() {
-  document.querySelectorAll('.gap-blank').forEach(b => {
-    b.textContent = ''; b.classList.remove('filled','correct-ans','wrong-ans','active-blank'); delete b.dataset.placed;
-  });
+  document.querySelectorAll('.gap-blank').forEach(b => { b.textContent = ''; b.classList.remove('filled','correct-ans','wrong-ans','active-blank'); delete b.dataset.placed; });
   document.querySelectorAll('.word-chip').forEach(c => c.classList.remove('used','selected-chip'));
   selectedChip = null;
   document.getElementById('lyrics-score').textContent = '';
 }
 
-// ─── GRAMMAR PRACTICE ───────────────────────────
+// ══════════════════════════════════════════════════════════════
+// GRAMMAR PRACTICE
+// ══════════════════════════════════════════════════════════════
 let selectedGpChip = null;
 function selectGpChip(chip) {
   if (chip.classList.contains('gp-chip-used')) return;
@@ -1798,11 +1460,7 @@ function selectGpChip(chip) {
   chip.classList.add('gp-chip-sel');
 }
 function fillGpBlank(blank) {
-  if (!selectedGpChip) {
-    blank.style.animation = 'shake .4s';
-    setTimeout(() => blank.style.animation = '', 500);
-    return;
-  }
+  if (!selectedGpChip) { blank.style.animation = 'shake .4s'; setTimeout(() => blank.style.animation = '', 500); return; }
   if (blank.dataset.placed) {
     const prev = document.querySelector(`.gp-chip[data-gpc="${blank.dataset.placed}"]`);
     if (prev) prev.classList.remove('gp-chip-used');
@@ -1818,7 +1476,8 @@ function fillGpBlank(blank) {
 function checkGrammar() {
   const blanks = document.querySelectorAll('.gp-blank');
   let correct = 0, answered = 0;
-  blanks.forEach(b => {
+  const responses = {};
+  blanks.forEach((b, i) => {
     if (!b.dataset.placed) return;
     answered++;
     const ok = b.dataset.placed === b.dataset.ans;
@@ -1826,6 +1485,7 @@ function checkGrammar() {
     b.classList.toggle('gp-wrong', !ok);
     b.classList.remove('gp-filled');
     if (ok) correct++;
+    responses[`grammar_blank_${i+1}`] = b.dataset.placed;
   });
   const total = blanks.length;
   const score = document.getElementById('gp-score');
@@ -1833,17 +1493,25 @@ function checkGrammar() {
   score.textContent = `⭐ ${correct} / ${total} correct${correct === total ? ' — Perfect! 🎉' : ''}`;
   score.style.color = correct >= Math.ceil(total * .7) ? 'var(--sage)' : 'var(--rust)';
   if (correct >= Math.ceil(total * .7)) markProgress('pd-grammar');
+
+  // ── ENVIAR al profe ──
+  EnglishUp.submit({
+    seccion: "5 · Verb To Be práctica",
+    score: `${correct}/${total}`,
+    ...responses
+  }, { showConfirmation: false });
+  _euToast(`⭐ Gramática enviada: ${correct}/${total}`);
 }
 function resetGrammar() {
-  document.querySelectorAll('.gp-blank').forEach(b => {
-    b.textContent = ''; b.classList.remove('gp-filled','gp-correct','gp-wrong'); delete b.dataset.placed;
-  });
+  document.querySelectorAll('.gp-blank').forEach(b => { b.textContent = ''; b.classList.remove('gp-filled','gp-correct','gp-wrong'); delete b.dataset.placed; });
   document.querySelectorAll('.gp-chip').forEach(c => c.classList.remove('gp-chip-used','gp-chip-sel'));
   selectedGpChip = null;
   document.getElementById('gp-score').textContent = '';
 }
 
-// ─── TRUE/FALSE QUIZ ────────────────────────────
+// ══════════════════════════════════════════════════════════════
+// TRUE/FALSE QUIZ
+// ══════════════════════════════════════════════════════════════
 const quizAnswers = {};
 const explanations = {
   0: '"I heard he sang a GOOD song" — that\'s why she went to see him.',
@@ -1863,6 +1531,7 @@ function answerTF(btn, answer) {
 function submitQuiz() {
   const cards = document.querySelectorAll('.quiz-card');
   let score = 0;
+  const responses = { seccion: "7 · Quiz True/False" };
   cards.forEach((card, i) => {
     const correct = card.dataset.correct;
     const given   = quizAnswers[i];
@@ -1883,8 +1552,11 @@ function submitQuiz() {
       fb.textContent = '❌ ' + (explanations[i] || 'Not quite!');
       fb.style.color = 'var(--rust)';
     }
+    responses[`quiz_q${i+1}`] = given;
   });
   const pct = Math.round((score / cards.length) * 100);
+  responses.score = `${score}/${cards.length} (${pct}%)`;
+
   const result = document.getElementById('quiz-result');
   result.classList.add('show');
   if (pct >= 80) {
@@ -1899,9 +1571,15 @@ function submitQuiz() {
   }
   if (score >= 4) markProgress('pd-quiz');
   markProgress('pd-disc');
+
+  // ── ENVIAR al profe ──
+  EnglishUp.submit(responses, { showConfirmation: false });
+  _euToast(`📊 Quiz enviado: ${score}/${cards.length}`);
 }
 
-// ─── SENTENCE UNSCRAMBLE ────────────────────────
+// ══════════════════════════════════════════════════════════════
+// SENTENCE UNSCRAMBLE
+// ══════════════════════════════════════════════════════════════
 const US_ANSWERS = [
   ['Strumming','my','pain','with','his','fingers'],
   ['He','is','a','young','and','talented','boy'],
@@ -1909,18 +1587,12 @@ const US_ANSWERS = [
   ['Was','he','a','stranger','to','you'],
   ['He','wasn\'t','looking','at','her']
 ];
-let usSelected = null; // {itemEl, chipEl}
+let usSelected = null;
 
 document.querySelectorAll('.us-chip').forEach(chip => {
   chip.addEventListener('click', () => {
     if (chip.classList.contains('us-placed')) return;
-    // deselect if clicking same chip
-    if (usSelected && usSelected.chipEl === chip) {
-      chip.classList.remove('us-selected');
-      usSelected = null;
-      return;
-    }
-    // deselect previous
+    if (usSelected && usSelected.chipEl === chip) { chip.classList.remove('us-selected'); usSelected = null; return; }
     if (usSelected) usSelected.chipEl.classList.remove('us-selected');
     usSelected = { itemEl: chip.closest('.us-item'), chipEl: chip };
     chip.classList.add('us-selected');
@@ -1929,26 +1601,18 @@ document.querySelectorAll('.us-chip').forEach(chip => {
 
 document.querySelectorAll('.us-slot').forEach(slot => {
   slot.addEventListener('click', () => {
-    // if slot already filled → remove that word back to chips
     if (slot.dataset.word) {
       const word = slot.dataset.word;
       const itemEl = slot.closest('.us-item');
       const chip = [...itemEl.querySelectorAll('.us-chip')].find(c => c.dataset.word === word && c.classList.contains('us-placed'));
-      if (chip) { chip.classList.remove('us-placed'); }
-      slot.textContent = '';
-      delete slot.dataset.word;
+      if (chip) chip.classList.remove('us-placed');
+      slot.textContent = ''; delete slot.dataset.word;
       slot.classList.remove('us-correct','us-wrong');
       return;
     }
     if (!usSelected) return;
-    // make sure slot belongs to same item as selected chip
     const slotItem = slot.closest('.us-item');
-    if (slotItem !== usSelected.itemEl) {
-      // wrong item — flash
-      slotItem.style.outline = '2px solid var(--rust)';
-      setTimeout(() => slotItem.style.outline = '', 400);
-      return;
-    }
+    if (slotItem !== usSelected.itemEl) { slotItem.style.outline = '2px solid var(--rust)'; setTimeout(() => slotItem.style.outline = '', 400); return; }
     slot.textContent = usSelected.chipEl.dataset.word;
     slot.dataset.word = usSelected.chipEl.dataset.word;
     slot.classList.remove('us-correct','us-wrong');
@@ -1959,12 +1623,14 @@ document.querySelectorAll('.us-slot').forEach(slot => {
 });
 
 function checkAllUnscramble() {
-  let totalCorrect = 0, totalItems = US_ANSWERS.length;
+  let totalCorrect = 0;
+  const responses = { seccion: "6 · Unscramble" };
   document.querySelectorAll('.us-item').forEach((item, i) => {
     const slots = [...item.querySelectorAll('.us-slot')];
     const answer = US_ANSWERS[i];
     const fb = item.querySelector('.us-feedback');
     let correct = 0;
+    const sentence = slots.map(s => s.dataset.word || '').join(' ').trim();
     slots.forEach((slot, j) => {
       const placed = slot.dataset.word || '';
       const ok = placed === answer[j];
@@ -1974,53 +1640,89 @@ function checkAllUnscramble() {
     });
     const filled = slots.filter(s => s.dataset.word).length;
     if (!filled) { fb.textContent = '⚠️ Fill in the sentence first!'; fb.style.color = 'var(--rust)'; return; }
-    if (correct === answer.length) {
-      fb.textContent = '✅ Perfect!'; fb.style.color = 'var(--sage)'; totalCorrect++;
-    } else {
-      fb.textContent = `${correct}/${answer.length} words correct — try again!`; fb.style.color = 'var(--rust)';
-    }
+    if (correct === answer.length) { fb.textContent = '✅ Perfect!'; fb.style.color = 'var(--sage)'; totalCorrect++; }
+    else { fb.textContent = `${correct}/${answer.length} words correct — try again!`; fb.style.color = 'var(--rust)'; }
+    if (sentence) responses[`unscramble_${i+1}`] = sentence;
   });
   const scoreEl = document.getElementById('us-score');
-  scoreEl.textContent = `🧩 ${totalCorrect} / ${totalItems} sentences correct${totalCorrect === totalItems ? ' — Outstanding! 🎉' : ''}`;
-  scoreEl.style.color = totalCorrect >= Math.ceil(totalItems * .6) ? 'var(--sage)' : 'var(--rust)';
-  if (totalCorrect >= Math.ceil(totalItems * .6)) markProgress('pd-unscramble');
+  scoreEl.textContent = `🧩 ${totalCorrect} / ${US_ANSWERS.length} sentences correct${totalCorrect === US_ANSWERS.length ? ' — Outstanding! 🎉' : ''}`;
+  scoreEl.style.color = totalCorrect >= Math.ceil(US_ANSWERS.length * .6) ? 'var(--sage)' : 'var(--rust)';
+  if (totalCorrect >= Math.ceil(US_ANSWERS.length * .6)) markProgress('pd-unscramble');
+
+  responses.score = `${totalCorrect}/${US_ANSWERS.length}`;
+
+  // ── ENVIAR al profe ──
+  EnglishUp.submit(responses, { showConfirmation: false });
+  _euToast(`🧩 Unscramble enviado: ${totalCorrect}/${US_ANSWERS.length}`);
 }
 
 function resetAllUnscramble() {
-  document.querySelectorAll('.us-slot').forEach(s => {
-    s.textContent = ''; delete s.dataset.word; s.classList.remove('us-correct','us-wrong');
-  });
+  document.querySelectorAll('.us-slot').forEach(s => { s.textContent = ''; delete s.dataset.word; s.classList.remove('us-correct','us-wrong'); });
   document.querySelectorAll('.us-chip').forEach(c => c.classList.remove('us-placed','us-selected'));
   document.querySelectorAll('.us-feedback').forEach(f => f.textContent = '');
   document.getElementById('us-score').textContent = '';
   usSelected = null;
 }
 
-// ─── PROGRESS ───────────────────────────────────
+// ══════════════════════════════════════════════════════════════
+// SEND ALL — botón al final de la lección
+// Recoge TODAS las respuestas escritas + scores ya enviados
+// ══════════════════════════════════════════════════════════════
+function sendAllResponses() {
+  const responses = { seccion: "RESUMEN COMPLETO · Session 1" };
+
+  // 1. Todos los contenteditable con data-label
+  document.querySelectorAll('[contenteditable][data-label]').forEach(el => {
+    const val = el.innerText?.trim();
+    if (val) responses[el.dataset.label] = val;
+  });
+
+  // 2. Scores visibles en pantalla
+  const lyricsScore = document.getElementById('lyrics-score')?.textContent?.trim();
+  const gpScore     = document.getElementById('gp-score')?.textContent?.trim();
+  const usScore     = document.getElementById('us-score')?.textContent?.trim();
+  const quizResult  = document.getElementById('quiz-result')?.textContent?.trim();
+  const matchFb     = document.getElementById('match-feedback')?.textContent?.trim();
+
+  if (lyricsScore) responses['resultado_gap_fill']  = lyricsScore;
+  if (gpScore)     responses['resultado_gramatica']  = gpScore;
+  if (usScore)     responses['resultado_unscramble'] = usScore;
+  if (quizResult)  responses['resultado_quiz']       = quizResult;
+  if (matchFb)     responses['resultado_matching']   = matchFb;
+
+  // 3. Gap-fill answers
+  document.querySelectorAll('.gap-blank[data-placed]').forEach((b, i) => {
+    responses[`gap_fill_${i+1}`] = b.dataset.placed;
+  });
+
+  // 4. Grammar answers
+  document.querySelectorAll('.gp-blank[data-placed]').forEach((b, i) => {
+    responses[`grammar_${i+1}`] = b.dataset.placed;
+  });
+
+  // 5. Quiz answers
+  Object.entries(quizAnswers).forEach(([i, v]) => {
+    responses[`quiz_q${parseInt(i)+1}`] = v;
+  });
+
+  EnglishUp.submit(responses, { showConfirmation: false });
+
+  const sentEl = document.getElementById('sab-sent');
+  if (sentEl) { sentEl.classList.add('show'); setTimeout(() => sentEl.classList.remove('show'), 4000); }
+  _euToast("📤 ¡Todas las respuestas enviadas al profe!");
+}
+
+// ══════════════════════════════════════════════════════════════
+// PROGRESS TRACKER
+// ══════════════════════════════════════════════════════════════
 function markProgress(id) {
   const dot = document.getElementById(id);
   if (dot) dot.classList.add('done');
 }
-
-// Mark listening when page loads (user sees section 1)
 window.addEventListener('scroll', function onFirstScroll() {
   markProgress('pd-listen');
   window.removeEventListener('scroll', onFirstScroll);
 }, { passive: true });
-</script>
-
-<!-- Bridge: permite al AI leer el contenido de esta lección -->
-<script>
-  window.addEventListener("message", function(event) {
-    if (event.origin !== window.location.origin) return;
-    if (event.data?.type !== "ENGLISHUP_GET_TEXT") return;
-    const text = (document.body?.innerText || "")
-      .replace(/\n{3,}/g, "\n\n").trim().slice(0, 4000);
-    event.source.postMessage(
-      { type: "ENGLISHUP_LESSON_TEXT", text },
-      event.origin
-    );
-  });
 </script>
 </body>
 </html>
