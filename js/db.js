@@ -525,3 +525,52 @@ export async function getMissionResult(uid, missionId) {
   const snap  = await getDoc(doc(db, "missionResults", docId));
   return snap.exists() ? snap.data() : null;
 }
+
+
+// ════════════════════════════════════════════
+// RESPUESTAS DE LECCIONES HTML
+// Colección: lessonResponses/{uid_moduleId_lessonId}
+// Guarda las respuestas que el estudiante envía
+// desde una lección HTML via postMessage.
+// ════════════════════════════════════════════
+
+/**
+ * Guarda (o fusiona) las respuestas de un estudiante en una lección.
+ * Se llama desde lesson.js al recibir el mensaje ENGLISHUP_LESSON_RESPONSE.
+ *
+ * @param {string} uid
+ * @param {string} moduleId
+ * @param {string} lessonId
+ * @param {Object} responses  - Objeto libre: { fieldName: value, ... }
+ */
+export async function saveLessonResponse(uid, moduleId, lessonId, responses) {
+  const docId = `${uid}_${moduleId}_${lessonId}`;
+  const ref   = doc(db, "lessonResponses", docId);
+
+  await setDoc(ref, {
+    uid,
+    moduleId,
+    lessonId,
+    responses,
+    savedAt: serverTimestamp(),
+  }, { merge: true });
+}
+
+/**
+ * Lee las respuestas de un estudiante en una lección.
+ */
+export async function getLessonResponse(uid, moduleId, lessonId) {
+  const docId = `${uid}_${moduleId}_${lessonId}`;
+  const snap  = await getDoc(doc(db, "lessonResponses", docId));
+  return snap.exists() ? snap.data() : null;
+}
+
+/**
+ * Lee TODAS las respuestas de un estudiante (todas sus lecciones).
+ * Útil para el panel del profesor.
+ */
+export async function getAllLessonResponsesForStudent(uid) {
+  const q    = query(collection(db, "lessonResponses"), where("uid", "==", uid));
+  const snap = await getDocs(q);
+  return snap.docs.map(d => ({ id: d.id, ...d.data() }));
+}

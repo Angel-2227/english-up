@@ -2127,5 +2127,419 @@ window.addEventListener('message', function(event) {
   event.source.postMessage({ type: 'ENGLISHUP_LESSON_TEXT', text }, event.origin);
 });
 </script>
+<!-- ═══════════════════════════════════════════════════════════════
+     ENGLISH UP! — Word Selection Tooltip
+     Añade esto al final de cada HTML de lección, ANTES de </body>
+     Reemplaza GROQ_WORKER_URL con tu URL real del worker de Cloudflare
+     ════════════════════════════════════════════════════════════════ -->
+<script>
+(function() {
+  // ── CONFIG ────────────────────────────────────────────────────
+  const GROQ_WORKER_URL = "https://english-up-groq.mwp.workers.dev"; // ← tu worker
+  const GROQ_MODEL      = "llama-3.1-8b-instant";
+  const LESSON_TITLE    = document.title || "Lesson";
+
+  // ── STYLES ───────────────────────────────────────────────────
+  const style = document.createElement("style");
+  style.textContent = `
+    #eu-word-tooltip {
+      position: fixed;
+      z-index: 99999;
+      background: #1a1612;
+      color: #f5f0eb;
+      border-radius: 14px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.35), 0 2px 8px rgba(0,0,0,0.2);
+      padding: 0;
+      min-width: 220px;
+      max-width: 320px;
+      font-family: 'DM Sans', 'Nunito', system-ui, sans-serif;
+      font-size: 14px;
+      line-height: 1.5;
+      overflow: hidden;
+      animation: euTooltipIn 180ms cubic-bezier(0.34,1.56,0.64,1);
+      border: 1.5px solid rgba(255,255,255,0.08);
+    }
+    @keyframes euTooltipIn {
+      from { opacity:0; transform: scale(0.88) translateY(6px); }
+      to   { opacity:1; transform: scale(1)    translateY(0); }
+    }
+    #eu-word-tooltip .eu-tt-header {
+      padding: 10px 14px 8px;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+    #eu-word-tooltip .eu-tt-word {
+      font-weight: 800;
+      font-size: 16px;
+      color: #f59e0b;
+      flex: 1;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    #eu-word-tooltip .eu-tt-close {
+      background: none;
+      border: none;
+      color: rgba(255,255,255,0.4);
+      cursor: pointer;
+      font-size: 16px;
+      padding: 0 2px;
+      line-height: 1;
+      flex-shrink: 0;
+    }
+    #eu-word-tooltip .eu-tt-close:hover { color: rgba(255,255,255,0.8); }
+    #eu-word-tooltip .eu-tt-actions {
+      display: flex;
+      gap: 0;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+    #eu-word-tooltip .eu-tt-btn {
+      flex: 1;
+      padding: 8px 4px;
+      background: none;
+      border: none;
+      color: rgba(255,255,255,0.7);
+      cursor: pointer;
+      font-size: 12px;
+      font-weight: 700;
+      font-family: inherit;
+      transition: background 150ms, color 150ms;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2px;
+      border-right: 1px solid rgba(255,255,255,0.08);
+    }
+    #eu-word-tooltip .eu-tt-btn:last-child { border-right: none; }
+    #eu-word-tooltip .eu-tt-btn:hover { background: rgba(255,255,255,0.08); color: #fff; }
+    #eu-word-tooltip .eu-tt-btn:active { background: rgba(255,255,255,0.14); }
+    #eu-word-tooltip .eu-tt-btn .eu-btn-icon { font-size: 16px; line-height: 1; }
+    #eu-word-tooltip .eu-tt-btn.saved { color: #4ade80; }
+    #eu-word-tooltip .eu-tt-body {
+      padding: 10px 14px 12px;
+      font-size: 13px;
+      line-height: 1.6;
+      color: rgba(255,255,255,0.85);
+      max-height: 180px;
+      overflow-y: auto;
+    }
+    #eu-word-tooltip .eu-tt-body.loading {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: rgba(255,255,255,0.45);
+      font-style: italic;
+    }
+    #eu-word-tooltip .eu-tt-spinner {
+      width: 14px; height: 14px;
+      border: 2px solid rgba(255,255,255,0.15);
+      border-top-color: #f59e0b;
+      border-radius: 50%;
+      animation: euSpin 0.7s linear infinite;
+      flex-shrink: 0;
+    }
+    @keyframes euSpin { to { transform: rotate(360deg); } }
+    #eu-word-tooltip .eu-trans {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      background: rgba(20,184,166,0.15);
+      color: #2dd4bf;
+      border-radius: 99px;
+      padding: 2px 10px;
+      font-size: 12px;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+    #eu-word-tooltip .eu-examples {
+      margin-top: 6px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    #eu-word-tooltip .eu-example {
+      font-style: italic;
+      color: rgba(255,255,255,0.55);
+      font-size: 12px;
+      border-left: 2px solid rgba(245,158,11,0.4);
+      padding-left: 8px;
+    }
+    #eu-word-tooltip .eu-save-confirm {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      color: #4ade80;
+      font-weight: 700;
+      font-size: 13px;
+    }
+  `;
+  document.head.appendChild(style);
+
+  // ── STATE ────────────────────────────────────────────────────
+  let tooltip    = null;
+  let savedWords = new Set();
+
+  // ── CREATE TOOLTIP ───────────────────────────────────────────
+  function createTooltip(word, x, y) {
+    removeTooltip();
+
+    tooltip = document.createElement("div");
+    tooltip.id = "eu-word-tooltip";
+    tooltip.innerHTML = `
+      <div class="eu-tt-header">
+        <div class="eu-tt-word">${escHtml(word)}</div>
+        <button class="eu-tt-close" id="eu-tt-close">✕</button>
+      </div>
+      <div class="eu-tt-actions">
+        <button class="eu-tt-btn" id="eu-btn-translate">
+          <span class="eu-btn-icon">🇪🇸</span>
+          <span>Translate</span>
+        </button>
+        <button class="eu-tt-btn" id="eu-btn-explain">
+          <span class="eu-btn-icon">🤖</span>
+          <span>Explain</span>
+        </button>
+        <button class="eu-tt-btn ${savedWords.has(word.toLowerCase()) ? "saved" : ""}" id="eu-btn-save">
+          <span class="eu-btn-icon">${savedWords.has(word.toLowerCase()) ? "✅" : "💾"}</span>
+          <span>${savedWords.has(word.toLowerCase()) ? "Saved!" : "Save"}</span>
+        </button>
+      </div>
+      <div class="eu-tt-body" id="eu-tt-body" style="display:none"></div>
+    `;
+    document.body.appendChild(tooltip);
+
+    // Position
+    positionTooltip(x, y);
+
+    // Events
+    document.getElementById("eu-tt-close")?.addEventListener("click", removeTooltip);
+    document.getElementById("eu-btn-translate")?.addEventListener("click", () => doTranslate(word));
+    document.getElementById("eu-btn-explain")?.addEventListener("click",   () => doExplain(word));
+    document.getElementById("eu-btn-save")?.addEventListener("click",      () => doSave(word));
+  }
+
+  function positionTooltip(x, y) {
+    if (!tooltip) return;
+    const vw = window.innerWidth;
+    const vh = window.innerHeight;
+    const tw = 320;
+    const th = 200; // estimate
+
+    let left = x - tw / 2;
+    let top  = y - th - 12; // above selection by default
+
+    // Clamp horizontally
+    left = Math.max(8, Math.min(left, vw - tw - 8));
+    // If too high, show below
+    if (top < 60) top = y + 20;
+
+    tooltip.style.left = left + "px";
+    tooltip.style.top  = top  + "px";
+  }
+
+  function removeTooltip() {
+    if (tooltip) { tooltip.remove(); tooltip = null; }
+  }
+
+  // ── TRANSLATE ────────────────────────────────────────────────
+  async function doTranslate(word) {
+    showBody();
+    showLoading("Translating…");
+    try {
+      const res  = await callGroq(`Translate this English word or phrase to Spanish for a language learner. 
+Word: "${word}"
+Context: lesson titled "${LESSON_TITLE}"
+
+Reply with ONLY this JSON (no markdown):
+{"translation": "...", "partOfSpeech": "...", "example": "..."}`);
+
+      let data;
+      try { data = JSON.parse(res.replace(/```json|```/g,"").trim()); }
+      catch { data = { translation: res.trim(), partOfSpeech: "", example: "" }; }
+
+      const body = document.getElementById("eu-tt-body");
+      if (!body) return;
+      body.innerHTML = `
+        <div class="eu-trans">🇪🇸 ${escHtml(data.translation || "—")}</div>
+        ${data.partOfSpeech ? `<div style="font-size:11px;color:rgba(255,255,255,0.4);margin-bottom:4px">${escHtml(data.partOfSpeech)}</div>` : ""}
+        ${data.example ? `<div class="eu-examples"><div class="eu-example">"${escHtml(data.example)}"</div></div>` : ""}
+      `;
+    } catch(err) {
+      showError("Could not translate. Try again.");
+    }
+  }
+
+  // ── EXPLAIN ─────────────────────────────────────────────────
+  async function doExplain(word) {
+    showBody();
+    showLoading("Asking Claude…");
+    try {
+      const res = await callGroq(`You are an English tutor for adult A1-B1 learners (Spanish speakers).
+Explain this word or phrase briefly and clearly.
+Word: "${word}"
+Lesson context: "${LESSON_TITLE}"
+
+Reply with ONLY this JSON (no markdown):
+{
+  "definition": "simple definition in English (1 sentence)",
+  "translation": "Spanish translation",
+  "examples": ["short example 1", "short example 2"]
+}`);
+
+      let data;
+      try { data = JSON.parse(res.replace(/```json|```/g,"").trim()); }
+      catch { data = { definition: res.trim(), translation: "", examples: [] }; }
+
+      const body = document.getElementById("eu-tt-body");
+      if (!body) return;
+      body.innerHTML = `
+        ${data.translation ? `<div class="eu-trans">🇪🇸 ${escHtml(data.translation)}</div>` : ""}
+        <div style="margin-bottom:6px">${escHtml(data.definition || "")}</div>
+        ${data.examples?.length ? `
+          <div class="eu-examples">
+            ${data.examples.map(ex => `<div class="eu-example">"${escHtml(ex)}"</div>`).join("")}
+          </div>` : ""}
+      `;
+    } catch(err) {
+      showError("Could not explain. Try again.");
+    }
+  }
+
+  // ── SAVE ─────────────────────────────────────────────────────
+  async function doSave(word) {
+    const btn  = document.getElementById("eu-btn-save");
+    const icon = btn?.querySelector(".eu-btn-icon");
+    const lbl  = btn?.querySelector("span:last-child");
+
+    if (savedWords.has(word.toLowerCase())) {
+      showBody();
+      const body = document.getElementById("eu-tt-body");
+      if (body) body.innerHTML = `<div class="eu-save-confirm">✅ Already saved!</div>`;
+      return;
+    }
+
+    if (btn) { btn.disabled = true; if(icon) icon.textContent = "⏳"; if(lbl) lbl.textContent = "Saving…"; }
+
+    // Get translation quickly for context
+    let translation = "";
+    try {
+      const res = await callGroq(`Translate "${word}" to Spanish. Reply with ONLY the Spanish translation, nothing else.`);
+      translation = res.trim().replace(/["""]/g,"");
+    } catch { /* ok, save without translation */ }
+
+    // Send to parent app via postMessage
+    const payload = {
+      type:        "ENGLISHUP_SAVE_WORD",
+      word:        word,
+      translation: translation,
+      lessonTitle: LESSON_TITLE,
+    };
+
+    window.parent?.postMessage(payload, window.location.origin);
+    // Also try top-level if nested
+    if (window.parent !== window.top) {
+      window.top?.postMessage(payload, window.location.origin);
+    }
+
+    savedWords.add(word.toLowerCase());
+
+    if (btn)  { btn.classList.add("saved"); btn.disabled = false; }
+    if (icon) icon.textContent = "✅";
+    if (lbl)  lbl.textContent  = "Saved!";
+
+    showBody();
+    const body = document.getElementById("eu-tt-body");
+    if (body) body.innerHTML = `<div class="eu-save-confirm">✅ "${escHtml(word)}" saved to your vocabulary!</div>`;
+  }
+
+  // ── GROQ CALL ────────────────────────────────────────────────
+  async function callGroq(prompt) {
+    const res = await fetch(GROQ_WORKER_URL, {
+      method:  "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        model:       GROQ_MODEL,
+        messages:    [{ role: "user", content: prompt }],
+        max_tokens:  300,
+        temperature: 0.4,
+      }),
+    });
+    if (!res.ok) throw new Error(`Groq ${res.status}`);
+    const data = await res.json();
+    return data?.choices?.[0]?.message?.content?.trim() ?? "";
+  }
+
+  // ── BODY HELPERS ─────────────────────────────────────────────
+  function showBody() {
+    const body = document.getElementById("eu-tt-body");
+    if (body) body.style.display = "block";
+  }
+
+  function showLoading(msg) {
+    const body = document.getElementById("eu-tt-body");
+    if (!body) return;
+    body.innerHTML = `<div class="loading"><div class="eu-tt-spinner"></div>${escHtml(msg)}</div>`;
+    body.classList.add("loading");
+  }
+
+  function showError(msg) {
+    const body = document.getElementById("eu-tt-body");
+    if (!body) return;
+    body.classList.remove("loading");
+    body.innerHTML = `<div style="color:#fb7185">${escHtml(msg)}</div>`;
+  }
+
+  function escHtml(str) {
+    return String(str||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+  }
+
+  // ── SELECTION LISTENER ───────────────────────────────────────
+  let selectionTimer = null;
+
+  document.addEventListener("mouseup", handleSelectionEnd);
+  document.addEventListener("touchend", handleSelectionEnd);
+
+  function handleSelectionEnd(e) {
+    clearTimeout(selectionTimer);
+    selectionTimer = setTimeout(() => {
+      const sel  = window.getSelection();
+      const text = sel?.toString().trim();
+
+      // Must be 1-6 words, not just numbers/symbols
+      if (!text || text.length < 2 || text.length > 60) { removeTooltip(); return; }
+      if (!/[a-zA-Z]/.test(text)) { removeTooltip(); return; }
+      if (text.split(/\s+/).length > 6) { removeTooltip(); return; }
+
+      // Get position from selection range
+      let x, y;
+      try {
+        const range  = sel.getRangeAt(0);
+        const rect   = range.getBoundingClientRect();
+        x = rect.left + rect.width / 2;
+        y = rect.top + window.scrollY;
+      } catch {
+        x = e.clientX || window.innerWidth / 2;
+        y = (e.clientY || window.innerHeight / 2) + window.scrollY;
+      }
+
+      createTooltip(text, x, y);
+    }, 400); // 400ms hold to avoid triggering on quick clicks
+  }
+
+  // Close on click outside
+  document.addEventListener("mousedown", (e) => {
+    if (tooltip && !tooltip.contains(e.target)) {
+      removeTooltip();
+    }
+  });
+
+  // Close on scroll (reposition would be complex)
+  document.addEventListener("scroll", removeTooltip, { passive: true });
+
+})();
+</script>
 </body>
 </html>

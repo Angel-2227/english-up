@@ -13,6 +13,7 @@ import {
   getModules, getLessons, unlockLessonForUser, lockLessonForUser,
   SYSTEM_BADGES, getAppConfig, updateAppConfig,
   getSkinsConfig, updateSkinsEnabled, updateSkinsScheduled,
+  getAllLessonResponsesForStudent,
 } from "../db.js";
 import { emojiToDataURL } from "../auth.js";
 import { SKINS, applySkin, _updateSkinsCache } from "../theme.js";
@@ -41,12 +42,14 @@ async function renderTeacherPanel(_, container) {
         <button class="teacher-tab active" data-tab="students">👥 Students</button>
         <button class="teacher-tab"        data-tab="classrooms">🏫 Classrooms</button>
         <button class="teacher-tab"        data-tab="modules">📚 Modules</button>
+        <button class="teacher-tab"        data-tab="vocabulary">📖 Vocabulary</button>
         <button class="teacher-tab"        data-tab="missions">🎯 Missions</button>
         <button class="teacher-tab"        data-tab="settings">⚙️ Settings</button>
       </div>
       <div id="tab-students"   class="teacher-tab-content active"></div>
       <div id="tab-classrooms" class="teacher-tab-content"></div>
       <div id="tab-modules"    class="teacher-tab-content"></div>
+      <div id="tab-vocabulary" class="teacher-tab-content"></div>
       <div id="tab-missions"   class="teacher-tab-content"></div>
       <div id="tab-settings"   class="teacher-tab-content"></div>
     </div>
@@ -68,6 +71,10 @@ async function renderTeacherPanel(_, container) {
       if (btn.dataset.tab === "modules") {
         const { renderModulesTab } = await import("./modules.js");
         renderModulesTab(document.getElementById("tab-modules"));
+      }
+      if (btn.dataset.tab === "vocabulary") {
+        const { renderVocabularyTeacherTab } = await import("./vocabulary.js");
+        renderVocabularyTeacherTab(document.getElementById("tab-vocabulary"));
       }
       if (btn.dataset.tab === "missions") {
         const { renderMissionsTeacherTab } = await import("./missions.js");
@@ -105,8 +112,8 @@ function renderStudentsTab(container) {
     <div id="students-list" class="students-list"></div>
   `;
 
-  let allUsers  = [];
-  let filter    = "all";
+  let allUsers = [];
+  let filter = "all";
   let searchVal = "";
 
   function renderList() {
@@ -115,9 +122,9 @@ function renderStudentsTab(container) {
       if (filter !== "all" && u.status !== filter) return false;
       if (searchVal) {
         const q = searchVal.toLowerCase();
-        return (u.name||"").toLowerCase().includes(q)
-          || (u.email||"").toLowerCase().includes(q)
-          || (u.nickname||"").toLowerCase().includes(q);
+        return (u.name || "").toLowerCase().includes(q)
+          || (u.email || "").toLowerCase().includes(q)
+          || (u.nickname || "").toLowerCase().includes(q);
       }
       return true;
     });
@@ -138,14 +145,14 @@ function renderStudentsTab(container) {
     // Bind actions
     listEl.querySelectorAll("[data-uid]").forEach(row => {
       const uid = row.dataset.uid;
-      const u   = allUsers.find(x => x.id === uid);
+      const u = allUsers.find(x => x.id === uid);
       if (!u) return;
 
-      row.querySelector(".btn-approve")?.addEventListener("click",  () => handleApprove(uid));
-      row.querySelector(".btn-block")?.addEventListener("click",    () => handleBlock(uid));
-      row.querySelector(".btn-unblock")?.addEventListener("click",  () => handleUnblock(uid));
-      row.querySelector(".btn-details")?.addEventListener("click",  () => openStudentModal(u));
-      row.querySelector(".btn-delete")?.addEventListener("click",   () => confirmDeleteStudent(u));
+      row.querySelector(".btn-approve")?.addEventListener("click", () => handleApprove(uid));
+      row.querySelector(".btn-block")?.addEventListener("click", () => handleBlock(uid));
+      row.querySelector(".btn-unblock")?.addEventListener("click", () => handleUnblock(uid));
+      row.querySelector(".btn-details")?.addEventListener("click", () => openStudentModal(u));
+      row.querySelector(".btn-delete")?.addEventListener("click", () => confirmDeleteStudent(u));
     });
   }
 
@@ -204,9 +211,9 @@ function buildStudentRow(u) {
       </div>
       <span class="badge ${statusClass}">${statusLabel}</span>
       <div class="student-row-actions">
-        ${u.status === "pending"  ? `<button class="btn btn-success btn-sm btn-approve">Approve</button>` : ""}
-        ${u.status === "active"   ? `<button class="btn btn-danger  btn-sm btn-block">Block</button>` : ""}
-        ${u.status === "blocked"  ? `<button class="btn btn-ghost   btn-sm btn-unblock">Unblock</button>` : ""}
+        ${u.status === "pending" ? `<button class="btn btn-success btn-sm btn-approve">Approve</button>` : ""}
+        ${u.status === "active" ? `<button class="btn btn-danger  btn-sm btn-block">Block</button>` : ""}
+        ${u.status === "blocked" ? `<button class="btn btn-ghost   btn-sm btn-unblock">Unblock</button>` : ""}
         <button class="btn btn-ghost btn-sm btn-details">Details</button>
         <button class="btn btn-danger btn-sm btn-delete" title="Delete student">🗑</button>
       </div>
@@ -218,17 +225,17 @@ function buildStudentRow(u) {
 
 async function handleApprove(uid) {
   try { await approveUser(uid); showToast("Student approved!", "success"); }
-  catch(e) { showToast("Error: " + e.message, "error"); }
+  catch (e) { showToast("Error: " + e.message, "error"); }
 }
 
 async function handleBlock(uid) {
   try { await blockUser(uid); showToast("Student blocked.", "info"); }
-  catch(e) { showToast("Error: " + e.message, "error"); }
+  catch (e) { showToast("Error: " + e.message, "error"); }
 }
 
 async function handleUnblock(uid) {
   try { await unblockUser(uid); showToast("Student unblocked.", "success"); }
-  catch(e) { showToast("Error: " + e.message, "error"); }
+  catch (e) { showToast("Error: " + e.message, "error"); }
 }
 
 function confirmDeleteStudent(u) {
@@ -255,16 +262,16 @@ function confirmDeleteStudent(u) {
 
   document.getElementById("btn-confirm-delete-student")?.addEventListener("click", async () => {
     const btn = document.getElementById("btn-confirm-delete-student");
-    btn.disabled    = true;
+    btn.disabled = true;
     btn.textContent = "Deleting…";
     try {
       await deleteUser(u.id);
       closeModal();
       showToast(`${escapeHTML(displayName)} has been deleted.`, "info");
-    } catch(err) {
+    } catch (err) {
       console.error(err);
       showToast("Could not delete student. Try again.", "error");
-      btn.disabled    = false;
+      btn.disabled = false;
       btn.textContent = "Yes, delete permanently";
     }
   });
@@ -286,7 +293,11 @@ async function openStudentModal(u) {
   `);
 
   try {
-    const modules = await getModules();
+    const [modules, lessonResponses] = await Promise.all([
+      getModules(),
+      getAllLessonResponsesForStudent(u.id),
+    ]);
+
     const allLessons = await Promise.all(modules.map(async m => ({
       module: m,
       lessons: await getLessons(m.id),
@@ -296,9 +307,9 @@ async function openStudentModal(u) {
     if (!body) return;
 
     const progress = u.progress ?? {};
-    const badges   = u.badges   ?? [];
+    const badges = u.badges ?? [];
 
-    // Badges section
+    // ── Badges ───────────────────────────────────────────────────────────────
     const badgesHTML = SYSTEM_BADGES.map(b => {
       const has = badges.includes(b.id);
       return `
@@ -310,17 +321,17 @@ async function openStudentModal(u) {
         </div>`;
     }).join("");
 
-    // Lessons section
+    // ── Lesson Access ─────────────────────────────────────────────────────────
     const lessonsHTML = allLessons.map(({ module: m, lessons }) => {
       if (!lessons.length) return "";
       return `
         <div style="margin-bottom:var(--sp-4)">
           <div style="font-weight:var(--weight-bold);margin-bottom:var(--sp-2)">${m.emoji || "📚"} ${escapeHTML(m.title)}</div>
           ${lessons.map(l => {
-            const key  = `${m.id}_${l.id}`;
-            const done = progress[key]?.completed === true;
-            const unlocked = Array.isArray(l.unlockedFor) && l.unlockedFor.includes(u.id);
-            return `
+        const key = `${m.id}_${l.id}`;
+        const done = progress[key]?.completed === true;
+        const unlocked = Array.isArray(l.unlockedFor) && l.unlockedFor.includes(u.id);
+        return `
               <div class="lesson-unlock-row">
                 <span class="${done ? "text-green" : ""}">
                   ${done ? "✅" : "⬜"} ${escapeHTML(l.title)}
@@ -332,43 +343,134 @@ async function openStudentModal(u) {
                   ${unlocked ? "🔒 Lock" : "🔓 Unlock"}
                 </button>
               </div>`;
-          }).join("")}
+      }).join("")}
         </div>`;
     }).join("");
 
+    // ── Lesson Responses ──────────────────────────────────────────────────────
+    // Build a lookup map: moduleId_lessonId → lessonTitle
+    const lessonTitleMap = {};
+    allLessons.forEach(({ module: m, lessons }) => {
+      lessons.forEach(l => {
+        lessonTitleMap[`${m.id}_${l.id}`] = {
+          moduleTitle: m.title,
+          moduleEmoji: m.emoji || "📚",
+          lessonTitle: l.title,
+        };
+      });
+    });
+
+    let responsesHTML = "";
+    if (lessonResponses.length === 0) {
+      responsesHTML = `<p style="color:var(--color-text-faint);font-size:var(--text-sm)">
+        This student hasn't submitted any responses yet.
+      </p>`;
+    } else {
+      // Sort by savedAt descending (most recent first)
+      lessonResponses.sort((a, b) => {
+        const ta = a.savedAt?.seconds ?? 0;
+        const tb = b.savedAt?.seconds ?? 0;
+        return tb - ta;
+      });
+
+      responsesHTML = lessonResponses.map(lr => {
+        const key = `${lr.moduleId}_${lr.lessonId}`;
+        const info = lessonTitleMap[key];
+        const date = lr.savedAt?.toDate?.()
+          ? lr.savedAt.toDate().toLocaleString("es-CO", { dateStyle: "medium", timeStyle: "short" })
+          : "—";
+
+        const responseItems = Object.entries(lr.responses || {}).map(([field, value]) => {
+          const displayField = field.replace(/[-_]/g, " ");
+          const displayValue = typeof value === "boolean"
+            ? (value ? "✅ Yes" : "❌ No")
+            : escapeHTML(String(value));
+          return `
+            <div class="lr-field-row">
+              <span class="lr-field-label">${escapeHTML(displayField)}:</span>
+              <span class="lr-field-value">${displayValue}</span>
+            </div>`;
+        }).join("");
+
+        return `
+          <div class="lr-card">
+            <div class="lr-card-header">
+              <span class="lr-lesson-name">
+                ${info ? `${info.moduleEmoji} ${escapeHTML(info.lessonTitle)}` : escapeHTML(key)}
+              </span>
+              <span class="lr-date">${date}</span>
+            </div>
+            ${info ? `<div class="lr-module-name">${escapeHTML(info.moduleTitle)}</div>` : ""}
+            <div class="lr-fields">${responseItems || "<em style='color:var(--color-text-faint)'>No fields</em>"}</div>
+          </div>`;
+      }).join("");
+    }
+
+    // ── Tabs layout ───────────────────────────────────────────────────────────
+    const completedCount = Object.values(progress).filter(p => p.completed).length;
+    const responseCount = lessonResponses.length;
+
     body.innerHTML = `
-      <div class="student-modal-grid">
-        <div>
-          <div class="modal-section-title">📊 Stats</div>
-          <div class="student-stats-mini">
-            <span>⚡ ${(u.xp ?? 0).toLocaleString()} XP</span>
-            <span>🔥 ${u.streak ?? 0} streak</span>
-            <span>🏅 ${badges.length} badges</span>
-          </div>
-        </div>
-        <div>
-          <div class="modal-section-title">🏅 Badges</div>
-          <div class="badges-manage-list">${badgesHTML}</div>
-        </div>
-        <div>
-          <div class="modal-section-title">🔓 Lesson Access</div>
-          ${lessonsHTML || "<p style='color:var(--color-text-faint)'>No modules yet.</p>"}
+      <div class="student-modal-tabs">
+        <button class="smt-tab active" data-smt="stats">📊 Stats</button>
+        <button class="smt-tab" data-smt="badges">🏅 Badges</button>
+        <button class="smt-tab" data-smt="access">🔓 Access</button>
+        <button class="smt-tab" data-smt="responses">
+          📝 Responses${responseCount > 0 ? ` <span class="smt-badge">${responseCount}</span>` : ""}
+        </button>
+      </div>
+
+      <div id="smt-stats" class="smt-panel">
+        <div class="modal-section-title">📊 Stats</div>
+        <div class="student-stats-mini">
+          <span>⚡ ${(u.xp ?? 0).toLocaleString()} XP</span>
+          <span>🔥 ${u.streak ?? 0} streak</span>
+          <span>🏅 ${badges.length} badges</span>
+          <span>✅ ${completedCount} lessons done</span>
         </div>
       </div>
+
+      <div id="smt-badges" class="smt-panel hidden">
+        <div class="modal-section-title">🏅 Badges</div>
+        <div class="badges-manage-list">${badgesHTML}</div>
+      </div>
+
+      <div id="smt-access" class="smt-panel hidden">
+        <div class="modal-section-title">🔓 Lesson Access</div>
+        ${lessonsHTML || "<p style='color:var(--color-text-faint)'>No modules yet.</p>"}
+      </div>
+
+      <div id="smt-responses" class="smt-panel hidden">
+        <div class="modal-section-title">📝 Lesson Responses</div>
+        <p style="font-size:var(--text-sm);color:var(--color-text-muted);margin-bottom:var(--sp-4)">
+          Answers submitted by this student from HTML-type lessons.
+        </p>
+        ${responsesHTML}
+      </div>
     `;
+
+    // Tab switching
+    body.querySelectorAll(".smt-tab").forEach(btn => {
+      btn.addEventListener("click", () => {
+        body.querySelectorAll(".smt-tab").forEach(b => b.classList.remove("active"));
+        body.querySelectorAll(".smt-panel").forEach(p => p.classList.add("hidden"));
+        btn.classList.add("active");
+        document.getElementById(`smt-${btn.dataset.smt}`)?.classList.remove("hidden");
+      });
+    });
 
     // Badge toggles
     body.querySelectorAll(".btn-badge-toggle").forEach(btn => {
       const row = btn.closest(".badge-row");
       btn.addEventListener("click", async () => {
         const badgeId = row.dataset.badge;
-        const has     = row.dataset.has === "1";
-        btn.disabled  = true;
+        const has = row.dataset.has === "1";
+        btn.disabled = true;
         try {
           if (has) { await revokeBadge(u.id, badgeId); row.dataset.has = "0"; btn.textContent = "Award"; btn.className = "btn btn-xs btn-primary btn-badge-toggle"; }
-          else     { await awardBadge(u.id, badgeId);  row.dataset.has = "1"; btn.textContent = "Revoke"; btn.className = "btn btn-xs btn-danger btn-badge-toggle"; }
+          else { await awardBadge(u.id, badgeId); row.dataset.has = "1"; btn.textContent = "Revoke"; btn.className = "btn btn-xs btn-danger btn-badge-toggle"; }
           showToast("Badge updated!", "success");
-        } catch(e) { showToast("Error.", "error"); }
+        } catch (e) { showToast("Error.", "error"); }
         btn.disabled = false;
       });
     });
@@ -376,8 +478,6 @@ async function openStudentModal(u) {
     // Lesson unlock toggles
     body.querySelectorAll(".btn-unlock-lesson").forEach(btn => {
       btn.addEventListener("click", async () => {
-        const { moduleId: mId, lessonId: lId } = { moduleId: btn.dataset.module, lessonId: btn.dataset.lesson };
-        // Use correct variable names
         const mod = btn.dataset.module;
         const les = btn.dataset.lesson;
         const unlocked = btn.dataset.unlocked === "1";
@@ -395,7 +495,7 @@ async function openStudentModal(u) {
             btn.className = "btn btn-xs btn-danger btn-unlock-lesson";
           }
           showToast("Access updated!", "success");
-        } catch(e) { showToast("Error.", "error"); }
+        } catch (e) { showToast("Error.", "error"); }
         btn.disabled = false;
       });
     });
@@ -418,7 +518,7 @@ async function renderSettingsTab(container) {
   try {
     const [config, skinsConfig] = await Promise.all([getAppConfig(), getSkinsConfig()]);
     renderSettingsHTML(container, config, skinsConfig);
-  } catch(err) {
+  } catch (err) {
     container.innerHTML = `<p style="color:#ef4444;padding:var(--sp-4)">Could not load settings.</p>`;
   }
 }
@@ -484,9 +584,9 @@ function buildGeneralSettings(config) {
 function bindGeneralSettings(container, config) {
   container.querySelector("#btn-save-settings")?.addEventListener("click", async () => {
     const data = {
-      appName:         document.getElementById("cfg-app-name")?.value.trim() || "English Up!",
-      welcomeMessage:  document.getElementById("cfg-welcome")?.value.trim()  || "",
-      showLeaderboard: document.getElementById("cfg-leaderboard")?.checked   ?? false,
+      appName: document.getElementById("cfg-app-name")?.value.trim() || "English Up!",
+      welcomeMessage: document.getElementById("cfg-welcome")?.value.trim() || "",
+      showLeaderboard: document.getElementById("cfg-leaderboard")?.checked ?? false,
     };
     try {
       await updateAppConfig(data);
@@ -494,14 +594,14 @@ function bindGeneralSettings(container, config) {
       saved?.classList.remove("hidden");
       setTimeout(() => saved?.classList.add("hidden"), 2000);
       showToast("Settings saved!", "success");
-    } catch(e) { showToast("Could not save settings.", "error"); }
+    } catch (e) { showToast("Could not save settings.", "error"); }
   });
 }
 
 // ── Skins Panel ───────────────────────────────────────────────────────────────
 
 function buildSkinsPanel(skinsConfig) {
-  const enabled   = skinsConfig.enabled   ?? [];
+  const enabled = skinsConfig.enabled ?? [];
   const scheduled = skinsConfig.scheduled ?? [];
 
   const toggleableSkins = Object.values(SKINS).filter(s => s.teacherCanToggle);
@@ -558,8 +658,8 @@ function buildSkinsPanel(skinsConfig) {
 }
 
 function buildSchedRow(sched, index) {
-  const skin   = SKINS[sched.skinId];
-  const label  = sched.label || (skin ? skin.name : sched.skinId);
+  const skin = SKINS[sched.skinId];
+  const label = sched.label || (skin ? skin.name : sched.skinId);
   const typeLabel = { range: "📅 Rango de fechas", days: "📆 Días de semana", hours: "🕐 Rango horario" }[sched.type] || sched.type;
 
   let detail = "";
@@ -567,7 +667,7 @@ function buildSchedRow(sched, index) {
     detail = `${sched.startDate} → ${sched.endDate}`;
     if (sched.startTime) detail += ` (${sched.startTime}–${sched.endTime || "23:59"})`;
   } else if (sched.type === "days") {
-    const dayNames = ["Dom","Lun","Mar","Mié","Jue","Vie","Sáb"];
+    const dayNames = ["Dom", "Lun", "Mar", "Mié", "Jue", "Vie", "Sáb"];
     detail = (sched.daysOfWeek || []).map(d => dayNames[d]).join(", ");
     if (sched.startTime) detail += ` ${sched.startTime}–${sched.endTime}`;
   } else if (sched.type === "hours") {
@@ -593,7 +693,7 @@ function buildSchedRow(sched, index) {
 }
 
 function bindSkinsPanel(container, skinsConfig) {
-  let enabled   = [...(skinsConfig.enabled ?? [])];
+  let enabled = [...(skinsConfig.enabled ?? [])];
   let scheduled = [...(skinsConfig.scheduled ?? [])];
 
   // Toggle de skin habilitada
@@ -610,7 +710,7 @@ function bindSkinsPanel(container, skinsConfig) {
         await updateSkinsEnabled(enabled);
         _updateSkinsCache({ enabled, scheduled });
         showToast(cb.checked ? `✅ ${skinId} habilitado` : `${skinId} deshabilitado`, "success");
-      } catch(e) { showToast("Error al guardar.", "error"); }
+      } catch (e) { showToast("Error al guardar.", "error"); }
     });
   });
 
@@ -631,7 +731,7 @@ function bindSkinsPanel(container, skinsConfig) {
         _updateSkinsCache({ enabled, scheduled });
         refreshSchedList(container, scheduled, enabled);
         showToast("Programación guardada.", "success");
-      } catch(e) { showToast("Error al guardar.", "error"); }
+      } catch (e) { showToast("Error al guardar.", "error"); }
     });
   });
 
@@ -642,7 +742,7 @@ function bindSkinsPanel(container, skinsConfig) {
       await updateSkinsScheduled(scheduled);
       _updateSkinsCache({ enabled, scheduled });
       showToast("Guardado.", "success");
-    } catch(e) { showToast("Error al guardar.", "error"); }
+    } catch (e) { showToast("Error al guardar.", "error"); }
   });
 }
 
@@ -656,7 +756,7 @@ function refreshSchedList(container, scheduled, enabled) {
     try {
       await updateSkinsScheduled(newList);
       _updateSkinsCache({ enabled, scheduled: newList });
-    } catch(e) { showToast("Error al guardar.", "error"); }
+    } catch (e) { showToast("Error al guardar.", "error"); }
   });
 }
 
@@ -727,7 +827,7 @@ function openSchedModal(existing, scheduled, onSave, editIdx = null) {
           Tipo de programación
           <select id="sched-type" class="settings-input">
             <option value="range" ${type === "range" ? "selected" : ""}>📅 Rango de fechas</option>
-            <option value="days"  ${type === "days"  ? "selected" : ""}>📆 Días de la semana</option>
+            <option value="days"  ${type === "days" ? "selected" : ""}>📆 Días de la semana</option>
             <option value="hours" ${type === "hours" ? "selected" : ""}>🕐 Rango horario diario</option>
           </select>
         </label>
@@ -762,7 +862,7 @@ function openSchedModal(existing, scheduled, onSave, editIdx = null) {
         <div id="sched-fields-days" class="sched-fields ${type !== "days" ? "hidden" : ""}">
           <label class="settings-label">Días de la semana</label>
           <div class="days-picker">
-            ${["Dom","Lun","Mar","Mié","Jue","Vie","Sáb"].map((d, i) => `
+            ${["Dom", "Lun", "Mar", "Mié", "Jue", "Vie", "Sáb"].map((d, i) => `
               <label class="day-chip ${(existing?.daysOfWeek || []).includes(i) ? "day-chip-on" : ""}">
                 <input type="checkbox" value="${i}" class="day-cb"
                        ${(existing?.daysOfWeek || []).includes(i) ? "checked" : ""}>
@@ -809,7 +909,7 @@ function openSchedModal(existing, scheduled, onSave, editIdx = null) {
   `;
 
   const overlay = document.getElementById("modal-overlay");
-  const box     = document.getElementById("modal-box");
+  const box = document.getElementById("modal-box");
   if (!overlay || !box) return;
   box.innerHTML = html;
   overlay.classList.remove("hidden");
@@ -830,28 +930,28 @@ function openSchedModal(existing, scheduled, onSave, editIdx = null) {
   box.querySelector("#btn-save-sched").addEventListener("click", () => {
     const schedType = typeSelect.value;
     const newSched = {
-      id:      existing?.id || `sched_${Date.now()}`,
-      skinId:  box.querySelector("#sched-skin").value,
-      label:   box.querySelector("#sched-label").value.trim() || "Sin nombre",
-      type:    schedType,
-      active:  box.querySelector("#sched-active").checked,
-      startDate:   null, endDate: null,
-      startTime:   null, endTime: null,
-      daysOfWeek:  null,
+      id: existing?.id || `sched_${Date.now()}`,
+      skinId: box.querySelector("#sched-skin").value,
+      label: box.querySelector("#sched-label").value.trim() || "Sin nombre",
+      type: schedType,
+      active: box.querySelector("#sched-active").checked,
+      startDate: null, endDate: null,
+      startTime: null, endTime: null,
+      daysOfWeek: null,
     };
 
     if (schedType === "range") {
-      newSched.startDate = box.querySelector("#sched-start-date").value  || null;
-      newSched.endDate   = box.querySelector("#sched-end-date").value    || null;
+      newSched.startDate = box.querySelector("#sched-start-date").value || null;
+      newSched.endDate = box.querySelector("#sched-end-date").value || null;
       newSched.startTime = box.querySelector("#sched-start-time-range").value || null;
-      newSched.endTime   = box.querySelector("#sched-end-time-range").value   || null;
+      newSched.endTime = box.querySelector("#sched-end-time-range").value || null;
     } else if (schedType === "days") {
       newSched.daysOfWeek = [...box.querySelectorAll(".day-cb:checked")].map(cb => parseInt(cb.value));
-      newSched.startTime  = box.querySelector("#sched-start-time-days").value || null;
-      newSched.endTime    = box.querySelector("#sched-end-time-days").value   || null;
+      newSched.startTime = box.querySelector("#sched-start-time-days").value || null;
+      newSched.endTime = box.querySelector("#sched-end-time-days").value || null;
     } else if (schedType === "hours") {
       newSched.startTime = box.querySelector("#sched-start-time-hours").value || null;
-      newSched.endTime   = box.querySelector("#sched-end-time-hours").value   || null;
+      newSched.endTime = box.querySelector("#sched-end-time-hours").value || null;
     }
 
     const newList = [...scheduled];

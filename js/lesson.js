@@ -5,7 +5,7 @@
 // =============================================
 
 import { State, registerRoute, navigate, showToast, escapeHTML } from "./app.js";
-import { getModule, getLesson, completeLesson, checkAutoBadges } from "./db.js";
+import { getModule, getLesson, completeLesson, checkAutoBadges, saveLessonResponse } from "./db.js";
 import { renderEditorContent } from "./teacher/editor.js";
 import { updateNavbar } from "./auth.js";
 
@@ -60,6 +60,37 @@ async function renderLesson({ moduleId, lessonId }, container) {
 
     container.innerHTML = buildLessonPage(module, lesson, isCompleted);
 
+    // ── Word save listener (receives saves from iframe tooltip) ──
+const _wordSaveHandler = async (event) => {
+  if (event.origin !== window.location.origin) return;
+  if (event.data?.type !== "ENGLISHUP_SAVE_WORD") return;
+  const { word, translation, lessonTitle } = event.data;
+  if (!word) return;
+  try {
+    const { saveStudentWord } = await import("./vocabulary-db.js");
+    await saveStudentWord(State.user.uid, {
+      term:        word,
+      translation: translation || "",
+      type:        "vocabulary",
+      moduleId:    moduleId || null,
+      lessonId:    lessonId || null,
+      example:     "",
+      notes:       `Saved from: ${lessonTitle || "lesson"}`,
+    });
+    showToast(`💾 "${word}" saved to your vocabulary!`, "success");
+  } catch (err) {
+    console.warn("[Lesson] saveStudentWord:", err);
+    showToast("Could not save word.", "error");
+  }
+};
+window.addEventListener("message", _wordSaveHandler);
+// Clean up when navigating away
+const _origRemove = container.remove?.bind(container);
+container.remove = function() {
+  window.removeEventListener("message", _wordSaveHandler);
+  _origRemove?.();
+};
+
     // Bind back button
     container.querySelector(".btn-back-lesson")
       ?.addEventListener("click", () => navigate("home"));
@@ -95,8 +126,13 @@ async function renderLesson({ moduleId, lessonId }, container) {
       }
     }
 
-    // Render content
+    // Render content — attach IDs to lesson object so editor can use them
+    lesson._moduleId = moduleId;
+    lesson._lessonId = lessonId;
     renderLessonContent(lesson, container);
+
+    // Escuchar respuestas enviadas desde HTMLs via postMessage
+    listenForLessonResponses(moduleId, lessonId);
 
   } catch (err) {
     console.error("[Lesson]", err);
@@ -269,6 +305,113 @@ function renderEditor(lesson, area) {
   const wrapper = document.createElement("div");
   area.appendChild(wrapper);
   renderEditorContent(wrapper, lesson.contentBody || "");
+
+  // Botón "Enviar mis respuestas" — solo aparece si hay campos editables
+  // Espera un tick para que renderEditorContent termine de inyectar el HTML
+  requestAnimationFrame(() => {
+    const editables = wrapper.querySelectorAll(
+      "[contenteditable='true'], input:not([type='button']):not([type='submit']), textarea, select"
+    );
+    if (editables.length === 0) return;
+
+    const submitBar = document.createElement("div");
+    submitBar.className = "editor-submit-bar";
+    submitBar.innerHTML = `
+      <div class="esb-left">
+        <div class="esb-title">¿Terminaste los ejercicios?</div>
+        <div class="esb-desc">Envía tus respuestas al profe para que las pueda revisar.</div>
+      </div>
+      <button class="btn btn-primary esb-btn" id="btn-send-editor-responses">
+        📤 Enviar mis respuestas
+      </button>
+      <div class="esb-confirm hidden" id="esb-confirm">✅ ¡Respuestas enviadas!</div>
+    `;
+    area.appendChild(submitBar);
+
+    document.getElementById("btn-send-editor-responses")
+      ?.addEventListener("click", () => handleEditorSubmit(wrapper, lesson));
+  });
+}
+
+/**
+ * Recorre todos los campos editables del contenido del editor
+ * y los envía como respuestas al profe.
+ */
+async function handleEditorSubmit(wrapper, lesson) {
+  const btn     = document.getElementById("btn-send-editor-responses");
+  const confirm = document.getElementById("esb-confirm");
+
+  if (btn) { btn.disabled = true; btn.textContent = "Enviando…"; }
+
+  const responses = {};
+
+  // 1. contenteditable — etiquetados con data-label o con texto cercano
+  wrapper.querySelectorAll("[contenteditable='true']").forEach((el, i) => {
+    const label = el.dataset.label
+      || el.closest("[data-label]")?.dataset.label
+      || el.getAttribute("placeholder")
+      || el.getAttribute("data-placeholder")
+      || `respuesta_${i + 1}`;
+    const value = el.innerText?.trim() || "";
+    if (value) responses[label] = value;
+  });
+
+  // 2. inputs de texto / número / email
+  wrapper.querySelectorAll("input:not([type='button']):not([type='submit']):not([type='checkbox']):not([type='radio'])").forEach((el, i) => {
+    const label = el.name || el.id || el.placeholder || el.dataset.label || `input_${i + 1}`;
+    if (el.value?.trim()) responses[label] = el.value.trim();
+  });
+
+  // 3. textareas
+  wrapper.querySelectorAll("textarea").forEach((el, i) => {
+    const label = el.name || el.id || el.placeholder || `textarea_${i + 1}`;
+    if (el.value?.trim()) responses[label] = el.value.trim();
+  });
+
+  // 4. selects
+  wrapper.querySelectorAll("select").forEach((el, i) => {
+    const label = el.name || el.id || `select_${i + 1}`;
+    if (el.value) responses[label] = el.value;
+  });
+
+  // 5. checkboxes
+  wrapper.querySelectorAll("input[type='checkbox']").forEach((el, i) => {
+    const label = el.name || el.id || el.dataset.label || `checkbox_${i + 1}`;
+    responses[label] = el.checked;
+  });
+
+  // 6. radio buttons — agrupa por name
+  const radios = {};
+  wrapper.querySelectorAll("input[type='radio']:checked").forEach(el => {
+    if (el.name) radios[el.name] = el.value;
+  });
+  Object.assign(responses, radios);
+
+  if (Object.keys(responses).length === 0) {
+    if (btn) { btn.disabled = false; btn.textContent = "📤 Enviar mis respuestas"; }
+    showToast("No hay respuestas para enviar todavía.", "info");
+    return;
+  }
+
+  try {
+    // Obtener moduleId / lessonId desde el objeto lección (inyectados en renderLesson)
+    const moduleId = lesson._moduleId || "unknown";
+    const lessonId = lesson._lessonId || lesson.id || "unknown";
+
+    await saveLessonResponse(State.user.uid, moduleId, lessonId, responses);
+
+    if (confirm) confirm.classList.remove("hidden");
+    if (btn)     btn.textContent = "✅ Enviado";
+    showToast("¡Respuestas enviadas al profe! 📤", "success");
+
+    setTimeout(() => {
+      if (btn) { btn.disabled = false; btn.textContent = "📤 Enviar mis respuestas"; }
+    }, 4000);
+  } catch (err) {
+    console.error("[Lesson] editor submit error:", err);
+    if (btn) { btn.disabled = false; btn.textContent = "📤 Enviar mis respuestas"; }
+    showToast("No se pudieron enviar las respuestas. Intenta de nuevo.", "error");
+  }
 }
 
 // ════════════════════════════════════════════
@@ -349,6 +492,47 @@ function showXPPop(xp) {
   el.textContent = `+${xp} XP ⚡`;
   document.body.appendChild(el);
   el.addEventListener("animationend", () => el.remove(), { once: true });
+}
+
+// ════════════════════════════════════════════
+// ESCUCHA DE RESPUESTAS DESDE HTML VIA POSTMESSAGE
+// ════════════════════════════════════════════
+
+let _responseListener = null;
+
+/**
+ * Escucha mensajes de tipo ENGLISHUP_LESSON_RESPONSE enviados
+ * desde los HTMLs de lecciones y los guarda en Firestore.
+ *
+ * El HTML debe enviar:
+ *   window.parent.postMessage({
+ *     type: "ENGLISHUP_LESSON_RESPONSE",
+ *     responses: { campo1: "valor", campo2: "valor", ... }
+ *   }, "*");
+ */
+function listenForLessonResponses(moduleId, lessonId) {
+  // Limpiar listener anterior
+  if (_responseListener) {
+    window.removeEventListener("message", _responseListener);
+  }
+
+  _responseListener = async (event) => {
+    if (!event.data || event.data.type !== "ENGLISHUP_LESSON_RESPONSE") return;
+    const responses = event.data.responses;
+    if (!responses || typeof responses !== "object") return;
+
+    const uid = State.user?.uid;
+    if (!uid) return;
+
+    try {
+      await saveLessonResponse(uid, moduleId, lessonId, responses);
+      console.log("[Lesson] Respuestas guardadas:", responses);
+    } catch (err) {
+      console.warn("[Lesson] No se pudieron guardar respuestas:", err);
+    }
+  };
+
+  window.addEventListener("message", _responseListener);
 }
 
 // ════════════════════════════════════════════

@@ -337,3 +337,66 @@
   .lesson-complete-bar { padding: var(--sp-4); border-radius: var(--radius-xl); }
   .lesson-iframe      { min-height: 60vh; }
 }
+
+
+/* ═══════════════════════════════════════════
+   EDITOR SUBMIT BAR
+   Aparece debajo de lecciones tipo "editor"
+   cuando hay campos completables.
+═══════════════════════════════════════════ */
+.editor-submit-bar {
+  display:         flex;
+  align-items:     center;
+  gap:             var(--sp-4);
+  flex-wrap:       wrap;
+  background:      var(--color-surface);
+  border:          2px solid var(--color-primary, #7c3aed);
+  border-radius:   var(--radius-xl);
+  padding:         var(--sp-4) var(--sp-6);
+  margin-top:      var(--sp-8);
+  box-shadow:      0 2px 16px rgba(124,58,237,.10);
+}
+
+.esb-left {
+  flex: 1;
+  min-width: 180px;
+}
+
+.esb-title {
+  font-weight:   var(--weight-extrabold);
+  font-size:     var(--text-base);
+  color:         var(--color-text);
+  margin-bottom: var(--sp-1);
+}
+
+.esb-desc {
+  font-size: var(--text-sm);
+  color:     var(--color-text-muted);
+}
+
+.esb-btn {
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.esb-confirm {
+  font-size:   var(--text-sm);
+  font-weight: var(--weight-bold);
+  color:       var(--green-600, #16a34a);
+  flex-shrink: 0;
+}
+
+.esb-confirm.hidden { display: none; }
+
+@media (max-width: 600px) {
+  .editor-submit-bar {
+    flex-direction: column;
+    align-items:    flex-start;
+    gap:            var(--sp-3);
+  }
+  .esb-btn { width: 100%; }
+}
+
+@media print {
+  .editor-submit-bar { display: none !important; }
+}

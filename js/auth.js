@@ -4,9 +4,9 @@
 // navbar updates, avatar picker
 // =============================================
 
-import { auth, db }          from "../firebase-config.js";
+import { auth, db } from "../firebase-config.js";
 import { State, navigate, showToast, openModal, closeModal, escapeHTML }
-                             from "./app.js";
+  from "./app.js";
 import {
   GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
@@ -16,9 +16,9 @@ import {
 
 // ── Predefined avatars (emoji) ────────────────────────────────────────────────
 export const AVATARS = [
-  "🦊","🐼","🐸","🦁","🐯","🐨","🦄","🐙","🦋","🐬",
-  "🌸","🌻","🍀","⭐","🌈","🔥","🎸","🎨","🚀","🎯",
-  "🏄","🧗","🎭","🦸","🧙","🤖","👾","🎮","📚","✏️"
+  "🦊", "🐼", "🐸", "🦁", "🐯", "🐨", "🦄", "🐙", "🦋", "🐬",
+  "🌸", "🌻", "🍀", "⭐", "🌈", "🔥", "🎸", "🎨", "🚀", "🎯",
+  "🏄", "🧗", "🎭", "🦸", "🧙", "🤖", "👾", "🎮", "📚", "✏️"
 ];
 
 const provider = new GoogleAuthProvider();
@@ -28,7 +28,7 @@ const provider = new GoogleAuthProvider();
 // ════════════════════════════════════════════
 
 function showScreen(id) {
-  ["loading-screen","login-screen","pending-screen","app"]
+  ["loading-screen", "login-screen", "pending-screen", "app"]
     .forEach(s => {
       const el = document.getElementById(s);
       if (el) el.classList.toggle("hidden", s !== id);
@@ -58,7 +58,7 @@ async function loginWithGoogle() {
 
 async function logout() {
   await signOut(auth);
-  State.user    = null;
+  State.user = null;
   State.profile = null;
   State.isAdmin = false;
   showScreen("login-screen");
@@ -69,7 +69,7 @@ async function logout() {
 // ════════════════════════════════════════════
 
 async function getOrCreateProfile(user) {
-  const ref  = doc(db, "users", user.uid);
+  const ref = doc(db, "users", user.uid);
   const snap = await getDoc(ref);
 
   if (snap.exists()) {
@@ -78,19 +78,19 @@ async function getOrCreateProfile(user) {
 
   // Nuevo usuario — crear con status pending
   const profile = {
-    name:        user.displayName || "Student",
-    email:       user.email,
-    photoURL:    user.photoURL || "",
-    avatar:      null,           // emoji o null (usa foto Google)
-    nickname:    "",             // apodo personalizado
-    status:      "pending",
-    role:        "student",
-    xp:          0,
-    streak:      0,
-    lastActive:  null,
-    badges:      [],
+    name: user.displayName || "Student",
+    email: user.email,
+    photoURL: user.photoURL || "",
+    avatar: null,           // emoji o null (usa foto Google)
+    nickname: "",             // apodo personalizado
+    status: "pending",
+    role: "student",
+    xp: 0,
+    streak: 0,
+    lastActive: null,
+    badges: [],
     classroomId: null,           // salón asignado
-    createdAt:   serverTimestamp(),
+    createdAt: serverTimestamp(),
   };
 
   await setDoc(ref, profile);
@@ -124,20 +124,20 @@ export function updateNavbar(profile) {
     bnavAvatar.alt = profile.name;
   }
 
-  const xpEl     = document.getElementById("nav-xp");
+  const xpEl = document.getElementById("nav-xp");
   const streakEl = document.getElementById("nav-streak");
-  if (xpEl)     xpEl.textContent    = (profile.xp     ?? 0).toLocaleString();
-  if (streakEl) streakEl.textContent = profile.streak  ?? 0;
+  if (xpEl) xpEl.textContent = (profile.xp ?? 0).toLocaleString();
+  if (streakEl) streakEl.textContent = profile.streak ?? 0;
 
   // Dropdown info: mostrar nickname si tiene, si no nombre real
-  const ddName  = document.getElementById("dd-name");
+  const ddName = document.getElementById("dd-name");
   const ddEmail = document.getElementById("dd-email");
-  if (ddName)  ddName.textContent  = profile.nickname || profile.name  || "";
+  if (ddName) ddName.textContent = profile.nickname || profile.name || "";
   if (ddEmail) ddEmail.textContent = profile.email || "";
 
   // Mostrar/ocultar nav links según rol (top navbar)
   document.getElementById("nav-links-student")
-    ?.classList.toggle("hidden",  State.isAdmin);
+    ?.classList.toggle("hidden", State.isAdmin);
   document.getElementById("nav-links-teacher")
     ?.classList.toggle("hidden", !State.isAdmin);
 
@@ -153,11 +153,11 @@ export function updateNavbar(profile) {
 /** Convierte emoji a data URL */
 export function emojiToDataURL(emoji, size = 72) {
   const canvas = document.createElement("canvas");
-  canvas.width  = size;
+  canvas.width = size;
   canvas.height = size;
   const ctx = canvas.getContext("2d");
   ctx.font = `${size * 0.65}px serif`;
-  ctx.textAlign    = "center";
+  ctx.textAlign = "center";
   ctx.textBaseline = "middle";
   ctx.fillText(emoji, size / 2, size / 2 + size * 0.04);
   return canvas.toDataURL();
@@ -172,9 +172,9 @@ function makeInitialsAvatar(name) {
   ctx.fillRect(0, 0, 72, 72);
   ctx.fillStyle = "#78350f";
   ctx.font = "bold 30px Nunito, sans-serif";
-  ctx.textAlign    = "center";
+  ctx.textAlign = "center";
   ctx.textBaseline = "middle";
-  const initials = (name || "?").split(" ").map(w => w[0]).slice(0,2).join("").toUpperCase();
+  const initials = (name || "?").split(" ").map(w => w[0]).slice(0, 2).join("").toUpperCase();
   ctx.fillText(initials, 36, 36);
   return canvas.toDataURL();
 }
@@ -187,7 +187,7 @@ function makeInitialsAvatar(name) {
 
 export function openAvatarPicker(onSaved = null) {
   const currentAvatar = State.profile?.avatar ?? null;
-  const photoURL      = State.profile?.photoURL ?? "";
+  const photoURL = State.profile?.photoURL ?? "";
 
   const options = AVATARS.map(em => `
     <button class="avatar-option ${em === currentAvatar ? "selected" : ""}"
@@ -326,7 +326,7 @@ export function initAuth() {
     onAuthStateChanged(auth, async (user) => {
 
       if (!user) {
-        State.user    = null;
+        State.user = null;
         State.profile = null;
         State.isAdmin = false;
         showScreen("login-screen");
@@ -340,11 +340,11 @@ export function initAuth() {
       try {
         // ¿Es admin?
         const adminSnap = await getDoc(doc(db, "admins", user.uid));
-        State.isAdmin   = adminSnap.exists();
+        State.isAdmin = adminSnap.exists();
 
         // Perfil
-        const profile   = await getOrCreateProfile(user);
-        State.profile   = profile;
+        const profile = await getOrCreateProfile(user);
+        State.profile = profile;
 
         if (profile.status === "blocked") {
           await logout();
@@ -385,8 +385,12 @@ export function initAuth() {
         const { registerMissions } = await import("./missions.js");
         registerMissions();
 
+        // Vocabulary
+        const { registerVocabulary } = await import("./vocabulary.js");
+        registerVocabulary();
+
         // Profile & classmates
-        const { registerProfile }    = await import("./profile.js");
+        const { registerProfile } = await import("./profile.js");
         const { registerClassmates } = await import("./classrooms.js");
         registerProfile();
         registerClassmates();
