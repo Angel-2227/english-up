@@ -10,6 +10,62 @@ import {
 } from "./vocabulary-db.js";
 
 // ════════════════════════════════════════════
+// TTS ENGINE (Web Speech API)
+// Idéntico al que usa session1.html
+// ════════════════════════════════════════════
+
+let _enVoice = null;
+
+function _pickEnglishVoice() {
+  if (_enVoice) return _enVoice;
+  const voices = window.speechSynthesis?.getVoices() ?? [];
+  _enVoice =
+    voices.find(v => v.lang === "en-US") ||
+    voices.find(v => v.lang === "en-GB") ||
+    voices.find(v => v.lang.startsWith("en")) ||
+    null;
+  return _enVoice;
+}
+
+if ("speechSynthesis" in window) {
+  window.speechSynthesis.onvoiceschanged = () => { _enVoice = null; };
+}
+
+/**
+ * Lee un texto en inglés.
+ * @param {string}           text  - la palabra o frase a leer
+ * @param {HTMLElement|null} btn   - botón que activó (para animación .speaking)
+ * @param {number}           rate  - velocidad (default 0.82, más lento para learners)
+ */
+function speakVocab(text, btn = null, rate = 0.82) {
+  if (!("speechSynthesis" in window) || !text) return;
+
+  window.speechSynthesis.cancel();
+
+  // Quitar animación de cualquier botón previo
+  document.querySelectorAll(".vocab-tts-btn.speaking, .flashcard-tts-btn.speaking, .word-detail-tts-btn.speaking")
+    .forEach(b => b.classList.remove("speaking"));
+
+  const utter   = new SpeechSynthesisUtterance(text);
+  utter.lang    = "en-US";
+  utter.rate    = rate;
+  utter.pitch   = 1;
+  utter.volume  = 1;
+
+  const voice = _pickEnglishVoice();
+  if (voice) utter.voice = voice;
+
+  if (btn) {
+    btn.classList.add("speaking");
+    const done = () => btn.classList.remove("speaking");
+    utter.onend   = done;
+    utter.onerror = done;
+  }
+
+  window.speechSynthesis.speak(utter);
+}
+
+// ════════════════════════════════════════════
 // REGISTRO
 // ════════════════════════════════════════════
 
@@ -144,11 +200,14 @@ function buildWordCard(word, prog) {
          data-word-text="${escapeHTML(word.word.toLowerCase())}"
          data-lesson="${escapeHTML(word.lessonName || "")}">
       <div class="vocab-card-top">
-        <div>
+        <div style="flex:1;min-width:0">
           <div class="vocab-card-word">${escapeHTML(word.word)}</div>
           ${word.pronunciation ? `<div class="vocab-card-pron">${escapeHTML(word.pronunciation)}</div>` : ""}
         </div>
-        <span class="vocab-pos-badge pos-${escapeHTML(word.partOfSpeech)}">${pos.emoji} ${pos.label}</span>
+        <div style="display:flex;align-items:center;gap:var(--sp-1);flex-shrink:0">
+          <button class="vocab-tts-btn" data-speak="${escapeHTML(word.word)}" title="Listen" onclick="event.stopPropagation()">🔊</button>
+          <span class="vocab-pos-badge pos-${escapeHTML(word.partOfSpeech)}">${pos.emoji} ${pos.label}</span>
+        </div>
       </div>
 
       <div class="vocab-card-definition">${escapeHTML(word.definition)}</div>
@@ -182,6 +241,14 @@ function bindVocabListEvents(container, words, progress) {
     card.addEventListener("click", () => {
       const word = words.find(w => w.id === card.dataset.wordId);
       if (word) openWordDetail(word, progress[word.id]);
+    });
+  });
+
+  // TTS buttons in grid — stop propagation so click doesn't open modal
+  container.querySelectorAll(".vocab-tts-btn[data-speak]").forEach(btn => {
+    btn.addEventListener("click", e => {
+      e.stopPropagation();
+      speakVocab(btn.dataset.speak, btn);
     });
   });
 
@@ -255,6 +322,14 @@ function filterGrid(container, words, progress) {
       if (word) openWordDetail(word, progress[word.id]);
     });
   });
+
+  // Rebind TTS
+  grid.querySelectorAll(".vocab-tts-btn[data-speak]").forEach(btn => {
+    btn.addEventListener("click", e => {
+      e.stopPropagation();
+      speakVocab(btn.dataset.speak, btn);
+    });
+  });
 }
 
 // ════════════════════════════════════════════
@@ -280,7 +355,10 @@ function openWordDetail(word, prog) {
             ${word.pronunciation ? `<div class="word-detail-pron">${escapeHTML(word.pronunciation)}</div>` : ""}
             ${word.translation   ? `<div class="word-detail-translation">🇪🇸 ${escapeHTML(word.translation)}</div>` : ""}
           </div>
-          <span class="vocab-pos-badge pos-${escapeHTML(word.partOfSpeech)}">${pos.emoji} ${pos.label}</span>
+          <div style="display:flex;flex-direction:column;align-items:flex-end;gap:var(--sp-2);flex-shrink:0">
+            <button class="word-detail-tts-btn" id="detail-tts-btn" title="Listen to pronunciation">🔊</button>
+            <span class="vocab-pos-badge pos-${escapeHTML(word.partOfSpeech)}">${pos.emoji} ${pos.label}</span>
+          </div>
         </div>
 
         <!-- Definition -->
@@ -342,10 +420,16 @@ function openWordDetail(word, prog) {
 
   document.getElementById("btn-practice-this")?.addEventListener("click", () => {
     closeModal();
-    // We need full word list; reload page with single word focus
-    // For now just launch flashcard with this word
     launchPractice("flashcard", [word], { [word.id]: prog }, null, [word]);
   });
+
+  // TTS: leer la palabra al abrir el modal y con el botón
+  const detailTtsBtn = document.getElementById("detail-tts-btn");
+  detailTtsBtn?.addEventListener("click", function() {
+    speakVocab(word.word, this);
+  });
+  // Auto-leer la palabra al abrir el modal (con un pequeño delay)
+  setTimeout(() => speakVocab(word.word, detailTtsBtn), 350);
 }
 
 // ════════════════════════════════════════════
@@ -405,11 +489,13 @@ function launchFlashcards(words, progress, container, allWords) {
         <div class="flashcard-wrap" id="fc-wrap">
           <div class="flashcard" id="flashcard">
             <div class="flashcard-front">
+              <button class="flashcard-tts-btn" id="fc-tts-front" title="Listen" onclick="event.stopPropagation()">🔊</button>
               <div class="flashcard-word">${escapeHTML(word.word)}</div>
               ${word.pronunciation ? `<div class="flashcard-pron">${escapeHTML(word.pronunciation)}</div>` : ""}
               <div class="flashcard-front-hint">Tap to reveal definition</div>
             </div>
             <div class="flashcard-back">
+              <button class="flashcard-tts-btn" id="fc-tts-back" title="Listen again" onclick="event.stopPropagation()">🔊</button>
               <div class="flashcard-word">${escapeHTML(word.word)}</div>
               <div class="flashcard-back-def">${escapeHTML(word.definition)}</div>
               ${word.translation ? `<div class="flashcard-back-translation">🇪🇸 ${escapeHTML(word.translation)}</div>` : ""}
@@ -436,6 +522,21 @@ function launchFlashcards(words, progress, container, allWords) {
       </div>
     `;
 
+    // Auto-speak word when card appears
+    setTimeout(() => {
+      speakVocab(word.word, container.querySelector("#fc-tts-front"));
+    }, 300);
+
+    // TTS buttons (stop click propagation so they don't flip the card)
+    container.querySelector("#fc-tts-front")?.addEventListener("click", function(e) {
+      e.stopPropagation();
+      speakVocab(word.word, this);
+    });
+    container.querySelector("#fc-tts-back")?.addEventListener("click", function(e) {
+      e.stopPropagation();
+      speakVocab(word.word, this);
+    });
+
     // Flip on click
     const fc   = container.querySelector("#flashcard");
     const wrap = container.querySelector("#fc-wrap");
@@ -445,6 +546,10 @@ function launchFlashcards(words, progress, container, allWords) {
       if (flipped) return;
       flipped = true;
       fc?.classList.add("flipped");
+      // Speak again on flip (reinforcement)
+      setTimeout(() => {
+        speakVocab(word.word, container.querySelector("#fc-tts-back"), 0.75);
+      }, 300);
       setTimeout(() => {
         if (btns) btns.style.display = "grid";
       }, 250);
@@ -640,6 +745,12 @@ function launchTypewriting(words, progress, container, allWords) {
 
           <div class="typewrite-feedback" id="type-feedback"></div>
 
+          <!-- TTS row: aparece tras respuesta correcta/incorrecta -->
+          <div class="typewrite-tts-row" id="type-tts-row" style="display:none">
+            <button class="vocab-tts-btn" id="type-tts-btn" title="Hear the word" style="opacity:0.7">🔊</button>
+            <span style="font-size:var(--text-xs);color:var(--color-text-muted)">Tap to hear the correct pronunciation</span>
+          </div>
+
           <div style="display:flex;gap:var(--sp-3);margin-top:var(--sp-2)">
             <button class="btn btn-primary" id="btn-check-type">Check ✓</button>
             <button class="btn btn-ghost btn-sm" id="btn-skip-type">Skip →</button>
@@ -648,9 +759,16 @@ function launchTypewriting(words, progress, container, allWords) {
       </div>
     `;
 
-    const input   = container.querySelector("#typewrite-input");
-    const fb      = container.querySelector("#type-feedback");
-    const hintEl  = container.querySelector("#hint-text");
+    const input    = container.querySelector("#typewrite-input");
+    const fb       = container.querySelector("#type-feedback");
+    const hintEl   = container.querySelector("#hint-text");
+    const ttsRow   = container.querySelector("#type-tts-row");
+    const ttsBtn   = container.querySelector("#type-tts-btn");
+
+    // Bind TTS button
+    ttsBtn?.addEventListener("click", function() {
+      speakVocab(word.word, this);
+    });
 
     const buildHint = (level) => {
       const w = word.word;
@@ -681,6 +799,10 @@ function launchTypewriting(words, progress, container, allWords) {
           ? ["Correct! 🎉", "Nailed it! ⭐", "Perfect! ✨"][Math.floor(Math.random() * 3)]
           : `Not quite — the word is: "${word.word}"`;
       }
+
+      // Mostrar TTS row y leer la palabra al responder
+      if (ttsRow) ttsRow.style.display = "flex";
+      speakVocab(word.word, ttsBtn);
 
       if (!ok) {
         setTimeout(() => input?.classList.remove("wrong"), 600);
@@ -820,6 +942,8 @@ function launchMatching(words, progress, container, allWords) {
         roundCorrect++;
         totalCorrect++;
         await recordWordResult(State.user.uid, pairs[leftIdx].id, true);
+        // Leer la palabra al hacer match correcto (refuerzo auditivo)
+        setTimeout(() => speakVocab(pairs[leftIdx].word), 150);
       } else {
         await recordWordResult(State.user.uid, pairs[leftIdx].id, false);
         // Re-enable after a moment so they can try again
@@ -851,6 +975,8 @@ function launchMatching(words, progress, container, allWords) {
         container.querySelectorAll("[data-left-index]").forEach(b => b.classList.remove("selected"));
         selectedLeft = btn;
         btn.classList.add("selected");
+        // Leer la palabra al seleccionarla
+        speakVocab(btn.dataset.word);
         tryMatch();
       });
     });
@@ -912,9 +1038,14 @@ function showPracticeResults(mode, results, progress, container, allWords, overr
           </div>
           <div style="width:100%;display:flex;flex-direction:column;gap:var(--sp-2);text-align:left">
             ${results.map(r => `
-              <div class="results-breakdown-row ${r.correct ? "correct-row" : "wrong-row"}">
+              <div class="results-breakdown-row ${r.correct ? "correct-row" : "wrong-row"}"
+                   style="display:flex;align-items:center;justify-content:space-between">
                 <span>${escapeHTML(r.word.word)}</span>
-                <span>${r.correct ? "✅" : "❌"}</span>
+                <div style="display:flex;align-items:center;gap:var(--sp-2)">
+                  <button class="vocab-tts-btn" data-speak="${escapeHTML(r.word.word)}"
+                          title="Listen" style="opacity:0.6">🔊</button>
+                  <span>${r.correct ? "✅" : "❌"}</span>
+                </div>
               </div>`).join("")}
           </div>
         ` : ""}
@@ -929,6 +1060,13 @@ function showPracticeResults(mode, results, progress, container, allWords, overr
 
   container.querySelector("#btn-back-to-vocab")?.addEventListener("click", () => {
     renderVocabularyPage({}, container);
+  });
+
+  // TTS en los resultados
+  container.querySelectorAll(".vocab-tts-btn[data-speak]").forEach(btn => {
+    btn.addEventListener("click", function() {
+      speakVocab(this.dataset.speak, this);
+    });
   });
 
   container.querySelector("#btn-practice-again")?.addEventListener("click", () => {

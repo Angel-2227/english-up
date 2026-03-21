@@ -1091,6 +1091,129 @@
 }
 
 /* ════════════════════════════════════════════
+   TTS (Text-to-Speech) BUTTON
+   Consistent with lesson TTS style
+════════════════════════════════════════════ */
+
+.vocab-tts-btn {
+  width: 28px;
+  height: 28px;
+  border-radius: var(--radius-full);
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.4;
+  transition: opacity var(--duration-fast) var(--ease-default),
+              background var(--duration-fast) var(--ease-default),
+              transform var(--duration-fast) var(--ease-spring);
+  padding: 0;
+  flex-shrink: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.vocab-tts-btn:hover {
+  opacity: 1;
+  background: rgba(245, 158, 11, 0.15);
+  transform: scale(1.15);
+}
+
+.vocab-tts-btn.speaking {
+  opacity: 1;
+  background: rgba(20, 184, 166, 0.18);
+  animation: vocabTtsSpeak 0.55s ease-in-out infinite alternate;
+}
+
+@keyframes vocabTtsSpeak {
+  from { transform: scale(1); }
+  to   { transform: scale(1.25); }
+}
+
+/* TTS button inside the flashcard (larger, centered below word) */
+.flashcard-tts-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-full);
+  border: 2px solid rgba(0, 0, 0, 0.12);
+  background: rgba(255, 255, 255, 0.25);
+  cursor: pointer;
+  font-size: 1.1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--duration-fast) var(--ease-spring);
+  -webkit-tap-highlight-color: transparent;
+  backdrop-filter: blur(4px);
+}
+
+.flashcard-tts-btn:hover {
+  background: rgba(255, 255, 255, 0.45);
+  transform: scale(1.1);
+}
+
+.flashcard-tts-btn.speaking {
+  background: rgba(20, 184, 166, 0.3);
+  animation: vocabTtsSpeak 0.55s ease-in-out infinite alternate;
+}
+
+/* TTS button in the back of the flashcard */
+.flashcard-back .flashcard-tts-btn {
+  border-color: var(--color-border);
+  background: var(--color-surface-alt);
+}
+
+.flashcard-back .flashcard-tts-btn:hover {
+  background: var(--brand-50);
+  border-color: var(--brand-300);
+}
+
+/* TTS in word detail modal (medium size) */
+.word-detail-tts-btn {
+  width: 38px;
+  height: 38px;
+  border-radius: var(--radius-full);
+  border: 1.5px solid var(--color-border);
+  background: var(--color-surface-alt);
+  cursor: pointer;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--duration-fast) var(--ease-spring);
+  flex-shrink: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.word-detail-tts-btn:hover {
+  background: var(--brand-50);
+  border-color: var(--brand-300);
+  transform: scale(1.08);
+}
+
+.word-detail-tts-btn.speaking {
+  background: var(--teal-50);
+  border-color: var(--teal-400);
+  animation: vocabTtsSpeak 0.55s ease-in-out infinite alternate;
+}
+
+/* TTS in typewriting mode (below the word prompt) */
+.typewrite-tts-row {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+}
+
+/* No print */
+@media print {
+  .vocab-tts-btn,
+  .flashcard-tts-btn,
+  .word-detail-tts-btn { display: none !important; }
+}
+
+/* ════════════════════════════════════════════
    DARK MODE
 ════════════════════════════════════════════ */
 
