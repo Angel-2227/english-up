@@ -723,19 +723,19 @@ section { margin-bottom: 48px; }
     <div class="pause-card">
       <div class="pause-card-title">⏸️ Pause at these moments and describe what you see:</div>
       <div class="pause-item">
-        <span class="pause-tc">~0:23</span>
+        <span class="pause-tc">~1:09</span>
         <span class="pause-q"><strong>Manolo</strong> — "He <span style="color:var(--gold)">is</span>…" What does he look like? What is he doing? Is he brave or afraid?</span>
       </div>
       <div class="pause-item">
-        <span class="pause-tc">~0:38</span>
+        <span class="pause-tc">~0:46</span>
         <span class="pause-q"><strong>Joaquín</strong> — "He <span style="color:var(--gold)">is</span>…" Is he strong? What is he wearing? What adjective fits him best?</span>
       </div>
       <div class="pause-item">
-        <span class="pause-tc">~0:55</span>
+        <span class="pause-tc">~1:00</span>
         <span class="pause-q"><strong>María</strong> — "She <span style="color:var(--gold)">is</span>…" Is she kind? Is she funny? Describe her personality in one sentence.</span>
       </div>
       <div class="pause-item">
-        <span class="pause-tc">~1:10</span>
+        <span class="pause-tc">~0:50</span>
         <span class="pause-q"><strong>La Muerte &amp; Xibalba</strong> — "They <span style="color:var(--gold)">are</span>…" Are they scary? Are they friendly? What do you think they are?</span>
       </div>
     </div>
@@ -747,6 +747,8 @@ section { margin-bottom: 48px; }
         <div class="write-line" data-num="Joaquín:"><div contenteditable="true" data-placeholder="He is ___" data-label="describe_joaquin"></div></div>
         <div class="write-line" data-num="María:"><div contenteditable="true" data-placeholder="She is ___" data-label="describe_maria"></div></div>
         <div class="write-line" data-num="La Muerte:"><div contenteditable="true" data-placeholder="She is ___" data-label="describe_muerte"></div></div>
+        <div class="write-line" data-num="Xibalba:"><div contenteditable="true" data-placeholder="He is ___" data-label="describe_muerte"></div></div>
+
       </div>
     </div>
   </div>
@@ -1251,6 +1253,7 @@ section { margin-bottom: 48px; }
       <span class="lyric-line chorus-line">I know I <span class="gap-blank" data-answer="belong" onclick="fillBlank(this)">belong</span></span>
       <span class="lyric-line chorus-line">When I sing this <span class="gap-blank" data-answer="song" onclick="fillBlank(this)">song</span></span>
       <span class="lyric-line chorus-line">There's love above love and it's <span class="gap-blank" data-answer="ours" onclick="fillBlank(this)">ours</span></span>
+      <span class="lyric-line chorus-line">'cause I love you too much...</span>
 
       <div class="verse-label">♩ Verse 2</div>
       <span class="lyric-line">I live for your <span class="gap-blank" data-answer="touch" onclick="fillBlank(this)">touch</span></span>
@@ -1260,6 +1263,8 @@ section { margin-bottom: 48px; }
       <span class="lyric-line chorus-line">I know I belong</span>
       <span class="lyric-line chorus-line">When I sing this song</span>
       <span class="lyric-line chorus-line">There's love above love and it's ours</span>
+      <span class="lyric-line chorus-line">'cause I love you too much...</span>
+
 
       <div class="verse-label">♩ Bridge</div>
       <span class="lyric-line">Heaven knows your name, I've been praying</span>
@@ -1682,12 +1687,7 @@ const ADJ_ANSWERS = [
 ];
 let adjSelected = null; // { itemEl, chipEl }
 
-document.addEventListener('click', function(e) {
-  const chip = e.target.closest('.adj-chip');
-  if (chip) { adjChipClick(chip); return; }
-  const slot = e.target.closest('.adj-slot');
-  if (slot) { adjSlotClick(slot); }
-});
+// Adjective order handled via inline onclick handlers (adjTap / adjSlotClick)
 
 function adjTap(chip) {
   if (chip.classList.contains('adj-placed')) return;
@@ -1839,7 +1839,6 @@ function resetLyrics() {
 // ══════════════════════════════════════════════════════
 let selectedGpChip = null;
 function selectGpChip(chip) {
-  if (chip.classList.contains('gp-chip-used')) return;
   if (selectedGpChip) selectedGpChip.classList.remove('gp-chip-sel');
   if (selectedGpChip === chip) { selectedGpChip = null; return; }
   selectedGpChip = chip;
@@ -1851,15 +1850,11 @@ function fillGpBlank(blank) {
     setTimeout(() => blank.style.animation = '', 500);
     return;
   }
-  if (blank.dataset.placed) {
-    const prev = document.querySelector(`.gp-chip[data-gpc="${blank.dataset.placed}"]`);
-    if (prev) prev.classList.remove('gp-chip-used');
-  }
   blank.textContent = selectedGpChip.dataset.gpc;
   blank.classList.add('gp-filled');
   blank.classList.remove('gp-correct','gp-wrong');
   blank.dataset.placed = selectedGpChip.dataset.gpc;
-  selectedGpChip.classList.add('gp-chip-used');
+  // Don't mark chip as used — chips are reusable (same word may appear in multiple blanks)
   selectedGpChip.classList.remove('gp-chip-sel');
   selectedGpChip = null;
 }
@@ -1891,7 +1886,7 @@ function resetGrammar() {
   document.querySelectorAll('.gp-blank').forEach(b => {
     b.textContent = ''; b.classList.remove('gp-filled','gp-correct','gp-wrong'); delete b.dataset.placed;
   });
-  document.querySelectorAll('.gp-chip').forEach(c => c.classList.remove('gp-chip-used','gp-chip-sel'));
+  document.querySelectorAll('.gp-chip').forEach(c => c.classList.remove('gp-chip-sel'));
   selectedGpChip = null;
   document.getElementById('gp-score').textContent = '';
 }
@@ -1907,6 +1902,23 @@ const US_ANSWERS = [
   ['Who','is','your','favourite','character'],
 ];
 let usSelected = null;
+
+// Shuffle chips in each unscramble item so they don't appear in answer order
+(function shuffleAllChips() {
+  document.querySelectorAll('.us-item').forEach(item => {
+    const row = item.querySelector('.us-chips-row');
+    if (!row) return;
+    const chips = [...row.querySelectorAll('.us-chip')];
+    // Fisher-Yates shuffle
+    for (let i = chips.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      row.appendChild(chips[j]);
+      chips.splice(j, 1);
+    }
+    // Append any remaining
+    chips.forEach(c => row.appendChild(c));
+  });
+})();
 
 document.querySelectorAll('.us-chip').forEach(chip => {
   chip.addEventListener('click', () => {
@@ -1977,6 +1989,18 @@ function resetAllUnscramble() {
   document.querySelectorAll('.us-feedback').forEach(f => f.textContent = '');
   document.getElementById('us-score').textContent = '';
   usSelected = null;
+  // Re-shuffle chips
+  document.querySelectorAll('.us-item').forEach(item => {
+    const row = item.querySelector('.us-chips-row');
+    if (!row) return;
+    const chips = [...row.querySelectorAll('.us-chip')];
+    for (let i = chips.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      row.appendChild(chips[j]);
+      chips.splice(j, 1);
+    }
+    chips.forEach(c => row.appendChild(c));
+  });
 }
 
 // ══════════════════════════════════════════════════════
