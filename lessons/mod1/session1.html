@@ -214,6 +214,50 @@ section { margin-bottom: 48px; }
 .vocab-example { font-size: .72rem; color: var(--brown); font-style: italic; margin-top: 3px; opacity: 0; transition: opacity .3s; }
 .vocab-card.revealed .vocab-example { opacity: 1; }
 .vocab-hint { font-size: .67rem; color: #bbb; margin-top: 6px; font-style: italic; }
+
+/* ── TTS SPEAKER BUTTON ── */
+.tts-btn {
+  position: absolute;
+  top: 7px;
+  right: 8px;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-size: .95rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.45;
+  transition: opacity .18s, background .18s, transform .15s;
+  padding: 0;
+  line-height: 1;
+  -webkit-tap-highlight-color: transparent;
+  z-index: 2;
+}
+.tts-btn:hover { opacity: 1; background: rgba(201,134,42,.15); transform: scale(1.15); }
+.tts-btn.speaking { opacity: 1; background: rgba(61,107,74,.18); animation: ttsSpeak .55s ease-in-out infinite alternate; }
+@keyframes ttsSpeak { from { transform: scale(1); } to { transform: scale(1.22); } }
+
+/* TTS on drill words — inline variant */
+.drill-word-wrap { display: inline-flex; align-items: center; gap: 3px; }
+.tts-btn-inline {
+  width: 22px; height: 22px; border-radius: 50%; border: none;
+  background: transparent; cursor: pointer; font-size: .8rem;
+  display: inline-flex; align-items: center; justify-content: center;
+  opacity: 0.5; transition: opacity .18s, background .18s;
+  padding: 0; vertical-align: middle;
+  -webkit-tap-highlight-color: transparent;
+}
+.tts-btn-inline:hover { opacity: 1; background: rgba(91,33,182,.12); }
+.tts-btn-inline.speaking { opacity: 1; background: rgba(91,33,182,.15); animation: ttsSpeak .55s ease-in-out infinite alternate; }
+
+@media print {
+  .tts-btn, .tts-btn-inline { display: none !important; }
+}
+
 .reveal-all-btn {
   display: inline-block; margin-top: 14px; background: none; border: 2px solid var(--gold); color: var(--gold);
   padding: 8px 20px; border-radius: 99px; cursor: pointer; font-family: var(--font-b); font-weight: 600; font-size: .8rem; transition: all .2s;
@@ -766,6 +810,7 @@ section { margin-bottom: 48px; }
     <div class="vocab-grid" id="vocabGrid">
 
       <div class="vocab-card" onclick="revealVocab(this)">
+        <button class="tts-btn" onclick="event.stopPropagation();speakWord(this,'brave')" title="Listen">🔊</button>
         <div class="vocab-word">brave</div>
         <div class="vocab-pron">/breɪv/</div>
         <div class="vocab-translation">🇪🇸 valiente</div>
@@ -774,6 +819,7 @@ section { margin-bottom: 48px; }
       </div>
 
       <div class="vocab-card" onclick="revealVocab(this)">
+        <button class="tts-btn" onclick="event.stopPropagation();speakWord(this,'kind')" title="Listen">🔊</button>
         <div class="vocab-word">kind</div>
         <div class="vocab-pron">/kaɪnd/</div>
         <div class="vocab-translation">🇪🇸 amable / bondadoso</div>
@@ -782,6 +828,7 @@ section { margin-bottom: 48px; }
       </div>
 
       <div class="vocab-card" onclick="revealVocab(this)">
+        <button class="tts-btn" onclick="event.stopPropagation();speakWord(this,'funny')" title="Listen">🔊</button>
         <div class="vocab-word">funny</div>
         <div class="vocab-pron">/ˈfʌni/</div>
         <div class="vocab-translation">🇪🇸 gracioso / chistoso</div>
@@ -790,6 +837,7 @@ section { margin-bottom: 48px; }
       </div>
 
       <div class="vocab-card" onclick="revealVocab(this)">
+        <button class="tts-btn" onclick="event.stopPropagation();speakWord(this,'strong')" title="Listen">🔊</button>
         <div class="vocab-word">strong</div>
         <div class="vocab-pron">/strɒŋ/</div>
         <div class="vocab-translation">🇪🇸 fuerte</div>
@@ -798,6 +846,7 @@ section { margin-bottom: 48px; }
       </div>
 
       <div class="vocab-card" onclick="revealVocab(this)">
+        <button class="tts-btn" onclick="event.stopPropagation();speakWord(this,'young')" title="Listen">🔊</button>
         <div class="vocab-word">young</div>
         <div class="vocab-pron">/jʌŋ/</div>
         <div class="vocab-translation">🇪🇸 joven</div>
@@ -806,6 +855,7 @@ section { margin-bottom: 48px; }
       </div>
 
       <div class="vocab-card" onclick="revealVocab(this)">
+        <button class="tts-btn" onclick="event.stopPropagation();speakWord(this,'tall')" title="Listen">🔊</button>
         <div class="vocab-word">tall</div>
         <div class="vocab-pron">/tɔːl/</div>
         <div class="vocab-translation">🇪🇸 alto/a</div>
@@ -814,6 +864,7 @@ section { margin-bottom: 48px; }
       </div>
 
       <div class="vocab-card" onclick="revealVocab(this)">
+        <button class="tts-btn" onclick="event.stopPropagation();speakWord(this,'cheerful')" title="Listen">🔊</button>
         <div class="vocab-word">cheerful</div>
         <div class="vocab-pron">/ˈtʃɪəfəl/</div>
         <div class="vocab-translation">🇪🇸 alegre / animado</div>
@@ -822,6 +873,7 @@ section { margin-bottom: 48px; }
       </div>
 
       <div class="vocab-card" onclick="revealVocab(this)">
+        <button class="tts-btn" onclick="event.stopPropagation();speakWord(this,'determined')" title="Listen">🔊</button>
         <div class="vocab-word">determined</div>
         <div class="vocab-pron">/dɪˈtɜːmɪnd/</div>
         <div class="vocab-translation">🇪🇸 decidida/o / determinada/o</div>
@@ -830,6 +882,7 @@ section { margin-bottom: 48px; }
       </div>
 
       <div class="vocab-card" onclick="revealVocab(this)">
+        <button class="tts-btn" onclick="event.stopPropagation();speakWord(this,'selfless')" title="Listen">🔊</button>
         <div class="vocab-word">selfless</div>
         <div class="vocab-pron">/ˈsɛlfləs/</div>
         <div class="vocab-translation">🇪🇸 desinteresado / generoso</div>
@@ -838,6 +891,7 @@ section { margin-bottom: 48px; }
       </div>
 
       <div class="vocab-card" onclick="revealVocab(this)">
+        <button class="tts-btn" onclick="event.stopPropagation();speakWord(this,'reckless')" title="Listen">🔊</button>
         <div class="vocab-word">reckless</div>
         <div class="vocab-pron">/ˈrɛkləs/</div>
         <div class="vocab-translation">🇪🇸 impulsivo / temerario</div>
@@ -871,52 +925,106 @@ section { margin-bottom: 48px; }
     <table class="pronunciation-table">
       <thead><tr><th>Symbol</th><th>Sound — like…</th><th>Today's words</th><th>More examples</th></tr></thead>
       <tbody>
-        <tr><td><span class="ipa-big">/eɪ/</span></td><td><em>ay</em> in "day"</td><td><strong>br<u>a</u>ve</strong> /breɪv/</td><td>face, name, say, play</td></tr>
-        <tr><td><span class="ipa-big">/aɪ/</span></td><td><em>i</em> in "mine"</td><td><strong>k<u>i</u>nd</strong> /kaɪnd/</td><td>my, time, like, night, right</td></tr>
-        <tr><td><span class="ipa-big">/ʌ/</span></td><td>short open "uh"</td><td><strong>f<u>u</u>nny</strong> /ˈfʌni/ · <strong>y<u>ou</u>ng</strong> /jʌŋ/</td><td>love, much, touch, but, sun</td></tr>
-        <tr><td><span class="ipa-big">/ɒ/</span></td><td>short round "o"</td><td><strong>str<u>o</u>ng</strong> /strɒŋ/</td><td>not, hot, song, belong</td></tr>
-        <tr><td><span class="ipa-big">/ɔː/</span></td><td>long "aw"</td><td><strong>t<u>a</u>ll</strong> /tɔːl/</td><td>all, call, wall, more</td></tr>
-        <tr><td><span class="ipa-big">/ɜː/</span></td><td>long "ur" — like "her"</td><td><strong>det<u>er</u>mined</strong> /dɪˈtɜːmɪnd/</td><td>word, bird, first, heard</td></tr>
-        <tr><td><span class="ipa-big">/ə/</span></td><td>schwa — unstressed "uh" (most common!)</td><td><strong>reckl<u>e</u>ss</strong> /ˈrɛklə<u>s</u>/</td><td>about, the, open, taken</td></tr>
+        <tr><td><span class="ipa-big">/eɪ/</span></td><td><em>ay</em> in "day"</td><td><strong>br<u>a</u>ve</strong> /breɪv/ <button class="tts-btn-inline" onclick="speakWord(this,'brave')" title="Listen">🔊</button></td><td>face, name, say, play</td></tr>
+        <tr><td><span class="ipa-big">/aɪ/</span></td><td><em>i</em> in "mine"</td><td><strong>k<u>i</u>nd</strong> /kaɪnd/ <button class="tts-btn-inline" onclick="speakWord(this,'kind')" title="Listen">🔊</button></td><td>my, time, like, night, right</td></tr>
+        <tr><td><span class="ipa-big">/ʌ/</span></td><td>short open "uh"</td><td><strong>f<u>u</u>nny</strong> /ˈfʌni/ <button class="tts-btn-inline" onclick="speakWord(this,'funny')" title="Listen">🔊</button> · <strong>y<u>ou</u>ng</strong> /jʌŋ/ <button class="tts-btn-inline" onclick="speakWord(this,'young')" title="Listen">🔊</button></td><td>love, much, touch, but, sun</td></tr>
+        <tr><td><span class="ipa-big">/ɒ/</span></td><td>short round "o"</td><td><strong>str<u>o</u>ng</strong> /strɒŋ/ <button class="tts-btn-inline" onclick="speakWord(this,'strong')" title="Listen">🔊</button></td><td>not, hot, song, belong</td></tr>
+        <tr><td><span class="ipa-big">/ɔː/</span></td><td>long "aw"</td><td><strong>t<u>a</u>ll</strong> /tɔːl/ <button class="tts-btn-inline" onclick="speakWord(this,'tall')" title="Listen">🔊</button></td><td>all, call, wall, more</td></tr>
+        <tr><td><span class="ipa-big">/ɜː/</span></td><td>long "ur" — like "her"</td><td><strong>det<u>er</u>mined</strong> /dɪˈtɜːmɪnd/ <button class="tts-btn-inline" onclick="speakWord(this,'determined')" title="Listen">🔊</button></td><td>word, bird, first, heard</td></tr>
+        <tr><td><span class="ipa-big">/ə/</span></td><td>schwa — unstressed "uh" (most common!)</td><td><strong>reckl<u>e</u>ss</strong> /ˈrɛklə<u>s</u>/ <button class="tts-btn-inline" onclick="speakWord(this,'reckless')" title="Listen">🔊</button></td><td>about, the, open, taken</td></tr>
         <tr><td><span class="ipa-big">ˈ</span></td><td>stress mark — next syllable is <strong>louder</strong></td><td>/<strong>ˈ</strong>fʌni/ = <strong>FUN</strong>-ny</td><td>/<strong>ˈ</strong>sɛlfləs/ = <strong>SELF</strong>-less</td></tr>
       </tbody>
     </table>
 
     <div class="card-title" style="margin-top:20px;">🗣️ Speaking drill — repeat out loud, 3 times each</div>
-    <p style="font-size:.84rem;color:var(--brown);margin-bottom:10px;">Tap a word to highlight it. Your teacher models first, then it's your turn.</p>
+    <p style="font-size:.84rem;color:var(--brown);margin-bottom:10px;">Tap a word to highlight it. Press 🔊 to hear it first, then repeat.</p>
 
     <div class="drill-label">🔸 /eɪ/ — "brave, name, say"</div>
     <div class="drill-row">
-      <span class="drill-word" onclick="drillTap(this)">/breɪv/ brave</span>
-      <span class="drill-word" onclick="drillTap(this)">/neɪm/ name</span>
-      <span class="drill-word" onclick="drillTap(this)">/seɪ/ say</span>
-      <span class="drill-word" onclick="drillTap(this)">/pleɪ/ play</span>
+      <span class="drill-word-wrap">
+        <span class="drill-word" onclick="drillTap(this)">/breɪv/ brave</span>
+        <button class="tts-btn-inline" onclick="speakWord(this,'brave')" title="Listen">🔊</button>
+      </span>
+      <span class="drill-word-wrap">
+        <span class="drill-word" onclick="drillTap(this)">/neɪm/ name</span>
+        <button class="tts-btn-inline" onclick="speakWord(this,'name')" title="Listen">🔊</button>
+      </span>
+      <span class="drill-word-wrap">
+        <span class="drill-word" onclick="drillTap(this)">/seɪ/ say</span>
+        <button class="tts-btn-inline" onclick="speakWord(this,'say')" title="Listen">🔊</button>
+      </span>
+      <span class="drill-word-wrap">
+        <span class="drill-word" onclick="drillTap(this)">/pleɪ/ play</span>
+        <button class="tts-btn-inline" onclick="speakWord(this,'play')" title="Listen">🔊</button>
+      </span>
     </div>
 
     <div class="drill-label">🔸 /aɪ/ — "kind, my, night"</div>
     <div class="drill-row">
-      <span class="drill-word" onclick="drillTap(this)">/kaɪnd/ kind</span>
-      <span class="drill-word" onclick="drillTap(this)">/maɪ/ my</span>
-      <span class="drill-word" onclick="drillTap(this)">/naɪt/ night</span>
-      <span class="drill-word" onclick="drillTap(this)">/raɪt/ right</span>
-      <span class="drill-word" onclick="drillTap(this)">/laɪf/ life</span>
+      <span class="drill-word-wrap">
+        <span class="drill-word" onclick="drillTap(this)">/kaɪnd/ kind</span>
+        <button class="tts-btn-inline" onclick="speakWord(this,'kind')" title="Listen">🔊</button>
+      </span>
+      <span class="drill-word-wrap">
+        <span class="drill-word" onclick="drillTap(this)">/maɪ/ my</span>
+        <button class="tts-btn-inline" onclick="speakWord(this,'my')" title="Listen">🔊</button>
+      </span>
+      <span class="drill-word-wrap">
+        <span class="drill-word" onclick="drillTap(this)">/naɪt/ night</span>
+        <button class="tts-btn-inline" onclick="speakWord(this,'night')" title="Listen">🔊</button>
+      </span>
+      <span class="drill-word-wrap">
+        <span class="drill-word" onclick="drillTap(this)">/raɪt/ right</span>
+        <button class="tts-btn-inline" onclick="speakWord(this,'right')" title="Listen">🔊</button>
+      </span>
+      <span class="drill-word-wrap">
+        <span class="drill-word" onclick="drillTap(this)">/laɪf/ life</span>
+        <button class="tts-btn-inline" onclick="speakWord(this,'life')" title="Listen">🔊</button>
+      </span>
     </div>
 
     <div class="drill-label">🔸 /ʌ/ — "funny, love, much"</div>
     <div class="drill-row">
-      <span class="drill-word" onclick="drillTap(this)">/ˈfʌni/ funny</span>
-      <span class="drill-word" onclick="drillTap(this)">/jʌŋ/ young</span>
-      <span class="drill-word" onclick="drillTap(this)">/lʌv/ love</span>
-      <span class="drill-word" onclick="drillTap(this)">/mʌtʃ/ much</span>
-      <span class="drill-word" onclick="drillTap(this)">/tʌtʃ/ touch</span>
+      <span class="drill-word-wrap">
+        <span class="drill-word" onclick="drillTap(this)">/ˈfʌni/ funny</span>
+        <button class="tts-btn-inline" onclick="speakWord(this,'funny')" title="Listen">🔊</button>
+      </span>
+      <span class="drill-word-wrap">
+        <span class="drill-word" onclick="drillTap(this)">/jʌŋ/ young</span>
+        <button class="tts-btn-inline" onclick="speakWord(this,'young')" title="Listen">🔊</button>
+      </span>
+      <span class="drill-word-wrap">
+        <span class="drill-word" onclick="drillTap(this)">/lʌv/ love</span>
+        <button class="tts-btn-inline" onclick="speakWord(this,'love')" title="Listen">🔊</button>
+      </span>
+      <span class="drill-word-wrap">
+        <span class="drill-word" onclick="drillTap(this)">/mʌtʃ/ much</span>
+        <button class="tts-btn-inline" onclick="speakWord(this,'much')" title="Listen">🔊</button>
+      </span>
+      <span class="drill-word-wrap">
+        <span class="drill-word" onclick="drillTap(this)">/tʌtʃ/ touch</span>
+        <button class="tts-btn-inline" onclick="speakWord(this,'touch')" title="Listen">🔊</button>
+      </span>
     </div>
 
     <div class="drill-label">🔸 Sentence drill — say these aloud</div>
-    <div class="drill-row" style="flex-direction:column;align-items:flex-start;gap:6px;">
-      <span class="drill-word" onclick="drillTap(this)">/ɪz ʃiː breɪv/ — Is she brave?</span>
-      <span class="drill-word" onclick="drillTap(this)">/ɑː ðeɪ jʌŋ/ — Are they young?</span>
-      <span class="drill-word" onclick="drillTap(this)">/hiː ɪz kaɪnd ænd fʌni/ — He is kind and funny.</span>
-      <span class="drill-word" onclick="drillTap(this)">/ʃiː ɪznt əˈfreɪd/ — She isn't afraid.</span>
+    <div class="drill-row" style="flex-direction:column;align-items:flex-start;gap:8px;">
+      <span class="drill-word-wrap">
+        <span class="drill-word" onclick="drillTap(this)">/ɪz ʃiː breɪv/ — Is she brave?</span>
+        <button class="tts-btn-inline" onclick="speakWord(this,'Is she brave?')" title="Listen">🔊</button>
+      </span>
+      <span class="drill-word-wrap">
+        <span class="drill-word" onclick="drillTap(this)">/ɑː ðeɪ jʌŋ/ — Are they young?</span>
+        <button class="tts-btn-inline" onclick="speakWord(this,'Are they young?')" title="Listen">🔊</button>
+      </span>
+      <span class="drill-word-wrap">
+        <span class="drill-word" onclick="drillTap(this)">/hiː ɪz kaɪnd ænd fʌni/ — He is kind and funny.</span>
+        <button class="tts-btn-inline" onclick="speakWord(this,'He is kind and funny.')" title="Listen">🔊</button>
+      </span>
+      <span class="drill-word-wrap">
+        <span class="drill-word" onclick="drillTap(this)">/ʃiː ɪznt əˈfreɪd/ — She isn&#39;t afraid.</span>
+        <button class="tts-btn-inline" onclick="speakWord(this,&quot;She isn&#39;t afraid.&quot;)" title="Listen">🔊</button>
+      </span>
     </div>
 
     <div class="listen-task" style="margin-top:16px;">
@@ -1609,6 +1717,64 @@ function revealAllVocab() {
   );
   document.getElementById('revealAllBtn').textContent = allRevealed ? '🙈 Hide all' : '👁 Reveal all';
   if (allRevealed) markProgress('pd-vocab');
+}
+
+// ══════════════════════════════════════════════════════
+// TEXT-TO-SPEECH  (Web Speech API — no install needed)
+// ══════════════════════════════════════════════════════
+
+// Cache the English voice once voices are loaded
+let _enVoice = null;
+
+function _pickEnglishVoice() {
+  if (_enVoice) return _enVoice;
+  const voices = window.speechSynthesis.getVoices();
+  // Priority: en-US > en-GB > any en-* > fallback null
+  _enVoice =
+    voices.find(v => v.lang === 'en-US') ||
+    voices.find(v => v.lang === 'en-GB') ||
+    voices.find(v => v.lang.startsWith('en')) ||
+    null;
+  return _enVoice;
+}
+
+// Some browsers load voices async — repick on change
+if ('speechSynthesis' in window) {
+  window.speechSynthesis.onvoiceschanged = () => { _enVoice = null; };
+}
+
+/**
+ * Speak `text` in English.
+ * @param {HTMLElement|null} btn  - button element that triggered it (for animation)
+ * @param {string}           text - the word or phrase to speak
+ */
+function speakWord(btn, text) {
+  if (!('speechSynthesis' in window)) return;
+
+  // Stop anything already playing
+  window.speechSynthesis.cancel();
+
+  // Remove speaking animation from all buttons
+  document.querySelectorAll('.tts-btn.speaking, .tts-btn-inline.speaking')
+    .forEach(b => b.classList.remove('speaking'));
+
+  const utter    = new SpeechSynthesisUtterance(text);
+  utter.lang     = 'en-US';
+  utter.rate     = 0.82;   // slightly slower — clearer for learners
+  utter.pitch    = 1;
+  utter.volume   = 1;
+
+  const voice = _pickEnglishVoice();
+  if (voice) utter.voice = voice;
+
+  if (btn) {
+    btn.classList.add('speaking');
+    const cleanup = () => btn.classList.remove('speaking');
+    utter.onend   = cleanup;
+    utter.onerror = cleanup;
+  }
+
+  window.speechSynthesis.speak(utter);
 }
 
 // ══════════════════════════════════════════════════════
