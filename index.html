@@ -29,6 +29,7 @@
   <link rel="stylesheet" href="css/profile.css" />
   <link rel="stylesheet" href="css/calendar.css" />
   <link rel="stylesheet" href="css/vocabulary.css" />
+  <link rel="stylesheet" href="css/curriculum.css" />
   <!-- Dark mode — después de todo para máxima especificidad -->
   <link rel="stylesheet" href="css/dark.css" />
   <!-- UI del selector de temáticas -->
@@ -138,6 +139,7 @@
       <div class="nav-links" id="nav-links-student">
         <button class="nav-link active" data-route="home">My Path</button>
         <button class="nav-link" data-route="missions">🎯 Missions</button>
+        <button class="nav-link" data-route="curriculum">📋 Plan</button>
         <button class="nav-link" data-route="vocabulary">📖 Vocabulary</button>
 
       </div>
@@ -146,6 +148,7 @@
       <div class="nav-links hidden" id="nav-links-teacher">
         <button class="nav-link" data-route="home">My Path</button>
         <button class="nav-link" data-route="missions">🎯 Missions</button>
+        <button class="nav-link" data-route="curriculum">📋 Plan</button>
         <button class="nav-link" data-route="teacher">Teacher Panel</button>
       </div>
 
@@ -207,6 +210,10 @@
         <span class="bottom-nav-icon">📅</span>
         <span class="bottom-nav-label">Schedule</span>
       </button>
+      <button class="bottom-nav-item" data-route="curriculum" id="bnav-curriculum">
+  <span class="bottom-nav-icon">📋</span>
+  <span class="bottom-nav-label">Plan</span>
+</button>
       <button class="bottom-nav-item" data-route="vocabulary" id="bnav-vocabulary">
         <span class="bottom-nav-icon">📖</span>
         <span class="bottom-nav-label">Vocab</span>
