@@ -719,3 +719,24 @@
   font-size: var(--text-xs);
   color: var(--color-text-faint);
 }
+/* =============================================
+   AÑADIR al final de css/profile.css
+   Badge "🎨" sobre el avatar cuando es foto dibujada
+============================================= */
+
+.profile-avatar-badge {
+  position:        absolute;
+  bottom:          2px;
+  left:            2px;
+  width:           26px;
+  height:          26px;
+  border-radius:   50%;
+  background:      var(--brand-400);
+  border:          2px solid var(--color-surface);
+  display:         flex;
+  align-items:     center;
+  justify-content: center;
+  font-size:       13px;
+  box-shadow:      var(--shadow-sm);
+  pointer-events:  none;
+}

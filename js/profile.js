@@ -6,7 +6,7 @@
 
 import { State, registerRoute, navigate, showToast, openModal, closeModal, escapeHTML } from "./app.js";
 import { SYSTEM_BADGES, updateUserProfile, getUser } from "./db.js";
-import { emojiToDataURL, AVATARS, openAvatarPicker, updateNavbar } from "./auth.js";
+import { getAvatarSrc, emojiToDataURL, AVATARS, openAvatarPicker, updateNavbar } from "./auth.js";
 import { getUserClassroom } from "./classrooms.js";
 
 export function registerProfile() {
@@ -21,11 +21,10 @@ async function renderProfile(_, container) {
   container.innerHTML = `<div class="profile-loading"><div class="profile-spinner"></div></div>`;
 
   try {
-    const profile  = State.profile;
-    const progress = profile.progress ?? {};
+    const profile   = State.profile;
+    const progress  = profile.progress ?? {};
     const completed = Object.values(progress).filter(p => p.completed).length;
 
-    // Obtener salón del estudiante
     let classroom = null;
     try { classroom = await getUserClassroom(State.user.uid); } catch (_) {}
 
@@ -43,27 +42,18 @@ async function renderProfile(_, container) {
 // ════════════════════════════════════════════
 
 function buildProfileHTML(profile, completed, classroom) {
-  const xp     = profile.xp     ?? 0;
-  const streak = profile.streak ?? 0;
-  const badges = profile.badges ?? [];
+  const xp       = profile.xp     ?? 0;
+  const streak   = profile.streak ?? 0;
+  const badges   = profile.badges ?? [];
   const nickname = profile.nickname ?? "";
 
-  // Avatar
-  let avatarSrc;
-  if (profile.avatar) {
-    avatarSrc = emojiToDataURL(profile.avatar, 120);
-  } else {
-    avatarSrc = profile.photoURL || makeInitialsAvatar(profile.name);
-  }
+  // Usar getAvatarSrc para respetar prioridad: foto dibujada > emoji > Google > iniciales
+  const avatarSrc = getAvatarSrc(profile, 120);
 
-  // XP level
-  const level = Math.floor(xp / 100) + 1;
+  const level     = Math.floor(xp / 100) + 1;
   const xpInLevel = xp % 100;
 
-  // Badges
-  const badgesHTML = buildBadgesSection(badges);
-
-  // Classroom card
+  const badgesHTML    = buildBadgesSection(badges);
   const classroomHTML = classroom ? `
     <div class="profile-card">
       <div class="profile-card-title">🏫 My Classroom</div>
@@ -86,6 +76,9 @@ function buildProfileHTML(profile, completed, classroom) {
     </div>
   `;
 
+  // Badge especial si tiene foto dibujada
+  const hasDrawing = !!profile.customAvatarURL;
+
   return `
     <div class="profile-page">
 
@@ -97,17 +90,16 @@ function buildProfileHTML(profile, completed, classroom) {
                alt="${escapeHTML(profile.name)}"
                class="profile-avatar-lg" />
           <button class="profile-avatar-edit" id="btn-change-avatar" title="Change avatar">✏️</button>
+          ${hasDrawing ? `<div class="profile-avatar-badge" title="Hand-drawn avatar!">🎨</div>` : ""}
         </div>
 
         <div class="profile-hero-info">
-          <!-- Name + nickname -->
           <div class="profile-name-row">
             <h2 class="profile-name">${escapeHTML(nickname || profile.name)}</h2>
             ${nickname ? `<span class="profile-realname">(${escapeHTML(profile.name)})</span>` : ""}
           </div>
           <div class="profile-email">${escapeHTML(profile.email)}</div>
 
-          <!-- Nickname editor -->
           <div class="profile-nickname-row" id="nickname-row">
             ${nickname
               ? `<button class="btn btn-ghost btn-xs" id="btn-edit-nickname">✏️ Edit nickname</button>`
@@ -115,7 +107,6 @@ function buildProfileHTML(profile, completed, classroom) {
             }
           </div>
 
-          <!-- Level pill -->
           <div class="profile-level-row">
             <span class="profile-level-badge">⭐ Level ${level}</span>
             <div class="profile-xp-bar-wrap">
@@ -179,7 +170,9 @@ function buildBadgesSection(earnedIds) {
         <div class="profile-badge-emoji">${badge.emoji}</div>
         <div class="profile-badge-name">${escapeHTML(badge.name)}</div>
         <div class="profile-badge-desc">${escapeHTML(badge.desc)}</div>
-        ${has ? `<div class="profile-badge-earned-tag">✅ Earned</div>` : `<div class="profile-badge-locked-tag">🔒 Locked</div>`}
+        ${has
+          ? `<div class="profile-badge-earned-tag">✅ Earned</div>`
+          : `<div class="profile-badge-locked-tag">🔒 Locked</div>`}
       </div>
     `;
   }).join("");
@@ -200,15 +193,24 @@ function buildBadgesSection(earnedIds) {
 
 function bindProfileEvents(container, profile) {
 
-  // Change avatar
+  // Change avatar — abre modal con tabs
   container.querySelector("#btn-change-avatar")?.addEventListener("click", () => {
     openAvatarPicker(() => {
-      // refresh avatar image after save
+      // Refrescar imagen tras guardar
       const img = container.querySelector("#profile-avatar-img");
-      if (img && State.profile.avatar) {
-        img.src = emojiToDataURL(State.profile.avatar, 120);
-      } else if (img) {
-        img.src = State.profile.photoURL || makeInitialsAvatar(State.profile.name);
+      if (img) img.src = getAvatarSrc(State.profile, 120);
+
+      // Mostrar/ocultar badge de dibujo
+      const badge = container.querySelector(".profile-avatar-badge");
+      if (State.profile.customAvatarURL && !badge) {
+        const wrap = container.querySelector(".profile-avatar-wrap");
+        const b = document.createElement("div");
+        b.className = "profile-avatar-badge";
+        b.title = "Hand-drawn avatar!";
+        b.textContent = "🎨";
+        wrap?.appendChild(b);
+      } else if (!State.profile.customAvatarURL && badge) {
+        badge.remove();
       }
     });
   });
@@ -226,7 +228,7 @@ function bindProfileEvents(container, profile) {
   // Logout
   container.querySelector("#btn-profile-logout")?.addEventListener("click", async () => {
     const { signOut } = await import("https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js");
-    const { auth } = await import("../firebase-config.js");
+    const { auth }    = await import("../firebase-config.js");
     await signOut(auth);
     State.user    = null;
     State.profile = null;
@@ -278,7 +280,6 @@ function openNicknameModal(currentNickname, container) {
     await saveNickname("", container);
   });
 
-  // Allow Enter key
   document.getElementById("nickname-input")?.addEventListener("keydown", async (e) => {
     if (e.key === "Enter") {
       const val = (e.target.value ?? "").trim();
@@ -293,29 +294,9 @@ async function saveNickname(nickname, container) {
     State.profile.nickname = nickname;
     closeModal();
     showToast(nickname ? "Nickname saved! 🎉" : "Nickname removed.", "success");
-    // Re-render profile
     renderProfile({}, container);
   } catch (err) {
     console.error(err);
     showToast("Could not save nickname.", "error");
   }
-}
-
-// ════════════════════════════════════════════
-// HELPERS
-// ════════════════════════════════════════════
-
-function makeInitialsAvatar(name) {
-  const canvas = document.createElement("canvas");
-  canvas.width = canvas.height = 120;
-  const ctx = canvas.getContext("2d");
-  ctx.fillStyle = "#fcd34d";
-  ctx.fillRect(0, 0, 120, 120);
-  ctx.fillStyle = "#78350f";
-  ctx.font = "bold 48px Nunito, sans-serif";
-  ctx.textAlign    = "center";
-  ctx.textBaseline = "middle";
-  const initials = (name || "?").split(" ").map(w => w[0]).slice(0,2).join("").toUpperCase();
-  ctx.fillText(initials, 60, 60);
-  return canvas.toDataURL();
 }
