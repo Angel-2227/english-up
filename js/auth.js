@@ -404,6 +404,9 @@ export function initAuth() {
         registerCalendar();
         //initCalendarFAB();
 
+        const { registerCurriculum } = await import("./curriculum.js");
+        registerCurriculum();
+
         // Navegar a home
         navigate("home");
 
