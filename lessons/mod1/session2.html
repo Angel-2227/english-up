@@ -501,7 +501,7 @@ section { margin-bottom: 48px; }
   outline: none; min-height: 18px; border-bottom: 1.5px dashed #DBDBDB;
   padding: 1px 4px; margin-bottom: 8px; caret-color: #0095F6;
 }
-.ig-location-field [contenteditable]:empty::before { content: 'Medellín, Colombia'; color: #c7c7c7; font-style: italic; pointer-events: none; }
+.ig-location-field [contenteditable]:empty::before { content: 'Bogotá, Colombia'; color: #c7c7c7; font-style: italic; pointer-events: none; }
 .ig-location-field [contenteditable] { flex: 1; outline: none; background: transparent; font-size: .8rem; color: #0095F6; }
 .ig-follow-btn {
   width: 100%; background: #0095F6; color: white; border: none; border-radius: 8px;
@@ -924,6 +924,7 @@ section { margin-bottom: 48px; }
       <div class="gp-title">✏️ Practice — tap a word from the bank, then tap a blank</div>
       <div class="gp-wordbank" id="gpBank">
         <div class="gp-chip" data-gpc="am"    onclick="selectGpChip(this)">am</div>
+        <div class="gp-chip" data-gpc="am not"    onclick="selectGpChip(this)">am not</div>
         <div class="gp-chip" data-gpc="is"    onclick="selectGpChip(this)">is</div>
         <div class="gp-chip" data-gpc="are"   onclick="selectGpChip(this)">are</div>
         <div class="gp-chip" data-gpc="was"   onclick="selectGpChip(this)">was</div>
@@ -941,7 +942,7 @@ section { margin-bottom: 48px; }
       <div class="gp-item"><span class="gp-num">4.</span><span>She <span class="gp-blank" data-ans="isn't" onclick="fillGpBlank(this)">isn't</span> afraid — she <span class="gp-blank" data-ans="is" onclick="fillGpBlank(this)">is</span> fearless and proud. <span class="gp-hint-label">(negative + positive)</span></span></div>
       <div class="gp-item"><span class="gp-num">5.</span><span><span class="gp-blank" data-ans="Is" onclick="fillGpBlank(this)">Is</span> Ed Sheeran from the USA? — No, he <span class="gp-blank" data-ans="isn't" onclick="fillGpBlank(this)">isn't</span>. <span class="gp-hint-label">(question + short answer)</span></span></div>
       <div class="gp-item"><span class="gp-num">6.</span><span><span class="gp-blank" data-ans="Was" onclick="fillGpBlank(this)">Was</span> he shy at school? — Yes, he <span class="gp-blank" data-ans="was" onclick="fillGpBlank(this)">was</span>! <span class="gp-hint-label">(past question)</span></span></div>
-      <div class="gp-item"><span class="gp-num">7.</span><span><span class="gp-blank" data-ans="Are" onclick="fillGpBlank(this)">Are</span> you from Medellín? — Yes, I <span class="gp-blank" data-ans="am" onclick="fillGpBlank(this)">am</span>! <span class="gp-hint-label">(about you!)</span></span></div>
+      <div class="gp-item"><span class="gp-num">7.</span><span><span class="gp-blank" data-ans="Are" onclick="fillGpBlank(this)">Are</span> you from Medellín? — No, I <span class="gp-blank" data-ans="am not" onclick="fillGpBlank(this)">am not</span>! <span class="gp-hint-label">(about you!)</span></span></div>
 
       <button class="gp-check-btn" onclick="checkGrammar()">✅ Check answers</button>
       <button class="gp-reset-btn" onclick="resetGrammar()">↺ Reset</button>
@@ -1071,10 +1072,11 @@ section { margin-bottom: 48px; }
         <div class="word-chip" data-chip="fighting" onclick="selectChip(this)">fighting</div>
         <div class="word-chip" data-chip="eyes"     onclick="selectChip(this)">eyes</div>
         <div class="word-chip" data-chip="arms"     onclick="selectChip(this)">arms</div>
+        <div class="word-chip" data-chip="perfect"    onclick="selectChip(this)">perfect</div>
         <div class="word-chip" data-chip="dancing"  onclick="selectChip(this)">dancing</div>
         <div class="word-chip" data-chip="carry"    onclick="selectChip(this)">carry</div>
         <div class="word-chip" data-chip="kids"     onclick="selectChip(this)">kids</div>
-        <div class="word-chip" data-chip="right"    onclick="selectChip(this)">right</div>
+        <div class="word-chip" data-chip="perfect"   onclick="selectChip(this)">perfect</div>
         <div class="word-chip" data-chip="faith"    onclick="selectChip(this)">faith</div>
       </div>
     </div>
@@ -1083,29 +1085,46 @@ section { margin-bottom: 48px; }
       <span class="lyric-line">I found a love for me</span>
       <span class="lyric-line"><span class="gap-blank" data-answer="darling" onclick="fillBlank(this)">darling</span>, just dive right in and follow my lead</span>
       <span class="lyric-line">Well, I found a girl, beautiful and sweet</span>
-      <span class="lyric-line">Oh, I never knew you were the someone waiting for me</span>
+      <span class="lyric-line">Oh, I never knew you were the someone waitin' for me</span>
       <span class="lyric-line">'Cause we were just <span class="gap-blank" data-answer="kids" onclick="fillBlank(this)">kids</span> when we fell in love</span>
       <span class="lyric-line">Not knowing what it was</span>
       <span class="lyric-line">I will not give you up this time</span>
-      <span class="lyric-line">But darling, just kiss me slow, your heart is all I own</span>
+      <span class="lyric-line">Oh darling, just kiss me slow, your heart is all I own</span>
       <span class="lyric-line">And in your <span class="gap-blank" data-answer="eyes" onclick="fillBlank(this)">eyes</span> you're holding mine</span>
 
       <div class="verse-label">🎵 Chorus</div>
       <span class="lyric-line chorus-line">Baby, I'm <span class="gap-blank" data-answer="dancing" onclick="fillBlank(this)">dancing</span> in the dark</span>
       <span class="lyric-line chorus-line">With you between my <span class="gap-blank" data-answer="arms" onclick="fillBlank(this)">arms</span></span>
-      <span class="lyric-line chorus-line">Barefoot on the grass, listening to our favourite song</span>
+      <span class="lyric-line chorus-line">Barefoot on the grass while listening to our favourite song</span>
       <span class="lyric-line chorus-line">When you said you looked a mess</span>
       <span class="lyric-line chorus-line">I whispered underneath my breath</span>
-      <span class="lyric-line chorus-line">But you heard it, darling, you look <span class="gap-blank" data-answer="perfect" onclick="fillBlank(this)">perfect</span> tonight</span>
+      <span class="lyric-line chorus-line">But you heard it, "darling, you look <span class="gap-blank" data-answer="perfect" onclick="fillBlank(this)">perfect</span> tonight"</span>
 
       <div class="verse-label">♩ Verse 2</div>
       <span class="lyric-line">Well I found a woman, stronger than anyone I know</span>
       <span class="lyric-line">She shares my dreams, I hope that someday I'll share her home</span>
       <span class="lyric-line">I found a love to <span class="gap-blank" data-answer="carry" onclick="fillBlank(this)">carry</span> more than just my secrets</span>
+      <span class="lyric-line">To carry love, to carry children of our own</span>
+      
+
+      <div class="verse-label">♩ Verse 3</div>
       <span class="lyric-line">We are still kids but we're so in love</span>
       <span class="lyric-line"><span class="gap-blank" data-answer="fighting" onclick="fillBlank(this)">fighting</span> against all odds</span>
+      <span class="lyric-line">I know we'll be alright this time</span>
+      <span class="lyric-line">Darling, just hold my hand, be my girl, I'll be your man</span>
+      <span class="lyric-line">I see my future in your eyes</span>
+
+      <div class="verse-label">🎵 Chorus</div>
+      <span class="lyric-line">Baby, I'm dancin' in the dark</span>
+      <span class="lyric-line">With you between my arms</span>
+      <span class="lyric-line">Barefoot on the grass while listening to our favourite song</span>
+      <span class="lyric-line">When I saw you in that dress, lookin' so beautiful</span>
+      <span class="lyric-line">I don't deserve this, darling, you look perfect tonight</span>
 
       <div class="verse-label">🎵 Bridge</div>
+      <span class="lyric-line">Baby, I'm dancin' in the dark</span>
+      <span class="lyric-line">With you between my arms</span>
+      <span class="lyric-line">Barefoot on the grass while listening to our favourite song</span>
       <span class="lyric-line">I have <span class="gap-blank" data-answer="faith" onclick="fillBlank(this)">faith</span> in what I see</span>
       <span class="lyric-line">Now I know I have met an angel in person</span>
       <span class="lyric-line">And she looks <span class="gap-blank" data-answer="perfect" onclick="fillBlank(this)">perfect</span></span>
@@ -1287,7 +1306,7 @@ section { margin-bottom: 48px; }
 
     <div class="tip-box">
       💡 <strong>Examples to inspire you:</strong><br>
-      "I am from Medellín." (T) &nbsp;·&nbsp; "I am a teacher." (T) &nbsp;·&nbsp; "I am 16 years old." (LIE — if you are 17!)<br>
+      "I am from Bogotá." (T) &nbsp;·&nbsp; "I am a teacher." (T) &nbsp;·&nbsp; "I am 16 years old." (LIE — if you are 17!)<br>
       "I was very shy when I was a child." (T) &nbsp;·&nbsp; "I am not afraid of the dark." (LIE) &nbsp;·&nbsp; "I am a morning person." (T)
     </div>
 
@@ -1395,7 +1414,7 @@ section { margin-bottom: 48px; }
 I am ___ years old
 I am not shy ✨
 I am proud of…</div>
-        <div class="ig-location-field">📍 <div contenteditable="true" data-label="ig_location" spellcheck="false">Medellín, Colombia</div></div>
+        <div class="ig-location-field">📍 <div contenteditable="true" data-label="ig_location" spellcheck="false">Bogotá, Colombia</div></div>
 
         <button class="ig-follow-btn">Follow</button>
 
@@ -1428,7 +1447,7 @@ I am proud of…</div>
         </div>
         <div class="ig-post post-2">
           🌍
-          <div class="ig-post-label" contenteditable="true" data-label="ig_post2" spellcheck="false">I am from Medellín</div>
+          <div class="ig-post-label" contenteditable="true" data-label="ig_post2" spellcheck="false">I am from Bogotá</div>
         </div>
         <div class="ig-post post-3">
           ❤️
