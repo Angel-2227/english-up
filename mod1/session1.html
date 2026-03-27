@@ -1,0 +1,2711 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Module 1 · Session 1 — The Book of Life · 120 min</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,400;1,700&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --cream:     #FAF6EE;
+  --parchment: #F0E8D5;
+  --ink:       #1A1208;
+  --brown:     #6B3F1A;
+  --gold:      #C9862A;
+  --gold-lt:   #F5D89A;
+  --rust:      #B84A20;
+  --sage:      #3D6B4A;
+  --sage-lt:   #D1E8D8;
+  --blue:      #2A4A7A;
+  --blue-lt:   #D4DFF0;
+  --green:     #166534;
+  --green-lt:  #DCFCE7;
+  --radius:    14px;
+  --shadow:    0 2px 16px rgba(26,18,8,0.10);
+  --font-h:    'Playfair Display', Georgia, serif;
+  --font-b:    'DM Sans', sans-serif;
+  --font-m:    'DM Mono', monospace;
+}
+
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--font-b);
+  background: var(--cream);
+  color: var(--ink);
+  line-height: 1.7;
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── PRINT BAR ── */
+.print-bar {
+  background: var(--ink);
+  color: var(--gold-lt);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 20px;
+  font-size: .78rem;
+  font-weight: 500;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.print-bar span { opacity: .65; font-size: .75rem; }
+.btn-print {
+  background: var(--gold); color: var(--ink); border: none;
+  padding: 7px 18px; border-radius: 99px; font-weight: 700;
+  font-size: .78rem; cursor: pointer; font-family: var(--font-b); transition: background .2s; white-space: nowrap;
+}
+.btn-print:hover { background: var(--gold-lt); }
+
+/* ── HERO ── */
+.hero {
+  background: linear-gradient(150deg, #0A1A2A 0%, #12294A 50%, #1A3A6A 100%);
+  color: var(--cream);
+  padding: 48px 20px 40px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: '🎬';
+  position: absolute;
+  top: -20px; left: 50%; transform: translateX(-50%);
+  font-size: 220px;
+  opacity: .04;
+  pointer-events: none;
+  line-height: 1;
+}
+.hero-badge {
+  display: inline-block;
+  background: var(--gold); color: var(--ink);
+  font-size: .7rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase;
+  padding: 4px 14px; border-radius: 99px; margin-bottom: 16px;
+}
+.hero h1 {
+  font-family: var(--font-h); font-size: clamp(2.2rem, 8vw, 3.6rem); font-weight: 900; line-height: 1.1;
+  background: linear-gradient(135deg, #FAF6EE 30%, #F5D89A 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  margin-bottom: 8px;
+}
+.hero-sub { font-size: .95rem; opacity: .65; margin-bottom: 24px; font-style: italic; font-family: var(--font-h); }
+.hero-tags { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; max-width: 540px; margin: 0 auto; }
+.tag {
+  background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.18);
+  color: var(--cream); font-size: .72rem; font-weight: 500; padding: 4px 12px; border-radius: 99px;
+}
+
+/* ── OBJECTIVES ── */
+.objectives-bar {
+  background: var(--parchment); border-top: 3px solid var(--gold);
+  padding: 16px 20px; display: flex; gap: 16px; flex-direction: column;
+}
+@media (min-width: 600px) { .objectives-bar { flex-direction: row; flex-wrap: wrap; justify-content: center; } }
+.obj-item { display: flex; align-items: center; gap: 8px; font-size: .83rem; font-weight: 500; color: var(--brown); }
+
+/* ── LAYOUT ── */
+.page { max-width: 800px; margin: 0 auto; padding: 28px 16px 80px; }
+@media (min-width: 600px) { .page { padding: 36px 24px 80px; } }
+
+/* ── SECTION HEADER ── */
+.section-header {
+  display: flex; align-items: center; gap: 12px; margin-bottom: 20px;
+  padding-bottom: 12px; border-bottom: 2px solid var(--parchment);
+}
+.section-num {
+  width: 36px; height: 36px; border-radius: 50%; background: var(--gold);
+  color: var(--ink); font-weight: 900; font-size: .95rem;
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-family: var(--font-h);
+}
+.section-title { font-family: var(--font-h); font-size: 1.2rem; font-weight: 700; line-height: 1.3; }
+.section-time {
+  margin-left: auto; font-size: .72rem; font-weight: 600; color: var(--brown);
+  background: var(--parchment); padding: 3px 10px; border-radius: 99px; white-space: nowrap; flex-shrink: 0;
+}
+section { margin-bottom: 48px; }
+
+/* ── CARD ── */
+.card {
+  background: white; border: 1px solid #EDE5D4; border-radius: var(--radius);
+  padding: 20px; box-shadow: var(--shadow); margin-bottom: 16px;
+}
+@media (min-width: 600px) { .card { padding: 24px; } }
+.card-title { font-family: var(--font-h); font-size: .95rem; font-weight: 700; margin-bottom: 14px; color: var(--brown); }
+
+/* ── VIDEO ── */
+.video-wrap {
+  position: relative; padding-bottom: 56.25%; height: 0;
+  border-radius: 10px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,.15); background: #000;
+}
+.video-wrap iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: none; }
+.video-links { display: flex; gap: 10px; margin-top: 12px; flex-wrap: wrap; }
+.btn-yt {
+  display: inline-flex; align-items: center; gap: 7px;
+  background: #FF0000; color: white; text-decoration: none;
+  padding: 9px 18px; border-radius: 99px; font-weight: 700; font-size: .8rem; font-family: var(--font-b); transition: background .2s;
+}
+.btn-yt:hover { background: #CC0000; }
+.btn-yt-alt {
+  display: inline-flex; align-items: center; gap: 7px;
+  background: none; border: 2px solid var(--brown); color: var(--brown);
+  text-decoration: none; padding: 8px 18px; border-radius: 99px;
+  font-weight: 700; font-size: .8rem; font-family: var(--font-b); transition: all .2s;
+}
+.btn-yt-alt:hover { background: var(--brown); color: white; }
+
+/* ── PAUSE & DESCRIBE ── */
+.pause-card {
+  background: linear-gradient(135deg, #12294A, #1A3A6A);
+  border-radius: 12px; padding: 18px 20px; margin-top: 16px; color: var(--cream);
+}
+.pause-card-title { font-family: var(--font-h); font-size: .92rem; font-weight: 700; color: var(--gold-lt); margin-bottom: 10px; }
+.pause-item {
+  display: flex; gap: 10px; align-items: flex-start; padding: 10px 0;
+  border-bottom: 1px solid rgba(255,255,255,.1); font-size: .85rem;
+}
+.pause-item:last-child { border-bottom: none; }
+.pause-tc {
+  font-family: var(--font-m); font-size: .72rem; color: var(--gold); font-weight: 700;
+  min-width: 48px; flex-shrink: 0; padding-top: 2px;
+}
+.pause-q { flex: 1; line-height: 1.5; opacity: .9; }
+.pause-q strong { color: var(--gold-lt); }
+
+/* ── WRITE LINE ── */
+.write-line {
+  position: relative; border-bottom: 1.5px solid #bbb; min-height: 32px;
+  display: flex; align-items: flex-end; margin-bottom: 2px; cursor: text;
+}
+.write-line::before {
+  content: attr(data-num); font-family: var(--font-b); font-size: .7rem; color: var(--gold);
+  font-weight: 700; margin-right: 6px; flex-shrink: 0; padding-bottom: 4px; line-height: 1;
+}
+.write-line [contenteditable] {
+  flex: 1; outline: none; font-family: var(--font-h); font-size: .92rem; color: var(--ink);
+  padding: 4px 2px; min-height: 26px; line-height: 1.4; background: transparent; caret-color: var(--rust);
+}
+.write-line [contenteditable]:empty::before { content: attr(data-placeholder); color: #ccc; font-style: italic; pointer-events: none; }
+.write-line:focus-within { border-bottom-color: var(--gold); background: rgba(201,134,42,.04); }
+.write-line.no-num::before { display: none; }
+.write-line.no-num [contenteditable] { padding-left: 0; }
+.write-lines { display: flex; flex-direction: column; gap: 4px; margin-top: 12px; }
+
+/* ── VOCAB GRID ── */
+.vocab-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+@media (min-width: 480px) { .vocab-grid { grid-template-columns: repeat(3, 1fr); } }
+@media (min-width: 720px) { .vocab-grid { grid-template-columns: repeat(4, 1fr); } }
+.vocab-card {
+  background: var(--cream); border: 2px solid var(--parchment); border-radius: 10px;
+  padding: 12px 14px; cursor: pointer; transition: all .2s; position: relative;
+  -webkit-tap-highlight-color: transparent; min-height: 90px;
+}
+.vocab-card:hover, .vocab-card:active { border-color: var(--gold); transform: translateY(-2px); box-shadow: 0 4px 14px rgba(201,134,42,.18); }
+.vocab-card.revealed { border-color: var(--gold); background: var(--gold-lt); }
+.vocab-card.revealed .vocab-translation { opacity: 1; max-height: 50px; }
+.vocab-card.revealed .vocab-hint { display: none; }
+.vocab-word { font-family: var(--font-h); font-size: .98rem; font-weight: 700; color: var(--brown); }
+.vocab-pron { font-family: var(--font-m); font-size: .68rem; color: var(--gold); margin: 3px 0; }
+.vocab-translation { font-size: .78rem; color: var(--blue); font-weight: 600; opacity: 0; max-height: 0; overflow: hidden; transition: all .3s; margin-top: 4px; }
+.vocab-example { font-size: .72rem; color: var(--brown); font-style: italic; margin-top: 3px; opacity: 0; transition: opacity .3s; }
+.vocab-card.revealed .vocab-example { opacity: 1; }
+.vocab-hint { font-size: .67rem; color: #bbb; margin-top: 6px; font-style: italic; }
+
+/* ── TTS SPEAKER BUTTON ── */
+.tts-btn {
+  position: absolute;
+  top: 7px;
+  right: 8px;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-size: .95rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.45;
+  transition: opacity .18s, background .18s, transform .15s;
+  padding: 0;
+  line-height: 1;
+  -webkit-tap-highlight-color: transparent;
+  z-index: 2;
+}
+.tts-btn:hover { opacity: 1; background: rgba(201,134,42,.15); transform: scale(1.15); }
+.tts-btn.speaking { opacity: 1; background: rgba(61,107,74,.18); animation: ttsSpeak .55s ease-in-out infinite alternate; }
+@keyframes ttsSpeak { from { transform: scale(1); } to { transform: scale(1.22); } }
+
+/* TTS on drill words — inline variant */
+.drill-word-wrap { display: inline-flex; align-items: center; gap: 3px; }
+.tts-btn-inline {
+  width: 22px; height: 22px; border-radius: 50%; border: none;
+  background: transparent; cursor: pointer; font-size: .8rem;
+  display: inline-flex; align-items: center; justify-content: center;
+  opacity: 0.5; transition: opacity .18s, background .18s;
+  padding: 0; vertical-align: middle;
+  -webkit-tap-highlight-color: transparent;
+}
+.tts-btn-inline:hover { opacity: 1; background: rgba(91,33,182,.12); }
+.tts-btn-inline.speaking { opacity: 1; background: rgba(91,33,182,.15); animation: ttsSpeak .55s ease-in-out infinite alternate; }
+
+@media print {
+  .tts-btn, .tts-btn-inline { display: none !important; }
+}
+
+.reveal-all-btn {
+  display: inline-block; margin-top: 14px; background: none; border: 2px solid var(--gold); color: var(--gold);
+  padding: 8px 20px; border-radius: 99px; cursor: pointer; font-family: var(--font-b); font-weight: 600; font-size: .8rem; transition: all .2s;
+}
+.reveal-all-btn:hover { background: var(--gold); color: var(--ink); }
+
+/* ── MATCHING ── */
+.match-instructions {
+  background: var(--blue-lt); border-radius: 8px; padding: 10px 14px;
+  font-size: .82rem; color: var(--blue); font-weight: 500; margin-bottom: 16px; border-left: 3px solid var(--blue);
+}
+.match-words-row { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 18px; }
+.match-chip {
+  background: var(--parchment); border: 2px solid transparent; border-radius: 99px;
+  padding: 9px 18px; cursor: pointer; font-size: .85rem; font-weight: 600; color: var(--brown);
+  font-family: var(--font-b); transition: all .2s; -webkit-tap-highlight-color: transparent; user-select: none;
+}
+.match-chip:hover, .match-chip:active { border-color: var(--gold); background: var(--gold-lt); }
+.match-chip.chip-selected { background: var(--rust); color: white; border-color: var(--rust); }
+.match-chip.chip-used { opacity: .3; pointer-events: none; text-decoration: line-through; }
+.match-defs { display: flex; flex-direction: column; gap: 8px; }
+.match-def-row {
+  display: flex; align-items: center; gap: 10px; background: white;
+  border: 2px solid var(--parchment); border-radius: 10px; padding: 10px 14px;
+  cursor: pointer; transition: all .2s; min-height: 50px; -webkit-tap-highlight-color: transparent;
+}
+.match-def-row:hover { border-color: var(--gold); }
+.match-def-row.def-hover { border-color: var(--gold); background: var(--gold-lt); }
+.match-def-row.correct { border-color: var(--sage); background: var(--sage-lt); cursor: default; }
+.match-def-row.wrong   { border-color: var(--rust); background: #FDECEA; }
+.match-def-letter { font-size: .72rem; font-weight: 700; color: var(--brown); min-width: 20px; flex-shrink: 0; }
+.match-def-text { font-size: .85rem; color: var(--ink); flex: 1; }
+.match-def-placed {
+  font-size: .8rem; font-weight: 700; color: var(--blue); background: var(--blue-lt);
+  padding: 3px 10px; border-radius: 99px; white-space: nowrap; flex-shrink: 0; display: none;
+}
+.match-def-row.correct .match-def-placed { color: var(--sage); background: var(--sage-lt); display: inline-block; }
+.match-def-row.wrong   .match-def-placed { color: var(--rust); background: #FDECEA; display: inline-block; }
+.match-check-btn {
+  margin-top: 16px; background: var(--blue); color: white; border: none;
+  padding: 11px 24px; border-radius: 99px; cursor: pointer; font-family: var(--font-b);
+  font-weight: 700; font-size: .85rem; transition: background .2s; width: 100%;
+}
+@media (min-width: 400px) { .match-check-btn { width: auto; } }
+.match-check-btn:hover { background: var(--brown); }
+#match-feedback { margin-top: 12px; font-size: .85rem; font-weight: 700; }
+
+/* ── GRAMMAR ── */
+.grammar-intro { background: var(--parchment); border-radius: 8px; padding: 14px 16px; font-size: .85rem; line-height: 1.7; margin-bottom: 18px; }
+.grammar-song-examples { background: #EFF6FF; border: 1.5px solid var(--blue); border-radius: 8px; padding: 12px 16px; margin-bottom: 18px; font-size: .85rem; line-height: 1.9; }
+.ex-label { font-size: .65rem; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; color: var(--blue); margin-bottom: 6px; }
+.grammar-table { width: 100%; border-collapse: collapse; font-size: .85rem; margin-bottom: 20px; }
+.grammar-table th { background: var(--ink); color: var(--cream); padding: 10px 12px; text-align: left; }
+.grammar-table th:first-child { border-radius: 8px 0 0 0; } .grammar-table th:last-child { border-radius: 0 8px 0 0; }
+.grammar-table td { padding: 9px 12px; border-bottom: 1px solid var(--parchment); }
+.grammar-table tr:nth-child(odd) td  { background: var(--cream); }
+.grammar-table tr:nth-child(even) td { background: var(--parchment); }
+.grammar-full-table { width: 100%; border-collapse: collapse; font-size: .82rem; margin-bottom: 20px; }
+.grammar-full-table th { background: var(--green); color: white; padding: 9px 12px; text-align: left; font-size: .75rem; letter-spacing: .04em; }
+.grammar-full-table th:first-child { border-radius: 8px 0 0 0; } .grammar-full-table th:last-child { border-radius: 0 8px 0 0; }
+.grammar-full-table td { padding: 8px 12px; border-bottom: 1px solid var(--parchment); vertical-align: top; }
+.grammar-full-table tr:nth-child(odd) td  { background: #FAFAFA; }
+.grammar-full-table tr:nth-child(even) td { background: var(--parchment); }
+.grammar-full-table .col-pos { color: var(--sage); font-weight: 700; }
+.grammar-full-table .col-neg { color: var(--rust); font-weight: 700; }
+.grammar-full-table .col-q   { color: var(--blue); font-weight: 700; }
+.grammar-rule-box {
+  background: var(--green-lt); border-left: 4px solid var(--green);
+  border-radius: 0 8px 8px 0; padding: 12px 16px; font-size: .84rem; margin-bottom: 18px; line-height: 1.65;
+}
+.grammar-rule-box strong { color: var(--green); }
+.grammar-practice { background: var(--cream); border: 2px solid var(--parchment); border-radius: 10px; padding: 16px 18px; }
+.grammar-practice .gp-title { font-family: var(--font-h); font-weight: 700; font-size: .92rem; color: var(--brown); margin-bottom: 14px; border-bottom: 1px solid var(--parchment); padding-bottom: 8px; }
+.gp-item { display: flex; align-items: baseline; gap: 10px; margin-bottom: 16px; font-family: var(--font-h); font-size: .92rem; line-height: 2.2; }
+.gp-num { min-width: 22px; font-weight: 700; color: var(--gold); font-family: var(--font-b); font-size: .78rem; }
+.gp-blank {
+  display: inline-block; min-width: 80px; border-bottom: 2px solid var(--rust); margin: 0 4px;
+  background: rgba(184,74,32,.06); border-radius: 3px; padding: 2px 8px; cursor: pointer;
+  font-weight: 700; color: transparent; text-align: center; transition: all .2s;
+  font-family: var(--font-h); -webkit-tap-highlight-color: transparent; user-select: none;
+}
+.gp-blank:hover { border-color: var(--gold); background: var(--gold-lt); }
+.gp-blank.gp-filled  { color: var(--rust); background: rgba(184,74,32,.1); }
+.gp-blank.gp-correct { color: var(--sage); background: var(--sage-lt); border-color: var(--sage); cursor: default; }
+.gp-blank.gp-wrong   { color: var(--rust); background: #FDECEA; border-color: var(--rust); animation: shake .4s; }
+.gp-hint { font-family: var(--font-b); font-size: .7rem; color: var(--gold); font-style: italic; }
+.gp-wordbank { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 14px; }
+.gp-chip {
+  background: white; border: 2px solid var(--green); color: var(--green); border-radius: 99px;
+  padding: 6px 14px; cursor: pointer; font-weight: 700; font-size: .8rem;
+  font-family: var(--font-b); transition: all .2s; user-select: none; -webkit-tap-highlight-color: transparent;
+}
+.gp-chip:hover { background: var(--green); color: white; }
+.gp-chip.gp-chip-sel  { background: var(--green); color: white; }
+.gp-chip.gp-chip-used { opacity: .25; pointer-events: none; text-decoration: line-through; }
+.gp-check-btn {
+  background: var(--sage); color: white; border: none; padding: 10px 24px; border-radius: 99px;
+  cursor: pointer; font-family: var(--font-b); font-weight: 700; font-size: .84rem; transition: background .2s; margin-top: 4px;
+}
+.gp-check-btn:hover { background: var(--brown); }
+.gp-reset-btn {
+  background: none; border: 2px solid #DDD; color: var(--brown); padding: 9px 20px; border-radius: 99px;
+  cursor: pointer; font-family: var(--font-b); font-weight: 600; font-size: .84rem; transition: all .2s; margin-top: 4px; margin-left: 8px;
+}
+.gp-reset-btn:hover { border-color: var(--brown); }
+#gp-score { margin-top: 10px; font-weight: 700; font-size: .85rem; }
+
+/* ── MULTIPLE CHOICE QUIZ ── */
+.mc-quiz { display: flex; flex-direction: column; gap: 16px; }
+.mc-card { background: white; border: 2px solid var(--parchment); border-radius: 12px; padding: 18px; }
+.mc-q { font-weight: 600; font-size: .9rem; margin-bottom: 14px; line-height: 1.5; }
+.mc-q em { font-style: italic; color: var(--blue); }
+.mc-options { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+@media (max-width: 460px) { .mc-options { grid-template-columns: 1fr; } }
+.mc-opt {
+  padding: 10px 14px; border-radius: 10px; border: 2px solid var(--parchment);
+  cursor: pointer; font-size: .85rem; font-family: var(--font-b); font-weight: 500;
+  background: var(--cream); transition: all .2s; color: var(--ink); text-align: left;
+  -webkit-tap-highlight-color: transparent;
+}
+.mc-opt:hover { border-color: var(--gold); background: var(--gold-lt); }
+.mc-opt.sel   { background: var(--blue-lt); border-color: var(--blue); color: var(--blue); font-weight: 700; }
+.mc-opt.correct { background: var(--sage-lt) !important; border-color: var(--sage) !important; color: var(--sage) !important; font-weight: 700; }
+.mc-opt.wrong   { background: #FDECEA !important; border-color: var(--rust) !important; color: var(--rust) !important; }
+.mc-feedback { font-size: .78rem; margin-top: 10px; font-weight: 600; min-height: 18px; line-height: 1.5; }
+.mc-submit-btn {
+  background: var(--gold); color: var(--ink); border: none; padding: 13px 32px; border-radius: 99px;
+  cursor: pointer; font-family: var(--font-b); font-weight: 700; font-size: .9rem; margin-top: 20px; transition: all .2s; width: 100%;
+}
+@media (min-width: 400px) { .mc-submit-btn { width: auto; } }
+.mc-submit-btn:hover { background: var(--gold-lt); }
+#mc-result { margin-top: 16px; padding: 18px; border-radius: 12px; text-align: center; font-family: var(--font-h); font-size: 1.2rem; font-weight: 700; display: none; }
+#mc-result.show { display: block; }
+
+/* ── UNSCRAMBLE ── */
+.unscramble-list { display: flex; flex-direction: column; gap: 22px; }
+.us-item { background: var(--cream); border: 2px solid var(--parchment); border-radius: 10px; padding: 14px 16px; }
+.us-num { font-size: .7rem; font-weight: 700; color: var(--gold); font-family: var(--font-b); margin-bottom: 8px; letter-spacing: .05em; text-transform: uppercase; }
+.us-chips-row { display: flex; flex-wrap: wrap; gap: 7px; margin-bottom: 12px; min-height: 38px; }
+.us-chip {
+  background: white; border: 2px solid var(--blue); color: var(--blue); border-radius: 8px;
+  padding: 6px 13px; cursor: pointer; font-family: var(--font-h); font-weight: 700; font-size: .88rem;
+  transition: all .18s; user-select: none; -webkit-tap-highlight-color: transparent;
+}
+.us-chip:hover, .us-chip:active { background: var(--blue); color: white; }
+.us-chip.us-selected { background: var(--rust); border-color: var(--rust); color: white; transform: scale(1.07); }
+.us-chip.us-placed   { opacity: .28; pointer-events: none; text-decoration: line-through; }
+.us-answer-row {
+  display: flex; flex-wrap: wrap; gap: 6px; min-height: 36px;
+  background: var(--parchment); border-radius: 8px; padding: 6px 10px; align-items: center;
+}
+.us-slot {
+  display: inline-block; min-width: 60px; border-bottom: 2px solid var(--brown); padding: 2px 8px;
+  font-family: var(--font-h); font-weight: 700; font-size: .88rem; color: var(--brown);
+  cursor: pointer; background: white; border-radius: 4px; transition: all .18s; text-align: center;
+  -webkit-tap-highlight-color: transparent;
+}
+.us-slot:empty::before { content: '___'; color: #ccc; }
+.us-slot:hover { border-color: var(--rust); background: #FDECEA; }
+.us-slot.us-correct { background: var(--sage-lt); border-color: var(--sage); color: var(--sage); cursor: default; }
+.us-slot.us-wrong   { background: #FDECEA; border-color: var(--rust); color: var(--rust); animation: shake .4s; }
+.us-feedback { font-size: .78rem; font-weight: 700; margin-top: 8px; min-height: 16px; }
+.us-check-btn {
+  margin-top: 16px; background: var(--brown); color: white; border: none; padding: 10px 22px;
+  border-radius: 99px; cursor: pointer; font-family: var(--font-b); font-weight: 700; font-size: .83rem; transition: background .2s;
+}
+.us-check-btn:hover { background: var(--rust); }
+.us-reset-btn {
+  background: none; border: 2px solid #DDD; color: var(--brown); padding: 9px 18px; border-radius: 99px;
+  cursor: pointer; font-family: var(--font-b); font-weight: 600; font-size: .83rem; transition: all .2s; margin-left: 8px;
+}
+.us-reset-btn:hover { border-color: var(--brown); }
+#us-score { margin-top: 12px; font-weight: 700; font-size: .85rem; }
+
+/* ── DISCUSSION ── */
+.discussion-list { list-style: none; }
+.discussion-list li { display: flex; gap: 12px; align-items: flex-start; padding: 14px 0; border-bottom: 1px solid var(--parchment); }
+.discussion-list li:last-child { border-bottom: none; }
+.disc-num {
+  width: 30px; height: 30px; border-radius: 50%; background: var(--parchment);
+  color: var(--brown); font-weight: 900; font-size: .78rem;
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px;
+}
+.disc-q { font-size: .88rem; line-height: 1.6; }
+.disc-tip { font-size: .75rem; color: var(--gold); font-style: italic; margin-top: 5px; }
+.disc-lines { margin-top: 8px; display: flex; flex-direction: column; gap: 4px; }
+.disc-line { border-bottom: 1.5px solid #bbb; min-height: 30px; display: flex; align-items: flex-end; cursor: text; }
+.disc-line [contenteditable] {
+  flex: 1; outline: none; font-family: var(--font-h); font-size: .88rem; color: var(--ink);
+  padding: 3px 2px; min-height: 24px; background: transparent; caret-color: var(--rust);
+}
+.disc-line [contenteditable]:empty::before { content: attr(data-placeholder); color: #ccc; font-style: italic; pointer-events: none; }
+.disc-line:focus-within { border-bottom-color: var(--gold); background: rgba(201,134,42,.04); }
+
+/* ── INFO / TIP BOXES ── */
+.info-box { background: var(--blue-lt); border-left: 4px solid var(--blue); border-radius: 0 8px 8px 0; padding: 12px 16px; font-size: .84rem; margin-top: 14px; }
+.info-box strong { color: var(--blue); }
+.info-box.green { background: var(--green-lt); border-color: var(--green); }
+.info-box.green strong { color: var(--green); }
+.tip-box { background: var(--parchment); border-radius: 8px; padding: 10px 14px; font-size: .82rem; color: var(--brown); font-style: italic; margin-top: 12px; }
+.listen-task { background: var(--parchment); border-radius: 10px; padding: 14px 16px; margin-top: 16px; font-size: .87rem; }
+.listen-task strong { color: var(--rust); }
+
+/* ── NEXT BANNER ── */
+.next-banner { background: linear-gradient(135deg, #12294A, var(--green)); color: white; border-radius: var(--radius); padding: 18px 20px; display: flex; align-items: flex-start; gap: 14px; margin-top: 20px; }
+.nb-emoji { font-size: 1.8rem; flex-shrink: 0; }
+.nb-title { font-family: var(--font-h); font-weight: 700; font-size: .98rem; }
+.nb-sub { font-size: .78rem; opacity: .88; margin-top: 4px; line-height: 1.5; }
+
+/* ── IPA ── */
+.pronunciation-table { width: 100%; border-collapse: collapse; font-size: .84rem; margin-top: 8px; }
+.pronunciation-table th { background: #5B21B6; color: white; padding: 8px 12px; text-align: left; }
+.pronunciation-table th:first-child { border-radius: 8px 0 0 0; }
+.pronunciation-table th:last-child  { border-radius: 0 8px 0 0; }
+.pronunciation-table td { padding: 8px 12px; border-bottom: 1px solid var(--parchment); }
+.pronunciation-table tr:nth-child(odd) td  { background: var(--cream); }
+.pronunciation-table tr:nth-child(even) td { background: var(--parchment); }
+.ipa-big { font-family: var(--font-m); font-size: 1.1rem; color: #5B21B6; font-weight: 700; }
+.drill-row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px; align-items: center; }
+.drill-label { font-size: .73rem; font-weight: 700; color: var(--brown); letter-spacing: .05em; text-transform: uppercase; margin-top: 14px; }
+.drill-word { font-family: var(--font-m); font-size: .85rem; background: white; border: 2px solid #5B21B6; color: #5B21B6; border-radius: 8px; padding: 6px 14px; cursor: pointer; font-weight: 700; transition: all .18s; user-select: none; }
+.drill-word:hover, .drill-word.active { background: #5B21B6; color: white; }
+.info-box.purple { background: #EDE9FE; border-left: 4px solid #5B21B6; border-radius: 0 8px 8px 0; padding: 12px 16px; font-size: .84rem; margin-bottom: 14px; }
+.info-box.purple strong { color: #5B21B6; }
+
+/* ── ADJECTIVE ORDER ── */
+.adj-order-visual { display: flex; gap: 0; flex-wrap: nowrap; overflow-x: auto; margin: 16px 0; padding-bottom: 4px; }
+.adj-box { flex-shrink: 0; text-align: center; padding: 10px 12px; min-width: 80px; border-right: 2px solid white; }
+.adj-box:last-child { border-right: none; }
+.adj-box-num { font-family: var(--font-m); font-size: .65rem; font-weight: 700; margin-bottom: 4px; opacity: .75; }
+.adj-box-label { font-size: .78rem; font-weight: 700; }
+.adj-box-ex { font-size: .67rem; margin-top: 4px; opacity: .8; font-style: italic; }
+.adj-box-1 { background: #FEF3C7; color: #92400E; border-radius: 10px 0 0 10px; }
+.adj-box-2 { background: #DBEAFE; color: #1E3A5F; }
+.adj-box-3 { background: #DCFCE7; color: #166534; }
+.adj-box-4 { background: #EDE9FE; color: #5B21B6; }
+.adj-box-5 { background: #FCE7F3; color: #9D174D; }
+.adj-box-n { background: var(--ink); color: var(--cream); border-radius: 0 10px 10px 0; font-weight: 900; }
+.adj-arrow { font-size: 1.2rem; color: var(--gold); align-self: center; flex-shrink: 0; padding: 0 2px; }
+.adj-sort-item { background: var(--cream); border: 2px solid var(--parchment); border-radius: 10px; padding: 14px 16px; margin-bottom: 12px; }
+.adj-sort-prompt { font-family: var(--font-h); font-size: .9rem; font-weight: 700; color: var(--brown); margin-bottom: 10px; }
+.adj-chip { background: white; border: 2px solid var(--rust); color: var(--rust); border-radius: 99px; padding: 6px 14px; cursor: pointer; font-weight: 700; font-size: .82rem; font-family: var(--font-b); transition: all .18s; user-select: none; display: inline-block; margin: 3px; }
+.adj-chip:hover { background: var(--rust); color: white; }
+.adj-chip.adj-sel   { background: var(--rust); color: white; transform: scale(1.05); }
+.adj-chip.adj-placed { opacity: .28; pointer-events: none; }
+.adj-answer-area { display: flex; gap: 6px; flex-wrap: wrap; background: var(--parchment); border-radius: 8px; padding: 8px 12px; min-height: 42px; align-items: center; margin: 8px 0; }
+.adj-slot { background: white; border-bottom: 2px solid var(--brown); border-radius: 4px; padding: 3px 10px; min-width: 70px; font-family: var(--font-h); font-weight: 700; font-size: .88rem; cursor: pointer; transition: all .18s; text-align: center; display: inline-block; }
+.adj-slot:empty::before { content: '___'; color: #ccc; }
+.adj-slot:hover { border-color: var(--rust); background: #FDECEA; }
+.adj-slot.adj-correct { background: var(--sage-lt); border-color: var(--sage); color: var(--sage); cursor: default; }
+.adj-slot.adj-wrong   { background: #FDECEA; border-color: var(--rust); color: var(--rust); animation: shake .4s; }
+.adj-sort-noun { font-family: var(--font-h); font-size: .88rem; font-weight: 700; color: var(--ink); padding-left: 4px; white-space: nowrap; }
+.adj-feedback { font-size: .78rem; font-weight: 700; margin-top: 6px; min-height: 16px; }
+.adj-check-btn { margin-top: 14px; background: var(--brown); color: white; border: none; padding: 10px 22px; border-radius: 99px; cursor: pointer; font-family: var(--font-b); font-weight: 700; font-size: .83rem; transition: background .2s; }
+.adj-check-btn:hover { background: var(--rust); }
+.adj-reset-btn { background: none; border: 2px solid #DDD; color: var(--brown); padding: 9px 18px; border-radius: 99px; cursor: pointer; font-family: var(--font-b); font-weight: 600; font-size: .83rem; transition: all .2s; margin-left: 8px; }
+.adj-reset-btn:hover { border-color: var(--brown); }
+#adj-score { margin-top: 10px; font-weight: 700; font-size: .85rem; }
+.info-box.green { background: #DCFCE7; border-left: 4px solid #166534; border-radius: 0 8px 8px 0; padding: 12px 16px; font-size: .84rem; margin-bottom: 14px; }
+.info-box.green strong { color: #166534; }
+
+/* ── SONG GAP-FILL ── */
+.word-bank-wrap { background: var(--parchment); border-radius: 10px; padding: 12px 14px; margin-bottom: 16px; }
+.word-bank-label { font-size: .7rem; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--brown); margin-bottom: 10px; }
+.word-bank { display: flex; gap: 8px; flex-wrap: wrap; }
+.word-chip { background: white; border: 2px solid var(--gold); border-radius: 99px; padding: 6px 14px; cursor: pointer; font-family: var(--font-b); font-weight: 700; font-size: .82rem; color: var(--brown); transition: all .2s; user-select: none; }
+.word-chip:hover { background: var(--gold); color: var(--ink); }
+.word-chip.selected-chip { background: var(--rust); border-color: var(--rust); color: white; }
+.word-chip.used { opacity: .25; pointer-events: none; text-decoration: line-through; }
+.lyrics-wrap { font-family: var(--font-h); line-height: 2.8; font-size: .93rem; }
+.verse-label { font-size: .68rem; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; color: var(--gold); margin: 18px 0 6px; font-family: var(--font-b); }
+.verse-label:first-child { margin-top: 0; }
+.lyric-line { display: block; }
+.lyric-line.chorus-line { color: var(--blue); font-weight: 700; font-style: italic; }
+.gap-blank { display: inline-block; min-width: 88px; border-bottom: 2.5px solid var(--gold); padding: 2px 8px; margin: 0 2px; background: var(--gold-lt); border-radius: 4px; cursor: pointer; font-weight: 700; color: transparent; text-align: center; transition: all .2s; font-family: var(--font-h); font-size: .9rem; user-select: none; }
+.gap-blank:hover { border-color: var(--rust); background: #FDECEA; }
+.gap-blank.filled     { color: var(--brown); background: var(--gold-lt); }
+.gap-blank.correct-ans { color: var(--sage); background: var(--sage-lt); border-color: var(--sage); cursor: default; }
+.gap-blank.wrong-ans   { color: var(--rust); background: #FDECEA; border-color: var(--rust); animation: shake .4s; }
+.lyrics-actions { display: flex; gap: 10px; margin-top: 18px; flex-wrap: wrap; }
+.lyrics-check-btn { background: var(--gold); color: var(--ink); border: none; padding: 11px 24px; border-radius: 99px; cursor: pointer; font-family: var(--font-b); font-weight: 700; font-size: .85rem; transition: all .2s; }
+.lyrics-check-btn:hover { background: var(--gold-lt); }
+.lyrics-reset-btn { background: none; border: 2px solid #DDD; color: var(--brown); padding: 10px 20px; border-radius: 99px; cursor: pointer; font-family: var(--font-b); font-weight: 600; font-size: .84rem; transition: all .2s; }
+.lyrics-reset-btn:hover { border-color: var(--brown); }
+#lyrics-score { margin-top: 10px; font-weight: 700; font-size: .85rem; }
+
+/* ── SEND ALL BAR ── */
+.send-all-bar {
+  background: linear-gradient(135deg, #12294A, #0A1A2A);
+  color: var(--cream); border-radius: var(--radius); padding: 20px 24px;
+  display: flex; align-items: center; gap: 16px; flex-wrap: wrap; margin-top: 32px;
+  box-shadow: 0 4px 24px rgba(10,26,42,.3);
+}
+.sab-left { flex: 1; min-width: 200px; }
+.sab-title { font-family: var(--font-h); font-weight: 700; font-size: 1rem; margin-bottom: 4px; color: var(--gold-lt); }
+.sab-desc  { font-size: .8rem; opacity: .75; line-height: 1.5; }
+.btn-send-all {
+  background: var(--gold); color: var(--ink); border: none; padding: 13px 28px; border-radius: 99px;
+  cursor: pointer; font-family: var(--font-b); font-weight: 700; font-size: .9rem;
+  white-space: nowrap; transition: background .2s; flex-shrink: 0;
+}
+.btn-send-all:hover { background: var(--gold-lt); }
+.sab-sent { font-size: .85rem; font-weight: 700; color: #86efac; display: none; flex-shrink: 0; }
+.sab-sent.show { display: block; }
+@media (max-width: 480px) { .btn-send-all { width: 100%; } }
+
+/* ── PROGRESS TRACKER ── */
+.progress-tracker {
+  position: fixed; bottom: 20px; right: 16px; z-index: 90;
+  background: var(--ink); color: var(--cream); border-radius: 12px;
+  padding: 12px 16px; box-shadow: 0 6px 28px rgba(0,0,0,.28);
+  font-size: .75rem; min-width: 150px; display: none;
+}
+@media (min-width: 640px) { .progress-tracker { display: block; } }
+.pt-title { font-weight: 700; font-size: .68rem; text-transform: uppercase; letter-spacing: .08em; color: var(--gold); margin-bottom: 9px; }
+.pt-item  { display: flex; align-items: center; gap: 8px; margin-bottom: 5px; }
+.pt-dot   { width: 9px; height: 9px; border-radius: 50%; background: #333; flex-shrink: 0; transition: background .4s; }
+.pt-dot.done { background: var(--sage); }
+
+/* ── TOAST ── */
+#eu-toast {
+  position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(80px);
+  background: var(--ink); color: var(--gold-lt); padding: 10px 22px; border-radius: 99px;
+  font-size: .82rem; font-weight: 600; z-index: 999; pointer-events: none;
+  box-shadow: 0 4px 20px rgba(0,0,0,.3); transition: transform .3s, opacity .3s; opacity: 0;
+}
+#eu-toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+
+@keyframes shake {
+  0%,100%{ transform: translateX(0); }
+  25%    { transform: translateX(-5px); }
+  75%    { transform: translateX(5px); }
+}
+
+/* ══════════════════════════════════════════════
+   PRINT STYLES
+══════════════════════════════════════════════ */
+@media print {
+  .print-bar .btn-print, .progress-tracker, .video-wrap, .btn-yt, .btn-yt-alt, .video-links,
+  .match-check-btn, .reveal-all-btn, .mc-submit-btn, .gp-wordbank, .gp-check-btn, .gp-reset-btn,
+  #gp-score, #mc-result, .mc-feedback, #match-feedback, #us-score, .us-feedback,
+  .us-check-btn, .us-reset-btn, .send-all-bar, .next-banner, #eu-toast,
+  iframe { display: none !important; }
+
+  * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+  body { background: white !important; font-size: 10.5pt; color: #111; }
+  .hero { background: #0A1A2A !important; padding: 14pt 0; }
+  .hero h1 { -webkit-text-fill-color: #FAF6EE !important; font-size: 22pt; }
+  .hero-sub, .hero-tags, .hero-badge { display: none; }
+  .objectives-bar { background: #F0E8D5 !important; border-top: 2pt solid #C9862A; padding: 8pt; flex-direction: row; flex-wrap: wrap; }
+  .page { padding: 6pt 0; max-width: 100%; }
+  section { margin-bottom: 16pt; }
+  .section-header { break-after: avoid; page-break-after: avoid; }
+  .card { box-shadow: none !important; border: 1pt solid #CCC !important; margin-bottom: 8pt; padding: 10pt 12pt !important; }
+  .section-num { background: #EEE !important; color: #111 !important; border: 1pt solid #999; }
+  .section-title { font-size: 12pt; }
+  .section-time { display: none; }
+  .print-bar { background: #EEE !important; color: #333 !important; padding: 5pt 10pt; font-size: 8pt; }
+
+  .write-line { border-bottom: 1.5pt solid #888 !important; min-height: 26pt !important; display: block; }
+  .write-line [contenteditable] { color: transparent !important; background: transparent !important; min-height: 20pt; }
+  .listen-task { background: #F0E8D5 !important; border: 1pt solid #CCC; }
+
+  .vocab-card, .mc-card { break-inside: avoid; page-break-inside: avoid; }
+  .vocab-card { border: 1pt solid #CCC !important; padding: 7pt 9pt !important; background: white !important; min-height: 0 !important; cursor: default; }
+  .vocab-translation, .vocab-example, .vocab-hint { display: none !important; }
+  .vocab-card.revealed { background: white !important; border: 1pt solid #CCC !important; }
+
+  .match-instructions { background: #F0E8D5 !important; border: 1pt solid #CCC !important; border-left: 3pt solid #2A4A7A !important; font-size: 8.5pt; }
+  .match-words-row { display: none !important; }
+  .match-instructions::after { content: "Words: brave · kind · funny · strong · tall · young · cheerful · determined · selfless · reckless"; display: block; font-weight: 700; margin-top: 5pt; font-size: 9pt; color: #333; }
+  .match-defs { display: block; }
+  .match-def-row { border: 1pt solid #DDD !important; margin-bottom: 5pt; cursor: default; background: #FAFAFA !important; break-inside: avoid; }
+  .match-def-placed { display: none !important; }
+  .match-def-row::after { content: "Answer: _______________"; font-family: monospace; font-size: 9pt; color: #888; white-space: nowrap; margin-left: 8pt; flex-shrink: 0; }
+
+  .grammar-intro { background: #F0E8D5 !important; border-radius: 4pt; }
+  .grammar-song-examples { background: #EFF6FF !important; border: 1pt solid #2A4A7A; }
+  .grammar-rule-box { background: #DCFCE7 !important; border-left: 3pt solid #166534 !important; }
+  .grammar-practice { background: #FAFAFA !important; border: 1pt solid #CCC !important; }
+  .gp-blank { color: white !important; background: transparent !important; border-top: none !important; border-left: none !important; border-right: none !important; border-bottom: 1.5pt solid #555 !important; border-radius: 0 !important; min-width: 55pt !important; display: inline-block; }
+  .gp-blank.gp-filled, .gp-blank.gp-correct, .gp-blank.gp-wrong { color: white !important; background: transparent !important; border-color: #555 !important; }
+  .grammar-practice::before { content: "✏️ Word bank: am · is · are · was · were · isn't · wasn't · Are · Is"; display: block; font-size: 8.5pt; color: #444; font-style: italic; background: #F0E8D5; border: 1pt solid #CCC; padding: 5pt 8pt; border-radius: 3pt; margin-bottom: 8pt; }
+
+  .mc-card { border: 1pt solid #CCC !important; background: white !important; }
+  .mc-options { display: flex; gap: 12pt; flex-wrap: wrap; }
+  .mc-opt { border: 1.5pt solid #AAA !important; background: white !important; color: #333 !important; padding: 4pt 14pt !important; font-size: 9pt !important; }
+  .mc-opt.sel, .mc-opt.correct, .mc-opt.wrong { background: white !important; color: #333 !important; border-color: #AAA !important; }
+
+  .us-chips-row { display: flex !important; flex-wrap: wrap; gap: 5pt; margin-bottom: 6pt; }
+  .us-chip { border: 1pt solid #777 !important; background: #F5F5F5 !important; color: #333 !important; font-size: 9pt !important; padding: 3pt 8pt !important; cursor: default; pointer-events: none; }
+  .us-chip.us-placed, .us-chip.us-selected { opacity: 1 !important; text-decoration: none !important; background: #F5F5F5 !important; color: #333 !important; }
+  .us-answer-row { background: white !important; border: 1pt solid #CCC !important; min-height: 26pt; }
+  .us-slot { border-bottom: 1.5pt solid #888 !important; background: white !important; color: white !important; min-width: 50pt; }
+  .us-slot.us-correct, .us-slot.us-wrong { color: white !important; background: white !important; border-color: #888 !important; }
+
+  .discussion-list li { break-inside: avoid; }
+  .disc-line { border-bottom: 1pt solid #999 !important; min-height: 20pt; display: flex !important; }
+  .disc-line [contenteditable] { color: transparent !important; min-height: 18pt; }
+  .disc-lines { margin-top: 6pt; gap: 5pt; }
+
+  .pause-card { background: #12294A !important; }
+  .info-box { background: #EFF6FF !important; border-left: 3pt solid #2A4A7A !important; }
+  .info-box.green { background: #DCFCE7 !important; border-left: 3pt solid #166534 !important; }
+
+  @page { margin: 1.6cm 2cm; size: A4; }
+  h2, h3, .section-title, .card-title { break-after: avoid; }
+}
+</style>
+</head>
+<body>
+
+<div id="eu-toast"></div>
+
+<!-- PRINT BAR -->
+<div class="print-bar">
+  <span>📚 English Up! · Module 1 · Session 1 — The Book of Life · 120 min</span>
+  <button class="btn-print" onclick="window.print()">🖨️ Imprimir / Guardar PDF</button>
+</div>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-badge">🟢 Module 1 · Session 1 · Who Are You?</div>
+  <h1>The Book of Life</h1>
+  <div class="hero-sub">Characters · Verb To Be · Adjective Order · IPA · Song</div>
+  <div class="hero-tags">
+    <span class="tag">🎬 Film-based lesson</span>
+    <span class="tag">⭐ Verb To Be</span>
+    <span class="tag">📐 Adjective order</span>
+    <span class="tag">🔤 IPA pronunciation</span>
+    <span class="tag">🎵 Song gap-fill</span>
+    <span class="tag">⏱ 120 min</span>
+    <span class="tag">🔰 A1</span>
+  </div>
+</div>
+
+<!-- OBJECTIVES -->
+<div class="objectives-bar">
+  <div class="obj-item">🎬 Describe characters using Verb To Be + adjectives</div>
+  <div class="obj-item">📐 Order adjectives correctly (Opinion → Size → Age)</div>
+  <div class="obj-item">🔤 Read IPA symbols and drill key sounds</div>
+  <div class="obj-item">⭐ Use am/is/are + was/were in all forms</div>
+  <div class="obj-item">🎵 Complete the song gap-fill</div>
+  <div class="obj-item">✏️ Write 5 sentences about yourself</div>
+</div>
+
+<!-- PROGRESS TRACKER -->
+<div class="progress-tracker">
+  <div class="pt-title">📍 Progress</div>
+  <div class="pt-item"><div class="pt-dot" id="pd-watch"></div><span>Film clips</span></div>
+  <div class="pt-item"><div class="pt-dot" id="pd-vocab"></div><span>Vocabulary</span></div>
+  <div class="pt-item"><div class="pt-dot" id="pd-ipa"></div><span>IPA / Speaking</span></div>
+  <div class="pt-item"><div class="pt-dot" id="pd-match"></div><span>Matching</span></div>
+  <div class="pt-item"><div class="pt-dot" id="pd-adj"></div><span>Adj. order</span></div>
+  <div class="pt-item"><div class="pt-dot" id="pd-grammar"></div><span>Verb To Be</span></div>
+  <div class="pt-item"><div class="pt-dot" id="pd-song"></div><span>Song</span></div>
+  <div class="pt-item"><div class="pt-dot" id="pd-unscramble"></div><span>Unscramble</span></div>
+  <div class="pt-item"><div class="pt-dot" id="pd-quiz"></div><span>Quiz</span></div>
+  <div class="pt-item"><div class="pt-dot" id="pd-disc"></div><span>Discussion</span></div>
+</div>
+
+<div class="page">
+
+<!-- ══ SECTION 1: WARM UP — TRAILER ══ -->
+<section>
+  <div class="section-header">
+    <div class="section-num">1</div>
+    <div class="section-title">Warm-Up — Watch the Trailer 🎬</div>
+    <div class="section-time">⏱ 10 min</div>
+  </div>
+  <div class="card">
+    <div class="card-title">👀 First time: just watch and enjoy. Second time: count how many characters you see.</div>
+    <div class="video-wrap">
+      <iframe src="https://www.youtube.com/embed/_i69CJc1BgE"
+        title="The Book of Life — Official Trailer"
+        frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    </div>
+    <div class="video-links">
+      <a class="btn-yt" href="https://www.youtube.com/watch?v=_i69CJc1BgE" target="_blank" rel="noopener">▶ Watch on YouTube</a>
+    </div>
+
+    <div class="listen-task" style="margin-top:16px;">
+      <strong>After watching — answer in English (or Spanish if you need):</strong>
+      <div class="write-lines" style="margin-top:14px;">
+        <div class="write-line" data-num="1."><div contenteditable="true" data-placeholder="How many main characters did you see?" data-label="warmup_1"></div></div>
+        <div class="write-line" data-num="2."><div contenteditable="true" data-placeholder="What do you think the film is about? (one sentence)" data-label="warmup_2"></div></div>
+        <div class="write-line" data-num="3."><div contenteditable="true" data-placeholder="One word in English you heard or noticed: ___" data-label="warmup_3"></div></div>
+      </div>
+    </div>
+
+    <div class="tip-box">
+      💡 <strong>The Book of Life</strong> (2014) is set in Mexico. The story follows Manolo, Joaquín and María — three friends caught between the Land of the Living and the Land of the Remembered.
+    </div>
+  </div>
+</section>
+
+<!-- ══ SECTION 2: PAUSE & DESCRIBE ══ -->
+<section>
+  <div class="section-header">
+    <div class="section-num">2</div>
+    <div class="section-title">Pause &amp; Describe — Meet the Characters 🎭</div>
+    <div class="section-time">⏱ 15 min</div>
+  </div>
+  <div class="card">
+    <div class="card-title">🖥️ Watch these key scenes together. At each pause, describe the character out loud!</div>
+
+    <div class="pause-card">
+      <div class="pause-card-title">⏸️ Pause at these moments and describe what you see:</div>
+      <div class="pause-item">
+        <span class="pause-tc">~1:09</span>
+        <span class="pause-q"><strong>Manolo</strong> — "He <span style="color:var(--gold)">is</span>…" What does he look like? What is he doing? Is he brave or afraid?</span>
+      </div>
+      <div class="pause-item">
+        <span class="pause-tc">~0:46</span>
+        <span class="pause-q"><strong>Joaquín</strong> — "He <span style="color:var(--gold)">is</span>…" Is he strong? What is he wearing? What adjective fits him best?</span>
+      </div>
+      <div class="pause-item">
+        <span class="pause-tc">~1:00</span>
+        <span class="pause-q"><strong>María</strong> — "She <span style="color:var(--gold)">is</span>…" Is she kind? Is she funny? Describe her personality in one sentence.</span>
+      </div>
+      <div class="pause-item">
+        <span class="pause-tc">~0:50</span>
+        <span class="pause-q"><strong>La Muerte &amp; Xibalba</strong> — "They <span style="color:var(--gold)">are</span>…" Are they scary? Are they friendly? What do you think they are?</span>
+      </div>
+    </div>
+
+    <div class="listen-task" style="margin-top:16px;">
+      <strong>Write one sentence for each character using Verb To Be:</strong>
+      <div class="write-lines" style="margin-top:12px;">
+        <div class="write-line" data-num="Manolo:"><div contenteditable="true" data-placeholder="He is ___" data-label="describe_manolo"></div></div>
+        <div class="write-line" data-num="Joaquín:"><div contenteditable="true" data-placeholder="He is ___" data-label="describe_joaquin"></div></div>
+        <div class="write-line" data-num="María:"><div contenteditable="true" data-placeholder="She is ___" data-label="describe_maria"></div></div>
+        <div class="write-line" data-num="La Muerte:"><div contenteditable="true" data-placeholder="She is ___" data-label="describe_muerte"></div></div>
+        <div class="write-line" data-num="Xibalba:"><div contenteditable="true" data-placeholder="He is ___" data-label="describe_muerte"></div></div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ SECTION 3: VOCABULARY ══ -->
+<section id="sec-vocab">
+  <div class="section-header">
+    <div class="section-num">3</div>
+    <div class="section-title">Vocabulary — Personality &amp; Appearance 🎨</div>
+    <div class="section-time">⏱ 12 min</div>
+  </div>
+  <div class="card">
+    <div class="card-title">🃏 Tap each card to reveal the Spanish translation and an example sentence.</div>
+    <div class="vocab-grid" id="vocabGrid">
+
+      <div class="vocab-card" onclick="revealVocab(this)">
+        <button class="tts-btn" onclick="event.stopPropagation();speakWord(this,'brave')" title="Listen">🔊</button>
+        <div class="vocab-word">brave</div>
+        <div class="vocab-pron">/breɪv/</div>
+        <div class="vocab-translation">🇪🇸 valiente</div>
+        <div class="vocab-example">"Manolo is very brave."</div>
+        <div class="vocab-hint">👆 tap to reveal</div>
+      </div>
+
+      <div class="vocab-card" onclick="revealVocab(this)">
+        <button class="tts-btn" onclick="event.stopPropagation();speakWord(this,'kind')" title="Listen">🔊</button>
+        <div class="vocab-word">kind</div>
+        <div class="vocab-pron">/kaɪnd/</div>
+        <div class="vocab-translation">🇪🇸 amable / bondadoso</div>
+        <div class="vocab-example">"She is very kind."</div>
+        <div class="vocab-hint">👆 tap to reveal</div>
+      </div>
+
+      <div class="vocab-card" onclick="revealVocab(this)">
+        <button class="tts-btn" onclick="event.stopPropagation();speakWord(this,'funny')" title="Listen">🔊</button>
+        <div class="vocab-word">funny</div>
+        <div class="vocab-pron">/ˈfʌni/</div>
+        <div class="vocab-translation">🇪🇸 gracioso / chistoso</div>
+        <div class="vocab-example">"He is so funny!"</div>
+        <div class="vocab-hint">👆 tap to reveal</div>
+      </div>
+
+      <div class="vocab-card" onclick="revealVocab(this)">
+        <button class="tts-btn" onclick="event.stopPropagation();speakWord(this,'strong')" title="Listen">🔊</button>
+        <div class="vocab-word">strong</div>
+        <div class="vocab-pron">/strɒŋ/</div>
+        <div class="vocab-translation">🇪🇸 fuerte</div>
+        <div class="vocab-example">"Joaquín is strong."</div>
+        <div class="vocab-hint">👆 tap to reveal</div>
+      </div>
+
+      <div class="vocab-card" onclick="revealVocab(this)">
+        <button class="tts-btn" onclick="event.stopPropagation();speakWord(this,'young')" title="Listen">🔊</button>
+        <div class="vocab-word">young</div>
+        <div class="vocab-pron">/jʌŋ/</div>
+        <div class="vocab-translation">🇪🇸 joven</div>
+        <div class="vocab-example">"They are young."</div>
+        <div class="vocab-hint">👆 tap to reveal</div>
+      </div>
+
+      <div class="vocab-card" onclick="revealVocab(this)">
+        <button class="tts-btn" onclick="event.stopPropagation();speakWord(this,'tall')" title="Listen">🔊</button>
+        <div class="vocab-word">tall</div>
+        <div class="vocab-pron">/tɔːl/</div>
+        <div class="vocab-translation">🇪🇸 alto/a</div>
+        <div class="vocab-example">"He is tall and strong."</div>
+        <div class="vocab-hint">👆 tap to reveal</div>
+      </div>
+
+      <div class="vocab-card" onclick="revealVocab(this)">
+        <button class="tts-btn" onclick="event.stopPropagation();speakWord(this,'cheerful')" title="Listen">🔊</button>
+        <div class="vocab-word">cheerful</div>
+        <div class="vocab-pron">/ˈtʃɪəfəl/</div>
+        <div class="vocab-translation">🇪🇸 alegre / animado</div>
+        <div class="vocab-example">"María is always cheerful."</div>
+        <div class="vocab-hint">👆 tap to reveal</div>
+      </div>
+
+      <div class="vocab-card" onclick="revealVocab(this)">
+        <button class="tts-btn" onclick="event.stopPropagation();speakWord(this,'determined')" title="Listen">🔊</button>
+        <div class="vocab-word">determined</div>
+        <div class="vocab-pron">/dɪˈtɜːmɪnd/</div>
+        <div class="vocab-translation">🇪🇸 decidida/o / determinada/o</div>
+        <div class="vocab-example">"She is very determined."</div>
+        <div class="vocab-hint">👆 tap to reveal</div>
+      </div>
+
+      <div class="vocab-card" onclick="revealVocab(this)">
+        <button class="tts-btn" onclick="event.stopPropagation();speakWord(this,'selfless')" title="Listen">🔊</button>
+        <div class="vocab-word">selfless</div>
+        <div class="vocab-pron">/ˈsɛlfləs/</div>
+        <div class="vocab-translation">🇪🇸 desinteresado / generoso</div>
+        <div class="vocab-example">"Manolo is selfless — he cares about others."</div>
+        <div class="vocab-hint">👆 tap to reveal</div>
+      </div>
+
+      <div class="vocab-card" onclick="revealVocab(this)">
+        <button class="tts-btn" onclick="event.stopPropagation();speakWord(this,'reckless')" title="Listen">🔊</button>
+        <div class="vocab-word">reckless</div>
+        <div class="vocab-pron">/ˈrɛkləs/</div>
+        <div class="vocab-translation">🇪🇸 impulsivo / temerario</div>
+        <div class="vocab-example">"Joaquín is sometimes reckless."</div>
+        <div class="vocab-hint">👆 tap to reveal</div>
+      </div>
+
+    </div>
+    <button class="reveal-all-btn" onclick="revealAllVocab()" id="revealAllBtn">👁 Reveal all</button>
+
+    <div class="info-box green" style="margin-top:18px;">
+      <strong>💡 Quick tip:</strong> In English, adjectives come <strong>before</strong> the noun OR after Verb To Be.<br>
+      "She is a <strong>brave</strong> woman." &nbsp;·&nbsp; "She <strong>is</strong> brave." — both are correct!
+    </div>
+  </div>
+</section>
+
+<!-- ══ SECTION 4: IPA & SPEAKING ══ -->
+<section id="sec-ipa">
+  <div class="section-header">
+    <div class="section-num">4</div>
+    <div class="section-title">IPA &amp; Speaking — Sounds of English 🔤</div>
+    <div class="section-time">⏱ 15 min</div>
+  </div>
+  <div class="card">
+    <div class="card-title">🔤 The International Phonetic Alphabet (IPA) shows you exactly how to pronounce any word in English.</div>
+    <div class="info-box purple">
+      <strong>Why IPA?</strong> English spelling is unpredictable. "brave" /breɪv/, "kind" /kaɪnd/, "young" /jʌŋ/ — the letters don't always match the sounds. IPA gives you a universal code that always does.
+    </div>
+    <div class="card-title">🔑 Key sounds in today's vocabulary</div>
+    <table class="pronunciation-table">
+      <thead><tr><th>Symbol</th><th>Sound — like…</th><th>Today's words</th><th>More examples</th></tr></thead>
+      <tbody>
+        <tr><td><span class="ipa-big">/eɪ/</span></td><td><em>ay</em> in "day"</td><td><strong>br<u>a</u>ve</strong> /breɪv/ <button class="tts-btn-inline" onclick="speakWord(this,'brave')" title="Listen">🔊</button></td><td>face, name, say, play</td></tr>
+        <tr><td><span class="ipa-big">/aɪ/</span></td><td><em>i</em> in "mine"</td><td><strong>k<u>i</u>nd</strong> /kaɪnd/ <button class="tts-btn-inline" onclick="speakWord(this,'kind')" title="Listen">🔊</button></td><td>my, time, like, night, right</td></tr>
+        <tr><td><span class="ipa-big">/ʌ/</span></td><td>short open "uh"</td><td><strong>f<u>u</u>nny</strong> /ˈfʌni/ <button class="tts-btn-inline" onclick="speakWord(this,'funny')" title="Listen">🔊</button> · <strong>y<u>ou</u>ng</strong> /jʌŋ/ <button class="tts-btn-inline" onclick="speakWord(this,'young')" title="Listen">🔊</button></td><td>love, much, touch, but, sun</td></tr>
+        <tr><td><span class="ipa-big">/ɒ/</span></td><td>short round "o"</td><td><strong>str<u>o</u>ng</strong> /strɒŋ/ <button class="tts-btn-inline" onclick="speakWord(this,'strong')" title="Listen">🔊</button></td><td>not, hot, song, belong</td></tr>
+        <tr><td><span class="ipa-big">/ɔː/</span></td><td>long "aw"</td><td><strong>t<u>a</u>ll</strong> /tɔːl/ <button class="tts-btn-inline" onclick="speakWord(this,'tall')" title="Listen">🔊</button></td><td>all, call, wall, more</td></tr>
+        <tr><td><span class="ipa-big">/ɜː/</span></td><td>long "ur" — like "her"</td><td><strong>det<u>er</u>mined</strong> /dɪˈtɜːmɪnd/ <button class="tts-btn-inline" onclick="speakWord(this,'determined')" title="Listen">🔊</button></td><td>word, bird, first, heard</td></tr>
+        <tr><td><span class="ipa-big">/ə/</span></td><td>schwa — unstressed "uh" (most common!)</td><td><strong>reckl<u>e</u>ss</strong> /ˈrɛklə<u>s</u>/ <button class="tts-btn-inline" onclick="speakWord(this,'reckless')" title="Listen">🔊</button></td><td>about, the, open, taken</td></tr>
+        <tr><td><span class="ipa-big">ˈ</span></td><td>stress mark — next syllable is <strong>louder</strong></td><td>/<strong>ˈ</strong>fʌni/ = <strong>FUN</strong>-ny</td><td>/<strong>ˈ</strong>sɛlfləs/ = <strong>SELF</strong>-less</td></tr>
+      </tbody>
+    </table>
+
+    <div class="card-title" style="margin-top:20px;">🗣️ Speaking drill — repeat out loud, 3 times each</div>
+    <p style="font-size:.84rem;color:var(--brown);margin-bottom:10px;">Tap a word to highlight it. Press 🔊 to hear it first, then repeat.</p>
+
+    <div class="drill-label">🔸 /eɪ/ — "brave, name, say"</div>
+    <div class="drill-row">
+      <span class="drill-word-wrap">
+        <span class="drill-word" onclick="drillTap(this)">/breɪv/ brave</span>
+        <button class="tts-btn-inline" onclick="speakWord(this,'brave')" title="Listen">🔊</button>
+      </span>
+      <span class="drill-word-wrap">
+        <span class="drill-word" onclick="drillTap(this)">/neɪm/ name</span>
+        <button class="tts-btn-inline" onclick="speakWord(this,'name')" title="Listen">🔊</button>
+      </span>
+      <span class="drill-word-wrap">
+        <span class="drill-word" onclick="drillTap(this)">/seɪ/ say</span>
+        <button class="tts-btn-inline" onclick="speakWord(this,'say')" title="Listen">🔊</button>
+      </span>
+      <span class="drill-word-wrap">
+        <span class="drill-word" onclick="drillTap(this)">/pleɪ/ play</span>
+        <button class="tts-btn-inline" onclick="speakWord(this,'play')" title="Listen">🔊</button>
+      </span>
+    </div>
+
+    <div class="drill-label">🔸 /aɪ/ — "kind, my, night"</div>
+    <div class="drill-row">
+      <span class="drill-word-wrap">
+        <span class="drill-word" onclick="drillTap(this)">/kaɪnd/ kind</span>
+        <button class="tts-btn-inline" onclick="speakWord(this,'kind')" title="Listen">🔊</button>
+      </span>
+      <span class="drill-word-wrap">
+        <span class="drill-word" onclick="drillTap(this)">/maɪ/ my</span>
+        <button class="tts-btn-inline" onclick="speakWord(this,'my')" title="Listen">🔊</button>
+      </span>
+      <span class="drill-word-wrap">
+        <span class="drill-word" onclick="drillTap(this)">/naɪt/ night</span>
+        <button class="tts-btn-inline" onclick="speakWord(this,'night')" title="Listen">🔊</button>
+      </span>
+      <span class="drill-word-wrap">
+        <span class="drill-word" onclick="drillTap(this)">/raɪt/ right</span>
+        <button class="tts-btn-inline" onclick="speakWord(this,'right')" title="Listen">🔊</button>
+      </span>
+      <span class="drill-word-wrap">
+        <span class="drill-word" onclick="drillTap(this)">/laɪf/ life</span>
+        <button class="tts-btn-inline" onclick="speakWord(this,'life')" title="Listen">🔊</button>
+      </span>
+    </div>
+
+    <div class="drill-label">🔸 /ʌ/ — "funny, love, much"</div>
+    <div class="drill-row">
+      <span class="drill-word-wrap">
+        <span class="drill-word" onclick="drillTap(this)">/ˈfʌni/ funny</span>
+        <button class="tts-btn-inline" onclick="speakWord(this,'funny')" title="Listen">🔊</button>
+      </span>
+      <span class="drill-word-wrap">
+        <span class="drill-word" onclick="drillTap(this)">/jʌŋ/ young</span>
+        <button class="tts-btn-inline" onclick="speakWord(this,'young')" title="Listen">🔊</button>
+      </span>
+      <span class="drill-word-wrap">
+        <span class="drill-word" onclick="drillTap(this)">/lʌv/ love</span>
+        <button class="tts-btn-inline" onclick="speakWord(this,'love')" title="Listen">🔊</button>
+      </span>
+      <span class="drill-word-wrap">
+        <span class="drill-word" onclick="drillTap(this)">/mʌtʃ/ much</span>
+        <button class="tts-btn-inline" onclick="speakWord(this,'much')" title="Listen">🔊</button>
+      </span>
+      <span class="drill-word-wrap">
+        <span class="drill-word" onclick="drillTap(this)">/tʌtʃ/ touch</span>
+        <button class="tts-btn-inline" onclick="speakWord(this,'touch')" title="Listen">🔊</button>
+      </span>
+    </div>
+
+    <div class="drill-label">🔸 Sentence drill — say these aloud</div>
+    <div class="drill-row" style="flex-direction:column;align-items:flex-start;gap:8px;">
+      <span class="drill-word-wrap">
+        <span class="drill-word" onclick="drillTap(this)">/ɪz ʃiː breɪv/ — Is she brave?</span>
+        <button class="tts-btn-inline" onclick="speakWord(this,'Is she brave?')" title="Listen">🔊</button>
+      </span>
+      <span class="drill-word-wrap">
+        <span class="drill-word" onclick="drillTap(this)">/ɑː ðeɪ jʌŋ/ — Are they young?</span>
+        <button class="tts-btn-inline" onclick="speakWord(this,'Are they young?')" title="Listen">🔊</button>
+      </span>
+      <span class="drill-word-wrap">
+        <span class="drill-word" onclick="drillTap(this)">/hiː ɪz kaɪnd ænd fʌni/ — He is kind and funny.</span>
+        <button class="tts-btn-inline" onclick="speakWord(this,'He is kind and funny.')" title="Listen">🔊</button>
+      </span>
+      <span class="drill-word-wrap">
+        <span class="drill-word" onclick="drillTap(this)">/ʃiː ɪznt əˈfreɪd/ — She isn&#39;t afraid.</span>
+        <button class="tts-btn-inline" onclick="speakWord(this,&quot;She isn&#39;t afraid.&quot;)" title="Listen">🔊</button>
+      </span>
+    </div>
+
+    <div class="listen-task" style="margin-top:16px;">
+      <strong>Write the IPA transcription for these words (use the table above):</strong>
+      <div style="display:flex;flex-direction:column;gap:6px;margin-top:10px;">
+        <div class="write-line" data-num="strong:"><div contenteditable="true" data-placeholder="/str___/" data-label="ipa_strong"></div></div>
+        <div class="write-line" data-num="tall:"><div contenteditable="true" data-placeholder="/t___l/" data-label="ipa_tall"></div></div>
+        <div class="write-line" data-num="selfless:"><div contenteditable="true" data-placeholder="/ˈsɛlfl___/" data-label="ipa_selfless"></div></div>
+      </div>
+    </div>
+    <!-- <div class="tip-box">💡 Answers: strong /strɒŋ/ · tall /tɔːl/ · selfless /ˈsɛlfləs/</div> -->
+  </div>
+</section>
+
+<!-- ══ SECTION 5: MATCHING ══ -->
+<section id="sec-match">
+  <div class="section-header">
+    <div class="section-num">5</div>
+    <div class="section-title">Matching — Connect the Character 🔗</div>
+    <div class="section-time">⏱ 8 min</div>
+  </div>
+  <div class="card">
+    <div class="match-instructions">
+      👆 <strong>How to play:</strong> Tap an adjective (top), then tap the correct description (below).
+    </div>
+    <div class="card-title">Step 1 — Choose an adjective:</div>
+    <div class="match-words-row" id="matchWords">
+      <div class="match-chip" data-word="brave"      onclick="selectMatchChip(this)">brave</div>
+      <div class="match-chip" data-word="kind"       onclick="selectMatchChip(this)">kind</div>
+      <div class="match-chip" data-word="strong"     onclick="selectMatchChip(this)">strong</div>
+      <div class="match-chip" data-word="determined" onclick="selectMatchChip(this)">determined</div>
+      <div class="match-chip" data-word="selfless"   onclick="selectMatchChip(this)">selfless</div>
+      <div class="match-chip" data-word="reckless"   onclick="selectMatchChip(this)">reckless</div>
+      <div class="match-chip" data-word="cheerful"   onclick="selectMatchChip(this)">cheerful</div>
+      <div class="match-chip" data-word="funny"      onclick="selectMatchChip(this)">funny</div>
+    </div>
+    <div class="card-title" style="margin-top:16px;">Step 2 — Tap the matching description:</div>
+    <div class="match-defs" id="matchDefs">
+      <div class="match-def-row" data-answer="brave" onclick="placeMatch(this)">
+        <span class="match-def-letter">A.</span>
+        <span class="match-def-text">You are not afraid of danger — you face it!</span>
+        <span class="match-def-placed"></span>
+      </div>
+      <div class="match-def-row" data-answer="kind" onclick="placeMatch(this)">
+        <span class="match-def-letter">B.</span>
+        <span class="match-def-text">You are nice, generous and caring to others.</span>
+        <span class="match-def-placed"></span>
+      </div>
+      <div class="match-def-row" data-answer="strong" onclick="placeMatch(this)">
+        <span class="match-def-letter">C.</span>
+        <span class="match-def-text">You have a lot of physical or emotional power.</span>
+        <span class="match-def-placed"></span>
+      </div>
+      <div class="match-def-row" data-answer="determined" onclick="placeMatch(this)">
+        <span class="match-def-letter">D.</span>
+        <span class="match-def-text">You decide on something and don't give up. Ever.</span>
+        <span class="match-def-placed"></span>
+      </div>
+      <div class="match-def-row" data-answer="selfless" onclick="placeMatch(this)">
+        <span class="match-def-letter">E.</span>
+        <span class="match-def-text">You put other people's needs before your own.</span>
+        <span class="match-def-placed"></span>
+      </div>
+      <div class="match-def-row" data-answer="reckless" onclick="placeMatch(this)">
+        <span class="match-def-letter">F.</span>
+        <span class="match-def-text">You do things without thinking about the consequences.</span>
+        <span class="match-def-placed"></span>
+      </div>
+      <div class="match-def-row" data-answer="cheerful" onclick="placeMatch(this)">
+        <span class="match-def-letter">G.</span>
+        <span class="match-def-text">You are always happy and positive — full of energy.</span>
+        <span class="match-def-placed"></span>
+      </div>
+      <div class="match-def-row" data-answer="funny" onclick="placeMatch(this)">
+        <span class="match-def-letter">H.</span>
+        <span class="match-def-text">You make people laugh — you have a great sense of humour.</span>
+        <span class="match-def-placed"></span>
+      </div>
+    </div>
+    <button class="match-check-btn" onclick="checkMatches()">✅ Check Answers</button>
+    <div id="match-feedback"></div>
+  </div>
+</section>
+
+<!-- ══ SECTION 6: ADJECTIVE ORDER ══ -->
+<section id="sec-adj">
+  <div class="section-header">
+    <div class="section-num">6</div>
+    <div class="section-title">Adjective Order — The Right Sequence 📐</div>
+    <div class="section-time">⏱ 12 min</div>
+  </div>
+  <div class="card">
+    <div class="card-title">🤔 Why does "a brave young man" sound right but "a young brave man" sounds strange?</div>
+    <div class="grammar-intro">
+      In English, when you use more than one adjective before a noun, they follow a fixed order. Native speakers feel it instinctively — and now you will too.<br><br>
+      For now, we focus on the first <strong>3 layers</strong>. The rest (color, origin, material) comes in Module 5.
+    </div>
+    <div class="adj-order-visual">
+      <div class="adj-box adj-box-1"><div class="adj-box-num">1st</div><div class="adj-box-label">OPINION</div><div class="adj-box-ex">brave, kind, funny, selfless, reckless</div></div>
+      <div class="adj-arrow">→</div>
+      <div class="adj-box adj-box-2"><div class="adj-box-num">2nd</div><div class="adj-box-label">SIZE</div><div class="adj-box-ex">tall, small, big, tiny, huge</div></div>
+      <div class="adj-arrow">→</div>
+      <div class="adj-box adj-box-3"><div class="adj-box-num">3rd</div><div class="adj-box-label">AGE</div><div class="adj-box-ex">young, old, ancient, new</div></div>
+      <div class="adj-arrow">→</div>
+      <div class="adj-box adj-box-4"><div class="adj-box-num">4th+</div><div class="adj-box-label">COLOR…</div><div class="adj-box-ex">red, dark, golden…</div></div>
+      <div class="adj-arrow">→</div>
+      <div class="adj-box adj-box-n"><div class="adj-box-num">→</div><div class="adj-box-label">NOUN</div><div class="adj-box-ex">man, woman, guitar</div></div>
+    </div>
+    <div class="grammar-song-examples">
+      <div class="ex-label">🎬 Examples from the film</div>
+      <span style="display:block;">Manolo is a <strong style="color:var(--rust)">brave</strong> [opinion] <strong style="color:var(--sage)">young</strong> [age] man. ✅</span>
+      <span style="display:block;">Joaquín is a <strong style="color:var(--rust)">strong</strong> [opinion] <strong style="color:var(--blue)">tall</strong> [size] <strong style="color:var(--sage)">young</strong> [age] soldier. ✅</span>
+      <span style="display:block;margin-top:6px;color:var(--rust)">❌ "a young brave man" — wrong! Opinion always comes before age.</span>
+    </div>
+    <div class="grammar-rule-box">
+      <strong>💡 Memory trick: "OSA"</strong> — <strong>O</strong>pinion → <strong>S</strong>ize → <strong>A</strong>ge.<br>
+      Opinion comes first because it's <em>your</em> view. Size and age are objective facts.
+    </div>
+    <div class="card-title">✏️ Put the adjectives in the correct order</div>
+    <div class="adj-sort-item" data-id="0">
+      <div class="adj-sort-prompt">1. He is a ___ ___ man. <em style="font-size:.78rem;color:var(--gold)">(young · brave)</em></div>
+      <div><span class="adj-chip" data-word="brave" onclick="adjTap(this)">brave</span><span class="adj-chip" data-word="young" onclick="adjTap(this)">young</span></div>
+      <div style="display:flex;align-items:center;gap:8px;margin-top:8px;"><span style="font-family:var(--font-h)">a</span><div class="adj-answer-area"><span class="adj-slot" onclick="adjSlotClick(this)"></span><span class="adj-slot" onclick="adjSlotClick(this)"></span></div><span class="adj-sort-noun">man.</span></div>
+      <div class="adj-feedback"></div>
+    </div>
+    <div class="adj-sort-item" data-id="1">
+      <div class="adj-sort-prompt">2. Joaquín is a ___ ___ soldier. <em style="font-size:.78rem;color:var(--gold)">(tall · strong)</em></div>
+      <div><span class="adj-chip" data-word="tall" onclick="adjTap(this)">tall</span><span class="adj-chip" data-word="strong" onclick="adjTap(this)">strong</span></div>
+      <div style="display:flex;align-items:center;gap:8px;margin-top:8px;"><span style="font-family:var(--font-h)">a</span><div class="adj-answer-area"><span class="adj-slot" onclick="adjSlotClick(this)"></span><span class="adj-slot" onclick="adjSlotClick(this)"></span></div><span class="adj-sort-noun">soldier.</span></div>
+      <div class="adj-feedback"></div>
+    </div>
+    <div class="adj-sort-item" data-id="2">
+      <div class="adj-sort-prompt">3. María is a ___ ___ woman. <em style="font-size:.78rem;color:var(--gold)">(young · determined)</em></div>
+      <div><span class="adj-chip" data-word="determined" onclick="adjTap(this)">determined</span><span class="adj-chip" data-word="young" onclick="adjTap(this)">young</span></div>
+      <div style="display:flex;align-items:center;gap:8px;margin-top:8px;"><span style="font-family:var(--font-h)">a</span><div class="adj-answer-area"><span class="adj-slot" onclick="adjSlotClick(this)"></span><span class="adj-slot" onclick="adjSlotClick(this)"></span></div><span class="adj-sort-noun">woman.</span></div>
+      <div class="adj-feedback"></div>
+    </div>
+    <div class="adj-sort-item" data-id="3">
+      <div class="adj-sort-prompt">4. It is a ___ ___ ___ guitar. <em style="font-size:.78rem;color:var(--gold)">(old · beautiful · small)</em></div>
+      <div><span class="adj-chip" data-word="old" onclick="adjTap(this)">old</span><span class="adj-chip" data-word="beautiful" onclick="adjTap(this)">beautiful</span><span class="adj-chip" data-word="small" onclick="adjTap(this)">small</span></div>
+      <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:8px;"><span style="font-family:var(--font-h)">a</span><div class="adj-answer-area"><span class="adj-slot" onclick="adjSlotClick(this)"></span><span class="adj-slot" onclick="adjSlotClick(this)"></span><span class="adj-slot" onclick="adjSlotClick(this)"></span></div><span class="adj-sort-noun">guitar.</span></div>
+      <div class="adj-feedback"></div>
+    </div>
+    <div style="margin-top:16px;display:flex;gap:10px;flex-wrap:wrap;">
+      <button class="adj-check-btn" onclick="checkAllAdj()">✅ Check All</button>
+      <button class="adj-reset-btn" onclick="resetAllAdj()">↺ Reset</button>
+    </div>
+    <div id="adj-score"></div>
+    <!-- <div class="tip-box" style="margin-top:12px;">💡 <strong>Answers:</strong> 1. brave young · 2. strong tall · 3. determined young · 4. beautiful small old</div> -->
+  </div>
+</section>
+
+<!-- ══ SECTION 7: GRAMMAR — VERB TO BE ══ -->
+<section id="sec-grammar">
+  <div class="section-header">
+    <div class="section-num">7</div>
+    <div class="section-title">Grammar — Verb To Be ⭐</div>
+    <div class="section-time">⏱ 18 min</div>
+  </div>
+  <div class="card">
+
+    <div class="grammar-intro">
+      <strong>Verb To Be</strong> is the most important verb in English. In Spanish it works like <em>ser</em> and <em>estar</em> together — but in English it's just one verb.<br><br>
+      We use it to say <strong>who someone is</strong>, <strong>what they are like</strong>, and <strong>where they are</strong>.
+    </div>
+
+    <div class="grammar-song-examples">
+      <div class="ex-label">🎬 Verb To Be — in the film</div>
+      <span style="display:block;">"He <strong style="color:var(--blue)">is</strong> a musician." → Manolo <em>is</em> a musician (not a soldier).</span>
+      <span style="display:block;">"They <strong style="color:var(--blue)">are</strong> friends." → Manolo and Joaquín <em>are</em> friends.</span>
+      <span style="display:block;">"She <strong style="color:var(--blue)">is not</strong> afraid." → María <em>is not</em> (isn't) afraid of anything.</span>
+      <span style="display:block;">"<strong style="color:var(--blue)">Is</strong> he brave?" → Yes, he <em>is</em>! / No, he <em>isn't</em>.</span>
+    </div>
+
+    <div class="card-title">📌 Full table — Present &amp; Past</div>
+    <table class="grammar-table">
+      <thead><tr><th>Subject</th><th>🟢 Present</th><th>🔵 Past</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><strong>I</strong></td>
+          <td><strong style="color:var(--rust)">am</strong> — I am brave.</td>
+          <td><strong style="color:var(--blue)">was</strong> — I was afraid.</td>
+        </tr>
+        <tr>
+          <td><strong>He / She / It</strong></td>
+          <td><strong style="color:var(--rust)">is</strong> — She is kind.</td>
+          <td><strong style="color:var(--blue)">was</strong> — He was young.</td>
+        </tr>
+        <tr>
+          <td><strong>You / We / They</strong></td>
+          <td><strong style="color:var(--rust)">are</strong> — They are funny.</td>
+          <td><strong style="color:var(--blue)">were</strong> — They were friends.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="card-title">📌 Positive · Negative · Question</div>
+    <table class="grammar-full-table">
+      <thead><tr><th>Subject</th><th>✅ Positive</th><th>❌ Negative</th><th>❓ Question</th></tr></thead>
+      <tbody>
+        <tr>
+          <td>I</td>
+          <td class="col-pos">I <strong>am</strong> Manolo.</td>
+          <td class="col-neg">I <strong>am not</strong> a soldier.<br><small>(I'm not…)</small></td>
+          <td class="col-q"><strong>Am</strong> I right?</td>
+        </tr>
+        <tr>
+          <td>He / She</td>
+          <td class="col-pos">She <strong>is</strong> brave.</td>
+          <td class="col-neg">He <strong>is not</strong> reckless.<br><small>(He isn't…)</small></td>
+          <td class="col-q"><strong>Is</strong> she brave?</td>
+        </tr>
+        <tr>
+          <td>They / We</td>
+          <td class="col-pos">They <strong>are</strong> friends.</td>
+          <td class="col-neg">We <strong>are not</strong> enemies.<br><small>(We aren't…)</small></td>
+          <td class="col-q"><strong>Are</strong> they friends?</td>
+        </tr>
+        <tr>
+          <td>Past – I/He/She</td>
+          <td class="col-pos">He <strong>was</strong> young.</td>
+          <td class="col-neg">She <strong>was not</strong> alone.<br><small>(She wasn't…)</small></td>
+          <td class="col-q"><strong>Was</strong> he alone?</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="grammar-rule-box">
+      <strong>💡 Quick rules:</strong><br>
+      1. For <strong>questions</strong>, move Verb To Be before the subject: "She <u>is</u> kind." → "<u>Is</u> she kind?"<br>
+      2. For <strong>negatives</strong>, add <em>not</em>: "They <u>are</u> friends." → "They <u>are not</u> friends." (= aren't)<br>
+      3. <strong>Short answers</strong>: "Is she brave?" → "Yes, she <u>is</u>." / "No, she <u>isn't</u>." (never "Yes, she is brave.")
+    </div>
+
+    <div class="grammar-practice">
+      <div class="gp-title">✏️ Practice — tap a word, then tap a blank</div>
+      <div class="gp-wordbank" id="gpBank">
+        <div class="gp-chip" data-gpc="am"     onclick="selectGpChip(this)">am</div>
+        <div class="gp-chip" data-gpc="is"     onclick="selectGpChip(this)">is</div>
+        <div class="gp-chip" data-gpc="are"    onclick="selectGpChip(this)">are</div>
+        <div class="gp-chip" data-gpc="was"    onclick="selectGpChip(this)">was</div>
+        <div class="gp-chip" data-gpc="were"   onclick="selectGpChip(this)">were</div>
+        <div class="gp-chip" data-gpc="isn't"  onclick="selectGpChip(this)">isn't</div>
+        <div class="gp-chip" data-gpc="wasn't" onclick="selectGpChip(this)">wasn't</div>
+        <div class="gp-chip" data-gpc="Are"    onclick="selectGpChip(this)">Are</div>
+        <div class="gp-chip" data-gpc="Is"     onclick="selectGpChip(this)">Is</div>
+      </div>
+
+      <div class="gp-item">
+        <span class="gp-num">1.</span>
+        <span>Manolo <span class="gp-blank" data-ans="is" onclick="fillGpBlank(this)">is</span> a musician. He <span class="gp-blank" data-ans="is" onclick="fillGpBlank(this)">is</span> brave and kind. <span class="gp-hint">(present)</span></span>
+      </div>
+      <div class="gp-item">
+        <span class="gp-num">2.</span>
+        <span>María <span class="gp-blank" data-ans="isn't" onclick="fillGpBlank(this)">isn't</span> afraid of anything. She <span class="gp-blank" data-ans="is" onclick="fillGpBlank(this)">is</span> very determined. <span class="gp-hint">(negative + positive)</span></span>
+      </div>
+      <div class="gp-item">
+        <span class="gp-num">3.</span>
+        <span>Manolo and Joaquín <span class="gp-blank" data-ans="are" onclick="fillGpBlank(this)">are</span> friends. They <span class="gp-blank" data-ans="are" onclick="fillGpBlank(this)">are</span> both in love with María. <span class="gp-hint">(plural)</span></span>
+      </div>
+      <div class="gp-item">
+        <span class="gp-num">4.</span>
+        <span>When they <span class="gp-blank" data-ans="were" onclick="fillGpBlank(this)">were</span> children, Manolo <span class="gp-blank" data-ans="was" onclick="fillGpBlank(this)">was</span> already playing guitar. <span class="gp-hint">(past)</span></span>
+      </div>
+      <div class="gp-item">
+        <span class="gp-num">5.</span>
+        <span>Joaquín <span class="gp-blank" data-ans="wasn't" onclick="fillGpBlank(this)">wasn't</span> always so confident — he <span class="gp-blank" data-ans="was" onclick="fillGpBlank(this)">was</span> shy as a child. <span class="gp-hint">(past negative)</span></span>
+      </div>
+      <div class="gp-item">
+        <span class="gp-num">6.</span>
+        <span><span class="gp-blank" data-ans="Is" onclick="fillGpBlank(this)">Is</span> La Muerte good or evil? — She <span class="gp-blank" data-ans="is" onclick="fillGpBlank(this)">is</span> the ruler of the Land of the Remembered. <span class="gp-hint">(question)</span></span>
+      </div>
+      <div class="gp-item">
+        <span class="gp-num">7.</span>
+        <span><span class="gp-blank" data-ans="Are" onclick="fillGpBlank(this)">Are</span> Manolo and María from the same town? Yes, they <span class="gp-blank" data-ans="are" onclick="fillGpBlank(this)">are</span>! <span class="gp-hint">(question + short answer)</span></span>
+      </div>
+      <div class="gp-item">
+        <span class="gp-num">8.</span>
+        <span>I <span class="gp-blank" data-ans="am" onclick="fillGpBlank(this)">am</span> from Colombia. My favourite character <span class="gp-blank" data-ans="is" onclick="fillGpBlank(this)">is</span> ___. <span class="gp-hint">(about you!)</span></span>
+      </div>
+
+      <button class="gp-check-btn" onclick="checkGrammar()">✅ Check answers</button>
+      <button class="gp-reset-btn" onclick="resetGrammar()">↺ Reset</button>
+      <div id="gp-score"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ SECTION 8: SONG — I LOVE YOU TOO MUCH ══ -->
+<section id="sec-song">
+  <div class="section-header">
+    <div class="section-num">8</div>
+    <div class="section-title">Song — "I Love You Too Much" 🎵</div>
+    <div class="section-time">⏱ 15 min</div>
+  </div>
+  <div class="card">
+    <div class="card-title">🎵 Watch the video first — just enjoy. Then complete the gap-fill on the second listen.</div>
+    <div class="video-wrap">
+      <iframe src="https://www.youtube.com/embed/ouvk8VHXUMc?si=Tm7mw51zbSUxGIgl" title="I Love You Too Much — The Book of Life" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+    </div>
+    <div class="video-links">
+      <a class="btn-yt" href="https://www.youtube.com/watch?v=ouvk8VHXUMc" target="_blank" rel="noopener">▶ Watch on YouTube</a>
+    </div>
+    <div class="info-box" style="margin-top:14px;margin-bottom:14px;">
+      <strong>🔍 IPA connection:</strong> As you listen, try to spot words with /aɪ/ (like <em>kind</em>) and /ʌ/ (like <em>much</em>). The song is full of sounds from Section 3!
+    </div>
+    <div class="lyrics-instructions">
+      <strong>Digital:</strong> tap a word from the bank, then tap a blank. &nbsp;|&nbsp; <strong>Print:</strong> write the word in each blank.
+    </div>
+    <div class="word-bank-wrap">
+      <div class="word-bank-label">🔤 Word Bank</div>
+      <div class="word-bank" id="wordBank">
+        <div class="word-chip" data-chip="much"    onclick="selectChip(this)">much</div>
+        <div class="word-chip" data-chip="back"    onclick="selectChip(this)">back</div>
+        <div class="word-chip" data-chip="fact"    onclick="selectChip(this)">fact</div>
+        <div class="word-chip" data-chip="belong"  onclick="selectChip(this)">belong</div>
+        <div class="word-chip" data-chip="song"    onclick="selectChip(this)">song</div>
+        <div class="word-chip" data-chip="ours"    onclick="selectChip(this)">ours</div>
+        <div class="word-chip" data-chip="touch"   onclick="selectChip(this)">touch</div>
+        <div class="word-chip" data-chip="night"   onclick="selectChip(this)">night</div>
+        <div class="word-chip" data-chip="right"   onclick="selectChip(this)">right</div>
+        <div class="word-chip" data-chip="name"    onclick="selectChip(this)">name</div>
+        <div class="word-chip" data-chip="side"    onclick="selectChip(this)">side</div>
+        <div class="word-chip" data-chip="missing" onclick="selectChip(this)">missing</div>
+        <div class="word-chip" data-chip="fight"   onclick="selectChip(this)">fight</div>
+      </div>
+    </div>
+    <div class="lyrics-wrap">
+      <div class="verse-label">♩ Verse 1</div>
+      <span class="lyric-line">I love you too <span class="gap-blank" data-answer="much" onclick="fillBlank(this)">much</span></span>
+      <span class="lyric-line">To live without you loving me <span class="gap-blank" data-answer="back" onclick="fillBlank(this)">back</span></span>
+      <span class="lyric-line">I love you too much</span>
+      <span class="lyric-line">Heaven's my witness and this is a <span class="gap-blank" data-answer="fact" onclick="fillBlank(this)">fact</span></span>
+      <span class="lyric-line chorus-line">I know I <span class="gap-blank" data-answer="belong" onclick="fillBlank(this)">belong</span></span>
+      <span class="lyric-line chorus-line">When I sing this <span class="gap-blank" data-answer="song" onclick="fillBlank(this)">song</span></span>
+      <span class="lyric-line chorus-line">There's love above love and it's <span class="gap-blank" data-answer="ours" onclick="fillBlank(this)">ours</span></span>
+      <span class="lyric-line chorus-line">'cause I love you too much...</span>
+
+      <div class="verse-label">♩ Verse 2</div>
+      <span class="lyric-line">I live for your <span class="gap-blank" data-answer="touch" onclick="fillBlank(this)">touch</span></span>
+      <span class="lyric-line">I whisper your <span class="gap-blank" data-answer="name" onclick="fillBlank(this)">name</span> night after <span class="gap-blank" data-answer="night" onclick="fillBlank(this)">night</span></span>
+      <span class="lyric-line">I love you too much</span>
+      <span class="lyric-line">There's only one feeling and I know it's <span class="gap-blank" data-answer="right" onclick="fillBlank(this)">right</span></span>
+      <span class="lyric-line chorus-line">I know I belong</span>
+      <span class="lyric-line chorus-line">When I sing this song</span>
+      <span class="lyric-line chorus-line">There's love above love and it's ours</span>
+      <span class="lyric-line chorus-line">'cause I love you too much...</span>
+
+
+      <div class="verse-label">♩ Bridge</div>
+      <span class="lyric-line">Heaven knows your name, I've been praying</span>
+      <span class="lyric-line">To have you come here by my <span class="gap-blank" data-answer="side" onclick="fillBlank(this)">side</span></span>
+      <span class="lyric-line">Without you, a part of me's <span class="gap-blank" data-answer="missing" onclick="fillBlank(this)">missing</span></span>
+      <span class="lyric-line">Just to make you my home, I will <span class="gap-blank" data-answer="fight" onclick="fillBlank(this)">fight</span></span>
+    </div>
+    <div class="lyrics-actions">
+      <button class="lyrics-check-btn" onclick="checkLyrics()">🎵 Check Answers</button>
+      <button class="lyrics-reset-btn" onclick="resetLyrics()">↺ Reset</button>
+    </div>
+    <div id="lyrics-score"></div>
+    <div class="listen-task" style="margin-top:16px;">
+      <strong>🔍 IPA challenge — find sounds from Section 3 in the song:</strong>
+      <div style="display:flex;flex-direction:column;gap:6px;margin-top:10px;">
+        <div class="write-line" data-num="/aɪ/:"><div contenteditable="true" data-placeholder="3 words with the /aɪ/ sound (like kind)…" data-label="ipa_song_ai"></div></div>
+        <div class="write-line" data-num="/ʌ/:"><div contenteditable="true" data-placeholder="3 words with the /ʌ/ sound (like much)…" data-label="ipa_song_u"></div></div>
+      </div>
+    </div>
+    <div class="tip-box">💡 /aɪ/: my, I, live, night, right, I've, by · /ʌ/: much, love, above, come</div>
+  </div>
+</section>
+
+<!-- ══ SECTION 9: UNSCRAMBLE ══ -->
+<section id="sec-unscramble">
+  <div class="section-header">
+    <div class="section-num">9</div>
+    <div class="section-title">Sentence Unscramble — Build It! 🧩</div>
+    <div class="section-time">⏱ 10 min</div>
+  </div>
+  <div class="card">
+    <div class="match-instructions">
+      🧩 <strong>How to play:</strong> Tap a word to select it (turns red), then tap a slot below to place it. Tap a filled slot to remove it.
+    </div>
+
+    <div class="unscramble-list" id="unscrambleList">
+
+      <!-- 1 -->
+      <div class="us-item" data-id="0">
+        <div class="us-num">1 · Describe Manolo (simple sentence)</div>
+        <div class="us-chips-row">
+          <span class="us-chip" data-word="Manolo">Manolo</span>
+          <span class="us-chip" data-word="is">is</span>
+          <span class="us-chip" data-word="brave">brave</span>
+          <span class="us-chip" data-word="and">and</span>
+          <span class="us-chip" data-word="kind">kind</span>
+        </div>
+        <div class="us-answer-row">
+          <span class="us-slot"></span><span class="us-slot"></span><span class="us-slot"></span><span class="us-slot"></span><span class="us-slot"></span>
+        </div>
+        <div class="us-feedback"></div>
+      </div>
+
+      <!-- 2 -->
+      <div class="us-item" data-id="1">
+        <div class="us-num">2 · Negative sentence</div>
+        <div class="us-chips-row">
+          <span class="us-chip" data-word="She">She</span>
+          <span class="us-chip" data-word="isn't">isn't</span>
+          <span class="us-chip" data-word="afraid">afraid</span>
+          <span class="us-chip" data-word="of">of</span>
+          <span class="us-chip" data-word="anything">anything</span>
+        </div>
+        <div class="us-answer-row">
+          <span class="us-slot"></span><span class="us-slot"></span><span class="us-slot"></span><span class="us-slot"></span><span class="us-slot"></span>
+        </div>
+        <div class="us-feedback"></div>
+      </div>
+
+      <!-- 3 -->
+      <div class="us-item" data-id="2">
+        <div class="us-num">3 · Question form</div>
+        <div class="us-chips-row">
+          <span class="us-chip" data-word="Are">Are</span>
+          <span class="us-chip" data-word="they">they</span>
+          <span class="us-chip" data-word="best">best</span>
+          <span class="us-chip" data-word="friends">friends</span>
+        </div>
+        <div class="us-answer-row">
+          <span class="us-slot"></span><span class="us-slot"></span><span class="us-slot"></span><span class="us-slot"></span>
+        </div>
+        <div class="us-feedback"></div>
+      </div>
+
+      <!-- 4 -->
+      <div class="us-item" data-id="3">
+        <div class="us-num">4 · Past tense — when they were young</div>
+        <div class="us-chips-row">
+          <span class="us-chip" data-word="They">They</span>
+          <span class="us-chip" data-word="were">were</span>
+          <span class="us-chip" data-word="friends">friends</span>
+          <span class="us-chip" data-word="when">when</span>
+          <span class="us-chip" data-word="they">they</span>
+          <span class="us-chip" data-word="were">were</span>
+          <span class="us-chip" data-word="young">young</span>
+        </div>
+        <div class="us-answer-row">
+          <span class="us-slot"></span><span class="us-slot"></span><span class="us-slot"></span><span class="us-slot"></span><span class="us-slot"></span><span class="us-slot"></span><span class="us-slot"></span>
+        </div>
+        <div class="us-feedback"></div>
+      </div>
+
+      <!-- 5 -->
+      <div class="us-item" data-id="4">
+        <div class="us-num">5 · WH Question — about the film</div>
+        <div class="us-chips-row">
+          <span class="us-chip" data-word="Who">Who</span>
+          <span class="us-chip" data-word="is">is</span>
+          <span class="us-chip" data-word="your">your</span>
+          <span class="us-chip" data-word="favourite">favourite</span>
+          <span class="us-chip" data-word="character">character</span>
+        </div>
+        <div class="us-answer-row">
+          <span class="us-slot"></span><span class="us-slot"></span><span class="us-slot"></span><span class="us-slot"></span><span class="us-slot"></span>
+        </div>
+        <div class="us-feedback"></div>
+      </div>
+
+    </div>
+
+    <div style="margin-top:20px;display:flex;gap:10px;flex-wrap:wrap;">
+      <button class="us-check-btn" onclick="checkAllUnscramble()">✅ Check All</button>
+      <button class="us-reset-btn" onclick="resetAllUnscramble()">↺ Reset All</button>
+    </div>
+    <div id="us-score"></div>
+
+    <!--<div class="tip-box" style="margin-top:16px;">
+      💡 <strong>Answer key:</strong>
+      <em>1. Manolo is brave and kind &nbsp;·&nbsp; 2. She isn't afraid of anything &nbsp;·&nbsp; 3. Are they best friends &nbsp;·&nbsp; 4. They were friends when they were young &nbsp;·&nbsp; 5. Who is your favourite character</em>
+    </div> -->
+  </div>
+</section>
+
+<!-- ══ SECTION 10: QUIZ ══ -->
+<section id="sec-quiz">
+  <div class="section-header">
+    <div class="section-num">10</div>
+    <div class="section-title">Quick Quiz — Characters &amp; Verb To Be ✅</div>
+    <div class="section-time">⏱ 8 min</div>
+  </div>
+  <div class="card">
+    <div class="card-title">Choose the best answer for each question about the film and today's grammar.</div>
+
+    <div class="mc-quiz" id="mcQuiz">
+
+      <div class="mc-card" data-correct="1">
+        <div class="mc-q">1. Manolo is a ___. He wants to follow his dream, not his family's tradition.</div>
+        <div class="mc-options">
+          <button class="mc-opt" onclick="selectMC(this,0)">A. soldier</button>
+          <button class="mc-opt" onclick="selectMC(this,1)">B. musician</button>
+          <button class="mc-opt" onclick="selectMC(this,2)">C. doctor</button>
+          <button class="mc-opt" onclick="selectMC(this,3)">D. teacher</button>
+        </div>
+        <div class="mc-feedback"></div>
+      </div>
+
+      <div class="mc-card" data-correct="2">
+        <div class="mc-q">2. "___ María afraid of La Muerte?" — "No, she ___."</div>
+        <div class="mc-options">
+          <button class="mc-opt" onclick="selectMC(this,0)">A. Are / aren't</button>
+          <button class="mc-opt" onclick="selectMC(this,1)">B. Am / am not</button>
+          <button class="mc-opt" onclick="selectMC(this,2)">C. Is / isn't</button>
+          <button class="mc-opt" onclick="selectMC(this,3)">D. Was / wasn't</button>
+        </div>
+        <div class="mc-feedback"></div>
+      </div>
+
+      <div class="mc-card" data-correct="0">
+        <div class="mc-q">3. Which adjective best describes Joaquín at the start of the film?</div>
+        <div class="mc-options">
+          <button class="mc-opt" onclick="selectMC(this,0)">A. strong and reckless</button>
+          <button class="mc-opt" onclick="selectMC(this,1)">B. selfless and kind</button>
+          <button class="mc-opt" onclick="selectMC(this,2)">C. shy and afraid</button>
+          <button class="mc-opt" onclick="selectMC(this,3)">D. funny and cheerful</button>
+        </div>
+        <div class="mc-feedback"></div>
+      </div>
+
+      <div class="mc-card" data-correct="3">
+        <div class="mc-q">4. "When Manolo and Joaquín ___ children, they ___ already very different." — choose the correct form.</div>
+        <div class="mc-options">
+          <button class="mc-opt" onclick="selectMC(this,0)">A. are / are</button>
+          <button class="mc-opt" onclick="selectMC(this,1)">B. is / is</button>
+          <button class="mc-opt" onclick="selectMC(this,2)">C. am / am</button>
+          <button class="mc-opt" onclick="selectMC(this,3)">D. were / were</button>
+        </div>
+        <div class="mc-feedback"></div>
+      </div>
+
+      <div class="mc-card" data-correct="1">
+        <div class="mc-q">5. In the film, La Muerte and Xibalba are rulers of different worlds. They ___ both very powerful.</div>
+        <div class="mc-options">
+          <button class="mc-opt" onclick="selectMC(this,0)">A. is</button>
+          <button class="mc-opt" onclick="selectMC(this,1)">B. are</button>
+          <button class="mc-opt" onclick="selectMC(this,2)">C. am</button>
+          <button class="mc-opt" onclick="selectMC(this,3)">D. was</button>
+        </div>
+        <div class="mc-feedback"></div>
+      </div>
+
+      <div class="mc-card" data-correct="2">
+        <div class="mc-q">6. María is described as brave, intelligent and independent. Which sentence is CORRECT?</div>
+        <div class="mc-options">
+          <button class="mc-opt" onclick="selectMC(this,0)">A. María are brave.</button>
+          <button class="mc-opt" onclick="selectMC(this,1)">B. María am intelligent.</button>
+          <button class="mc-opt" onclick="selectMC(this,2)">C. María is independent.</button>
+          <button class="mc-opt" onclick="selectMC(this,3)">D. María be strong.</button>
+        </div>
+        <div class="mc-feedback"></div>
+      </div>
+
+    </div>
+
+    <button class="mc-submit-btn" onclick="submitMCQuiz()">📊 Check My Score</button>
+    <div id="mc-result"></div>
+  </div>
+</section>
+
+<!-- ══ SECTION 11: DISCUSSION & PRODUCTION ══ -->
+<section id="sec-disc">
+  <div class="section-header">
+    <div class="section-num">11</div>
+    <div class="section-title">Discussion — Let's Talk! 💬</div>
+    <div class="section-time">⏱ 12 min</div>
+  </div>
+  <div class="card">
+    <div class="card-title">Answer in English. Use Verb To Be as much as possible! No wrong answers here.</div>
+    <ul class="discussion-list">
+
+      <li>
+        <div class="disc-num">1</div>
+        <div style="flex:1;">
+          <div class="disc-q"><strong>Who is your favourite character and why?</strong> Describe them using at least 3 adjectives from today.</div>
+          <div class="disc-tip">💡 "My favourite character is ___ because he/she is ___, ___ and ___."</div>
+          <div class="disc-lines">
+            <div class="disc-line"><div contenteditable="true" data-placeholder="write your answer…" data-label="disc_1_line1"></div></div>
+            <div class="disc-line"><div contenteditable="true" data-placeholder="continue here…" data-label="disc_1_line2"></div></div>
+          </div>
+        </div>
+      </li>
+
+      <li>
+        <div class="disc-num">2</div>
+        <div style="flex:1;">
+          <div class="disc-q"><strong>Are you more like Manolo, Joaquín or María?</strong> Why?</div>
+          <div class="disc-tip">💡 "I am more like ___ because I am ___ and ___. I am not ___."</div>
+          <div class="disc-lines">
+            <div class="disc-line"><div contenteditable="true" data-placeholder="write your answer…" data-label="disc_2_line1"></div></div>
+            <div class="disc-line"><div contenteditable="true" data-placeholder="continue here…" data-label="disc_2_line2"></div></div>
+          </div>
+        </div>
+      </li>
+
+      <li>
+        <div class="disc-num">3</div>
+        <div style="flex:1;">
+          <div class="disc-q"><strong>Describe a real person you know</strong> — a friend, family member or celebrity — using 3 adjectives. Don't say the name!</div>
+          <div class="disc-tip">💡 "This person is ___, ___ and ___. She/He is from ___ and is ___." — Can your partner guess who it is?</div>
+          <div class="disc-lines">
+            <div class="disc-line"><div contenteditable="true" data-placeholder="write your answer…" data-label="disc_3_line1"></div></div>
+            <div class="disc-line"><div contenteditable="true" data-placeholder="continue here…" data-label="disc_3_line2"></div></div>
+          </div>
+        </div>
+      </li>
+
+      <li>
+        <div class="disc-num">4</div>
+        <div style="flex:1;">
+          <div class="disc-q"><strong>Write 5 sentences about yourself.</strong> Use Verb To Be. At least 2 must be negative and 1 must be a question you ask your partner.</div>
+          <div class="disc-tip">💡 "I am from ___. I am not ___. I am ___ and ___. Are you ___?"</div>
+          <div class="disc-lines">
+            <div class="disc-line"><div contenteditable="true" data-placeholder="sentence 1: I am…" data-label="self_1"></div></div>
+            <div class="disc-line"><div contenteditable="true" data-placeholder="sentence 2: I am not…" data-label="self_2"></div></div>
+            <div class="disc-line"><div contenteditable="true" data-placeholder="sentence 3: I am…" data-label="self_3"></div></div>
+            <div class="disc-line"><div contenteditable="true" data-placeholder="sentence 4: I am not…" data-label="self_4"></div></div>
+            <div class="disc-line"><div contenteditable="true" data-placeholder="sentence 5: Are you…? (ask your partner)" data-label="self_5"></div></div>
+          </div>
+        </div>
+      </li>
+
+    </ul>
+  </div>
+</section>
+
+<!-- ══ NEXT SESSION BANNER ══ -->
+<div class="next-banner">
+  <div class="nb-emoji">🟢</div>
+  <div>
+    <div class="nb-title">Next Session — Module 1 · Session 2: This Is Me</div>
+    <div class="nb-sub">We'll build your own personal profile — name, age, hometown, adjectives — using everything from today. Start thinking: <em>"I am from ___. I am ___ years old. I am ___ and ___."</em></div>
+  </div>
+</div>
+
+<!-- ══ SEND ALL BAR ══ -->
+<div class="send-all-bar">
+  <div class="sab-left">
+    <div class="sab-title">📤 Send your work to the teacher</div>
+    <div class="sab-desc">This sends all your written answers and activity scores. Do it before you close the tab!</div>
+  </div>
+  <button class="btn-send-all" onclick="sendAllResponses()">Send all responses</button>
+  <span class="sab-sent" id="sab-sent">✅ Sent!</span>
+</div>
+
+</div><!-- /page -->
+
+<script>
+// ══════════════════════════════════════════════════════
+// ENGLISH UP! INTEGRATION — same pattern as Module 0
+// ══════════════════════════════════════════════════════
+const EnglishUp = {
+  submit(data, opts = {}) {
+    if (window.__EnglishUpSubmit) {
+      window.__EnglishUpSubmit(data, opts);
+    } else {
+      console.log('[EnglishUp] submit:', data);
+    }
+  }
+};
+
+function _euToast(msg, dur = 2800) {
+  const t = document.getElementById('eu-toast');
+  if (!t) return;
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), dur);
+}
+
+// ══════════════════════════════════════════════════════
+// VOCAB REVEAL
+// ══════════════════════════════════════════════════════
+let allRevealed = false;
+function revealVocab(card) {
+  card.classList.toggle('revealed');
+  const total = document.querySelectorAll('.vocab-card').length;
+  const revealed = document.querySelectorAll('.vocab-card.revealed').length;
+  if (revealed >= Math.ceil(total * .6)) markProgress('pd-vocab');
+}
+function revealAllVocab() {
+  allRevealed = !allRevealed;
+  document.querySelectorAll('.vocab-card').forEach(c =>
+    allRevealed ? c.classList.add('revealed') : c.classList.remove('revealed')
+  );
+  document.getElementById('revealAllBtn').textContent = allRevealed ? '🙈 Hide all' : '👁 Reveal all';
+  if (allRevealed) markProgress('pd-vocab');
+}
+
+// ══════════════════════════════════════════════════════
+// TEXT-TO-SPEECH  (Web Speech API — no install needed)
+// ══════════════════════════════════════════════════════
+
+// Cache the English voice once voices are loaded
+let _enVoice = null;
+
+function _pickEnglishVoice() {
+  if (_enVoice) return _enVoice;
+  const voices = window.speechSynthesis.getVoices();
+  // Priority: en-US > en-GB > any en-* > fallback null
+  _enVoice =
+    voices.find(v => v.lang === 'en-US') ||
+    voices.find(v => v.lang === 'en-GB') ||
+    voices.find(v => v.lang.startsWith('en')) ||
+    null;
+  return _enVoice;
+}
+
+// Some browsers load voices async — repick on change
+if ('speechSynthesis' in window) {
+  window.speechSynthesis.onvoiceschanged = () => { _enVoice = null; };
+}
+
+/**
+ * Speak `text` in English.
+ * @param {HTMLElement|null} btn  - button element that triggered it (for animation)
+ * @param {string}           text - the word or phrase to speak
+ */
+function speakWord(btn, text) {
+  if (!('speechSynthesis' in window)) return;
+
+  // Stop anything already playing
+  window.speechSynthesis.cancel();
+
+  // Remove speaking animation from all buttons
+  document.querySelectorAll('.tts-btn.speaking, .tts-btn-inline.speaking')
+    .forEach(b => b.classList.remove('speaking'));
+
+  const utter    = new SpeechSynthesisUtterance(text);
+  utter.lang     = 'en-US';
+  utter.rate     = 0.82;   // slightly slower — clearer for learners
+  utter.pitch    = 1;
+  utter.volume   = 1;
+
+  const voice = _pickEnglishVoice();
+  if (voice) utter.voice = voice;
+
+  if (btn) {
+    btn.classList.add('speaking');
+    const cleanup = () => btn.classList.remove('speaking');
+    utter.onend   = cleanup;
+    utter.onerror = cleanup;
+  }
+
+  window.speechSynthesis.speak(utter);
+}
+
+// ══════════════════════════════════════════════════════
+// MATCHING
+// ══════════════════════════════════════════════════════
+let selectedMatchChip = null;
+function selectMatchChip(chip) {
+  if (chip.classList.contains('chip-used')) return;
+  if (selectedMatchChip) selectedMatchChip.classList.remove('chip-selected');
+  if (selectedMatchChip === chip) { selectedMatchChip = null; return; }
+  selectedMatchChip = chip;
+  chip.classList.add('chip-selected');
+}
+function placeMatch(defRow) {
+  if (defRow.classList.contains('correct')) return;
+  if (!selectedMatchChip) {
+    defRow.classList.add('def-hover');
+    setTimeout(() => defRow.classList.remove('def-hover'), 300);
+    return;
+  }
+  const word = selectedMatchChip.dataset.word;
+  if (defRow.dataset.placed) {
+    const oldChip = document.querySelector(`.match-chip[data-word="${defRow.dataset.placed}"]`);
+    if (oldChip) oldChip.classList.remove('chip-used');
+  }
+  defRow.dataset.placed = word;
+  const badge = defRow.querySelector('.match-def-placed');
+  badge.textContent = word;
+  badge.style.display = 'inline-block';
+  defRow.classList.remove('correct','wrong');
+  selectedMatchChip.classList.add('chip-used');
+  selectedMatchChip.classList.remove('chip-selected');
+  selectedMatchChip = null;
+}
+function checkMatches() {
+  const targets = document.querySelectorAll('.match-def-row');
+  let correct = 0, answered = 0;
+  const responses = { seccion: '4 · Matching' };
+  targets.forEach(t => {
+    if (!t.dataset.placed) return;
+    answered++;
+    const ok = t.dataset.placed === t.dataset.answer;
+    t.classList.toggle('correct', ok);
+    t.classList.toggle('wrong', !ok);
+    if (ok) correct++;
+    responses[`match_${t.dataset.answer}`] = t.dataset.placed;
+  });
+  const fb = document.getElementById('match-feedback');
+  if (!answered) { fb.textContent = '⚠️ Place some words first!'; fb.style.color = 'var(--rust)'; return; }
+  const total = targets.length;
+  fb.textContent = `${correct} / ${total} correct${correct === total ? ' 🎉 Perfect!' : ' — try again!'}`;
+  fb.style.color = correct === total ? 'var(--sage)' : 'var(--rust)';
+  responses.score = `${correct}/${total}`;
+  if (correct === total) markProgress('pd-match');
+  EnglishUp.submit(responses, { showConfirmation: false });
+  _euToast(`🔗 Matching: ${correct}/${total}`);
+}
+
+// ══════════════════════════════════════════════════════
+// IPA DRILL
+// ══════════════════════════════════════════════════════
+function drillTap(el) {
+  el.classList.toggle('active');
+  setTimeout(() => el.classList.remove('active'), 1200);
+  markProgress('pd-ipa');
+}
+
+// ══════════════════════════════════════════════════════
+// ADJECTIVE ORDER
+// ══════════════════════════════════════════════════════
+const ADJ_ANSWERS = [
+  ['brave', 'young'],
+  ['strong', 'tall'],
+  ['determined', 'young'],
+  ['beautiful', 'small', 'old'],
+];
+let adjSelected = null; // { itemEl, chipEl }
+
+// Adjective order handled via inline onclick handlers (adjTap / adjSlotClick)
+
+function adjTap(chip) {
+  if (chip.classList.contains('adj-placed')) return;
+  if (adjSelected && adjSelected.chipEl === chip) {
+    chip.classList.remove('adj-sel');
+    adjSelected = null;
+    return;
+  }
+  if (adjSelected) adjSelected.chipEl.classList.remove('adj-sel');
+  adjSelected = { itemEl: chip.closest('.adj-sort-item'), chipEl: chip };
+  chip.classList.add('adj-sel');
+}
+
+function adjSlotClick(slot) {
+  // Remove word already in slot
+  if (slot.dataset.word) {
+    const itemEl = slot.closest('.adj-sort-item');
+    const chip = [...itemEl.querySelectorAll('.adj-chip')].find(c => c.dataset.word === slot.dataset.word && c.classList.contains('adj-placed'));
+    if (chip) chip.classList.remove('adj-placed');
+    slot.textContent = '';
+    delete slot.dataset.word;
+    slot.classList.remove('adj-correct', 'adj-wrong');
+    return;
+  }
+  if (!adjSelected) return;
+  const slotItem = slot.closest('.adj-sort-item');
+  if (slotItem !== adjSelected.itemEl) return;
+  slot.textContent = adjSelected.chipEl.dataset.word;
+  slot.dataset.word = adjSelected.chipEl.dataset.word;
+  slot.classList.remove('adj-correct', 'adj-wrong');
+  adjSelected.chipEl.classList.add('adj-placed');
+  adjSelected.chipEl.classList.remove('adj-sel');
+  adjSelected = null;
+}
+
+function checkAllAdj() {
+  let totalCorrect = 0;
+  document.querySelectorAll('.adj-sort-item').forEach((item, i) => {
+    const slots = [...item.querySelectorAll('.adj-slot')];
+    const answer = ADJ_ANSWERS[i];
+    const fb = item.querySelector('.adj-feedback');
+    let correct = 0;
+    slots.forEach((slot, j) => {
+      const placed = slot.dataset.word || '';
+      const ok = placed === answer[j];
+      slot.classList.toggle('adj-correct', ok && !!placed);
+      slot.classList.toggle('adj-wrong', !ok && !!placed);
+      if (ok && placed) correct++;
+    });
+    const filled = slots.filter(s => s.dataset.word).length;
+    if (!filled) { if (fb) { fb.textContent = '⚠️ Fill this one first!'; fb.style.color = 'var(--rust)'; } return; }
+    if (correct === answer.length) {
+      if (fb) { fb.textContent = '✅ Correct!'; fb.style.color = 'var(--sage)'; }
+      totalCorrect++;
+    } else {
+      if (fb) { fb.textContent = `${correct}/${answer.length} — check the order!`; fb.style.color = 'var(--rust)'; }
+    }
+  });
+  const scoreEl = document.getElementById('adj-score');
+  if (scoreEl) {
+    scoreEl.textContent = `📐 ${totalCorrect} / ${ADJ_ANSWERS.length} correct${totalCorrect === ADJ_ANSWERS.length ? ' — Perfect! 🎉' : ''}`;
+    scoreEl.style.color = totalCorrect >= 3 ? 'var(--sage)' : 'var(--rust)';
+  }
+  if (totalCorrect >= 3) markProgress('pd-adj');
+  EnglishUp.submit({ section: 'adjective_order', score: totalCorrect, total: ADJ_ANSWERS.length });
+  _euToast(`📐 Adjective order: ${totalCorrect}/${ADJ_ANSWERS.length}`);
+}
+
+function resetAllAdj() {
+  document.querySelectorAll('.adj-slot').forEach(s => {
+    s.textContent = ''; delete s.dataset.word; s.classList.remove('adj-correct', 'adj-wrong');
+  });
+  document.querySelectorAll('.adj-chip').forEach(c => c.classList.remove('adj-placed', 'adj-sel'));
+  document.querySelectorAll('.adj-feedback').forEach(f => f.textContent = '');
+  const scoreEl = document.getElementById('adj-score');
+  if (scoreEl) scoreEl.textContent = '';
+  adjSelected = null;
+}
+
+// ══════════════════════════════════════════════════════
+// SONG GAP-FILL
+// ══════════════════════════════════════════════════════
+let selectedChip = null;
+
+function selectChip(chip) {
+  if (chip.classList.contains('used')) return;
+  document.querySelectorAll('.gap-blank').forEach(b => b.classList.remove('active-blank'));
+  if (selectedChip) selectedChip.classList.remove('selected-chip');
+  if (selectedChip === chip) { selectedChip = null; return; }
+  selectedChip = chip;
+  chip.classList.add('selected-chip');
+}
+
+function fillBlank(blank) {
+  if (!selectedChip) {
+    blank.style.animation = 'shake .4s';
+    setTimeout(() => blank.style.animation = '', 500);
+    return;
+  }
+  if (blank.dataset.placed) {
+    const prev = document.querySelector(`.word-chip[data-chip="${blank.dataset.placed}"]`);
+    if (prev) prev.classList.remove('used');
+  }
+  blank.textContent = selectedChip.dataset.chip;
+  blank.classList.add('filled');
+  blank.classList.remove('correct-ans', 'wrong-ans', 'active-blank');
+  blank.dataset.placed = selectedChip.dataset.chip;
+  selectedChip.classList.add('used');
+  selectedChip.classList.remove('selected-chip');
+  selectedChip = null;
+}
+
+function checkLyrics() {
+  const blanks = document.querySelectorAll('.gap-blank');
+  let correct = 0, answered = 0;
+  blanks.forEach(b => {
+    if (!b.dataset.placed) return;
+    answered++;
+    const ok = b.dataset.placed === b.dataset.answer;
+    b.classList.toggle('correct-ans', ok);
+    b.classList.toggle('wrong-ans', !ok);
+    b.classList.remove('filled');
+    if (ok) correct++;
+  });
+  const total = blanks.length;
+  const score = document.getElementById('lyrics-score');
+  if (!answered) { if (score) { score.textContent = '⚠️ Fill some blanks first!'; score.style.color = 'var(--rust)'; } return; }
+  if (score) {
+    score.textContent = `🎵 ${correct}/${total} correct${correct === total ? ' — Amazing! 🎉' : correct >= Math.ceil(total * .7) ? ' — Almost there!' : ''}`;
+    score.style.color = correct >= Math.ceil(total * .7) ? 'var(--sage)' : 'var(--rust)';
+  }
+  if (correct >= Math.ceil(total * .7)) markProgress('pd-song');
+  EnglishUp.submit({ section: 'song_gapfill', score: Math.round((correct / total) * 100), correct, total });
+  _euToast(`🎵 Song: ${correct}/${total}`);
+}
+
+function resetLyrics() {
+  document.querySelectorAll('.gap-blank').forEach(b => {
+    b.textContent = ''; b.classList.remove('filled', 'correct-ans', 'wrong-ans', 'active-blank'); delete b.dataset.placed;
+  });
+  document.querySelectorAll('.word-chip').forEach(c => c.classList.remove('used', 'selected-chip'));
+  selectedChip = null;
+  const score = document.getElementById('lyrics-score');
+  if (score) score.textContent = '';
+}
+
+// ══════════════════════════════════════════════════════
+// GRAMMAR PRACTICE
+// ══════════════════════════════════════════════════════
+let selectedGpChip = null;
+function selectGpChip(chip) {
+  if (selectedGpChip) selectedGpChip.classList.remove('gp-chip-sel');
+  if (selectedGpChip === chip) { selectedGpChip = null; return; }
+  selectedGpChip = chip;
+  chip.classList.add('gp-chip-sel');
+}
+function fillGpBlank(blank) {
+  if (!selectedGpChip) {
+    blank.style.animation = 'shake .4s';
+    setTimeout(() => blank.style.animation = '', 500);
+    return;
+  }
+  blank.textContent = selectedGpChip.dataset.gpc;
+  blank.classList.add('gp-filled');
+  blank.classList.remove('gp-correct','gp-wrong');
+  blank.dataset.placed = selectedGpChip.dataset.gpc;
+  // Don't mark chip as used — chips are reusable (same word may appear in multiple blanks)
+  selectedGpChip.classList.remove('gp-chip-sel');
+  selectedGpChip = null;
+}
+function checkGrammar() {
+  const blanks = document.querySelectorAll('.gp-blank');
+  let correct = 0, answered = 0;
+  const responses = { seccion: '5 · Grammar Verb To Be' };
+  blanks.forEach((b, i) => {
+    if (!b.dataset.placed) return;
+    answered++;
+    const ok = b.dataset.placed === b.dataset.ans;
+    b.classList.toggle('gp-correct', ok);
+    b.classList.toggle('gp-wrong', !ok);
+    b.classList.remove('gp-filled');
+    if (ok) correct++;
+    responses[`grammar_${i+1}`] = b.dataset.placed;
+  });
+  const total = blanks.length;
+  const score = document.getElementById('gp-score');
+  if (!answered) { score.textContent = '⚠️ Fill some blanks first!'; score.style.color = 'var(--rust)'; return; }
+  score.textContent = `⭐ ${correct} / ${total} correct${correct === total ? ' — Perfect! 🎉' : ''}`;
+  score.style.color = correct >= Math.ceil(total * .7) ? 'var(--sage)' : 'var(--rust)';
+  responses.score = `${correct}/${total}`;
+  if (correct >= Math.ceil(total * .7)) markProgress('pd-grammar');
+  EnglishUp.submit(responses, { showConfirmation: false });
+  _euToast(`⭐ Grammar: ${correct}/${total}`);
+}
+function resetGrammar() {
+  document.querySelectorAll('.gp-blank').forEach(b => {
+    b.textContent = ''; b.classList.remove('gp-filled','gp-correct','gp-wrong'); delete b.dataset.placed;
+  });
+  document.querySelectorAll('.gp-chip').forEach(c => c.classList.remove('gp-chip-sel'));
+  selectedGpChip = null;
+  document.getElementById('gp-score').textContent = '';
+}
+
+// ══════════════════════════════════════════════════════
+// SENTENCE UNSCRAMBLE
+// ══════════════════════════════════════════════════════
+const US_ANSWERS = [
+  ['Manolo','is','brave','and','kind'],
+  ['She','isn\'t','afraid','of','anything'],
+  ['Are','they','best','friends'],
+  ['They','were','friends','when','they','were','young'],
+  ['Who','is','your','favourite','character'],
+];
+let usSelected = null;
+
+// Shuffle chips in each unscramble item so they don't appear in answer order
+(function shuffleAllChips() {
+  document.querySelectorAll('.us-item').forEach(item => {
+    const row = item.querySelector('.us-chips-row');
+    if (!row) return;
+    const chips = [...row.querySelectorAll('.us-chip')];
+    // Fisher-Yates shuffle
+    for (let i = chips.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      row.appendChild(chips[j]);
+      chips.splice(j, 1);
+    }
+    // Append any remaining
+    chips.forEach(c => row.appendChild(c));
+  });
+})();
+
+document.querySelectorAll('.us-chip').forEach(chip => {
+  chip.addEventListener('click', () => {
+    if (chip.classList.contains('us-placed')) return;
+    if (usSelected && usSelected.chipEl === chip) { chip.classList.remove('us-selected'); usSelected = null; return; }
+    if (usSelected) usSelected.chipEl.classList.remove('us-selected');
+    usSelected = { itemEl: chip.closest('.us-item'), chipEl: chip };
+    chip.classList.add('us-selected');
+  });
+});
+
+document.querySelectorAll('.us-slot').forEach(slot => {
+  slot.addEventListener('click', () => {
+    if (slot.dataset.word) {
+      const word = slot.dataset.word;
+      const itemEl = slot.closest('.us-item');
+      const chip = [...itemEl.querySelectorAll('.us-chip')].find(c => c.dataset.word === word && c.classList.contains('us-placed'));
+      if (chip) chip.classList.remove('us-placed');
+      slot.textContent = ''; delete slot.dataset.word;
+      slot.classList.remove('us-correct','us-wrong');
+      return;
+    }
+    if (!usSelected) return;
+    const slotItem = slot.closest('.us-item');
+    if (slotItem !== usSelected.itemEl) { slotItem.style.outline = '2px solid var(--rust)'; setTimeout(() => slotItem.style.outline = '', 400); return; }
+    slot.textContent = usSelected.chipEl.dataset.word;
+    slot.dataset.word = usSelected.chipEl.dataset.word;
+    slot.classList.remove('us-correct','us-wrong');
+    usSelected.chipEl.classList.add('us-placed');
+    usSelected.chipEl.classList.remove('us-selected');
+    usSelected = null;
+  });
+});
+
+function checkAllUnscramble() {
+  let totalCorrect = 0;
+  const responses = { seccion: '6 · Unscramble' };
+  document.querySelectorAll('.us-item').forEach((item, i) => {
+    const slots = [...item.querySelectorAll('.us-slot')];
+    const answer = US_ANSWERS[i];
+    const fb = item.querySelector('.us-feedback');
+    const sentence = slots.map(s => s.dataset.word || '').join(' ').trim();
+    let correct = 0;
+    slots.forEach((slot, j) => {
+      const placed = slot.dataset.word || '';
+      const ok = placed === answer[j];
+      slot.classList.toggle('us-correct', ok && !!placed);
+      slot.classList.toggle('us-wrong', !ok && !!placed);
+      if (ok && placed) correct++;
+    });
+    const filled = slots.filter(s => s.dataset.word).length;
+    if (!filled) { fb.textContent = '⚠️ Fill in the sentence first!'; fb.style.color = 'var(--rust)'; return; }
+    if (correct === answer.length) { fb.textContent = '✅ Perfect!'; fb.style.color = 'var(--sage)'; totalCorrect++; }
+    else { fb.textContent = `${correct}/${answer.length} words correct — try again!`; fb.style.color = 'var(--rust)'; }
+    if (sentence) responses[`unscramble_${i+1}`] = sentence;
+  });
+  const scoreEl = document.getElementById('us-score');
+  scoreEl.textContent = `🧩 ${totalCorrect} / ${US_ANSWERS.length} sentences correct${totalCorrect === US_ANSWERS.length ? ' — Outstanding! 🎉' : ''}`;
+  scoreEl.style.color = totalCorrect >= Math.ceil(US_ANSWERS.length * .6) ? 'var(--sage)' : 'var(--rust)';
+  responses.score = `${totalCorrect}/${US_ANSWERS.length}`;
+  if (totalCorrect >= Math.ceil(US_ANSWERS.length * .6)) markProgress('pd-unscramble');
+  EnglishUp.submit(responses, { showConfirmation: false });
+  _euToast(`🧩 Unscramble: ${totalCorrect}/${US_ANSWERS.length}`);
+}
+function resetAllUnscramble() {
+  document.querySelectorAll('.us-slot').forEach(s => { s.textContent = ''; delete s.dataset.word; s.classList.remove('us-correct','us-wrong'); });
+  document.querySelectorAll('.us-chip').forEach(c => c.classList.remove('us-placed','us-selected'));
+  document.querySelectorAll('.us-feedback').forEach(f => f.textContent = '');
+  document.getElementById('us-score').textContent = '';
+  usSelected = null;
+  // Re-shuffle chips
+  document.querySelectorAll('.us-item').forEach(item => {
+    const row = item.querySelector('.us-chips-row');
+    if (!row) return;
+    const chips = [...row.querySelectorAll('.us-chip')];
+    for (let i = chips.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      row.appendChild(chips[j]);
+      chips.splice(j, 1);
+    }
+    chips.forEach(c => row.appendChild(c));
+  });
+}
+
+// ══════════════════════════════════════════════════════
+// MULTIPLE CHOICE QUIZ
+// ══════════════════════════════════════════════════════
+const mcAnswers = {};
+const mcExplanations = {
+  0: 'Yes! Manolo is a musician. His family wants him to be a bullfighter, but he follows his heart.',
+  1: '"Is María afraid?" uses Is because María = she (singular). "No, she isn\'t" — short answer with Verb To Be.',
+  2: 'Joaquín has a magic medal that makes him invincible — he is strong and reckless. He can be quite impulsive!',
+  3: 'Past tense for "children" (plural, past) = were. "When they WERE children, they WERE already very different."',
+  4: 'La Muerte and Xibalba = They → use ARE (present plural). "They are both very powerful."',
+  5: '"María is independent." — He/She/It → IS. The other options use wrong verb forms.',
+};
+function selectMC(btn, optIdx) {
+  const card = btn.closest('.mc-card');
+  const idx = [...document.querySelectorAll('.mc-card')].indexOf(card);
+  mcAnswers[idx] = optIdx;
+  card.querySelectorAll('.mc-opt').forEach(b => b.classList.remove('sel'));
+  btn.classList.add('sel');
+}
+function submitMCQuiz() {
+  const cards = document.querySelectorAll('.mc-card');
+  let score = 0;
+  const responses = { seccion: '7 · Multiple Choice Quiz' };
+  cards.forEach((card, i) => {
+    const correct = parseInt(card.dataset.correct);
+    const given   = mcAnswers[i];
+    const fb      = card.querySelector('.mc-feedback');
+    const opts    = card.querySelectorAll('.mc-opt');
+    if (given === undefined) { fb.textContent = '⚠️ Please choose an answer!'; fb.style.color = 'var(--rust)'; return; }
+    opts.forEach((o, oi) => {
+      o.classList.remove('sel');
+      if (oi === correct) o.classList.add('correct');
+      else if (oi === given && given !== correct) o.classList.add('wrong');
+    });
+    if (given === correct) {
+      score++;
+      fb.textContent = '✅ ' + (mcExplanations[i] || 'Correct!');
+      fb.style.color = 'var(--sage)';
+    } else {
+      fb.textContent = '❌ ' + (mcExplanations[i] || 'Not quite!');
+      fb.style.color = 'var(--rust)';
+    }
+    responses[`quiz_q${i+1}`] = given;
+  });
+  const pct = Math.round((score / cards.length) * 100);
+  responses.score = `${score}/${cards.length} (${pct}%)`;
+  const result = document.getElementById('mc-result');
+  result.classList.add('show');
+  if (pct >= 80) {
+    result.style.cssText = 'background:var(--sage-lt);color:var(--sage);border-radius:12px;padding:18px;text-align:center;display:block;';
+    result.innerHTML = `🏆 ${score} / ${cards.length} — Excellent! (${pct}%)`;
+  } else if (pct >= 60) {
+    result.style.cssText = 'background:var(--gold-lt);color:var(--brown);border-radius:12px;padding:18px;text-align:center;display:block;';
+    result.innerHTML = `👍 ${score} / ${cards.length} — Good work! (${pct}%)`;
+  } else {
+    result.style.cssText = 'background:#FDECEA;color:var(--rust);border-radius:12px;padding:18px;text-align:center;display:block;';
+    result.innerHTML = `📚 ${score} / ${cards.length} — Keep going! (${pct}%)`;
+  }
+  if (score >= Math.ceil(cards.length * .7)) markProgress('pd-quiz');
+  markProgress('pd-disc');
+  EnglishUp.submit(responses, { showConfirmation: false });
+  _euToast(`📊 Quiz: ${score}/${cards.length}`);
+}
+
+// ══════════════════════════════════════════════════════
+// SEND ALL — collect everything
+// ══════════════════════════════════════════════════════
+function sendAllResponses() {
+  const responses = { seccion: 'RESUMEN COMPLETO · Module 1 · Session 1' };
+
+  // Written answers
+  document.querySelectorAll('[contenteditable][data-label]').forEach(el => {
+    const val = el.innerText?.trim();
+    if (val) responses[el.dataset.label] = val;
+  });
+
+  // Activity scores
+  const gpScore  = document.getElementById('gp-score')?.textContent?.trim();
+  const usScore  = document.getElementById('us-score')?.textContent?.trim();
+  const mcResult = document.getElementById('mc-result')?.textContent?.trim();
+  const matchFb  = document.getElementById('match-feedback')?.textContent?.trim();
+  if (gpScore)  responses['resultado_gramatica']  = gpScore;
+  if (usScore)  responses['resultado_unscramble'] = usScore;
+  if (mcResult) responses['resultado_quiz']       = mcResult;
+  if (matchFb)  responses['resultado_matching']   = matchFb;
+
+  // Grammar blanks
+  document.querySelectorAll('.gp-blank[data-placed]').forEach((b, i) => {
+    responses[`grammar_blank_${i+1}`] = b.dataset.placed;
+  });
+
+  // Quiz answers
+  Object.entries(mcAnswers).forEach(([i, v]) => {
+    responses[`quiz_q${parseInt(i)+1}_selected`] = v;
+  });
+
+  EnglishUp.submit(responses, { showConfirmation: false });
+  const sentEl = document.getElementById('sab-sent');
+  if (sentEl) { sentEl.classList.add('show'); setTimeout(() => sentEl.classList.remove('show'), 4000); }
+  _euToast('📤 ¡Todo enviado al profe!');
+}
+
+// ══════════════════════════════════════════════════════
+// PROGRESS TRACKER
+// ══════════════════════════════════════════════════════
+function markProgress(id) {
+  const dot = document.getElementById(id);
+  if (dot) dot.classList.add('done');
+}
+window.addEventListener('scroll', function onFirstScroll() {
+  markProgress('pd-watch');
+  window.removeEventListener('scroll', onFirstScroll);
+}, { passive: true });
+</script>
+
+<!-- Bridge for AI context reading -->
+<script>
+window.addEventListener('message', function(event) {
+  if (event.origin !== window.location.origin) return;
+  if (event.data?.type !== 'ENGLISHUP_GET_TEXT') return;
+  const text = (document.body?.innerText || '').replace(/\n{3,}/g, '\n\n').trim().slice(0, 4000);
+  event.source.postMessage({ type: 'ENGLISHUP_LESSON_TEXT', text }, event.origin);
+});
+</script>
+<!-- ═══════════════════════════════════════════════════════════════
+     ENGLISH UP! — Word Selection Tooltip
+     Añade esto al final de cada HTML de lección, ANTES de </body>
+     Reemplaza GROQ_WORKER_URL con tu URL real del worker de Cloudflare
+     ════════════════════════════════════════════════════════════════ -->
+<script>
+(function() {
+  // ── CONFIG ────────────────────────────────────────────────────
+  const GROQ_WORKER_URL = "https://english-up-groq.mwp.workers.dev"; // ← tu worker
+  const GROQ_MODEL      = "llama-3.1-8b-instant";
+  const LESSON_TITLE    = document.title || "Lesson";
+
+  // ── STYLES ───────────────────────────────────────────────────
+  const style = document.createElement("style");
+  style.textContent = `
+    #eu-word-tooltip {
+      position: fixed;
+      z-index: 99999;
+      background: #1a1612;
+      color: #f5f0eb;
+      border-radius: 14px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.35), 0 2px 8px rgba(0,0,0,0.2);
+      padding: 0;
+      min-width: 220px;
+      max-width: 320px;
+      font-family: 'DM Sans', 'Nunito', system-ui, sans-serif;
+      font-size: 14px;
+      line-height: 1.5;
+      overflow: hidden;
+      animation: euTooltipIn 180ms cubic-bezier(0.34,1.56,0.64,1);
+      border: 1.5px solid rgba(255,255,255,0.08);
+    }
+    @keyframes euTooltipIn {
+      from { opacity:0; transform: scale(0.88) translateY(6px); }
+      to   { opacity:1; transform: scale(1)    translateY(0); }
+    }
+    #eu-word-tooltip .eu-tt-header {
+      padding: 10px 14px 8px;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+    #eu-word-tooltip .eu-tt-word {
+      font-weight: 800;
+      font-size: 16px;
+      color: #f59e0b;
+      flex: 1;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    #eu-word-tooltip .eu-tt-close {
+      background: none;
+      border: none;
+      color: rgba(255,255,255,0.4);
+      cursor: pointer;
+      font-size: 16px;
+      padding: 0 2px;
+      line-height: 1;
+      flex-shrink: 0;
+    }
+    #eu-word-tooltip .eu-tt-close:hover { color: rgba(255,255,255,0.8); }
+    #eu-word-tooltip .eu-tt-actions {
+      display: flex;
+      gap: 0;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+    #eu-word-tooltip .eu-tt-btn {
+      flex: 1;
+      padding: 8px 4px;
+      background: none;
+      border: none;
+      color: rgba(255,255,255,0.7);
+      cursor: pointer;
+      font-size: 12px;
+      font-weight: 700;
+      font-family: inherit;
+      transition: background 150ms, color 150ms;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2px;
+      border-right: 1px solid rgba(255,255,255,0.08);
+    }
+    #eu-word-tooltip .eu-tt-btn:last-child { border-right: none; }
+    #eu-word-tooltip .eu-tt-btn:hover { background: rgba(255,255,255,0.08); color: #fff; }
+    #eu-word-tooltip .eu-tt-btn:active { background: rgba(255,255,255,0.14); }
+    #eu-word-tooltip .eu-tt-btn .eu-btn-icon { font-size: 16px; line-height: 1; }
+    #eu-word-tooltip .eu-tt-btn.saved { color: #4ade80; }
+    #eu-word-tooltip .eu-tt-body {
+      padding: 10px 14px 12px;
+      font-size: 13px;
+      line-height: 1.6;
+      color: rgba(255,255,255,0.85);
+      max-height: 180px;
+      overflow-y: auto;
+    }
+    #eu-word-tooltip .eu-tt-body.loading {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: rgba(255,255,255,0.45);
+      font-style: italic;
+    }
+    #eu-word-tooltip .eu-tt-spinner {
+      width: 14px; height: 14px;
+      border: 2px solid rgba(255,255,255,0.15);
+      border-top-color: #f59e0b;
+      border-radius: 50%;
+      animation: euSpin 0.7s linear infinite;
+      flex-shrink: 0;
+    }
+    @keyframes euSpin { to { transform: rotate(360deg); } }
+    #eu-word-tooltip .eu-trans {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      background: rgba(20,184,166,0.15);
+      color: #2dd4bf;
+      border-radius: 99px;
+      padding: 2px 10px;
+      font-size: 12px;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+    #eu-word-tooltip .eu-examples {
+      margin-top: 6px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    #eu-word-tooltip .eu-example {
+      font-style: italic;
+      color: rgba(255,255,255,0.55);
+      font-size: 12px;
+      border-left: 2px solid rgba(245,158,11,0.4);
+      padding-left: 8px;
+    }
+    #eu-word-tooltip .eu-save-confirm {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      color: #4ade80;
+      font-weight: 700;
+      font-size: 13px;
+    }
+  `;
+  document.head.appendChild(style);
+
+  // ── STATE ────────────────────────────────────────────────────
+  let tooltip    = null;
+  let savedWords = new Set();
+
+  // ── CREATE TOOLTIP ───────────────────────────────────────────
+  function createTooltip(word, x, y) {
+    removeTooltip();
+
+    tooltip = document.createElement("div");
+    tooltip.id = "eu-word-tooltip";
+    tooltip.innerHTML = `
+      <div class="eu-tt-header">
+        <div class="eu-tt-word">${escHtml(word)}</div>
+        <button class="eu-tt-close" id="eu-tt-close">✕</button>
+      </div>
+      <div class="eu-tt-actions">
+        <button class="eu-tt-btn" id="eu-btn-translate">
+          <span class="eu-btn-icon">🇪🇸</span>
+          <span>Translate</span>
+        </button>
+        <button class="eu-tt-btn" id="eu-btn-explain">
+          <span class="eu-btn-icon">🤖</span>
+          <span>Explain</span>
+        </button>
+        <button class="eu-tt-btn ${savedWords.has(word.toLowerCase()) ? "saved" : ""}" id="eu-btn-save">
+          <span class="eu-btn-icon">${savedWords.has(word.toLowerCase()) ? "✅" : "💾"}</span>
+          <span>${savedWords.has(word.toLowerCase()) ? "Saved!" : "Save"}</span>
+        </button>
+      </div>
+      <div class="eu-tt-body" id="eu-tt-body" style="display:none"></div>
+    `;
+    document.body.appendChild(tooltip);
+
+    // Position
+    positionTooltip(x, y);
+
+    // Events
+    document.getElementById("eu-tt-close")?.addEventListener("click", removeTooltip);
+    document.getElementById("eu-btn-translate")?.addEventListener("click", () => doTranslate(word));
+    document.getElementById("eu-btn-explain")?.addEventListener("click",   () => doExplain(word));
+    document.getElementById("eu-btn-save")?.addEventListener("click",      () => doSave(word));
+  }
+
+  function positionTooltip(x, y) {
+    if (!tooltip) return;
+    const vw = window.innerWidth;
+    const vh = window.innerHeight;
+    const tw = 320;
+    const th = 200; // estimate
+
+    let left = x - tw / 2;
+    let top  = y - th - 12; // above selection by default
+
+    // Clamp horizontally
+    left = Math.max(8, Math.min(left, vw - tw - 8));
+    // If too high, show below
+    if (top < 60) top = y + 20;
+
+    tooltip.style.left = left + "px";
+    tooltip.style.top  = top  + "px";
+  }
+
+  function removeTooltip() {
+    if (tooltip) { tooltip.remove(); tooltip = null; }
+  }
+
+  // ── TRANSLATE ────────────────────────────────────────────────
+  async function doTranslate(word) {
+    showBody();
+    showLoading("Translating…");
+    try {
+      const res  = await callGroq(`Translate this English word or phrase to Spanish for a language learner. 
+Word: "${word}"
+Context: lesson titled "${LESSON_TITLE}"
+
+Reply with ONLY this JSON (no markdown):
+{"translation": "...", "partOfSpeech": "...", "example": "..."}`);
+
+      let data;
+      try { data = JSON.parse(res.replace(/```json|```/g,"").trim()); }
+      catch { data = { translation: res.trim(), partOfSpeech: "", example: "" }; }
+
+      const body = document.getElementById("eu-tt-body");
+      if (!body) return;
+      body.innerHTML = `
+        <div class="eu-trans">🇪🇸 ${escHtml(data.translation || "—")}</div>
+        ${data.partOfSpeech ? `<div style="font-size:11px;color:rgba(255,255,255,0.4);margin-bottom:4px">${escHtml(data.partOfSpeech)}</div>` : ""}
+        ${data.example ? `<div class="eu-examples"><div class="eu-example">"${escHtml(data.example)}"</div></div>` : ""}
+      `;
+    } catch(err) {
+      showError("Could not translate. Try again.");
+    }
+  }
+
+  // ── EXPLAIN ─────────────────────────────────────────────────
+  async function doExplain(word) {
+    showBody();
+    showLoading("Asking Claude…");
+    try {
+      const res = await callGroq(`You are an English tutor for adult A1-B1 learners (Spanish speakers).
+Explain this word or phrase briefly and clearly.
+Word: "${word}"
+Lesson context: "${LESSON_TITLE}"
+
+Reply with ONLY this JSON (no markdown):
+{
+  "definition": "simple definition in English (1 sentence)",
+  "translation": "Spanish translation",
+  "examples": ["short example 1", "short example 2"]
+}`);
+
+      let data;
+      try { data = JSON.parse(res.replace(/```json|```/g,"").trim()); }
+      catch { data = { definition: res.trim(), translation: "", examples: [] }; }
+
+      const body = document.getElementById("eu-tt-body");
+      if (!body) return;
+      body.innerHTML = `
+        ${data.translation ? `<div class="eu-trans">🇪🇸 ${escHtml(data.translation)}</div>` : ""}
+        <div style="margin-bottom:6px">${escHtml(data.definition || "")}</div>
+        ${data.examples?.length ? `
+          <div class="eu-examples">
+            ${data.examples.map(ex => `<div class="eu-example">"${escHtml(ex)}"</div>`).join("")}
+          </div>` : ""}
+      `;
+    } catch(err) {
+      showError("Could not explain. Try again.");
+    }
+  }
+
+  // ── SAVE ─────────────────────────────────────────────────────
+  async function doSave(word) {
+    const btn  = document.getElementById("eu-btn-save");
+    const icon = btn?.querySelector(".eu-btn-icon");
+    const lbl  = btn?.querySelector("span:last-child");
+
+    if (savedWords.has(word.toLowerCase())) {
+      showBody();
+      const body = document.getElementById("eu-tt-body");
+      if (body) body.innerHTML = `<div class="eu-save-confirm">✅ Already saved!</div>`;
+      return;
+    }
+
+    if (btn) { btn.disabled = true; if(icon) icon.textContent = "⏳"; if(lbl) lbl.textContent = "Saving…"; }
+
+    // Get translation quickly for context
+    let translation = "";
+    try {
+      const res = await callGroq(`Translate "${word}" to Spanish. Reply with ONLY the Spanish translation, nothing else.`);
+      translation = res.trim().replace(/["""]/g,"");
+    } catch { /* ok, save without translation */ }
+
+    // Send to parent app via postMessage
+    const payload = {
+      type:        "ENGLISHUP_SAVE_WORD",
+      word:        word,
+      translation: translation,
+      lessonTitle: LESSON_TITLE,
+    };
+
+    window.parent?.postMessage(payload, window.location.origin);
+    // Also try top-level if nested
+    if (window.parent !== window.top) {
+      window.top?.postMessage(payload, window.location.origin);
+    }
+
+    savedWords.add(word.toLowerCase());
+
+    if (btn)  { btn.classList.add("saved"); btn.disabled = false; }
+    if (icon) icon.textContent = "✅";
+    if (lbl)  lbl.textContent  = "Saved!";
+
+    showBody();
+    const body = document.getElementById("eu-tt-body");
+    if (body) body.innerHTML = `<div class="eu-save-confirm">✅ "${escHtml(word)}" saved to your vocabulary!</div>`;
+  }
+
+  // ── GROQ CALL ────────────────────────────────────────────────
+  async function callGroq(prompt) {
+    const res = await fetch(GROQ_WORKER_URL, {
+      method:  "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        model:       GROQ_MODEL,
+        messages:    [{ role: "user", content: prompt }],
+        max_tokens:  300,
+        temperature: 0.4,
+      }),
+    });
+    if (!res.ok) throw new Error(`Groq ${res.status}`);
+    const data = await res.json();
+    return data?.choices?.[0]?.message?.content?.trim() ?? "";
+  }
+
+  // ── BODY HELPERS ─────────────────────────────────────────────
+  function showBody() {
+    const body = document.getElementById("eu-tt-body");
+    if (body) body.style.display = "block";
+  }
+
+  function showLoading(msg) {
+    const body = document.getElementById("eu-tt-body");
+    if (!body) return;
+    body.innerHTML = `<div class="loading"><div class="eu-tt-spinner"></div>${escHtml(msg)}</div>`;
+    body.classList.add("loading");
+  }
+
+  function showError(msg) {
+    const body = document.getElementById("eu-tt-body");
+    if (!body) return;
+    body.classList.remove("loading");
+    body.innerHTML = `<div style="color:#fb7185">${escHtml(msg)}</div>`;
+  }
+
+  function escHtml(str) {
+    return String(str||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+  }
+
+  // ── SELECTION LISTENER ───────────────────────────────────────
+  let selectionTimer = null;
+
+  document.addEventListener("mouseup", handleSelectionEnd);
+  document.addEventListener("touchend", handleSelectionEnd);
+
+  function handleSelectionEnd(e) {
+    clearTimeout(selectionTimer);
+    selectionTimer = setTimeout(() => {
+      const sel  = window.getSelection();
+      const text = sel?.toString().trim();
+
+      // Must be 1-6 words, not just numbers/symbols
+      if (!text || text.length < 2 || text.length > 60) { removeTooltip(); return; }
+      if (!/[a-zA-Z]/.test(text)) { removeTooltip(); return; }
+      if (text.split(/\s+/).length > 6) { removeTooltip(); return; }
+
+      // Get position from selection range
+      let x, y;
+      try {
+        const range  = sel.getRangeAt(0);
+        const rect   = range.getBoundingClientRect();
+        x = rect.left + rect.width / 2;
+        y = rect.top + window.scrollY;
+      } catch {
+        x = e.clientX || window.innerWidth / 2;
+        y = (e.clientY || window.innerHeight / 2) + window.scrollY;
+      }
+
+      createTooltip(text, x, y);
+    }, 400); // 400ms hold to avoid triggering on quick clicks
+  }
+
+  // Close on click outside
+  document.addEventListener("mousedown", (e) => {
+    if (tooltip && !tooltip.contains(e.target)) {
+      removeTooltip();
+    }
+  });
+
+  // Close on scroll (reposition would be complex)
+  document.addEventListener("scroll", removeTooltip, { passive: true });
+
+})();
+</script>
+</body>
+</html>
