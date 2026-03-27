@@ -2480,6 +2480,10 @@ window.addEventListener('message', function(event) {
     // Position
     positionTooltip(x, y);
 
+    // ── FIX: evita que clicks DENTRO del tooltip burbujeen al document
+    //    y cierren el tooltip antes de que los botones puedan ejecutarse.
+    tooltip.addEventListener("click", (e) => { e.stopPropagation(); });
+
     // Events
     document.getElementById("eu-tt-close")?.addEventListener("click", removeTooltip);
     document.getElementById("eu-btn-translate")?.addEventListener("click", () => doTranslate(word));
@@ -2695,8 +2699,11 @@ Reply with ONLY this JSON (no markdown):
     }, 400); // 400ms hold to avoid triggering on quick clicks
   }
 
-  // Close on click outside
-  document.addEventListener("mousedown", (e) => {
+  // Close on click outside.
+  // ── FIX: usamos "click" en lugar de "mousedown" porque mousedown dispara
+  //    ANTES que el click del botón, destruyendo el tooltip antes de que
+  //    Translate / Explain / Save puedan ejecutarse.
+  document.addEventListener("click", (e) => {
     if (tooltip && !tooltip.contains(e.target)) {
       removeTooltip();
     }

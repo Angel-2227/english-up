@@ -1903,6 +1903,9 @@ window.addEventListener('scroll', function onFirstScroll() {
     tooltip=document.createElement("div");tooltip.id="eu-word-tooltip";
     tooltip.innerHTML=`<div class="eu-tt-header"><div class="eu-tt-word">${escH(word)}</div><button class="eu-tt-close" id="eu-tt-close">✕</button></div><div class="eu-tt-actions"><button class="eu-tt-btn" id="eu-btn-tr"><span class="eu-btn-icon">🇪🇸</span><span>Translate</span></button><button class="eu-tt-btn" id="eu-btn-ex"><span class="eu-btn-icon">🤖</span><span>Explain</span></button><button class="eu-tt-btn ${savedWords.has(word.toLowerCase())?"saved":""}" id="eu-btn-sv"><span class="eu-btn-icon">${savedWords.has(word.toLowerCase())?"✅":"💾"}</span><span>${savedWords.has(word.toLowerCase())?"Saved!":"Save"}</span></button></div><div class="eu-tt-body" id="eu-tt-body" style="display:none"></div>`;
     document.body.appendChild(tooltip);
+    // ── FIX: evita que clicks DENTRO del tooltip burbujeen al document
+    //    y cierren el tooltip antes de que los botones puedan ejecutarse.
+    tooltip.addEventListener("click", (e) => { e.stopPropagation(); });
     let left=x-160,top=y-212;
     left=Math.max(8,Math.min(left,window.innerWidth-328));
     if(top<60)top=y+20;
@@ -1956,10 +1959,205 @@ window.addEventListener('scroll', function onFirstScroll() {
       createTooltip(text,x,y);
     },400);
   }
-  document.addEventListener("mousedown",e=>{if(tooltip&&!tooltip.contains(e.target))removeTooltip();});
+  // ── FIX: usamos "click" en lugar de "mousedown" porque mousedown dispara
+  //    ANTES que el click del botón, destruyendo el tooltip antes de que
+  //    Translate / Explain / Save puedan ejecutarse.
+  document.addEventListener("click",e=>{if(tooltip&&!tooltip.contains(e.target))removeTooltip();});
   document.addEventListener("scroll",removeTooltip,{passive:true});
 })();
 </script>
+<!-- ══ PHRASE BUILDER (botón flotante de vocabulario) ══ -->
+<style>
+#pb-fab{position:fixed;bottom:90px;left:16px;width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,#C9862A,#f59e0b);border:none;cursor:pointer;font-size:22px;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(201,134,42,.45);transition:transform .2s,box-shadow .2s;z-index:9990;color:#1a1208;font-weight:900;flex-direction:column;gap:0}
+#pb-fab:hover{transform:scale(1.1);box-shadow:0 6px 28px rgba(201,134,42,.6)}
+#pb-fab-label{font-size:9px;font-weight:700;letter-spacing:.04em;margin-top:1px}
+#pb-panel{position:fixed;bottom:90px;left:16px;width:300px;max-height:480px;background:#231e19;border:1.5px solid rgba(201,134,42,.35);border-radius:18px;overflow:hidden;display:flex;flex-direction:column;z-index:9989;box-shadow:0 12px 40px rgba(0,0,0,.45);transform-origin:bottom left;transition:transform .22s cubic-bezier(.34,1.56,.64,1),opacity .18s}
+#pb-panel.pb-hidden{transform:scale(.8) translateY(20px);opacity:0;pointer-events:none}
+#pb-header{padding:12px 14px 10px;background:#2d261f;border-bottom:1px solid rgba(255,255,255,.08);display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+.pb-htitle{font-size:13px;font-weight:700;color:#f5d89a;letter-spacing:.03em}
+.pb-hsub{font-size:10px;color:rgba(255,255,255,.4);margin-top:1px}
+#pb-close{background:none;border:none;color:rgba(255,255,255,.4);cursor:pointer;font-size:16px;padding:0 2px;line-height:1;font-family:inherit}
+#pb-close:hover{color:#fff}
+#pb-tabs{display:flex;border-bottom:1px solid rgba(255,255,255,.08);flex-shrink:0;overflow-x:auto}
+.pb-tab{flex:1;padding:8px 4px;background:none;border:none;font-size:11px;font-weight:700;color:rgba(255,255,255,.4);cursor:pointer;white-space:nowrap;border-bottom:2.5px solid transparent;transition:all .15s;font-family:inherit}
+.pb-tab.pb-active{color:#f59e0b;border-bottom-color:#f59e0b}
+.pb-tab:hover:not(.pb-active){color:rgba(255,255,255,.7)}
+#pb-body{overflow-y:auto;flex:1;padding:10px}
+.pb-sec{margin-bottom:12px}
+.pb-sec-lbl{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:rgba(255,255,255,.3);margin-bottom:7px;padding-left:2px}
+.pb-chips{display:flex;flex-wrap:wrap;gap:6px}
+.pb-chip{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:99px;padding:5px 11px;font-size:12px;font-family:inherit;color:rgba(255,255,255,.85);cursor:pointer;transition:all .15s;display:inline-flex;align-items:center;gap:6px;line-height:1.3;user-select:none}
+.pb-chip:hover{background:rgba(201,134,42,.2);border-color:rgba(201,134,42,.5);color:#fff}
+.pb-spk{font-size:13px;opacity:.6;flex-shrink:0}
+.pb-spk:hover{opacity:1}
+.pb-es{font-size:10px;color:rgba(255,255,255,.35);font-style:italic}
+.pb-hint{font-size:10px;color:rgba(255,255,255,.25);text-align:center;padding:6px 0 4px;font-style:italic}
+@media(max-width:400px){#pb-panel{width:calc(100vw - 24px);left:12px}}
+</style>
 
+<button id="pb-fab" aria-label="Phrase Builder">
+  🏷️<span id="pb-fab-label">Words</span>
+</button>
+
+<div id="pb-panel" class="pb-hidden" role="dialog" aria-label="Phrase Builder">
+  <div id="pb-header">
+    <div>
+      <div class="pb-htitle">Phrase Builder</div>
+      <div class="pb-hsub">Tap a word · 🔊 to hear it</div>
+    </div>
+    <button id="pb-close">✕</button>
+  </div>
+  <div id="pb-tabs">
+    <button class="pb-tab pb-active" data-tab="describe">🙋 Me</button>
+    <button class="pb-tab" data-tab="feelings">💛 Feelings</button>
+    <button class="pb-tab" data-tab="bio">📋 Bio</button>
+    <button class="pb-tab" data-tab="starter">✍️ Starters</button>
+  </div>
+  <div id="pb-body"></div>
+</div>
+
+<script>
+(function(){
+const PB_DATA={
+  describe:[
+    {label:"Personality",items:[
+      {en:"shy",es:"tímido/a"},{en:"confident",es:"seguro/a de sí mismo"},{en:"friendly",es:"amigable"},
+      {en:"quiet",es:"tranquilo/a"},{en:"funny",es:"gracioso/a"},{en:"creative",es:"creativo/a"},
+      {en:"serious",es:"serio/a"},{en:"kind",es:"amable"},{en:"brave",es:"valiente"},
+      {en:"honest",es:"honesto/a"},{en:"patient",es:"paciente"},{en:"restless",es:"inquieto/a"},
+      {en:"proud",es:"orgulloso/a"},{en:"hopeful",es:"lleno/a de esperanza"},{en:"fearless",es:"sin miedo"},
+      {en:"talkative",es:"hablador/a"},{en:"organized",es:"organizado/a"},{en:"spontaneous",es:"espontáneo/a"}
+    ]},
+    {label:"Right now (feelings)",items:[
+      {en:"happy",es:"feliz"},{en:"tired",es:"cansado/a"},{en:"excited",es:"emocionado/a"},
+      {en:"nervous",es:"nervioso/a"},{en:"relaxed",es:"relajado/a"},{en:"bored",es:"aburrido/a"},
+      {en:"focused",es:"concentrado/a"},{en:"in love",es:"enamorado/a"},{en:"proud",es:"orgulloso/a"},
+      {en:"grateful",es:"agradecido/a"}
+    ]},
+    {label:"Identity",items:[
+      {en:"a student",es:"estudiante"},{en:"a teacher",es:"profesora"},{en:"a mother",es:"mamá"},
+      {en:"a daughter",es:"hija"},{en:"a sister",es:"hermana"},{en:"Colombian",es:"colombiana"},
+      {en:"a morning person",es:"persona mañanera"},{en:"a night owl",es:"noctámbula"}
+    ]}
+  ],
+  feelings:[
+    {label:"Positive",items:[
+      {en:"wonderful",es:"maravilloso/a"},{en:"grateful",es:"agradecido/a"},{en:"motivated",es:"motivado/a"},
+      {en:"proud",es:"orgulloso/a"},{en:"hopeful",es:"lleno/a de esperanza"},{en:"in love",es:"enamorado/a"},
+      {en:"peaceful",es:"tranquilo/a"},{en:"joyful",es:"alegre"},{en:"enthusiastic",es:"entusiasta"},
+      {en:"confident",es:"seguro/a"}
+    ]},
+    {label:"Honest / Negative",items:[
+      {en:"scared",es:"asustado/a"},{en:"worried",es:"preocupado/a"},{en:"lonely",es:"solo/a"},
+      {en:"overwhelmed",es:"abrumado/a"},{en:"frustrated",es:"frustrado/a"},{en:"not sure",es:"no estoy segura"},
+      {en:"confused",es:"confundido/a"},{en:"shy",es:"tímido/a"},{en:"restless",es:"inquieto/a"}
+    ]},
+    {label:"Connect with 'because'",items:[
+      {en:"because I am…",es:"porque soy / estoy…"},{en:"because it is…",es:"porque es…"},
+      {en:"because they are…",es:"porque son / están…"},{en:"because I was…",es:"porque era / estaba…"},
+      {en:"because I am not…",es:"porque no soy / no estoy…"}
+    ]}
+  ],
+  bio:[
+    {label:"Origin & Age",items:[
+      {en:"I am from…",es:"Soy de…"},{en:"I am … years old",es:"Tengo … años"},
+      {en:"I was born in…",es:"Nací en…"},{en:"I grew up in…",es:"Crecí en…"},
+      {en:"I am Colombian",es:"Soy colombiana"},{en:"I am from Medellín",es:"Soy de Medellín"}
+    ]},
+    {label:"Family",items:[
+      {en:"I am a mother",es:"Soy mamá"},{en:"I am married",es:"Estoy casada"},
+      {en:"I am single",es:"Estoy soltera"},{en:"My husband is…",es:"Mi esposo es…"},
+      {en:"My children are…",es:"Mis hijos son…"},{en:"I live with…",es:"Vivo con…"},
+      {en:"I have a sister",es:"Tengo una hermana"}
+    ]},
+    {label:"Work & Study",items:[
+      {en:"I am a…",es:"Soy…"},{en:"I work at…",es:"Trabajo en…"},
+      {en:"I am a student",es:"Soy estudiante"},{en:"My job is…",es:"Mi trabajo es…"},
+      {en:"I am not working",es:"No estoy trabajando"},{en:"I study…",es:"Estudio…"}
+    ]},
+    {label:"Past — when I was young",items:[
+      {en:"When I was young…",es:"Cuando era joven…"},{en:"I was very shy",es:"Era muy tímida"},
+      {en:"I wasn't confident",es:"No era segura de mí misma"},{en:"I was good at…",es:"Era buena en…"},
+      {en:"I was not popular",es:"No era popular"},{en:"I was happy",es:"Era feliz"}
+    ]}
+  ],
+  starter:[
+    {label:"Positive sentences",items:[
+      {en:"I am…",es:"Soy / Estoy…"},{en:"She is…",es:"Ella es / está…"},
+      {en:"He is…",es:"Él es / está…"},{en:"They are…",es:"Ellos son / están…"},
+      {en:"We are…",es:"Somos / Estamos…"},{en:"I am from…",es:"Soy de…"}
+    ]},
+    {label:"Negative sentences",items:[
+      {en:"I am not…",es:"No soy / No estoy…"},{en:"She isn't…",es:"Ella no es / no está…"},
+      {en:"He wasn't…",es:"Él no era / no estaba…"},{en:"They aren't…",es:"Ellos no son…"},
+      {en:"I wasn't…",es:"No era / No estaba…"}
+    ]},
+    {label:"Questions",items:[
+      {en:"Are you…?",es:"¿Eres / Estás…?"},{en:"Is she…?",es:"¿Ella es / está…?"},
+      {en:"Were you…?",es:"¿Eras / Estabas…?"},{en:"Where are you from?",es:"¿De dónde eres?"},
+      {en:"How old are you?",es:"¿Cuántos años tienes?"}
+    ]},
+    {label:"Short answers",items:[
+      {en:"Yes, I am.",es:"Sí."},{en:"No, I'm not.",es:"No."},
+      {en:"Yes, she is.",es:"Sí, ella sí."},{en:"No, he isn't.",es:"No, él no."},
+      {en:"Yes, I was.",es:"Sí, lo era."},{en:"No, I wasn't.",es:"No, no lo era."}
+    ]}
+  ]
+};
+
+let pbOpen=false,pbVoices=[];
+function pbLoadVoices(){
+  pbVoices=window.speechSynthesis?.getVoices()||[];
+  if(!pbVoices.length)window.speechSynthesis.onvoiceschanged=()=>{pbVoices=window.speechSynthesis.getVoices();};
+}
+pbLoadVoices();
+
+function pbSpeak(text){
+  if(!window.speechSynthesis)return;
+  window.speechSynthesis.cancel();
+  const u=new SpeechSynthesisUtterance(text);
+  u.lang='en-US';u.rate=0.85;u.pitch=1;
+  const v=pbVoices.find(x=>x.lang==='en-US')||pbVoices.find(x=>x.lang.startsWith('en'))||null;
+  if(v)u.voice=v;
+  window.speechSynthesis.speak(u);
+}
+window.pbSpeak=pbSpeak;
+
+function pbRender(tabId){
+  const body=document.getElementById('pb-body');
+  if(!body)return;
+  const sections=PB_DATA[tabId]||[];
+  body.innerHTML=sections.map(s=>`
+    <div class="pb-sec">
+      <div class="pb-sec-lbl">${s.label}</div>
+      <div class="pb-chips">
+        ${s.items.map(it=>`<div class="pb-chip" onclick="pbSpeak('${it.en.replace(/'/g,"\\'")}')"><span class="pb-spk">🔊</span><span style="font-weight:600">${it.en}</span><span class="pb-es">${it.es}</span></div>`).join('')}
+      </div>
+    </div>
+  `).join('')+'<div class="pb-hint">Tap any word to hear it in English!</div>';
+}
+
+const pbFab=document.getElementById('pb-fab');
+const pbPanel=document.getElementById('pb-panel');
+const pbTabs=document.getElementById('pb-tabs');
+
+pbFab?.addEventListener('click',()=>{
+  pbOpen=!pbOpen;
+  pbPanel.classList.toggle('pb-hidden',!pbOpen);
+});
+document.getElementById('pb-close')?.addEventListener('click',()=>{
+  pbOpen=false;pbPanel.classList.add('pb-hidden');
+});
+pbTabs?.addEventListener('click',e=>{
+  const btn=e.target.closest('.pb-tab');
+  if(!btn)return;
+  pbTabs.querySelectorAll('.pb-tab').forEach(t=>t.classList.remove('pb-active'));
+  btn.classList.add('pb-active');
+  pbRender(btn.dataset.tab);
+});
+
+pbRender('describe');
+})();
+</script>
 </body>
 </html>
