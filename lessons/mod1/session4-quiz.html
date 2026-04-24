@@ -1,0 +1,2552 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>English Up! — Mid-Course Evaluation · M0–S3</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,400&family=DM+Sans:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --navy:      #0A1628;
+  --navy2:     #1A2840;
+  --blue:      #1E3A6E;
+  --blue2:     #2B5197;
+  --sky:       #3B82C4;
+  --sky-lt:    #DBEAFE;
+  --gold:      #C8952A;
+  --gold-lt:   #FEF3C7;
+  --gold2:     #F59E0B;
+  --cream:     #FAFAF7;
+  --parchment: #F0EDE4;
+  --ink:       #111827;
+  --muted:     #6B7280;
+  --border:    #E5E7EB;
+  --sage:      #2D6A4F;
+  --sage-lt:   #D1FAE5;
+  --rust:      #B91C1C;
+  --rust-lt:   #FEE2E2;
+  --orange:    #D97706;
+  --orange-lt: #FEF3C7;
+  --purple:    #7C3AED;
+  --purple-lt: #EDE9FE;
+  --radius:    12px;
+  --shadow:    0 2px 16px rgba(10,22,40,0.10);
+  --shadow-md: 0 8px 32px rgba(10,22,40,0.16);
+  --font-h:    'Playfair Display', Georgia, serif;
+  --font-b:    'DM Sans', sans-serif;
+  --font-m:    'DM Mono', monospace;
+}
+
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--font-b);
+  background: var(--cream);
+  color: var(--ink);
+  line-height: 1.6;
+  font-size: 15px;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── COVER SCREEN ── */
+#cover-screen {
+  min-height: 100dvh;
+  background: linear-gradient(155deg, var(--navy) 0%, var(--blue) 55%, #1a4080 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+#cover-screen::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60'%3E%3Ccircle cx='30' cy='30' r='1' fill='%23ffffff' opacity='0.04'/%3E%3C/svg%3E") repeat;
+  pointer-events: none;
+}
+.cover-logo {
+  font-family: var(--font-h);
+  color: rgba(255,255,255,0.5);
+  font-size: .85rem;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  margin-bottom: 2rem;
+}
+.cover-badge {
+  background: var(--gold);
+  color: var(--navy);
+  font-size: .72rem;
+  font-weight: 700;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  padding: 4px 16px;
+  border-radius: 99px;
+  margin-bottom: 1.2rem;
+  display: inline-block;
+}
+.cover-title {
+  font-family: var(--font-h);
+  font-size: clamp(2rem, 8vw, 3.6rem);
+  font-weight: 900;
+  color: white;
+  line-height: 1.1;
+  margin-bottom: .6rem;
+}
+.cover-sub {
+  color: rgba(255,255,255,0.6);
+  font-size: 1rem;
+  margin-bottom: 2.5rem;
+  font-style: italic;
+  font-family: var(--font-h);
+}
+.cover-meta-grid {
+  display: flex;
+  gap: 1.5rem;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 3rem;
+}
+.cover-meta-item {
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.14);
+  border-radius: 10px;
+  padding: 12px 18px;
+  color: rgba(255,255,255,0.85);
+  font-size: .82rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.cover-meta-icon { font-size: 1.2rem; }
+.cover-sections {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 2.5rem;
+}
+.cover-section-pill {
+  background: rgba(255,255,255,0.1);
+  border: 1.5px solid rgba(255,255,255,0.18);
+  border-radius: 99px;
+  padding: 6px 16px;
+  color: rgba(255,255,255,0.8);
+  font-size: .78rem;
+  font-weight: 600;
+}
+.btn-start {
+  background: var(--gold);
+  color: var(--navy);
+  border: none;
+  padding: 16px 48px;
+  border-radius: 99px;
+  font-family: var(--font-b);
+  font-weight: 800;
+  font-size: 1rem;
+  cursor: pointer;
+  letter-spacing: .03em;
+  transition: all .2s;
+  box-shadow: 0 4px 20px rgba(200,149,42,0.4);
+}
+.btn-start:hover {
+  background: #F5D89A;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 28px rgba(200,149,42,0.5);
+}
+.cover-note {
+  margin-top: 1.5rem;
+  color: rgba(255,255,255,0.35);
+  font-size: .75rem;
+}
+
+/* ── MAIN EXAM LAYOUT ── */
+#exam-wrapper { display: none; }
+
+.exam-header {
+  background: var(--navy);
+  color: white;
+  padding: 12px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 2px 12px rgba(10,22,40,0.3);
+  gap: 12px;
+}
+.exam-header-logo {
+  font-family: var(--font-h);
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--gold2);
+  white-space: nowrap;
+}
+.exam-timer {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-m);
+  font-size: .95rem;
+  font-weight: 700;
+  color: white;
+  background: rgba(255,255,255,0.1);
+  padding: 6px 14px;
+  border-radius: 99px;
+}
+.exam-timer.warning { background: rgba(245,158,11,0.25); color: var(--gold2); }
+.exam-timer.danger  { background: rgba(185,28,28,0.3);  color: #fca5a5; animation: timerPulse .8s infinite; }
+@keyframes timerPulse { 0%,100%{ opacity:1; } 50%{ opacity:.6; } }
+.exam-progress-nav {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+}
+.exam-nav-dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: rgba(255,255,255,0.2);
+  transition: background .2s;
+}
+.exam-nav-dot.active   { background: var(--gold2); }
+.exam-nav-dot.complete { background: #4ade80; }
+
+.exam-body {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 32px 20px 80px;
+}
+@media (min-width: 600px) { .exam-body { padding: 40px 32px 100px; } }
+
+/* ── SECTION INTRO CARD ── */
+.part-intro {
+  background: white;
+  border-radius: 16px;
+  padding: 28px 28px 20px;
+  margin-bottom: 24px;
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow);
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+}
+.part-icon {
+  width: 52px; height: 52px;
+  border-radius: 14px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.6rem;
+  flex-shrink: 0;
+}
+.pi-blue   { background: var(--sky-lt); }
+.pi-gold   { background: var(--gold-lt); }
+.pi-purple { background: var(--purple-lt); }
+.pi-sage   { background: var(--sage-lt); }
+.part-intro-text {}
+.part-badge {
+  font-size: .65rem;
+  font-weight: 700;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 4px;
+}
+.part-title {
+  font-family: var(--font-h);
+  font-size: 1.35rem;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+.part-desc { font-size: .85rem; color: var(--muted); line-height: 1.55; }
+.part-points {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: var(--parchment);
+  border-radius: 99px;
+  padding: 3px 12px;
+  font-size: .75rem;
+  font-weight: 700;
+  color: var(--gold);
+  margin-top: 8px;
+}
+
+/* ── QUESTION CARD ── */
+.q-card {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 22px 24px;
+  margin-bottom: 14px;
+  box-shadow: var(--shadow);
+  transition: box-shadow .2s;
+}
+.q-card:focus-within { box-shadow: 0 0 0 3px rgba(59,130,196,0.15), var(--shadow); }
+.q-num {
+  font-size: .68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .1em;
+  color: var(--sky);
+  margin-bottom: 8px;
+  font-family: var(--font-m);
+}
+.q-text {
+  font-weight: 600;
+  font-size: .95rem;
+  margin-bottom: 14px;
+  line-height: 1.55;
+}
+.q-text em { font-style: italic; color: var(--blue2); }
+
+/* ── ANSWER OPTIONS ── */
+.options-grid { display: grid; gap: 8px; }
+.options-grid.col2 { grid-template-columns: 1fr 1fr; }
+.opt-btn {
+  padding: 10px 16px;
+  border-radius: 10px;
+  border: 2px solid var(--border);
+  background: var(--cream);
+  cursor: pointer;
+  font-family: var(--font-b);
+  font-size: .88rem;
+  font-weight: 500;
+  text-align: left;
+  transition: all .15s;
+  color: var(--ink);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+}
+.opt-btn:hover { border-color: var(--sky); background: var(--sky-lt); }
+.opt-btn.selected { border-color: var(--blue2); background: #EFF6FF; color: var(--blue2); font-weight: 700; }
+.opt-btn.correct  { border-color: var(--sage); background: var(--sage-lt); color: var(--sage); font-weight: 700; }
+.opt-btn.wrong    { border-color: var(--rust); background: var(--rust-lt); color: var(--rust); }
+.opt-letter {
+  width: 26px; height: 26px; border-radius: 50%;
+  background: var(--parchment);
+  display: flex; align-items: center; justify-content: center;
+  font-size: .72rem; font-weight: 800; flex-shrink: 0;
+  font-family: var(--font-m);
+}
+
+/* ── TRUE / FALSE ── */
+.tf-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.tf-btn {
+  padding: 12px;
+  border-radius: 10px;
+  border: 2px solid var(--border);
+  background: var(--cream);
+  cursor: pointer;
+  font-family: var(--font-b);
+  font-weight: 700;
+  font-size: .9rem;
+  text-align: center;
+  transition: all .15s;
+  -webkit-tap-highlight-color: transparent;
+}
+.tf-btn:hover  { border-color: var(--sky); background: var(--sky-lt); }
+.tf-btn.sel-t  { border-color: var(--blue2); background: #EFF6FF; color: var(--blue2); }
+.tf-btn.sel-f  { border-color: var(--orange); background: var(--orange-lt); color: var(--orange); }
+.tf-btn.correct { border-color: var(--sage); background: var(--sage-lt); color: var(--sage); }
+.tf-btn.wrong   { border-color: var(--rust); background: var(--rust-lt); color: var(--rust); }
+
+/* ── GAP FILL ── */
+.gap-fill-text {
+  font-family: var(--font-h);
+  font-size: 1rem;
+  line-height: 2.8;
+}
+.gap-input {
+  display: inline-block;
+  border: none;
+  border-bottom: 2.5px solid var(--gold);
+  background: transparent;
+  font-family: var(--font-h);
+  font-size: .95rem;
+  font-weight: 700;
+  padding: 2px 8px;
+  outline: none;
+  color: var(--blue2);
+  min-width: 90px;
+  text-align: center;
+  caret-color: var(--gold);
+  transition: border-color .2s;
+}
+.gap-input:focus { border-bottom-color: var(--blue2); }
+.gap-input.correct { border-bottom-color: var(--sage); color: var(--sage); }
+.gap-input.wrong   { border-bottom-color: var(--rust); color: var(--rust); }
+
+/* ── SHORT ANSWER ── */
+.short-answer {
+  width: 100%;
+  border: 2px solid var(--border);
+  border-radius: 10px;
+  padding: 12px 14px;
+  font-family: var(--font-b);
+  font-size: .9rem;
+  outline: none;
+  resize: vertical;
+  background: var(--cream);
+  color: var(--ink);
+  transition: border-color .2s;
+  min-height: 70px;
+}
+.short-answer:focus { border-color: var(--sky); background: white; }
+
+/* ── WRITING AREA ── */
+.writing-area {
+  width: 100%;
+  border: 2px solid var(--border);
+  border-radius: 10px;
+  padding: 14px 16px;
+  font-family: var(--font-h);
+  font-size: .93rem;
+  outline: none;
+  resize: vertical;
+  background: white;
+  color: var(--ink);
+  transition: border-color .2s;
+  line-height: 1.8;
+  min-height: 130px;
+}
+.writing-area:focus { border-color: var(--blue2); }
+.word-counter {
+  text-align: right;
+  font-size: .72rem;
+  color: var(--muted);
+  margin-top: 4px;
+  font-family: var(--font-m);
+}
+.word-counter.warn { color: var(--orange); }
+.word-counter.ok   { color: var(--sage); }
+
+/* ── DIVIDER ── */
+.section-divider {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 36px 0 24px;
+}
+.section-divider::before, .section-divider::after {
+  content: ''; flex: 1;
+  height: 1px; background: var(--border);
+}
+.section-divider-label {
+  font-size: .7rem;
+  font-weight: 700;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+/* ── LISTENING ── */
+.audio-player-card {
+  background: linear-gradient(135deg, var(--navy), var(--blue));
+  border-radius: 16px;
+  padding: 24px;
+  margin-bottom: 20px;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.audio-player-title {
+  font-family: var(--font-h);
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--gold2);
+}
+.audio-player-controls {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+.btn-play {
+  width: 48px; height: 48px; border-radius: 50%;
+  background: var(--gold);
+  border: none;
+  cursor: pointer;
+  font-size: 1.2rem;
+  display: flex; align-items: center; justify-content: center;
+  transition: all .2s;
+  flex-shrink: 0;
+  color: var(--navy);
+}
+.btn-play:hover { background: var(--gold2); transform: scale(1.07); }
+.btn-play.playing { background: #4ade80; }
+.audio-progress-wrap {
+  flex: 1; min-width: 140px;
+  display: flex; flex-direction: column; gap: 4px;
+}
+.audio-progress-track {
+  height: 6px; background: rgba(255,255,255,0.2); border-radius: 3px; overflow: hidden;
+}
+.audio-progress-fill {
+  height: 100%; background: var(--gold); border-radius: 3px;
+  transition: width .3s linear;
+  width: 0%;
+}
+.audio-meta {
+  display: flex; justify-content: space-between;
+  font-family: var(--font-m); font-size: .72rem; opacity: .6;
+}
+.audio-instructions {
+  font-size: .82rem;
+  color: rgba(255,255,255,0.7);
+  background: rgba(255,255,255,0.08);
+  border-radius: 8px;
+  padding: 10px 14px;
+}
+.audio-play-count {
+  font-size: .75rem;
+  font-weight: 700;
+  color: rgba(255,255,255,0.5);
+  font-family: var(--font-m);
+}
+.btn-speed {
+  background: rgba(255,255,255,0.12);
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 99px;
+  color: white;
+  padding: 4px 12px;
+  font-size: .75rem;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: var(--font-m);
+  transition: background .2s;
+}
+.btn-speed:hover { background: rgba(255,255,255,0.2); }
+.btn-speed.slow   { color: var(--gold2); }
+
+/* ── READING PASSAGE ── */
+.reading-passage {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 24px 28px;
+  margin-bottom: 20px;
+  box-shadow: var(--shadow);
+  font-size: .9rem;
+  line-height: 1.9;
+}
+.reading-passage h4 {
+  font-family: var(--font-h);
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin-bottom: 12px;
+  color: var(--navy);
+}
+.reading-passage p { margin-bottom: 12px; }
+.reading-passage p:last-child { margin-bottom: 0; }
+.passage-label {
+  font-size: .65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .12em;
+  color: var(--blue2);
+  margin-bottom: 12px;
+  display: block;
+}
+.vocab-highlight {
+  background: var(--gold-lt);
+  padding: 1px 4px;
+  border-radius: 3px;
+  font-weight: 600;
+}
+
+/* ── MATCHING ── */
+.matching-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  align-items: start;
+}
+@media (max-width: 480px) { .matching-grid { grid-template-columns: 1fr; } }
+.match-col-label {
+  font-size: .7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  color: var(--muted);
+  margin-bottom: 8px;
+}
+.match-chip {
+  background: var(--parchment);
+  border: 2px solid transparent;
+  border-radius: 99px;
+  padding: 9px 16px;
+  cursor: pointer;
+  font-size: .85rem;
+  font-weight: 600;
+  color: var(--ink);
+  font-family: var(--font-b);
+  transition: all .15s;
+  user-select: none;
+  margin-bottom: 6px;
+  display: inline-block;
+}
+.match-chip:hover { border-color: var(--gold); background: var(--gold-lt); }
+.match-chip.chip-sel { background: var(--blue2); color: white; border-color: var(--blue2); }
+.match-chip.chip-used { opacity: .3; pointer-events: none; text-decoration: line-through; }
+.match-def-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: white;
+  border: 2px solid var(--border);
+  border-radius: 10px;
+  padding: 10px 14px;
+  cursor: pointer;
+  margin-bottom: 6px;
+  transition: all .15s;
+  font-size: .85rem;
+  min-height: 48px;
+}
+.match-def-row:hover { border-color: var(--gold); }
+.match-def-row.correct { border-color: var(--sage); background: var(--sage-lt); }
+.match-def-row.wrong   { border-color: var(--rust); background: var(--rust-lt); }
+.match-placed {
+  font-size: .78rem; font-weight: 700;
+  color: var(--blue2); background: var(--sky-lt);
+  padding: 2px 10px; border-radius: 99px; white-space: nowrap;
+  flex-shrink: 0; display: none;
+}
+.match-def-row.correct .match-placed { display: inline-block; color: var(--sage); background: var(--sage-lt); }
+.match-def-row.wrong   .match-placed { display: inline-block; color: var(--rust); background: var(--rust-lt); }
+
+/* ── SUBMIT ── */
+.submit-bar {
+  position: fixed; bottom: 0; left: 0; right: 0;
+  background: white;
+  border-top: 2px solid var(--border);
+  padding: 14px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  z-index: 90;
+  box-shadow: 0 -4px 20px rgba(10,22,40,0.08);
+  flex-wrap: wrap;
+}
+.submit-bar-left { font-size: .83rem; color: var(--muted); flex: 1; min-width: 140px; }
+.submit-bar-left strong { color: var(--ink); }
+.btn-submit {
+  background: var(--navy);
+  color: white;
+  border: none;
+  padding: 12px 28px;
+  border-radius: 10px;
+  font-family: var(--font-b);
+  font-weight: 700;
+  font-size: .9rem;
+  cursor: pointer;
+  transition: all .2s;
+  flex-shrink: 0;
+}
+.btn-submit:hover { background: var(--blue); transform: translateY(-1px); }
+.btn-submit:disabled { opacity: .5; cursor: not-allowed; transform: none; }
+
+/* ── INFO BOX ── */
+.info-box {
+  border-radius: 10px;
+  padding: 12px 16px;
+  font-size: .83rem;
+  line-height: 1.6;
+  margin-bottom: 16px;
+}
+.info-box.blue  { background: var(--sky-lt);  border-left: 4px solid var(--sky); }
+.info-box.gold  { background: var(--gold-lt); border-left: 4px solid var(--gold); color: var(--navy2); }
+.info-box.sage  { background: var(--sage-lt); border-left: 4px solid var(--sage); }
+.info-box strong { font-weight: 700; }
+
+/* ══════════════════════════════════════════════
+   RESULTS SCREEN
+══════════════════════════════════════════════ */
+#results-screen { display: none; }
+
+.results-page {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 32px 20px 80px;
+}
+.results-hero {
+  background: linear-gradient(155deg, var(--navy), var(--blue));
+  border-radius: 20px;
+  padding: 40px 32px;
+  text-align: center;
+  color: white;
+  margin-bottom: 32px;
+  position: relative;
+  overflow: hidden;
+}
+.results-hero::before {
+  content: ''; position: absolute; inset: 0;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40'%3E%3Cpath d='M0 20h40M20 0v40' stroke='%23ffffff' stroke-opacity='.03' stroke-width='1'/%3E%3C/svg%3E") repeat;
+  pointer-events: none;
+}
+.results-grade-label { font-size: .72rem; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; color: var(--gold2); margin-bottom: 8px; }
+.results-grade {
+  font-family: var(--font-h);
+  font-size: clamp(3rem, 12vw, 6rem);
+  font-weight: 900;
+  color: white;
+  line-height: 1;
+  margin-bottom: 8px;
+}
+.results-grade-sub { font-size: 1.1rem; opacity: .7; margin-bottom: 12px; }
+.results-grade-title {
+  font-family: var(--font-h);
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--gold2);
+  margin-bottom: 4px;
+}
+.results-cefr {
+  background: rgba(255,255,255,0.12);
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 99px;
+  padding: 4px 16px;
+  font-size: .8rem;
+  font-weight: 700;
+  color: rgba(255,255,255,.85);
+  display: inline-block;
+  margin-top: 8px;
+}
+
+.results-band-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
+  margin-bottom: 28px;
+}
+@media (min-width: 640px) { .results-band-grid { grid-template-columns: repeat(4, 1fr); } }
+.results-band-card {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 18px 14px;
+  text-align: center;
+  box-shadow: var(--shadow);
+  position: relative;
+  overflow: hidden;
+}
+.results-band-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 4px;
+}
+.rbc-blue::before   { background: var(--sky); }
+.rbc-gold::before   { background: var(--gold); }
+.rbc-purple::before { background: var(--purple); }
+.rbc-sage::before   { background: var(--sage); }
+.band-name { font-size: .68rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; }
+.band-score {
+  font-family: var(--font-h);
+  font-size: 2rem;
+  font-weight: 900;
+  line-height: 1;
+  margin-bottom: 4px;
+}
+.rbc-blue .band-score   { color: var(--sky); }
+.rbc-gold .band-score   { color: var(--gold); }
+.rbc-purple .band-score { color: var(--purple); }
+.rbc-sage .band-score   { color: var(--sage); }
+.band-max { font-size: .72rem; color: var(--muted); }
+.band-bar-wrap { background: var(--border); border-radius: 99px; height: 5px; margin: 8px 0 4px; overflow: hidden; }
+.band-bar-fill { height: 100%; border-radius: 99px; transition: width 1s ease; width: 0%; }
+.rbc-blue   .band-bar-fill { background: var(--sky); }
+.rbc-gold   .band-bar-fill { background: var(--gold); }
+.rbc-purple .band-bar-fill { background: var(--purple); }
+.rbc-sage   .band-bar-fill { background: var(--sage); }
+.band-pct { font-size: .7rem; color: var(--muted); font-family: var(--font-m); }
+
+/* Descriptor table */
+.descriptor-card {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 22px 24px;
+  margin-bottom: 20px;
+  box-shadow: var(--shadow);
+}
+.descriptor-title {
+  font-family: var(--font-h);
+  font-size: 1rem;
+  font-weight: 700;
+  margin-bottom: 14px;
+  color: var(--navy);
+}
+.descriptor-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--border);
+  font-size: .85rem;
+}
+.descriptor-row:last-child { border-bottom: none; }
+.descriptor-icon { font-size: 1.1rem; flex-shrink: 0; margin-top: 1px; }
+.descriptor-label { font-weight: 700; color: var(--navy); min-width: 110px; flex-shrink: 0; }
+.descriptor-text { color: var(--muted); flex: 1; line-height: 1.55; }
+
+/* Answer review */
+.answer-review {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 22px 24px;
+  margin-bottom: 20px;
+  box-shadow: var(--shadow);
+}
+.ar-title { font-family: var(--font-h); font-size: 1rem; font-weight: 700; margin-bottom: 14px; color: var(--navy); }
+.ar-item {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--border);
+  font-size: .85rem;
+}
+.ar-item:last-child { border-bottom: none; }
+.ar-num { font-family: var(--font-m); font-size: .7rem; color: var(--muted); min-width: 28px; flex-shrink: 0; }
+.ar-q { flex: 1; color: var(--ink); line-height: 1.5; }
+.ar-status { font-size: .85rem; flex-shrink: 0; }
+
+/* Writing pending */
+.writing-pending-notice {
+  background: var(--gold-lt);
+  border: 1.5px solid var(--gold);
+  border-radius: 10px;
+  padding: 12px 16px;
+  font-size: .84rem;
+  color: var(--navy2);
+  margin-top: 8px;
+}
+
+/* ══════════════════════════════════════════════
+   TEACHER GRADING PANEL
+══════════════════════════════════════════════ */
+#teacher-panel { display: none; }
+
+.teacher-bar {
+  background: var(--gold);
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.teacher-bar-label { font-weight: 800; font-size: .88rem; color: var(--navy); }
+.teacher-bar-btn {
+  background: var(--navy);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 7px 18px;
+  font-family: var(--font-b);
+  font-weight: 700;
+  font-size: .82rem;
+  cursor: pointer;
+  transition: background .2s;
+}
+.teacher-bar-btn:hover { background: var(--blue); }
+
+.writing-grade-card {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 22px 24px;
+  margin-bottom: 16px;
+  box-shadow: var(--shadow);
+}
+.wgc-title { font-family: var(--font-h); font-size: .98rem; font-weight: 700; margin-bottom: 10px; color: var(--navy); }
+.wgc-student-text {
+  background: var(--parchment);
+  border-radius: 8px;
+  padding: 14px 16px;
+  font-size: .88rem;
+  line-height: 1.7;
+  margin-bottom: 14px;
+  font-family: var(--font-h);
+  white-space: pre-wrap;
+  min-height: 50px;
+}
+.wgc-rubric { display: flex; flex-direction: column; gap: 10px; }
+.rubric-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.rubric-label {
+  font-size: .8rem;
+  font-weight: 700;
+  color: var(--navy);
+  min-width: 130px;
+  flex-shrink: 0;
+}
+.rubric-stars { display: flex; gap: 4px; }
+.star-btn {
+  width: 30px; height: 30px; border-radius: 50%;
+  border: 2px solid var(--border);
+  background: white;
+  cursor: pointer;
+  font-size: .85rem;
+  display: flex; align-items: center; justify-content: center;
+  transition: all .15s;
+}
+.star-btn:hover  { border-color: var(--gold); background: var(--gold-lt); }
+.star-btn.filled { background: var(--gold); border-color: var(--gold); color: white; }
+.wgc-feedback-input {
+  width: 100%;
+  border: 2px solid var(--border);
+  border-radius: 8px;
+  padding: 10px 12px;
+  font-family: var(--font-b);
+  font-size: .85rem;
+  outline: none;
+  resize: vertical;
+  min-height: 60px;
+  margin-top: 10px;
+  background: var(--cream);
+}
+.wgc-feedback-input:focus { border-color: var(--sky); background: white; }
+.wgc-score-preview {
+  margin-top: 12px;
+  font-weight: 700;
+  font-size: .88rem;
+  color: var(--navy);
+}
+.btn-apply-grades {
+  background: var(--sage);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  padding: 14px 32px;
+  font-family: var(--font-b);
+  font-weight: 700;
+  font-size: .95rem;
+  cursor: pointer;
+  transition: background .2s;
+  margin-top: 8px;
+}
+.btn-apply-grades:hover { background: var(--navy); }
+
+/* ── LOGIN OVERLAY ── */
+#login-overlay {
+  position: fixed; inset: 0;
+  background: rgba(10,22,40,0.85);
+  display: flex; align-items: center; justify-content: center;
+  z-index: 9999;
+  backdrop-filter: blur(4px);
+}
+.login-box {
+  background: white;
+  border-radius: 20px;
+  padding: 36px 32px;
+  width: 100%;
+  max-width: 380px;
+  margin: 16px;
+  box-shadow: var(--shadow-md);
+}
+.login-box h3 {
+  font-family: var(--font-h);
+  font-size: 1.3rem;
+  font-weight: 700;
+  margin-bottom: 4px;
+  color: var(--navy);
+}
+.login-box p { font-size: .85rem; color: var(--muted); margin-bottom: 24px; }
+.login-field {
+  width: 100%;
+  border: 2px solid var(--border);
+  border-radius: 10px;
+  padding: 12px 14px;
+  font-family: var(--font-b);
+  font-size: .9rem;
+  outline: none;
+  margin-bottom: 12px;
+  transition: border-color .2s;
+}
+.login-field:focus { border-color: var(--blue2); }
+.btn-login {
+  width: 100%;
+  background: var(--navy);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  padding: 12px;
+  font-family: var(--font-b);
+  font-weight: 700;
+  font-size: .95rem;
+  cursor: pointer;
+  transition: background .2s;
+  margin-top: 4px;
+}
+.btn-login:hover { background: var(--blue); }
+#login-error { color: var(--rust); font-size: .8rem; margin-top: 8px; min-height: 18px; text-align: center; }
+.btn-cancel-login {
+  width: 100%; background: none; border: none; color: var(--muted);
+  font-size: .82rem; cursor: pointer; margin-top: 8px; padding: 6px;
+  font-family: var(--font-b);
+}
+.btn-cancel-login:hover { color: var(--navy); }
+
+/* ── PRINT ── */
+@media print {
+  .exam-header, .submit-bar, .teacher-bar, #login-overlay,
+  .btn-play, .audio-player-controls { display: none !important; }
+  body { background: white !important; }
+  .q-card, .reading-passage, .audio-player-card { box-shadow: none !important; border: 1pt solid #DDD !important; }
+  .exam-body { padding: 0 !important; }
+  @page { margin: 1.5cm 2cm; }
+}
+
+/* ── ANIMATIONS ── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.fade-up { animation: fadeUp .4s ease forwards; }
+
+.spinner {
+  display: inline-block; width: 16px; height: 16px;
+  border: 2px solid rgba(255,255,255,0.3);
+  border-top-color: white;
+  border-radius: 50%;
+  animation: spin .7s linear infinite;
+  vertical-align: middle; margin-right: 6px;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════
+     COVER SCREEN
+══════════════════════════════════════════ -->
+<div id="cover-screen">
+  <div class="cover-logo">📚 English Up!</div>
+  <span class="cover-badge">Official Evaluation · 2026</span>
+  <h1 class="cover-title">Mid-Course<br>Assessment</h1>
+  <div class="cover-sub">Module 0 + Sessions 1 to 3</div>
+  <div class="cover-meta-grid">
+    <div class="cover-meta-item"><span class="cover-meta-icon">⏱</span> Up to 90 min</div>
+    <div class="cover-meta-item"><span class="cover-meta-icon">📊</span> 100 points</div>
+    <div class="cover-meta-item"><span class="cover-meta-icon">🎯</span> Level A1–A2</div>
+  </div>
+  <div class="cover-sections">
+    <span class="cover-section-pill">🎧 Part 1 · Listening (20 pts)</span>
+    <span class="cover-section-pill">📖 Part 2 · Reading (25 pts)</span>
+    <span class="cover-section-pill">✏️ Part 3 · Language Use (30 pts)</span>
+    <span class="cover-section-pill">📝 Part 4 · Writing (25 pts)</span>
+  </div>
+  <button class="btn-start" onclick="startExam()">Begin Assessment →</button>
+  <p class="cover-note">You can listen to the audio twice · Writing sections are graded by your teacher</p>
+</div>
+
+<!-- ══════════════════════════════════════════
+     TEACHER LOGIN OVERLAY
+══════════════════════════════════════════ -->
+<div id="login-overlay" style="display:none">
+  <div class="login-box">
+    <h3>🔐 Teacher Access</h3>
+    <p>Enter your teacher credentials to grade the writing section and view full results.</p>
+    <input type="email" class="login-field" id="login-email" placeholder="Email address" />
+    <input type="password" class="login-field" id="login-password" placeholder="Password" />
+    <button class="btn-login" onclick="attemptLogin()">Sign in</button>
+    <div id="login-error"></div>
+    <button class="btn-cancel-login" onclick="cancelLogin()">← Cancel</button>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     EXAM WRAPPER
+══════════════════════════════════════════ -->
+<div id="exam-wrapper">
+
+  <!-- Sticky header -->
+  <div class="exam-header">
+    <div class="exam-header-logo">📚 English Up! — Assessment</div>
+    <div class="exam-timer" id="exam-timer">⏱ 90:00</div>
+    <div class="exam-progress-nav" id="exam-progress-nav">
+      <div class="exam-nav-dot" id="dot-1"></div>
+      <div class="exam-nav-dot" id="dot-2"></div>
+      <div class="exam-nav-dot" id="dot-3"></div>
+      <div class="exam-nav-dot" id="dot-4"></div>
+    </div>
+  </div>
+
+  <!-- Body -->
+  <div class="exam-body" id="exam-body">
+
+    <!-- ══ PART 1: LISTENING ══ -->
+    <div id="part-1">
+      <div class="part-intro fade-up">
+        <div class="part-icon pi-blue">🎧</div>
+        <div class="part-intro-text">
+          <div class="part-badge">Part 1 of 4</div>
+          <div class="part-title">Listening Comprehension</div>
+          <div class="part-desc">Listen to a short story. You can play the audio up to <strong>two times</strong>. Read the questions first, then listen carefully. After the second play, the audio will be disabled.</div>
+          <div class="part-points">🎯 20 points</div>
+        </div>
+      </div>
+
+      <!-- Audio Player -->
+      <div class="audio-player-card">
+        <div class="audio-player-title">🎵 "A Weekend in Medellín"</div>
+        <div class="audio-instructions">
+          📋 <strong>Read the questions below first</strong>, then press Play. You have <strong>2 plays</strong>. The story is about a young woman and her favourite things.
+        </div>
+        <div class="audio-player-controls">
+          <button class="btn-play" id="btn-play-audio" onclick="toggleAudio()">▶</button>
+          <div class="audio-progress-wrap">
+            <div class="audio-progress-track" id="audio-track" onclick="seekAudio(event)" style="cursor:pointer">
+              <div class="audio-progress-fill" id="audio-progress-fill"></div>
+            </div>
+            <div class="audio-meta">
+              <span id="audio-current">0:00</span>
+              <span id="audio-duration">—</span>
+            </div>
+          </div>
+          <button class="btn-speed" id="btn-speed" onclick="toggleSpeed()">1×</button>
+          <span class="audio-play-count" id="audio-play-count">Plays left: 2</span>
+        </div>
+        <!-- Hidden HTML5 audio element -->
+        <audio id="real-audio" preload="auto"
+               src="https://english-up.pages.dev/audio/modulo-1-test.mp3">
+        </audio>
+      </div>
+
+      <div class="info-box blue" style="margin-bottom:20px">
+        🔊 <strong>Turn your volume up</strong> before pressing Play. You can use the 0.8× button for a slower playback if needed.
+      </div>
+
+      <!-- L1: True/False x4 -->
+      <div class="q-card fade-up">
+        <div class="q-num">Question 1</div>
+        <div class="q-text">María lives in Bogotá.</div>
+        <div class="tf-grid">
+          <button class="tf-btn" onclick="answerTF(this,'q1','true')">TRUE</button>
+          <button class="tf-btn" onclick="answerTF(this,'q1','false')">FALSE</button>
+        </div>
+      </div>
+
+      <div class="q-card fade-up">
+        <div class="q-num">Question 2</div>
+        <div class="q-text">María loves to play the guitar.</div>
+        <div class="tf-grid">
+          <button class="tf-btn" onclick="answerTF(this,'q2','true')">TRUE</button>
+          <button class="tf-btn" onclick="answerTF(this,'q2','false')">FALSE</button>
+        </div>
+      </div>
+
+      <div class="q-card fade-up">
+        <div class="q-num">Question 3</div>
+        <div class="q-text">Her favourite food is pizza.</div>
+        <div class="tf-grid">
+          <button class="tf-btn" onclick="answerTF(this,'q3','true')">TRUE</button>
+          <button class="tf-btn" onclick="answerTF(this,'q3','false')">FALSE</button>
+        </div>
+      </div>
+
+      <div class="q-card fade-up">
+        <div class="q-num">Question 4</div>
+        <div class="q-text">She went to the park with her brother.</div>
+        <div class="tf-grid">
+          <button class="tf-btn" onclick="answerTF(this,'q4','true')">TRUE</button>
+          <button class="tf-btn" onclick="answerTF(this,'q4','false')">FALSE</button>
+        </div>
+      </div>
+
+      <!-- L5–L8: Multiple Choice x4 -->
+      <div class="q-card fade-up">
+        <div class="q-num">Question 5</div>
+        <div class="q-text">Where was María last weekend?</div>
+        <div class="options-grid col2">
+          <button class="opt-btn" onclick="selectMC(this,'q5','A')"><span class="opt-letter">A</span> At the cinema</button>
+          <button class="opt-btn" onclick="selectMC(this,'q5','B')"><span class="opt-letter">B</span> At the park</button>
+          <button class="opt-btn" onclick="selectMC(this,'q5','C')"><span class="opt-letter">C</span> At school</button>
+          <button class="opt-btn" onclick="selectMC(this,'q5','D')"><span class="opt-letter">D</span> At a café</button>
+        </div>
+      </div>
+
+      <div class="q-card fade-up">
+        <div class="q-num">Question 6</div>
+        <div class="q-text">How old is María?</div>
+        <div class="options-grid col2">
+          <button class="opt-btn" onclick="selectMC(this,'q6','A')"><span class="opt-letter">A</span> 24 years old</button>
+          <button class="opt-btn" onclick="selectMC(this,'q6','B')"><span class="opt-letter">B</span> 28 years old</button>
+          <button class="opt-btn" onclick="selectMC(this,'q6','C')"><span class="opt-letter">C</span> 22 years old</button>
+          <button class="opt-btn" onclick="selectMC(this,'q6','D')"><span class="opt-letter">D</span> 30 years old</button>
+        </div>
+      </div>
+
+      <div class="q-card fade-up">
+        <div class="q-num">Question 7</div>
+        <div class="q-text">What music does she love?</div>
+        <div class="options-grid col2">
+          <button class="opt-btn" onclick="selectMC(this,'q7','A')"><span class="opt-letter">A</span> Classical music</button>
+          <button class="opt-btn" onclick="selectMC(this,'q7','B')"><span class="opt-letter">B</span> Reggaeton</button>
+          <button class="opt-btn" onclick="selectMC(this,'q7','C')"><span class="opt-letter">C</span> Pop and soul</button>
+          <button class="opt-btn" onclick="selectMC(this,'q7','D')"><span class="opt-letter">D</span> Jazz</button>
+        </div>
+      </div>
+
+      <div class="q-card fade-up">
+        <div class="q-num">Question 8</div>
+        <div class="q-text">Which word best describes how María felt at the end of the story?</div>
+        <div class="options-grid col2">
+          <button class="opt-btn" onclick="selectMC(this,'q8','A')"><span class="opt-letter">A</span> Embarrassed</button>
+          <button class="opt-btn" onclick="selectMC(this,'q8','B')"><span class="opt-letter">B</span> Tired and sad</button>
+          <button class="opt-btn" onclick="selectMC(this,'q8','C')"><span class="opt-letter">C</span> Happy and grateful</button>
+          <button class="opt-btn" onclick="selectMC(this,'q8','D')"><span class="opt-letter">D</span> Nervous and flushed</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ PART 2: READING ══ -->
+    <div class="section-divider"><span class="section-divider-label">Part 2 · Reading</span></div>
+    <div id="part-2">
+      <div class="part-intro fade-up">
+        <div class="part-icon pi-gold">📖</div>
+        <div class="part-intro-text">
+          <div class="part-badge">Part 2 of 4</div>
+          <div class="part-title">Reading Comprehension</div>
+          <div class="part-desc">Read the two texts carefully and answer the questions. You can look at the texts as many times as you need.</div>
+          <div class="part-points">🎯 25 points</div>
+        </div>
+      </div>
+
+      <!-- TEXT A -->
+      <div class="reading-passage fade-up">
+        <span class="passage-label">📄 Text A — A message from Camila</span>
+        <h4>My Favourite Day of the Week</h4>
+        <p>
+          My name is Camila. I am <span class="vocab-highlight">24 years old</span> and I am from Bogotá, but now I live in Medellín. My favourite day of the week is Saturday.
+        </p>
+        <p>
+          On Saturday mornings, I don't work. I love to sleep until 9 o'clock. Then I make a big breakfast — my favourite is eggs and bread with <span class="vocab-highlight">a strong cup of coffee</span>. After breakfast, I usually go for a walk in El Poblado with my dog, Mango. Mango is a small, funny, yellow dog. He is very energetic!
+        </p>
+        <p>
+          In the afternoon, I call my family in Bogotá. My mother is a teacher and my father is a doctor. I have one brother — his name is Sebastián. He is <span class="vocab-highlight">brave and kind</span>. He works in a hospital too.
+        </p>
+        <p>
+          At night, I like to watch a film or listen to music. I love soul music. Songs like <em>"Killing Me Softly"</em> make me feel <span class="vocab-highlight">calm and nostalgic</span>. I don't like loud music at all. Saturday is perfect.
+        </p>
+      </div>
+
+      <!-- Text A questions -->
+      <div class="q-card fade-up">
+        <div class="q-num">Question 9</div>
+        <div class="q-text">Camila is originally from Medellín. <em>(True/False)</em></div>
+        <div class="tf-grid">
+          <button class="tf-btn" onclick="answerTF(this,'q9','true')">TRUE</button>
+          <button class="tf-btn" onclick="answerTF(this,'q9','false')">FALSE</button>
+        </div>
+      </div>
+
+      <div class="q-card fade-up">
+        <div class="q-num">Question 10</div>
+        <div class="q-text">What does Camila usually do on Saturday mornings?</div>
+        <div class="options-grid">
+          <button class="opt-btn" onclick="selectMC(this,'q10','A')"><span class="opt-letter">A</span> She goes to work early.</button>
+          <button class="opt-btn" onclick="selectMC(this,'q10','B')"><span class="opt-letter">B</span> She sleeps late and goes for a walk with her dog.</button>
+          <button class="opt-btn" onclick="selectMC(this,'q10','C')"><span class="opt-letter">C</span> She calls her family and watches films.</button>
+          <button class="opt-btn" onclick="selectMC(this,'q10','D')"><span class="opt-letter">D</span> She goes to the gym and makes lunch.</button>
+        </div>
+      </div>
+
+      <div class="q-card fade-up">
+        <div class="q-num">Question 11</div>
+        <div class="q-text">Find <strong>two adjectives</strong> that describe Sebastián in the text. Write them below.</div>
+        <input class="short-answer" style="min-height:50px" id="q11" type="text" placeholder="Type the two adjectives here…" />
+      </div>
+
+      <div class="q-card fade-up">
+        <div class="q-num">Question 12</div>
+        <div class="q-text">How does the song <em>"Killing Me Softly"</em> make Camila feel?</div>
+        <div class="options-grid col2">
+          <button class="opt-btn" onclick="selectMC(this,'q12','A')"><span class="opt-letter">A</span> Embarrassed and flushed</button>
+          <button class="opt-btn" onclick="selectMC(this,'q12','B')"><span class="opt-letter">B</span> Happy and energetic</button>
+          <button class="opt-btn" onclick="selectMC(this,'q12','C')"><span class="opt-letter">C</span> Calm and nostalgic</button>
+          <button class="opt-btn" onclick="selectMC(this,'q12','D')"><span class="opt-letter">D</span> Sad and lonely</button>
+        </div>
+      </div>
+
+      <!-- TEXT B -->
+      <div class="section-divider"><span class="section-divider-label">Text B</span></div>
+
+      <div class="reading-passage fade-up">
+        <span class="passage-label">📄 Text B — Social media bio</span>
+        <h4>About Valentina 🌻</h4>
+        <p>
+          Hi! I'm Valentina. I'm 26 years old and I'm from Cali, Colombia. I'm a graphic designer 🎨.
+        </p>
+        <p>
+          I love drawing, cooking, and hiking 🏔️. I don't like horror films — they are too scary! My favourite film is <em>The Book of Life</em>. I love it because the colours are beautiful and the story is touching. My favourite character is María because she is <strong>brave, determined, and funny</strong>.
+        </p>
+        <p>
+          I love coffee ☕ but I hate tea 🍵. I usually wake up at 7 and go for a run. I'm not good at singing, but I sing in the shower every morning! 😄
+        </p>
+        <p>
+          Currently learning English with <em>English Up!</em>. I want to travel to the UK next year. Are you from England? Let's talk! 🇬🇧
+        </p>
+      </div>
+
+      <div class="q-card fade-up">
+        <div class="q-num">Question 13</div>
+        <div class="q-text">Valentina is a graphic designer. <em>(True/False)</em></div>
+        <div class="tf-grid">
+          <button class="tf-btn" onclick="answerTF(this,'q13','true')">TRUE</button>
+          <button class="tf-btn" onclick="answerTF(this,'q13','false')">FALSE</button>
+        </div>
+      </div>
+
+      <div class="q-card fade-up">
+        <div class="q-num">Question 14</div>
+        <div class="q-text">Why does Valentina love <em>The Book of Life</em>? Select <strong>all</strong> correct answers.</div>
+        <div class="options-grid">
+          <button class="opt-btn" data-multi="q14" onclick="toggleMulti(this,'q14','A')"><span class="opt-letter">A</span> The colours are beautiful.</button>
+          <button class="opt-btn" data-multi="q14" onclick="toggleMulti(this,'q14','B')"><span class="opt-letter">B</span> The main character is her favourite actor.</button>
+          <button class="opt-btn" data-multi="q14" onclick="toggleMulti(this,'q14','C')"><span class="opt-letter">C</span> The story is touching.</button>
+          <button class="opt-btn" data-multi="q14" onclick="toggleMulti(this,'q14','D')"><span class="opt-letter">D</span> She loves horror films too.</button>
+        </div>
+      </div>
+
+      <div class="q-card fade-up">
+        <div class="q-num">Question 15</div>
+        <div class="q-text">Complete the sentence using information from the text:<br><em>"Valentina's favourite character is María because she is…"</em></div>
+        <input class="short-answer" style="min-height:50px" id="q15" type="text" placeholder="Write 3 adjectives from the text…" />
+      </div>
+
+      <div class="q-card fade-up">
+        <div class="q-num">Question 16</div>
+        <div class="q-text">Which sentence about Valentina is <strong>NOT</strong> correct, based on the text?</div>
+        <div class="options-grid">
+          <button class="opt-btn" onclick="selectMC(this,'q16','A')"><span class="opt-letter">A</span> She doesn't like horror films.</button>
+          <button class="opt-btn" onclick="selectMC(this,'q16','B')"><span class="opt-letter">B</span> She goes running every morning.</button>
+          <button class="opt-btn" onclick="selectMC(this,'q16','C')"><span class="opt-letter">C</span> She is a very good singer.</button>
+          <button class="opt-btn" onclick="selectMC(this,'q16','D')"><span class="opt-letter">D</span> She wants to travel to the UK.</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ PART 3: LANGUAGE USE ══ -->
+    <div class="section-divider"><span class="section-divider-label">Part 3 · Language Use</span></div>
+    <div id="part-3">
+      <div class="part-intro fade-up">
+        <div class="part-icon pi-purple">✏️</div>
+        <div class="part-intro-text">
+          <div class="part-badge">Part 3 of 4</div>
+          <div class="part-title">Language Use</div>
+          <div class="part-desc">Grammar, vocabulary and sentence structure. These sections cover everything from Module 0 through Session 3.</div>
+          <div class="part-points">🎯 30 points</div>
+        </div>
+      </div>
+
+      <!-- Section 3A: Verb To Be — Gap Fill -->
+      <div class="q-card fade-up">
+        <div class="q-num">Section 3A · Verb To Be — Questions 17–24</div>
+        <div class="q-text">Complete the sentences with the correct form of <em>Verb To Be</em>: <strong>am · is · are · was · were · isn't · aren't · wasn't</strong></div>
+        <div class="gap-fill-text">
+          <p style="margin-bottom:12px">
+            17. "Killing Me Softly" <input class="gap-input" id="g17" size="6" placeholder="___" autocomplete="off" spellcheck="false"> a beautiful song.
+          </p>
+          <p style="margin-bottom:12px">
+            18. I <input class="gap-input" id="g18" size="6" placeholder="___" autocomplete="off" spellcheck="false"> from Colombia. I <input class="gap-input" id="g18b" size="5" placeholder="___" autocomplete="off" spellcheck="false"> not from Brazil.
+          </p>
+          <p style="margin-bottom:12px">
+            19. Manolo and María <input class="gap-input" id="g19" size="6" placeholder="___" autocomplete="off" spellcheck="false"> friends when they <input class="gap-input" id="g19b" size="6" placeholder="___" autocomplete="off" spellcheck="false"> young.
+          </p>
+          <p style="margin-bottom:12px">
+            20. "_______ she brave?" — "Yes, she <input class="gap-input" id="g20" size="4" placeholder="___" autocomplete="off" spellcheck="false">!"
+          </p>
+          <p style="margin-bottom:12px">
+            21. The Fugees <input class="gap-input" id="g21" size="6" placeholder="___" autocomplete="off" spellcheck="false"> a famous music group.
+          </p>
+          <p style="margin-bottom:12px">
+            22. I <input class="gap-input" id="g22" size="10" placeholder="___" autocomplete="off" spellcheck="false"> (neg.) embarrassed. I felt calm.
+          </p>
+          <p style="margin-bottom:12px">
+            23. The concert <input class="gap-input" id="g23" size="8" placeholder="___" autocomplete="off" spellcheck="false"> (past neg.) boring — it was amazing!
+          </p>
+          <p>
+            24. <input class="gap-input" id="g24" size="4" placeholder="___" autocomplete="off" spellcheck="false"> you tired after the class? (Yes/No question)
+          </p>
+        </div>
+      </div>
+
+      <!-- Section 3B: WH Questions -->
+      <div class="q-card fade-up">
+        <div class="q-num">Section 3B · WH Questions — Questions 25–28</div>
+        <div class="q-text">Choose the correct WH question word for each answer.</div>
+        <div style="display:flex;flex-direction:column;gap:12px">
+
+          <div>
+            <div style="font-size:.85rem;margin-bottom:8px">25. "___ is your favourite singer?" — "Lauryn Hill."</div>
+            <div class="options-grid col2">
+              <button class="opt-btn" onclick="selectMC(this,'q25','A')"><span class="opt-letter">A</span> What</button>
+              <button class="opt-btn" onclick="selectMC(this,'q25','B')"><span class="opt-letter">B</span> Who</button>
+              <button class="opt-btn" onclick="selectMC(this,'q25','C')"><span class="opt-letter">C</span> Where</button>
+              <button class="opt-btn" onclick="selectMC(this,'q25','D')"><span class="opt-letter">D</span> How</button>
+            </div>
+          </div>
+
+          <div>
+            <div style="font-size:.85rem;margin-bottom:8px">26. "___ are you from?" — "I'm from Cali."</div>
+            <div class="options-grid col2">
+              <button class="opt-btn" onclick="selectMC(this,'q26','A')"><span class="opt-letter">A</span> Who</button>
+              <button class="opt-btn" onclick="selectMC(this,'q26','B')"><span class="opt-letter">B</span> Why</button>
+              <button class="opt-btn" onclick="selectMC(this,'q26','C')"><span class="opt-letter">C</span> Where</button>
+              <button class="opt-btn" onclick="selectMC(this,'q26','D')"><span class="opt-letter">D</span> What</button>
+            </div>
+          </div>
+
+          <div>
+            <div style="font-size:.85rem;margin-bottom:8px">27. "___ old are you?" — "I'm 26."</div>
+            <div class="options-grid col2">
+              <button class="opt-btn" onclick="selectMC(this,'q27','A')"><span class="opt-letter">A</span> How</button>
+              <button class="opt-btn" onclick="selectMC(this,'q27','B')"><span class="opt-letter">B</span> What</button>
+              <button class="opt-btn" onclick="selectMC(this,'q27','C')"><span class="opt-letter">C</span> When</button>
+              <button class="opt-btn" onclick="selectMC(this,'q27','D')"><span class="opt-letter">D</span> Who</button>
+            </div>
+          </div>
+
+          <div>
+            <div style="font-size:.85rem;margin-bottom:8px">28. "___ do you love so much?" — "I love dancing!"</div>
+            <div class="options-grid col2">
+              <button class="opt-btn" onclick="selectMC(this,'q28','A')"><span class="opt-letter">A</span> Who</button>
+              <button class="opt-btn" onclick="selectMC(this,'q28','B')"><span class="opt-letter">B</span> What</button>
+              <button class="opt-btn" onclick="selectMC(this,'q28','C')"><span class="opt-letter">C</span> Where</button>
+              <button class="opt-btn" onclick="selectMC(this,'q28','D')"><span class="opt-letter">D</span> When</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section 3C: Likes & Dislikes -->
+      <div class="q-card fade-up">
+        <div class="q-num">Section 3C · Likes &amp; Dislikes — Questions 29–32</div>
+        <div class="q-text">Choose the sentence that is <strong>grammatically correct</strong>.</div>
+
+        <div style="display:flex;flex-direction:column;gap:14px">
+          <div>
+            <div style="font-size:.85rem;margin-bottom:8px">29.</div>
+            <div class="options-grid">
+              <button class="opt-btn" onclick="selectMC(this,'q29','A')"><span class="opt-letter">A</span> I love to dance salsa.</button>
+              <button class="opt-btn" onclick="selectMC(this,'q29','B')"><span class="opt-letter">B</span> I love dancing salsa.</button>
+              <button class="opt-btn" onclick="selectMC(this,'q29','C')"><span class="opt-letter">C</span> Both A and B are correct.</button>
+              <button class="opt-btn" onclick="selectMC(this,'q29','D')"><span class="opt-letter">D</span> I am love salsa dancing.</button>
+            </div>
+          </div>
+
+          <div>
+            <div style="font-size:.85rem;margin-bottom:8px">30.</div>
+            <div class="options-grid">
+              <button class="opt-btn" onclick="selectMC(this,'q30','A')"><span class="opt-letter">A</span> She don't like horror films.</button>
+              <button class="opt-btn" onclick="selectMC(this,'q30','B')"><span class="opt-letter">B</span> She doesn't like horror films.</button>
+              <button class="opt-btn" onclick="selectMC(this,'q30','C')"><span class="opt-letter">C</span> She isn't like horror films.</button>
+              <button class="opt-btn" onclick="selectMC(this,'q30','D')"><span class="opt-letter">D</span> She no like horror films.</button>
+            </div>
+          </div>
+
+          <div>
+            <div style="font-size:.85rem;margin-bottom:8px">31. ___ you like cooking?</div>
+            <div class="options-grid col2">
+              <button class="opt-btn" onclick="selectMC(this,'q31','A')"><span class="opt-letter">A</span> Are</button>
+              <button class="opt-btn" onclick="selectMC(this,'q31','B')"><span class="opt-letter">B</span> Is</button>
+              <button class="opt-btn" onclick="selectMC(this,'q31','C')"><span class="opt-letter">C</span> Do</button>
+              <button class="opt-btn" onclick="selectMC(this,'q31','D')"><span class="opt-letter">D</span> Does</button>
+            </div>
+          </div>
+
+          <div>
+            <div style="font-size:.85rem;margin-bottom:8px">32. My top 5 favourite things are: music, dancing, coffee, _____ and films.</div>
+            <div class="options-grid col2">
+              <button class="opt-btn" onclick="selectMC(this,'q32','A')"><span class="opt-letter">A</span> to travel</button>
+              <button class="opt-btn" onclick="selectMC(this,'q32','B')"><span class="opt-letter">B</span> travelling</button>
+              <button class="opt-btn" onclick="selectMC(this,'q32','C')"><span class="opt-letter">C</span> travel</button>
+              <button class="opt-btn" onclick="selectMC(this,'q32','D')"><span class="opt-letter">D</span> A or B</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section 3D: Vocabulary — Matching -->
+      <div class="q-card fade-up">
+        <div class="q-num">Section 3D · Vocabulary Matching — Questions 33–38</div>
+        <div class="q-text">Tap a word, then tap its correct definition.</div>
+        <div class="matching-grid">
+          <div>
+            <div class="match-col-label">Word</div>
+            <div id="match-words">
+              <div class="match-chip" data-word="softly"      onclick="selectMatchChip(this)">softly</div>
+              <div class="match-chip" data-word="embarrassed" onclick="selectMatchChip(this)">embarrassed</div>
+              <div class="match-chip" data-word="soul"        onclick="selectMatchChip(this)">soul</div>
+              <div class="match-chip" data-word="determined"  onclick="selectMatchChip(this)">determined</div>
+              <div class="match-chip" data-word="brave"       onclick="selectMatchChip(this)">brave</div>
+              <div class="match-chip" data-word="selfless"    onclick="selectMatchChip(this)">selfless</div>
+            </div>
+          </div>
+          <div>
+            <div class="match-col-label">Definition</div>
+            <div id="match-defs">
+              <div class="match-def-row" data-answer="brave"       onclick="placeMatchDef(this)"><span style="color:var(--muted);font-size:.7rem;min-width:18px">A.</span><span style="flex:1">Not afraid of danger</span><span class="match-placed"></span></div>
+              <div class="match-def-row" data-answer="softly"      onclick="placeMatchDef(this)"><span style="color:var(--muted);font-size:.7rem;min-width:18px">B.</span><span style="flex:1">In a gentle, quiet way</span><span class="match-placed"></span></div>
+              <div class="match-def-row" data-answer="soul"        onclick="placeMatchDef(this)"><span style="color:var(--muted);font-size:.7rem;min-width:18px">C.</span><span style="flex:1">The inner/spiritual part of a person</span><span class="match-placed"></span></div>
+              <div class="match-def-row" data-answer="selfless"    onclick="placeMatchDef(this)"><span style="color:var(--muted);font-size:.7rem;min-width:18px">D.</span><span style="flex:1">Putting others before yourself</span><span class="match-placed"></span></div>
+              <div class="match-def-row" data-answer="embarrassed" onclick="placeMatchDef(this)"><span style="color:var(--muted);font-size:.7rem;min-width:18px">E.</span><span style="flex:1">Feeling ashamed in front of others</span><span class="match-placed"></span></div>
+              <div class="match-def-row" data-answer="determined"  onclick="placeMatchDef(this)"><span style="color:var(--muted);font-size:.7rem;min-width:18px">F.</span><span style="flex:1">You decided and you won't give up</span><span class="match-placed"></span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ PART 4: WRITING ══ -->
+    <div class="section-divider"><span class="section-divider-label">Part 4 · Writing</span></div>
+    <div id="part-4">
+      <div class="part-intro fade-up">
+        <div class="part-icon pi-sage">📝</div>
+        <div class="part-intro-text">
+          <div class="part-badge">Part 4 of 4</div>
+          <div class="part-title">Writing Tasks</div>
+          <div class="part-desc">Two writing tasks. There are no wrong topics — write what is true for you. Your teacher will grade these. Focus on using the language from our classes: Verb To Be, adjectives, likes/dislikes, and WH questions.</div>
+          <div class="part-points">🎯 25 points (graded by teacher)</div>
+        </div>
+      </div>
+
+      <!-- Writing Task 1 -->
+      <div class="q-card fade-up">
+        <div class="q-num">Writing Task 1 — Personal Profile (12 points)</div>
+        <div class="q-text">
+          Write a short paragraph (8–12 sentences) about yourself. Include:
+        </div>
+        <ul style="font-size:.85rem;color:var(--muted);margin: 8px 0 14px 18px;line-height:2">
+          <li>Your name, age, and where you are from</li>
+          <li>What you are like (use at least <strong>3 adjectives</strong>)</li>
+          <li>3 things you <strong>love or like</strong> doing</li>
+          <li>1 thing you <strong>don't like</strong></li>
+          <li>One sentence about a song that you love and how it makes you feel</li>
+        </ul>
+        <div class="info-box gold">
+          💡 <strong>Tip:</strong> Use Verb To Be correctly (I am / I'm not / Are you...?). Try to use adjectives in the right order.
+        </div>
+        <textarea class="writing-area" id="w1" placeholder="Write your paragraph here…"
+                  oninput="countWords(this,'wc1',8,12)"></textarea>
+        <div class="word-counter" id="wc1">0 words (aim for 8–12 sentences)</div>
+      </div>
+
+      <!-- Writing Task 2 -->
+      <div class="q-card fade-up">
+        <div class="q-num">Writing Task 2 — Character Description (13 points)</div>
+        <div class="q-text">
+          Think about your favourite character from <em>The Book of Life</em> — or any film you love. Write a short description (6–10 sentences).
+        </div>
+        <ul style="font-size:.85rem;color:var(--muted);margin: 8px 0 14px 18px;line-height:2">
+          <li>Who is the character? What is their name?</li>
+          <li>What are they like? Use <strong>at least 4 adjectives</strong> (in the right order if you use 2+)</li>
+          <li>What does the character like or love doing?</li>
+          <li>Why do <strong>you</strong> like this character?</li>
+        </ul>
+        <div class="info-box gold">
+          💡 <strong>Tip:</strong> "She is a brave, young woman." · "He is kind and funny." · "I love this character because he is…"
+        </div>
+        <textarea class="writing-area" id="w2" placeholder="Write your character description here…"
+                  oninput="countWords(this,'wc2',6,10)"></textarea>
+        <div class="word-counter" id="wc2">0 words (aim for 6–10 sentences)</div>
+      </div>
+    </div>
+
+    <!-- SUBMIT -->
+    <div style="height:80px"></div>
+
+  </div><!-- /exam-body -->
+
+  <!-- Submit bar -->
+  <div class="submit-bar">
+    <div class="submit-bar-left">
+      <strong id="submit-answered">0 / 38</strong> questions answered
+    </div>
+    <button class="btn-submit" id="btn-submit-exam" onclick="submitExam()">
+      Submit Assessment →
+    </button>
+  </div>
+
+</div><!-- /exam-wrapper -->
+
+<!-- ══════════════════════════════════════════
+     RESULTS SCREEN
+══════════════════════════════════════════ -->
+<div id="results-screen">
+  <!-- Teacher grading bar (shown when logged in) -->
+  <div id="teacher-panel">
+    <div class="teacher-bar">
+      <span class="teacher-bar-label">🎓 Teacher Mode — Grade the Writing Tasks</span>
+      <button class="teacher-bar-btn" onclick="openTeacherLogin()">🔐 Sign in as teacher</button>
+    </div>
+  </div>
+
+  <div class="results-page">
+
+    <!-- Hero -->
+    <div class="results-hero" id="results-hero">
+      <div class="results-grade-label">Overall Score</div>
+      <div class="results-grade" id="results-grade-display">—</div>
+      <div class="results-grade-sub" id="results-grade-sub">out of 75 (auto-graded)</div>
+      <div class="results-grade-title" id="results-grade-title">Calculating…</div>
+      <div class="results-cefr" id="results-cefr">CEFR Level: calculating…</div>
+    </div>
+
+    <!-- Band scores -->
+    <div class="results-band-grid">
+      <div class="results-band-card rbc-blue">
+        <div class="band-name">🎧 Listening</div>
+        <div class="band-score" id="band-listening">—</div>
+        <div class="band-max">/ 20</div>
+        <div class="band-bar-wrap"><div class="band-bar-fill" id="bar-listening"></div></div>
+        <div class="band-pct" id="pct-listening">—</div>
+      </div>
+      <div class="results-band-card rbc-gold">
+        <div class="band-name">📖 Reading</div>
+        <div class="band-score" id="band-reading">—</div>
+        <div class="band-max">/ 25</div>
+        <div class="band-bar-wrap"><div class="band-bar-fill" id="bar-reading"></div></div>
+        <div class="band-pct" id="pct-reading">—</div>
+      </div>
+      <div class="results-band-card rbc-purple">
+        <div class="band-name">✏️ Language</div>
+        <div class="band-score" id="band-language">—</div>
+        <div class="band-max">/ 30</div>
+        <div class="band-bar-wrap"><div class="band-bar-fill" id="bar-language"></div></div>
+        <div class="band-pct" id="pct-language">—</div>
+      </div>
+      <div class="results-band-card rbc-sage">
+        <div class="band-name">📝 Writing</div>
+        <div class="band-score" id="band-writing">—</div>
+        <div class="band-max">/ 25</div>
+        <div class="band-bar-wrap"><div class="band-bar-fill" id="bar-writing"></div></div>
+        <div class="band-pct" id="pct-writing">Pending teacher review</div>
+      </div>
+    </div>
+
+    <!-- Descriptors -->
+    <div class="descriptor-card">
+      <div class="descriptor-title">📊 Performance Profile</div>
+      <div class="descriptor-row">
+        <div class="descriptor-icon">🎧</div>
+        <div class="descriptor-label">Listening</div>
+        <div class="descriptor-text" id="desc-listening">—</div>
+      </div>
+      <div class="descriptor-row">
+        <div class="descriptor-icon">📖</div>
+        <div class="descriptor-label">Reading</div>
+        <div class="descriptor-text" id="desc-reading">—</div>
+      </div>
+      <div class="descriptor-row">
+        <div class="descriptor-icon">✏️</div>
+        <div class="descriptor-label">Language Use</div>
+        <div class="descriptor-text" id="desc-language">—</div>
+      </div>
+      <div class="descriptor-row">
+        <div class="descriptor-icon">📝</div>
+        <div class="descriptor-label">Writing</div>
+        <div class="descriptor-text" id="desc-writing">Score pending — your teacher will review and add the final grade.</div>
+      </div>
+    </div>
+
+    <!-- Writing preview + pending notice -->
+    <div class="answer-review">
+      <div class="ar-title">📝 Your Writing Responses</div>
+      <div style="margin-bottom:14px">
+        <div style="font-size:.8rem;font-weight:700;color:var(--muted);margin-bottom:6px">Task 1 — Personal Profile</div>
+        <div class="wgc-student-text" id="results-w1-preview" style="font-size:.85rem"></div>
+      </div>
+      <div>
+        <div style="font-size:.8rem;font-weight:700;color:var(--muted);margin-bottom:6px">Task 2 — Character Description</div>
+        <div class="wgc-student-text" id="results-w2-preview" style="font-size:.85rem"></div>
+      </div>
+      <div class="writing-pending-notice" id="writing-graded-notice">
+        ⏳ Writing is being reviewed by your teacher. Your final score (out of 100) will be shown here once graded.
+      </div>
+    </div>
+
+    <!-- Teacher grading section (hidden by default) -->
+    <div id="teacher-grading-section" style="display:none">
+      <div class="descriptor-card">
+        <div class="descriptor-title">🎓 Teacher Grading — Writing Tasks</div>
+        <div style="font-size:.82rem;color:var(--muted);margin-bottom:18px">
+          Grade each rubric criterion 1–5. The final writing score will be calculated automatically.
+        </div>
+
+        <!-- Task 1 -->
+        <div class="writing-grade-card">
+          <div class="wgc-title">Task 1 — Personal Profile (12 pts max)</div>
+          <div class="wgc-student-text" id="tg-w1-text"></div>
+          <div class="wgc-rubric">
+            <div class="rubric-row">
+              <span class="rubric-label">Task Achievement</span>
+              <div class="rubric-stars" data-key="t1-task">
+                <button class="star-btn" data-val="1" onclick="setRubric(this,'t1-task',1)">1</button>
+                <button class="star-btn" data-val="2" onclick="setRubric(this,'t1-task',2)">2</button>
+                <button class="star-btn" data-val="3" onclick="setRubric(this,'t1-task',3)">3</button>
+                <button class="star-btn" data-val="4" onclick="setRubric(this,'t1-task',4)">4</button>
+                <button class="star-btn" data-val="5" onclick="setRubric(this,'t1-task',5)">5</button>
+              </div>
+              <span style="font-size:.75rem;color:var(--muted)">Covers all required points</span>
+            </div>
+            <div class="rubric-row">
+              <span class="rubric-label">Vocab &amp; Adjectives</span>
+              <div class="rubric-stars" data-key="t1-vocab">
+                <button class="star-btn" data-val="1" onclick="setRubric(this,'t1-vocab',1)">1</button>
+                <button class="star-btn" data-val="2" onclick="setRubric(this,'t1-vocab',2)">2</button>
+                <button class="star-btn" data-val="3" onclick="setRubric(this,'t1-vocab',3)">3</button>
+                <button class="star-btn" data-val="4" onclick="setRubric(this,'t1-vocab',4)">4</button>
+                <button class="star-btn" data-val="5" onclick="setRubric(this,'t1-vocab',5)">5</button>
+              </div>
+              <span style="font-size:.75rem;color:var(--muted)">Range, accuracy, adj. order</span>
+            </div>
+            <div class="rubric-row">
+              <span class="rubric-label">Verb To Be</span>
+              <div class="rubric-stars" data-key="t1-gram">
+                <button class="star-btn" data-val="1" onclick="setRubric(this,'t1-gram',1)">1</button>
+                <button class="star-btn" data-val="2" onclick="setRubric(this,'t1-gram',2)">2</button>
+                <button class="star-btn" data-val="3" onclick="setRubric(this,'t1-gram',3)">3</button>
+              </div>
+              <span style="font-size:.75rem;color:var(--muted)">Correct use of am/is/are</span>
+            </div>
+            <div class="wgc-feedback-input-wrap">
+              <textarea class="wgc-feedback-input" id="fb-t1" placeholder="Optional feedback for the student…"></textarea>
+            </div>
+            <div class="wgc-score-preview">Task 1 score: <span id="t1-score-preview">0</span> / 12</div>
+          </div>
+        </div>
+
+        <!-- Task 2 -->
+        <div class="writing-grade-card">
+          <div class="wgc-title">Task 2 — Character Description (13 pts max)</div>
+          <div class="wgc-student-text" id="tg-w2-text"></div>
+          <div class="wgc-rubric">
+            <div class="rubric-row">
+              <span class="rubric-label">Task Achievement</span>
+              <div class="rubric-stars" data-key="t2-task">
+                <button class="star-btn" data-val="1" onclick="setRubric(this,'t2-task',1)">1</button>
+                <button class="star-btn" data-val="2" onclick="setRubric(this,'t2-task',2)">2</button>
+                <button class="star-btn" data-val="3" onclick="setRubric(this,'t2-task',3)">3</button>
+                <button class="star-btn" data-val="4" onclick="setRubric(this,'t2-task',4)">4</button>
+                <button class="star-btn" data-val="5" onclick="setRubric(this,'t2-task',5)">5</button>
+              </div>
+              <span style="font-size:.75rem;color:var(--muted)">Covers all 4 required points</span>
+            </div>
+            <div class="rubric-row">
+              <span class="rubric-label">Vocab &amp; Adj. Order</span>
+              <div class="rubric-stars" data-key="t2-vocab">
+                <button class="star-btn" data-val="1" onclick="setRubric(this,'t2-vocab',1)">1</button>
+                <button class="star-btn" data-val="2" onclick="setRubric(this,'t2-vocab',2)">2</button>
+                <button class="star-btn" data-val="3" onclick="setRubric(this,'t2-vocab',3)">3</button>
+                <button class="star-btn" data-val="4" onclick="setRubric(this,'t2-vocab',4)">4</button>
+                <button class="star-btn" data-val="5" onclick="setRubric(this,'t2-vocab',5)">5</button>
+              </div>
+              <span style="font-size:.75rem;color:var(--muted)">4+ adjectives, correct order</span>
+            </div>
+            <div class="rubric-row">
+              <span class="rubric-label">Grammar &amp; Fluency</span>
+              <div class="rubric-stars" data-key="t2-gram">
+                <button class="star-btn" data-val="1" onclick="setRubric(this,'t2-gram',1)">1</button>
+                <button class="star-btn" data-val="2" onclick="setRubric(this,'t2-gram',2)">2</button>
+                <button class="star-btn" data-val="3" onclick="setRubric(this,'t2-gram',3)">3</button>
+              </div>
+              <span style="font-size:.75rem;color:var(--muted)">Accuracy + expression</span>
+            </div>
+            <div>
+              <textarea class="wgc-feedback-input" id="fb-t2" placeholder="Optional feedback for the student…"></textarea>
+            </div>
+            <div class="wgc-score-preview">Task 2 score: <span id="t2-score-preview">0</span> / 13</div>
+          </div>
+        </div>
+
+        <button class="btn-apply-grades" onclick="applyTeacherGrades()">
+          ✅ Apply Grades &amp; Update Results
+        </button>
+      </div>
+    </div>
+
+    <!-- Detailed answer review -->
+    <div class="answer-review" id="answer-review-section">
+      <div class="ar-title">🔍 Detailed Answer Review</div>
+      <div id="answer-review-body"></div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     JAVASCRIPT ENGINE
+══════════════════════════════════════════ -->
+<script>
+// ────────────────────────────────────────────
+// STATE
+// ────────────────────────────────────────────
+
+const TEACHER_EMAIL    = "juanrubio2277@gmail.com";
+const TEACHER_PASSWORD = "juan2727-evaluador";
+let isTeacherLoggedIn  = false;
+
+// Answers storage
+const answers = {};
+const multiAnswers = {};
+let matchSelectedChip = null;
+let matchCount = 0;
+const matchResults = {};
+
+// Timer
+let timerSeconds = 90 * 60;
+let timerInterval = null;
+
+// Audio
+let audioPlaysLeft = 2;
+let isPlaying = false;
+let audioSpeed = 1;
+
+// Rubric scores for teacher grading
+const rubricScores = {
+  't1-task': 0, 't1-vocab': 0, 't1-gram': 0,
+  't2-task': 0, 't2-vocab': 0, 't2-gram': 0
+};
+
+// ────────────────────────────────────────────
+// AUDIO SCRIPT (generated as TTS)
+// ────────────────────────────────────────────
+const AUDIO_SCRIPT = `A Weekend in Medellín.
+My name is María Alejandra. I am 28 years old and I am from Medellín, Colombia.
+I am a teacher, and I love my job. This weekend was wonderful.
+On Saturday, I went to the park near my house. The park was big and beautiful. The trees were green and the sky was blue. I was very happy.
+At the park, I met my best friend, Camila. We walked and talked for two hours. Camila is funny, brave and kind. I love her a lot.
+My favourite things are music, coffee, and dancing. I love soul music — songs like Killing Me Softly make me feel calm and nostalgic.
+I don't like horror films. They are too scary! And I don't like cold weather. I love the warm sun.
+My favourite food is not pizza — it is arepas with cheese. Delicious!
+At night, I was at home with my sister. We watched a film and drank hot chocolate. I felt grateful and happy. It was a perfect day.`;
+
+// ────────────────────────────────────────────
+// ANSWER KEY (auto-graded questions)
+// ────────────────────────────────────────────
+const ANSWER_KEY = {
+  // Part 1 — Listening T/F
+  q1: 'false',   // lives in Medellín not Bogotá
+  q2: 'false',   // not guitar
+  q3: 'false',   // favourite food is arepas not pizza
+  q4: 'false',   // with sister, not brother
+  // Part 1 — Listening MC
+  q5: 'B',  // at the park
+  q6: 'B',  // 28 years old
+  q7: 'C',  // pop and soul
+  q8: 'C',  // happy and grateful
+  // Part 2A — Reading T/F
+  q9: 'false',   // originally from Bogotá
+  // Part 2A — Reading MC
+  q10: 'B', // sleeps late and walks dog
+  q12: 'C', // calm and nostalgic
+  // Part 2B
+  q13: 'true',
+  q14: ['A','C'],  // colours beautiful + story touching
+  q16: 'C', // NOT a good singer
+  // Part 3B — WH
+  q25: 'B', // Who
+  q26: 'C', // Where
+  q27: 'A', // How
+  q28: 'B', // What
+  // Part 3C — Likes/dislikes
+  q29: 'C', // both A and B correct
+  q30: 'B', // doesn't like
+  q31: 'C', // Do
+  q32: 'D', // A or B (both gerund and infinitive work)
+  // Gap fill (Section 3A — checked separately)
+  g17: ['is','was'],
+  g18: ['am'],
+  g18b: ["am","'m"],
+  g19: ['are','were'],
+  g19b: ['were'],
+  g20: ['is'],
+  g21: ['are','were'],
+  g22: ["wasn't","am not","was not","wasn't"],
+  g23: ["wasn't","was not","wasn't"],
+  g24: ['Are','Were'],
+  // Matching (checked separately)
+  match: { brave:'A', softly:'B', soul:'C', selfless:'D', embarrassed:'E', determined:'F' }
+};
+
+const QUESTION_LABELS = {
+  q1: 'L1. María lives in Bogotá (T/F)',
+  q2: 'L2. Loves to play guitar (T/F)',
+  q3: 'L3. Favourite food is pizza (T/F)',
+  q4: 'L4. Went to park with brother (T/F)',
+  q5: 'L5. Where was María?',
+  q6: 'L6. How old is María?',
+  q7: 'L7. Music she loves',
+  q8: 'L8. How did she feel at the end?',
+  q9: 'R9. Camila from Medellín (T/F)',
+  q10: 'R10. Saturday morning activity',
+  q11: 'R11. Adjectives for Sebastián (open)',
+  q12: 'R12. How "Killing Me Softly" makes Camila feel',
+  q13: 'R13. Valentina is a graphic designer (T/F)',
+  q14: 'R14. Why Valentina loves The Book of Life (multi)',
+  q15: 'R15. María\'s adjectives (open)',
+  q16: 'R16. NOT correct about Valentina',
+  g17: 'G17. Verb To Be gap fill',
+  g18: 'G18–22. Verb To Be gap fills',
+  q25: 'G25. WH question: Who',
+  q26: 'G26. WH question: Where',
+  q27: 'G27. WH question: How',
+  q28: 'G28. WH question: What',
+  q29: 'G29. Like + infinitive/gerund',
+  q30: 'G30. She doesn\'t like',
+  q31: 'G31. Do you like?',
+  q32: 'G32. Top 5 list (gerund)',
+  match: 'G33–38. Vocabulary matching',
+};
+
+// ────────────────────────────────────────────
+// START EXAM
+// ────────────────────────────────────────────
+function startExam() {
+  document.getElementById('cover-screen').style.display = 'none';
+  document.getElementById('exam-wrapper').style.display = 'block';
+  startTimer();
+  setupAudio();
+  setNavDot(1, 'active');
+  window.addEventListener('scroll', updateNavDots);
+}
+
+// ────────────────────────────────────────────
+// TIMER
+// ────────────────────────────────────────────
+function startTimer() {
+  timerInterval = setInterval(() => {
+    timerSeconds--;
+    const m = Math.floor(timerSeconds / 60).toString().padStart(2,'0');
+    const s = (timerSeconds % 60).toString().padStart(2,'0');
+    const el = document.getElementById('exam-timer');
+    if (el) {
+      el.textContent = `⏱ ${m}:${s}`;
+      el.classList.toggle('warning', timerSeconds <= 600 && timerSeconds > 120);
+      el.classList.toggle('danger',  timerSeconds <= 120);
+    }
+    if (timerSeconds <= 0) {
+      clearInterval(timerInterval);
+      submitExam();
+    }
+  }, 1000);
+}
+
+// ────────────────────────────────────────────
+// NAV DOTS
+// ────────────────────────────────────────────
+function setNavDot(n, state) {
+  const dot = document.getElementById(`dot-${n}`);
+  if (!dot) return;
+  dot.className = 'exam-nav-dot ' + state;
+}
+
+function updateNavDots() {
+  const parts = [
+    document.getElementById('part-1'),
+    document.getElementById('part-2'),
+    document.getElementById('part-3'),
+    document.getElementById('part-4'),
+  ];
+  parts.forEach((p, i) => {
+    if (!p) return;
+    const rect = p.getBoundingClientRect();
+    if (rect.top < window.innerHeight * 0.6 && rect.bottom > 0) {
+      setNavDot(i+1, 'active');
+    }
+  });
+}
+
+// ────────────────────────────────────────────
+// AUDIO — HTML5 native player with play-limit
+// ────────────────────────────────────────────
+let audioEl = null;
+
+function setupAudio() {
+  audioEl = document.getElementById('real-audio');
+  if (!audioEl) return;
+
+  audioEl.addEventListener('loadedmetadata', () => {
+    const dur = document.getElementById('audio-duration');
+    if (dur) dur.textContent = formatAudioTime(audioEl.duration);
+  });
+
+  audioEl.addEventListener('timeupdate', () => {
+    if (!audioEl.duration) return;
+    const pct  = (audioEl.currentTime / audioEl.duration) * 100;
+    const fill = document.getElementById('audio-progress-fill');
+    const cur  = document.getElementById('audio-current');
+    if (fill) fill.style.width = pct + '%';
+    if (cur)  cur.textContent  = formatAudioTime(audioEl.currentTime);
+  });
+
+  audioEl.addEventListener('ended', () => {
+    isPlaying = false;
+    const btn = document.getElementById('btn-play-audio');
+    if (btn) {
+      btn.textContent = audioPlaysLeft > 0 ? '▶' : '⛔';
+      btn.classList.remove('playing');
+      if (audioPlaysLeft <= 0) btn.disabled = true;
+    }
+    document.getElementById('audio-play-count').textContent =
+      audioPlaysLeft > 0 ? `Plays left: ${audioPlaysLeft}` : 'No plays left';
+    document.getElementById('audio-progress-fill').style.width = '100%';
+  });
+
+  audioEl.addEventListener('error', () => {
+    const instr = document.querySelector('.audio-instructions');
+    if (instr) instr.innerHTML = '⚠️ <strong>Audio could not load.</strong> Make sure you are connected to the internet, or ask your teacher to share the audio file directly.';
+  });
+}
+
+function toggleAudio() {
+  if (!audioEl) return;
+  if (audioPlaysLeft <= 0 && !isPlaying) {
+    alert('You have used both plays. Please continue with the questions.');
+    return;
+  }
+  if (isPlaying) {
+    audioEl.pause();
+    isPlaying = false;
+    document.getElementById('btn-play-audio').textContent = '▶';
+    document.getElementById('btn-play-audio').classList.remove('playing');
+  } else {
+    // New play — only count when starting from the beginning or after ended
+    if (audioEl.ended || audioEl.currentTime === 0) {
+      if (audioPlaysLeft <= 0) {
+        alert('You have used both plays. Please continue with the questions.');
+        return;
+      }
+      audioEl.currentTime = 0;
+      audioEl.playbackRate = audioSpeed;
+      audioPlaysLeft--;
+      document.getElementById('audio-play-count').textContent = `Plays left: ${audioPlaysLeft}`;
+    }
+    audioEl.play().catch(() => {
+      // Autoplay blocked — show message
+      const instr = document.querySelector('.audio-instructions');
+      if (instr) instr.innerHTML = '⚠️ <strong>Click Play again</strong> — your browser blocked autoplay.';
+    });
+    isPlaying = true;
+    document.getElementById('btn-play-audio').textContent = '⏸';
+    document.getElementById('btn-play-audio').classList.add('playing');
+  }
+}
+
+function seekAudio(e) {
+  if (!audioEl || !audioEl.duration) return;
+  const track = document.getElementById('audio-track');
+  if (!track) return;
+  const rect = track.getBoundingClientRect();
+  const pct  = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
+  audioEl.currentTime = pct * audioEl.duration;
+}
+
+function toggleSpeed() {
+  audioSpeed = audioSpeed === 1 ? 0.8 : 1;
+  if (audioEl) audioEl.playbackRate = audioSpeed;
+  const btn = document.getElementById('btn-speed');
+  if (btn) {
+    btn.textContent = audioSpeed === 0.8 ? '0.8×' : '1×';
+    btn.classList.toggle('slow', audioSpeed === 0.8);
+  }
+}
+
+function formatAudioTime(secs) {
+  if (!secs || isNaN(secs)) return '0:00';
+  const m = Math.floor(secs / 60);
+  const s = Math.floor(secs % 60).toString().padStart(2,'0');
+  return `${m}:${s}`;
+}
+
+// ────────────────────────────────────────────
+// ANSWER RECORDING
+// ────────────────────────────────────────────
+const tfState = {};
+
+function answerTF(btn, qid, val) {
+  const card = btn.closest('.q-card') || btn.closest('.tf-grid')?.parentElement;
+  const btns = btn.parentElement.querySelectorAll('.tf-btn');
+  btns.forEach(b => b.classList.remove('sel-t','sel-f'));
+  btn.classList.add(val === 'true' ? 'sel-t' : 'sel-f');
+  answers[qid] = val;
+  tfState[qid] = val;
+  updateAnsweredCount();
+}
+
+function selectMC(btn, qid, val) {
+  const group = btn.closest('.options-grid');
+  if (!group) return;
+  group.querySelectorAll('.opt-btn').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+  answers[qid] = val;
+  updateAnsweredCount();
+}
+
+const multiState = {};
+function toggleMulti(btn, qid, val) {
+  if (!multiState[qid]) multiState[qid] = new Set();
+  if (multiState[qid].has(val)) {
+    multiState[qid].delete(val);
+    btn.classList.remove('selected');
+  } else {
+    multiState[qid].add(val);
+    btn.classList.add('selected');
+  }
+  answers[qid] = [...multiState[qid]];
+  updateAnsweredCount();
+}
+
+// GAP FILL tracking
+document.addEventListener('input', e => {
+  if (e.target.classList.contains('gap-input')) {
+    answers[e.target.id] = e.target.value.trim();
+    updateAnsweredCount();
+  }
+  if (e.target.classList.contains('short-answer') || e.target.classList.contains('writing-area')) {
+    answers[e.target.id] = e.target.value.trim();
+    updateAnsweredCount();
+  }
+});
+
+// MATCHING
+function selectMatchChip(chip) {
+  if (chip.classList.contains('chip-used')) return;
+  if (matchSelectedChip) matchSelectedChip.classList.remove('chip-sel');
+  if (matchSelectedChip === chip) { matchSelectedChip = null; return; }
+  matchSelectedChip = chip;
+  chip.classList.add('chip-sel');
+}
+
+function placeMatchDef(row) {
+  if (row.classList.contains('correct') || row.classList.contains('wrong')) return;
+  if (!matchSelectedChip) {
+    row.style.transition = 'border-color .15s';
+    row.style.borderColor = 'var(--gold)';
+    setTimeout(() => row.style.borderColor = '', 400);
+    return;
+  }
+  if (row.dataset.placed) {
+    const old = document.querySelector(`.match-chip[data-word="${row.dataset.placed}"]`);
+    if (old) old.classList.remove('chip-used');
+  }
+  row.dataset.placed = matchSelectedChip.dataset.word;
+  row.querySelector('.match-placed').textContent = matchSelectedChip.dataset.word;
+  row.querySelector('.match-placed').style.display = 'inline-block';
+  matchSelectedChip.classList.add('chip-used');
+  matchSelectedChip.classList.remove('chip-sel');
+  matchResults[row.dataset.answer] = matchSelectedChip.dataset.word;
+  matchSelectedChip = null;
+  updateAnsweredCount();
+}
+
+function updateAnsweredCount() {
+  // Count: TF + MC + gaps + short answers + writing + matching
+  let count = 0;
+  const keys = Object.keys(answers).filter(k => {
+    const v = answers[k];
+    if (Array.isArray(v)) return v.length > 0;
+    return v && v.toString().trim() !== '';
+  });
+  count = keys.length;
+  // Add matching as single group if any placed
+  const matchPlaced = Object.keys(matchResults).length;
+  if (matchPlaced > 0) count += 1;
+
+  const el = document.getElementById('submit-answered');
+  if (el) el.textContent = `${count} / 38`;
+}
+
+// ────────────────────────────────────────────
+// WORD COUNT
+// ────────────────────────────────────────────
+function countWords(ta, counterId, minS, maxS) {
+  const words = ta.value.trim().split(/\s+/).filter(Boolean).length;
+  const el    = document.getElementById(counterId);
+  if (!el) return;
+  el.textContent = `${words} words`;
+  el.className   = 'word-counter';
+  if (words > 0 && words < 40) el.classList.add('warn');
+  if (words >= 40) el.classList.add('ok');
+}
+
+// ────────────────────────────────────────────
+// SCORING
+// ────────────────────────────────────────────
+
+function gradeExam() {
+  const results = { listening: 0, reading: 0, language: 0, writing: 0 };
+  const detail  = [];
+
+  // Helper: check single answer
+  function check(qid, pts = 1) {
+    const key = ANSWER_KEY[qid];
+    const given = answers[qid];
+    if (!given && given !== 0) return false;
+    if (Array.isArray(key)) {
+      return key.map(k => k.toLowerCase()).includes(given.toString().toLowerCase());
+    }
+    return given.toString().toLowerCase() === key.toString().toLowerCase();
+  }
+
+  // ── LISTENING (20 pts, 2.5 each) ──
+  ['q1','q2','q3','q4','q5','q6','q7','q8'].forEach(q => {
+    const ok = check(q);
+    if (ok) results.listening += 2.5;
+    detail.push({ id: q, ok, section: 'listening', pts: 2.5 });
+  });
+
+  // ── READING (25 pts) ──
+  // R9 T/F (2)
+  const r9 = check('q9'); if (r9) results.reading += 2; detail.push({ id:'q9', ok:r9, section:'reading', pts:2 });
+  // R10 MC (2)
+  const r10 = check('q10'); if (r10) results.reading += 2; detail.push({ id:'q10', ok:r10, section:'reading', pts:2 });
+  // R11 open — 2 adjectives (3 pts, graded leniently)
+  const r11v = (answers['q11']||'').toLowerCase();
+  const r11ok = r11v.includes('brave') || r11v.includes('kind');
+  if (r11ok) results.reading += 3; detail.push({ id:'q11', ok:r11ok, section:'reading', pts:3, open:true });
+  // R12 MC (2)
+  const r12 = check('q12'); if (r12) results.reading += 2; detail.push({ id:'q12', ok:r12, section:'reading', pts:2 });
+  // R13 T/F (2)
+  const r13 = check('q13'); if (r13) results.reading += 2; detail.push({ id:'q13', ok:r13, section:'reading', pts:2 });
+  // R14 multi (3 pts)
+  const r14g = answers['q14'] || [];
+  const r14k = ANSWER_KEY['q14'];
+  const r14ok = r14k.every(k => r14g.includes(k)) && r14g.every(k => r14k.includes(k));
+  if (r14ok) results.reading += 3; detail.push({ id:'q14', ok:r14ok, section:'reading', pts:3 });
+  // R15 open (3 pts)
+  const r15v = (answers['q15']||'').toLowerCase();
+  const r15ok = (r15v.includes('brave') || r15v.includes('determined') || r15v.includes('funny')) && r15v.length > 4;
+  if (r15ok) results.reading += 3; detail.push({ id:'q15', ok:r15ok, section:'reading', pts:3, open:true });
+  // R16 MC (2)
+  const r16 = check('q16'); if (r16) results.reading += 2; detail.push({ id:'q16', ok:r16, section:'reading', pts:2 });
+
+  // Remaining 4 pts of reading (questions 11+15 open can push to max of 25 if generous)
+  results.reading = Math.min(25, results.reading);
+
+  // ── LANGUAGE USE (30 pts) ──
+  // Gap fill Section 3A (8 gaps × 1pt each = 8)
+  const gapMap = { g17:['is'], g18:['am'], g18b:["am"], g19:['are'], g19b:['were'], g20:['is'], g21:['are'], g22:["wasn't","am not"], g23:["wasn't","was not"], g24:['Are','Were'] };
+  ['g17','g18','g18b','g19','g19b','g20','g21','g22','g23','g24'].forEach(gid => {
+    const v = (answers[gid]||'').toLowerCase().trim();
+    const ok = gapMap[gid].map(k=>k.toLowerCase()).includes(v);
+    if (ok) results.language += 1;
+    detail.push({ id:gid, ok, section:'language', pts:1 });
+  });
+  // WH questions (4 × 2pts = 8)
+  ['q25','q26','q27','q28'].forEach(q => {
+    const ok = check(q); if (ok) results.language += 2;
+    detail.push({ id:q, ok, section:'language', pts:2 });
+  });
+  // Likes/dislikes (4 × 2pts = 8)
+  ['q29','q30','q31','q32'].forEach(q => {
+    const ok = check(q); if (ok) results.language += 2;
+    detail.push({ id:q, ok, section:'language', pts:2 });
+  });
+  // Matching (6 words × ~1pt = 6)
+  let matchScore = 0;
+  Object.keys(ANSWER_KEY.match).forEach(expected => {
+    const letter  = ANSWER_KEY.match[expected];
+    const defRow  = document.querySelector(`.match-def-row[data-answer="${expected}"]`);
+    const placed  = defRow?.dataset.placed || '';
+    if (placed === expected) matchScore++;
+    detail.push({ id: 'match-'+expected, ok: placed === expected, section:'language', pts:1 });
+  });
+  results.language += matchScore;
+  results.language = Math.min(30, results.language);
+
+  return { results, detail };
+}
+
+// ────────────────────────────────────────────
+// SUBMIT
+// ────────────────────────────────────────────
+function submitExam() {
+  clearInterval(timerInterval);
+  if (audioEl) { audioEl.pause(); audioEl.currentTime = 0; }
+
+  const { results, detail } = gradeExam();
+
+  document.getElementById('exam-wrapper').style.display   = 'none';
+  document.getElementById('results-screen').style.display = 'block';
+
+  // Update results-w previews
+  document.getElementById('results-w1-preview').textContent = answers['w1'] || '(no answer)';
+  document.getElementById('results-w2-preview').textContent = answers['w2'] || '(no answer)';
+  document.getElementById('tg-w1-text').textContent = answers['w1'] || '(no answer)';
+  document.getElementById('tg-w2-text').textContent = answers['w2'] || '(no answer)';
+
+  renderBandScores(results);
+  renderAnswerReview(detail);
+
+  // Teacher grading panel button
+  document.getElementById('teacher-panel').style.display = 'block';
+  const tbar = document.querySelector('.teacher-bar');
+  if (tbar) {
+    tbar.querySelector('.teacher-bar-btn').onclick = openTeacherLogin;
+  }
+
+  // Scroll to top
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+
+  // Store for teacher use
+  window.__examResults__ = results;
+  window.__examDetail__  = detail;
+}
+
+function renderBandScores(results) {
+  const auto = results.listening + results.reading + results.language;
+
+  // Grade display
+  document.getElementById('results-grade-display').textContent = Math.round(auto);
+  document.getElementById('results-grade-sub').textContent = 'out of 75 (auto-graded) · +25 writing pending';
+
+  const pct = auto / 75;
+  let title, cefr;
+  if (pct >= 0.88)      { title = 'Outstanding! 🏆';     cefr = 'Approaching A2+ / B1 entry'; }
+  else if (pct >= 0.75) { title = 'Well Done! ⭐';         cefr = 'A2 Solid'; }
+  else if (pct >= 0.60) { title = 'Good Effort! 👏';      cefr = 'A1–A2 Developing'; }
+  else if (pct >= 0.45) { title = 'Keep Practising 💪';   cefr = 'A1+ Developing'; }
+  else                  { title = 'More Practice Needed'; cefr = 'A1 Foundation'; }
+
+  document.getElementById('results-grade-title').textContent = title;
+  document.getElementById('results-cefr').textContent = 'CEFR estimate: ' + cefr;
+
+  // Bands
+  animateBand('listening', results.listening, 20);
+  animateBand('reading',   results.reading,   25);
+  animateBand('language',  results.language,  30);
+  animateBand('writing',   0,                 25, true);
+
+  // Descriptors
+  setDescriptor('listening', results.listening, 20);
+  setDescriptor('reading',   results.reading,   25);
+  setDescriptor('language',  results.language,  30);
+}
+
+function animateBand(key, score, max, pending = false) {
+  const scoreEl = document.getElementById(`band-${key}`);
+  const barEl   = document.getElementById(`bar-${key}`);
+  const pctEl   = document.getElementById(`pct-${key}`);
+  if (scoreEl) scoreEl.textContent = pending ? '—' : Math.round(score);
+  if (barEl)   setTimeout(() => barEl.style.width = (pending ? 0 : (score/max)*100) + '%', 300);
+  if (pctEl && !pending)   pctEl.textContent = Math.round((score/max)*100) + '%';
+}
+
+function setDescriptor(key, score, max) {
+  const pct = score / max;
+  const el  = document.getElementById(`desc-${key}`);
+  if (!el) return;
+  const descriptors = {
+    listening: [
+      [0.85, 'Excellent. You understood the main ideas and specific details with precision.'],
+      [0.70, 'Good. You caught the main points. A few specific details were missed.'],
+      [0.50, 'Developing. You understood the topic but missed several key details.'],
+      [0,    'Needs improvement. Listening again and working on vocabulary will help.'],
+    ],
+    reading: [
+      [0.85, 'Excellent. You read and interpreted both texts with high accuracy.'],
+      [0.70, 'Good. You understood the main ideas. Some inference questions were tricky.'],
+      [0.50, 'Developing. You got the gist but struggled with detail and vocabulary.'],
+      [0,    'Needs improvement. Focus on reading short texts daily with a dictionary.'],
+    ],
+    language: [
+      [0.85, 'Excellent. Strong command of Verb To Be, WH questions, and vocabulary.'],
+      [0.70, 'Good. Grammar is mostly correct with a few consistent errors.'],
+      [0.50, 'Developing. Some structures are solid but others need more practice.'],
+      [0,    'Needs review. Verb To Be and WH questions are the priority for next sessions.'],
+    ],
+  };
+  const list = descriptors[key] || [];
+  for (const [threshold, text] of list) {
+    if (pct >= threshold) { el.textContent = text; return; }
+  }
+}
+
+function renderAnswerReview(detail) {
+  const body = document.getElementById('answer-review-body');
+  if (!body) return;
+  body.innerHTML = detail.map(d => `
+    <div class="ar-item">
+      <span class="ar-num">${d.id}</span>
+      <span class="ar-q">${QUESTION_LABELS[d.id] || d.id}</span>
+      <span class="ar-status">${d.ok ? '✅' : (d.open ? '📝' : '❌')}</span>
+    </div>`).join('');
+}
+
+// ────────────────────────────────────────────
+// TEACHER LOGIN
+// ────────────────────────────────────────────
+function openTeacherLogin() {
+  if (isTeacherLoggedIn) { showTeacherGrading(); return; }
+  document.getElementById('login-overlay').style.display = 'flex';
+  document.getElementById('login-error').textContent = '';
+  setTimeout(() => document.getElementById('login-email')?.focus(), 100);
+}
+
+function cancelLogin() {
+  document.getElementById('login-overlay').style.display = 'none';
+}
+
+function attemptLogin() {
+  const email = document.getElementById('login-email').value.trim();
+  const pass  = document.getElementById('login-password').value;
+  const errEl = document.getElementById('login-error');
+  if (email === TEACHER_EMAIL && pass === TEACHER_PASSWORD) {
+    isTeacherLoggedIn = true;
+    document.getElementById('login-overlay').style.display = 'none';
+    showTeacherGrading();
+  } else {
+    errEl.textContent = '❌ Incorrect email or password.';
+    document.getElementById('login-password').value = '';
+  }
+}
+
+document.getElementById('login-password')?.addEventListener('keydown', e => {
+  if (e.key === 'Enter') attemptLogin();
+});
+
+function showTeacherGrading() {
+  const section = document.getElementById('teacher-grading-section');
+  if (section) section.style.display = 'block';
+  const tbar = document.querySelector('.teacher-bar');
+  if (tbar) {
+    tbar.innerHTML = '<span class="teacher-bar-label">🎓 Teacher Mode — Active · Grade the writing tasks below</span><div style="display:flex;gap:8px"><button class="teacher-bar-btn" onclick="printResults()">🖨 Print</button><button class="teacher-bar-btn" style="background:#b91c1c" onclick="teacherLogout()">🔐 Sign Out</button></div>';
+  }
+  section?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function teacherLogout() {
+  isTeacherLoggedIn = false;
+  // Hide grading section but keep results visible for student
+  const section = document.getElementById('teacher-grading-section');
+  if (section) section.style.display = 'none';
+  const tbar = document.querySelector('.teacher-bar');
+  if (tbar) {
+    tbar.innerHTML = '<span class="teacher-bar-label">🎓 Teacher access — grades have been saved</span><button class="teacher-bar-btn" onclick="openTeacherLogin()">🔐 Sign in as teacher</button>';
+  }
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ────────────────────────────────────────────
+// TEACHER RUBRIC
+// ────────────────────────────────────────────
+function setRubric(btn, key, val) {
+  rubricScores[key] = val;
+  const row = btn.closest('.rubric-stars');
+  row.querySelectorAll('.star-btn').forEach((b, i) => {
+    b.classList.toggle('filled', i < val);
+  });
+  updateWritingScorePreviews();
+}
+
+function updateWritingScorePreviews() {
+  const t1 = Math.min(12, rubricScores['t1-task'] + rubricScores['t1-vocab'] + rubricScores['t1-gram']);
+  const t2 = Math.min(13, rubricScores['t2-task'] + rubricScores['t2-vocab'] + rubricScores['t2-gram']);
+  document.getElementById('t1-score-preview').textContent = t1;
+  document.getElementById('t2-score-preview').textContent = t2;
+}
+
+function applyTeacherGrades() {
+  const t1 = Math.min(12, rubricScores['t1-task'] + rubricScores['t1-vocab'] + rubricScores['t1-gram']);
+  const t2 = Math.min(13, rubricScores['t2-task'] + rubricScores['t2-vocab'] + rubricScores['t2-gram']);
+  const writingScore = t1 + t2;
+  const fb1 = document.getElementById('fb-t1')?.value || '';
+  const fb2 = document.getElementById('fb-t2')?.value || '';
+
+  // Update band card
+  const scoreEl = document.getElementById('band-writing');
+  const barEl   = document.getElementById('bar-writing');
+  const pctEl   = document.getElementById('pct-writing');
+  if (scoreEl) scoreEl.textContent = writingScore;
+  if (barEl)   setTimeout(() => barEl.style.width = (writingScore/25)*100+'%', 200);
+  if (pctEl)   pctEl.textContent = Math.round((writingScore/25)*100)+'%';
+
+  // Update writing descriptor
+  const pct = writingScore/25;
+  const descEl = document.getElementById('desc-writing');
+  if (descEl) {
+    if (pct >= 0.85)      descEl.textContent = 'Excellent writing. Confident use of target structures, rich vocabulary, and clear communication.';
+    else if (pct >= 0.70) descEl.textContent = 'Good writing. Most tasks completed well. Some errors but communication is clear.';
+    else if (pct >= 0.55) descEl.textContent = 'Developing. Writing shows understanding but needs more accuracy and range.';
+    else                  descEl.textContent = 'Needs development. Writing practice is the key priority for the next module.';
+  }
+
+  // Update notice
+  const notice = document.getElementById('writing-graded-notice');
+  if (notice) {
+    notice.style.background = '#d1fae5';
+    notice.style.borderColor = 'var(--sage)';
+    const feedbackText = [fb1 && `Task 1: ${fb1}`, fb2 && `Task 2: ${fb2}`].filter(Boolean).join(' · ');
+    notice.innerHTML = `✅ Writing graded: <strong>${writingScore}/25</strong>${feedbackText ? `<br><em style="font-size:.82rem;color:var(--sage)">${feedbackText}</em>` : ''}`;
+  }
+
+  // Recalculate total
+  const auto   = (window.__examResults__ || {});
+  const total  = (auto.listening||0) + (auto.reading||0) + (auto.language||0) + writingScore;
+  const display = document.getElementById('results-grade-display');
+  const sub     = document.getElementById('results-grade-sub');
+  if (display) display.textContent = Math.round(total);
+  if (sub)     sub.textContent     = 'out of 100 (final)';
+
+  // Update title
+  const pctTotal = total / 100;
+  const titleEl  = document.getElementById('results-grade-title');
+  const cefrEl   = document.getElementById('results-cefr');
+  if (titleEl) {
+    if (pctTotal >= 0.88)      titleEl.textContent = 'Outstanding! 🏆';
+    else if (pctTotal >= 0.75) titleEl.textContent = 'Well Done! ⭐';
+    else if (pctTotal >= 0.60) titleEl.textContent = 'Good Effort! 👏';
+    else if (pctTotal >= 0.45) titleEl.textContent = 'Keep Practising! 💪';
+    else                       titleEl.textContent = 'More Practice Needed';
+  }
+  if (cefrEl) {
+    if (pctTotal >= 0.88)      cefrEl.textContent = 'CEFR estimate: Approaching A2+ / B1 entry';
+    else if (pctTotal >= 0.75) cefrEl.textContent = 'CEFR estimate: A2 Solid';
+    else if (pctTotal >= 0.60) cefrEl.textContent = 'CEFR estimate: A1–A2 Developing';
+    else                       cefrEl.textContent = 'CEFR estimate: A1 Foundation · Focus on M1–M2';
+  }
+
+  // Scroll to results hero
+  document.getElementById('results-hero')?.scrollIntoView({ behavior:'smooth', block:'start' });
+  alert(`✅ Grades applied! Final score: ${Math.round(total)} / 100`);
+}
+
+// ────────────────────────────────────────────
+// PRINT
+// ────────────────────────────────────────────
+function printResults() {
+  window.print();
+}
+
+// ── Init ──
+document.getElementById('login-password')?.addEventListener('keydown', e => {
+  if (e.key === 'Enter') attemptLogin();
+});
+document.getElementById('login-email')?.addEventListener('keydown', e => {
+  if (e.key === 'Enter') document.getElementById('login-password').focus();
+});
+</script>
+</body>
+</html>
